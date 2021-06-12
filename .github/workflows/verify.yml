@@ -1,0 +1,19 @@
+name: Verify state
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 16
+      - name: Build with Gradle
+        run: ./gradlew --build-cache build
+      - name: Test with Gradle
+        run: ./gradlew test
