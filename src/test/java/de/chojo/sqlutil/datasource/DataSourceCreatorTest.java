@@ -1,29 +1,45 @@
 package de.chojo.sqlutil.datasource;
 
-import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.Assertions;
+import org.mariadb.jdbc.MariaDbDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
 
-import javax.sql.DataSource;
+import java.sql.SQLException;
 
 class DataSourceCreatorTest {
 
-    public void creation() {
-        HikariDataSource build = DataSourceCreator.create(DataSource.class)
+    // These tests can be executed without a running database sadly.
+
+    //@Test
+    public void postgresTest() throws SQLException {
+        var build = DataSourceCreator.create(PGSimpleDataSource.class)
                 .withAddress("localhost")
-                .forDatabase("db")
-                .withPort(2000)
-                .withUser("root")
-                .withPassword("passy")
+                .forDatabase("postgres")
+                .withPort(5432)
+                .withUser("postgres")
+                .withPassword("root")
                 .create()
-                .setMaximumPoolSize(20)
-                .setMinimumIdle(2)
+                .withMaximumPoolSize(20)
+                .withMinimumIdle(2)
                 .build();
 
-        build = DataSourceCreator.create(DataSource.class)
-                .withSettings(new DbConfig("localhost", "5432", "root", "passy", "db"))
+        Assertions.assertTrue(build.getConnection().isValid(1000));
+    }
+
+    //@Test
+    public void mariadbTest() throws SQLException {
+        var build = DataSourceCreator.create(MariaDbDataSource.class)
+                .withAddress("localhost")
+                .forDatabase("test_db")
+                .withPort(3306)
+                .withUser("root")
+                .withPassword("root")
                 .create()
-                .setMaximumPoolSize(20)
-                .setMinimumIdle(2)
+                .withMaximumPoolSize(20)
+                .withMinimumIdle(2)
                 .build();
+
+        Assertions.assertTrue(build.getConnection().isValid(1000));
     }
 
 }

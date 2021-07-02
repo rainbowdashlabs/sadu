@@ -1,7 +1,9 @@
 package de.chojo.sqlutil.datasource.stage;
 
 import com.zaxxer.hikari.HikariDataSource;
+import de.chojo.sqlutil.datasource.DataSourceCreator;
 
+import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 
@@ -16,7 +18,7 @@ public interface ConfigurationStage {
      * @param connectionTimeoutMs the connection timeout in milliseconds
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setConnectionTimeout(long connectionTimeoutMs);
+    ConfigurationStage withConnectionTimeout(long connectionTimeoutMs);
 
     /**
      * This property controls the maximum amount of time (in milliseconds) that a connection is allowed to sit idle in
@@ -27,7 +29,7 @@ public interface ConfigurationStage {
      * @param idleTimeoutMs the idle timeout in milliseconds
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setIdleTimeout(long idleTimeoutMs) ;
+    ConfigurationStage withIdleTimeout(long idleTimeoutMs) ;
 
     /**
      * This property controls the maximum lifetime of a connection in the pool. When a connection reaches this timeout,
@@ -37,7 +39,7 @@ public interface ConfigurationStage {
      * @param maxLifetimeMs the maximum connection lifetime in milliseconds
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setMaxLifetime(long maxLifetimeMs) ;
+    ConfigurationStage withMaxLifetime(long maxLifetimeMs) ;
 
     /**
      * The property controls the maximum size that the pool is allowed to reach, including both idle and in-use connections.
@@ -49,7 +51,7 @@ public interface ConfigurationStage {
      * @param maxPoolSize the maximum number of connections in the pool
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setMaximumPoolSize(int maxPoolSize);
+    ConfigurationStage withMaximumPoolSize(int maxPoolSize);
 
     /**
      * The property controls the minimum number of idle connections that HikariCP tries to maintain in the pool,
@@ -59,7 +61,7 @@ public interface ConfigurationStage {
      * @param minIdle the minimum number of idle connections in the pool to maintain
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setMinimumIdle(int minIdle) ;
+    ConfigurationStage withMinimumIdle(int minIdle) ;
 
     /**
      * Set the default password to use for DataSource.getConnection(username, password) calls.
@@ -67,7 +69,7 @@ public interface ConfigurationStage {
      * @param password the password
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setPassword(String password);
+    ConfigurationStage usingPassword(String password);
 
     /**
      * Set the default username used for DataSource.getConnection(username, password) calls.
@@ -75,7 +77,14 @@ public interface ConfigurationStage {
      * @param username the username
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setUsername(String username);
+    ConfigurationStage usingUsername(String username);
+
+    /**
+     * Set the fully qualified class name of the JDBC {@link DataSource} that will be used create Connections.
+     *
+     * @param className the fully qualified name of the JDBC {@link DataSource} class
+     */
+    ConfigurationStage withDataSourceClassName(Class<? extends DataSource> className);
 
     /**
      * Set the default auto-commit behavior of connections in the pool.
@@ -83,7 +92,7 @@ public interface ConfigurationStage {
      * @param isAutoCommit the desired auto-commit default for connections
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setAutoCommit(boolean isAutoCommit) ;
+    ConfigurationStage withAutoCommit(boolean isAutoCommit) ;
 
     /**
      * This property controls the keepalive interval for a connection in the pool. An in-use connection will never be
@@ -92,7 +101,7 @@ public interface ConfigurationStage {
      * @param keepaliveTimeMs the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled).
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setKeepaliveTime(long keepaliveTimeMs);
+    ConfigurationStage withKeepaliveTime(long keepaliveTimeMs);
 
     /**
      * Set the name of the connection pool.  This is primarily used for the MBean
@@ -101,7 +110,7 @@ public interface ConfigurationStage {
      * @param poolName the name of the connection pool to use
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setPoolName(String poolName);
+    ConfigurationStage withPoolName(String poolName);
 
     /**
      * Set the ScheduledExecutorService used for housekeeping.
@@ -109,7 +118,7 @@ public interface ConfigurationStage {
      * @param executor the ScheduledExecutorService
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setScheduledExecutor(ScheduledExecutorService executor);
+    ConfigurationStage withScheduledExecutor(ScheduledExecutorService executor);
 
     /**
      * Set the default schema name to be set on connections.
@@ -117,7 +126,7 @@ public interface ConfigurationStage {
      * @param schema the name of the default schema
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setSchema(String schema) ;
+    ConfigurationStage forSchema(String schema) ;
 
     /**
      * Set the thread factory to be used to create threads.
@@ -125,7 +134,7 @@ public interface ConfigurationStage {
      * @param threadFactory the thread factory (setting to null causes the default thread factory to be used)
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage setThreadFactory(ThreadFactory threadFactory);
+    ConfigurationStage withThreadFactory(ThreadFactory threadFactory);
 
     /**
      * Create a new hikari data source

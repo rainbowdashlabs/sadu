@@ -5,7 +5,8 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.0.1"
+version = "1.0.2"
+val testContainersVersion = "1.15.3"
 
 repositories {
     mavenCentral()
@@ -17,8 +18,19 @@ dependencies {
     api("com.zaxxer", "HikariCP", "4.0.3")
     api("org.jetbrains", "annotations", "21.0.1")
 
+    testImplementation("org.postgresql", "postgresql", "42.2.22")
+    testImplementation("org.mariadb.jdbc", "mariadb-java-client", "2.7.3")
+    testImplementation("mysql", "mysql-connector-java", "8.0.25")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+    // testcontainers
+    testImplementation("org.testcontainers", "testcontainers", testContainersVersion)
+    implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
+    // container
+    testImplementation("org.testcontainers", "mysql", testContainersVersion)
+    testImplementation("org.testcontainers", "mariadb", testContainersVersion)
+    testImplementation("org.testcontainers", "postgresql", testContainersVersion)
 }
 
 publishing {

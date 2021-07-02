@@ -73,7 +73,7 @@ public class DataSourceCreator implements PropertyStage, ConfigurationStage {
 
     @Override
     public PropertyStage withUser(String user) {
-        properties.setProperty("dataSource.serverName", user);
+        properties.setProperty("dataSource.user", user);
         return this;
     }
 
@@ -102,79 +102,85 @@ public class DataSourceCreator implements PropertyStage, ConfigurationStage {
     }
 
     @Override
-    public ConfigurationStage setConnectionTimeout(long connectionTimeoutMs) {
+    public ConfigurationStage withConnectionTimeout(long connectionTimeoutMs) {
         hikariConfig.setConnectionTimeout(connectionTimeoutMs);
         return this;
     }
 
     @Override
-    public ConfigurationStage setIdleTimeout(long idleTimeoutMs) {
+    public ConfigurationStage withIdleTimeout(long idleTimeoutMs) {
         hikariConfig.setIdleTimeout(idleTimeoutMs);
         return this;
     }
 
     @Override
-    public ConfigurationStage setMaxLifetime(long maxLifetimeMs) {
+    public ConfigurationStage withMaxLifetime(long maxLifetimeMs) {
         hikariConfig.setMaxLifetime(maxLifetimeMs);
         return this;
     }
 
     @Override
-    public ConfigurationStage setMaximumPoolSize(int maxPoolSize) {
+    public ConfigurationStage withMaximumPoolSize(int maxPoolSize) {
         hikariConfig.setMaximumPoolSize(maxPoolSize);
         return this;
     }
 
     @Override
-    public ConfigurationStage setMinimumIdle(int minIdle) {
+    public ConfigurationStage withMinimumIdle(int minIdle) {
         hikariConfig.setMinimumIdle(minIdle);
         return this;
     }
 
     @Override
-    public ConfigurationStage setPassword(String password) {
+    public ConfigurationStage usingPassword(String password) {
         hikariConfig.setPassword(password);
         return this;
     }
 
     @Override
-    public ConfigurationStage setUsername(String username) {
+    public ConfigurationStage usingUsername(String username) {
         hikariConfig.setUsername(username);
         return this;
     }
 
     @Override
-    public ConfigurationStage setAutoCommit(boolean isAutoCommit) {
+    public DataSourceCreator withDataSourceClassName(Class<? extends DataSource> className) {
+        hikariConfig.setDataSourceClassName(className.getName());
+        return this;
+    }
+
+    @Override
+    public ConfigurationStage withAutoCommit(boolean isAutoCommit) {
         hikariConfig.setAutoCommit(isAutoCommit);
         return this;
     }
 
     @Override
-    public ConfigurationStage setKeepaliveTime(long keepaliveTimeMs) {
+    public ConfigurationStage withKeepaliveTime(long keepaliveTimeMs) {
         hikariConfig.setKeepaliveTime(keepaliveTimeMs);
         return this;
     }
 
     @Override
-    public ConfigurationStage setPoolName(String poolName) {
+    public ConfigurationStage withPoolName(String poolName) {
         hikariConfig.setPoolName(poolName);
         return this;
     }
 
     @Override
-    public ConfigurationStage setScheduledExecutor(ScheduledExecutorService executor) {
+    public ConfigurationStage withScheduledExecutor(ScheduledExecutorService executor) {
         hikariConfig.setScheduledExecutor(executor);
         return this;
     }
 
     @Override
-    public ConfigurationStage setSchema(String schema) {
+    public ConfigurationStage forSchema(String schema) {
         hikariConfig.setSchema(schema);
         return this;
     }
 
     @Override
-    public ConfigurationStage setThreadFactory(ThreadFactory threadFactory) {
+    public ConfigurationStage withThreadFactory(ThreadFactory threadFactory) {
         hikariConfig.setThreadFactory(threadFactory);
         return this;
     }
