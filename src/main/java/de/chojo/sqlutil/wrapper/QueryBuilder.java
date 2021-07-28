@@ -255,7 +255,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             throw wrappedExecutionException;
         }
         executionException.initCause(e);
-        logDbError(e);
+        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> logDbError(executionException));
     }
 
     private void autoCommit(Connection conn) throws SQLException {

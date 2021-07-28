@@ -1,7 +1,6 @@
 package de.chojo.sqlutil.datasource.stage;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sqlutil.datasource.DataSourceCreator;
 
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,7 +28,7 @@ public interface ConfigurationStage {
      * @param idleTimeoutMs the idle timeout in milliseconds
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage withIdleTimeout(long idleTimeoutMs) ;
+    ConfigurationStage withIdleTimeout(long idleTimeoutMs);
 
     /**
      * This property controls the maximum lifetime of a connection in the pool. When a connection reaches this timeout,
@@ -39,7 +38,7 @@ public interface ConfigurationStage {
      * @param maxLifetimeMs the maximum connection lifetime in milliseconds
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage withMaxLifetime(long maxLifetimeMs) ;
+    ConfigurationStage withMaxLifetime(long maxLifetimeMs);
 
     /**
      * The property controls the maximum size that the pool is allowed to reach, including both idle and in-use connections.
@@ -61,7 +60,7 @@ public interface ConfigurationStage {
      * @param minIdle the minimum number of idle connections in the pool to maintain
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage withMinimumIdle(int minIdle) ;
+    ConfigurationStage withMinimumIdle(int minIdle);
 
     /**
      * Set the default password to use for DataSource.getConnection(username, password) calls.
@@ -92,7 +91,7 @@ public interface ConfigurationStage {
      * @param isAutoCommit the desired auto-commit default for connections
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage withAutoCommit(boolean isAutoCommit) ;
+    ConfigurationStage withAutoCommit(boolean isAutoCommit);
 
     /**
      * This property controls the keepalive interval for a connection in the pool. An in-use connection will never be
@@ -126,7 +125,7 @@ public interface ConfigurationStage {
      * @param schema the name of the default schema
      * @return Configuration Stage with value set.
      */
-    ConfigurationStage forSchema(String schema) ;
+    ConfigurationStage forSchema(String schema);
 
     /**
      * Set the thread factory to be used to create threads.
@@ -141,5 +140,5 @@ public interface ConfigurationStage {
      *
      * @return hikari data source instance
      */
-    HikariDataSource build() ;
+    HikariDataSource build();
 }

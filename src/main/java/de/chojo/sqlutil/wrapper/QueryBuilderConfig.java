@@ -2,6 +2,10 @@ package de.chojo.sqlutil.wrapper;
 
 import de.chojo.sqlutil.wrapper.exception.QueryExecutionException;
 
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.function.Consumer;
+
 /**
  * Configuration for a {@link QueryBuilder}
  */
@@ -13,10 +17,12 @@ public class QueryBuilderConfig {
 
     private final boolean throwing;
     private final boolean atomic;
+    private final Consumer<SQLException> exceptionHandler;
 
-    private QueryBuilderConfig(boolean throwing, boolean atomic) {
+    private QueryBuilderConfig(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler) {
         this.throwing = throwing;
         this.atomic = atomic;
+        this.exceptionHandler = exceptionHandler;
     }
 
     /**
@@ -46,12 +52,17 @@ public class QueryBuilderConfig {
         return atomic;
     }
 
+    public Optional<Consumer<SQLException>> exceptionHandler(){
+        return Optional.ofNullable(exceptionHandler);
+    }
+
     /**
      * Builder for a {@link QueryBuilderConfig}
      */
     public static class Builder {
         boolean throwing;
         boolean atomic = true;
+        Consumer<SQLException> exceptionHandler;
 
         /**
          * Sets the query builder as throwing. This will cause any occuring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
@@ -60,6 +71,17 @@ public class QueryBuilderConfig {
          */
         public Builder throwExceptions() {
             throwing = true;
+            return this;
+        }
+
+        /**
+         * Sets the query builder exception handler. This will only have an effect if {@link #throwExceptions()} is not called.
+         *
+         * @param exceptionHandler handler for exception
+         * @return The {@link Builder} with the value set.
+         */
+        public Builder withExceptionHandler(Consumer<SQLException> exceptionHandler) {
+            this.exceptionHandler = exceptionHandler;
             return this;
         }
 
@@ -84,7 +106,7 @@ public class QueryBuilderConfig {
          * @return config with defined values
          */
         public QueryBuilderConfig build() {
-            return new QueryBuilderConfig(throwing, atomic);
+            return new QueryBuilderConfig(throwing, atomic, exceptionHandler);
         }
     }
 }
