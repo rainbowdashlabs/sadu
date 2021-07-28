@@ -1,6 +1,7 @@
 package de.chojo.sqlutil.wrapper;
 
 import de.chojo.sqlutil.wrapper.exception.QueryExecutionException;
+import org.jetbrains.annotations.Contract;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class QueryBuilderConfig {
         return atomic;
     }
 
-    public Optional<Consumer<SQLException>> exceptionHandler(){
+    public Optional<Consumer<SQLException>> exceptionHandler() {
         return Optional.ofNullable(exceptionHandler);
     }
 
