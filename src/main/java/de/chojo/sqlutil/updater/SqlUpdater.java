@@ -105,7 +105,7 @@ public class SqlUpdater {
                 }
             }
 
-            if (!isSetup) {
+            if (isSetup) {
                 log.info(String.format("Setup database with version %s", version.major()));
                 for (var query : type.splitStatements(getSetup())) {
                     try (var stmt = conn.prepareStatement(adjust(query))) {
