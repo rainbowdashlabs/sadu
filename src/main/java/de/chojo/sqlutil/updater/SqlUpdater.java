@@ -110,9 +110,9 @@ public class SqlUpdater {
                 for (var query : type.splitStatements(getSetup())) {
                     try (var stmt = conn.prepareStatement(adjust(query))) {
                         stmt.execute();
-                        log.info("Initial setup complete. Ready to patch.");
                     }
                 }
+                log.info("Initial setup complete. Ready to patch.");
                 updateVersion(version.major(), 0);
             }
         }

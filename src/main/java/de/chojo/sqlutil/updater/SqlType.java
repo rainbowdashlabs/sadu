@@ -89,6 +89,11 @@ public interface SqlType {
 
     class SqLite extends DefaultType {
         @Override
+        public String createVersionTableQuery(String table) {
+            return "create table " + table + "(major int, patch int);";
+        }
+
+        @Override
         public String getName() {
             return "sqlite";
         }
