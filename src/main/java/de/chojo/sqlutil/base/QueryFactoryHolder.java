@@ -11,7 +11,7 @@ import javax.sql.DataSource;
  * <p>
  * Can be used instead of a {@link DataHolder}
  */
-public class QueryFactoryHolder extends DataHolder {
+public abstract class QueryFactoryHolder extends DataHolder {
     QueryBuilderFactory factory;
 
     /**

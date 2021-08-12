@@ -20,7 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * <p>
  * You may use a {@link QueryBuilderFactory} for builder creation or extend {@link QueryFactoryHolder}
  */
-public class DataHolder {
+public abstract class DataHolder {
     private static final Logger log = getLogger(DataHolder.class);
     private final DataSource dataSource;
 
