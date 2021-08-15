@@ -100,7 +100,7 @@ public class SqlUpdater {
             try (var stmt = conn.prepareStatement(type.getVersion(versionTable))) {
                 var rs = stmt.executeQuery();
                 if (!rs.next()) {
-                    log.info("Version table is empty. Attempting database setup.");
+                    log.info("Version table " + versionTable + " is empty. Attempting database setup.");
                     isSetup = true;
                 }
             }
