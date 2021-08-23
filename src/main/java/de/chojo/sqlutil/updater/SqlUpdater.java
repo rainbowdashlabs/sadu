@@ -1,6 +1,8 @@
 package de.chojo.sqlutil.updater;
 
+import de.chojo.sqlutil.base.QueryFactoryHolder;
 import de.chojo.sqlutil.updater.logging.LoggerAdapter;
+import de.chojo.sqlutil.wrapper.QueryBuilderConfig;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class SqlUpdater {
+public class SqlUpdater extends QueryFactoryHolder {
     private final SqlVersion version;
     private final LoggerAdapter log;
     private final DataSource source;
@@ -19,7 +21,8 @@ public class SqlUpdater {
     private final QueryReplacement[] replacements;
     private final SqlType type;
 
-    private SqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, LoggerAdapter loggerAdapter, SqlType type) {
+    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, LoggerAdapter loggerAdapter, SqlType type) {
+        super(source, config);
         this.source = source;
         this.versionTable = versionTable;
         this.replacements = replacements;
@@ -214,6 +217,7 @@ public class SqlUpdater {
         private String versionTable = "version";
         private QueryReplacement[] replacements = new QueryReplacement[0];
         private LoggerAdapter logger;
+        private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
 
         public SqlUpdaterBuilder(DataSource dataSource, SqlVersion version, SqlType type) {
             this.source = dataSource;
@@ -236,8 +240,13 @@ public class SqlUpdater {
             return this;
         }
 
+        public SqlUpdaterBuilder withConfig(QueryBuilderConfig config) {
+            this.config = config;
+            return this;
+        }
+
         public void execute() throws SQLException, IOException {
-            var sqlUpdater = new SqlUpdater(source, versionTable, replacements, version, logger, type);
+            var sqlUpdater = new SqlUpdater(source, config, versionTable, replacements, version, logger, type);
             sqlUpdater.init();
         }
     }

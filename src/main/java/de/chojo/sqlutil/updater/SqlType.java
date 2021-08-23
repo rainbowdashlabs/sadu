@@ -34,22 +34,22 @@ public interface SqlType {
 
         @Override
         public String getVersion(String table) {
-            return "SELECT major, patch FROM " + table + " LIMIT 1";
+            return String.format("SELECT major, patch FROM %s LIMIT 1", table);
         }
 
         @Override
         public String insertVersion(String table) {
-            return "INSERT INTO " + table + " VALUES (?, ?)";
+            return String.format("INSERT INTO %s VALUES (?, ?)", table);
         }
 
         @Override
         public String deleteVersion(String table) {
-            return "DELETE FROM " + table;
+            return String.format("DELETE FROM %s;", table);
         }
 
         @Override
         public String createVersionTableQuery(String table) {
-            return "CREATE TABLE IF NOT EXISTS " + table + "(major INTEGER, patch INTEGER);";
+            return String.format("CREATE TABLE IF NOT EXISTS %s(major INTEGER, patch INTEGER);", table);
         }
     }
 
@@ -90,7 +90,7 @@ public interface SqlType {
     class SqLite extends DefaultType {
         @Override
         public String createVersionTableQuery(String table) {
-            return "CREATE TABLE IF NOT EXISTS " + table + "(major int, patch int);";
+            return String.format("CREATE TABLE IF NOT EXISTS %s(major INT, patch INT);", table);
         }
 
         @Override
