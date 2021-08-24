@@ -51,7 +51,6 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @param <T> type of query return type
  */
 public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>, QueryStage<T>, StatementStage<T>, ResultStage<T>, RetrievalStage<T>, UpdateStage {
-    private static final Logger log = getLogger(QueryBuilder.class);
     private final Queue<QueryTask> tasks = new ArrayDeque<>();
     private final QueryExecutionException executionException;
     private final WrappedQueryExecutionException wrappedExecutionException;
@@ -184,6 +183,11 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             handleException(e);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public void logDbError(SQLException e) {
+        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> super.logDbError(executionException));
     }
 
     // SINGLE RETRIEVAL

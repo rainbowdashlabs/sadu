@@ -1,21 +1,20 @@
-package de.chojo.sqlutil.updater.logging;
+package de.chojo.sqlutil.logging;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
-public class JavaLogger extends SimpleLogger<Logger> {
-    public JavaLogger(Logger logger) {
+public class Slf4jLogger extends SimpleLogger<Logger> {
+    public Slf4jLogger(Logger logger) {
         super(logger);
     }
 
     @Override
     public void error(String message) {
-        log.severe(message);
+        log.error(message);
     }
 
     @Override
     public void error(String message, Throwable t) {
-        log.log(Level.SEVERE, message, t);
+        log.error(message, t);
     }
 
     @Override
@@ -25,26 +24,26 @@ public class JavaLogger extends SimpleLogger<Logger> {
 
     @Override
     public void info(String message, Throwable t) {
-        log.log(Level.INFO, message, t);
+        log.info(message, t);
     }
 
     @Override
     public void debug(String message) {
-        log.config(message);
+        log.debug(message);
     }
 
     @Override
     public void debug(String message, Throwable t) {
-        log.log(Level.CONFIG, message, t);
+        log.debug(message, t);
     }
 
     @Override
     public void warn(String message) {
-        log.warning(message);
+        log.warn(message);
     }
 
     @Override
     public void warn(String message, Throwable t) {
-        log.log(Level.WARNING, message, t);
+        log.warn(message, t);
     }
 }

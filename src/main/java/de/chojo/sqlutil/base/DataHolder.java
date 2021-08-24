@@ -1,10 +1,10 @@
 package de.chojo.sqlutil.base;
 
 import de.chojo.sqlutil.exceptions.ExceptionTransformer;
+import de.chojo.sqlutil.logging.LoggerAdapter;
 import de.chojo.sqlutil.wrapper.QueryBuilder;
 import de.chojo.sqlutil.wrapper.QueryBuilderFactory;
 import de.chojo.sqlutil.wrapper.stage.ConfigurationStage;
-import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * You may use a {@link QueryBuilderFactory} for builder creation or extend {@link QueryFactoryHolder}
  */
 public abstract class DataHolder {
-    private static final Logger log = getLogger(DataHolder.class);
+    private static LoggerAdapter log = LoggerAdapter.wrap(getLogger(DataHolder.class));
     private final DataSource dataSource;
 
     /**
@@ -72,5 +72,9 @@ public abstract class DataHolder {
      */
     protected Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    public static void setupLogger(LoggerAdapter adapter) {
+        log = adapter;
     }
 }

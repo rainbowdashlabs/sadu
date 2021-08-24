@@ -21,7 +21,7 @@ public interface QueryStage<T> {
      *
      * @param query   query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
-     *                <b>Do not use this with user input!</b>
+     *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
      */
     default StatementStage<T> query(String query, Object... objects) {
@@ -45,7 +45,7 @@ public interface QueryStage<T> {
      *
      * @param query   query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
-     *                <b>Do not use this with user input!</b>
+     *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.
      */
     default ResultStage<T> queryWithoutParams(String query, Object... objects) {

@@ -1,6 +1,14 @@
-package de.chojo.sqlutil.updater.logging;
+package de.chojo.sqlutil.logging;
 
 public interface LoggerAdapter {
+    static LoggerAdapter wrap(java.util.logging.Logger logger) {
+        return new JavaLogger(logger);
+    }
+
+    static LoggerAdapter wrap(org.slf4j.Logger logger) {
+        return new Slf4jLogger(logger);
+    }
+
     void error(String message);
 
     void error(String message, Throwable t);

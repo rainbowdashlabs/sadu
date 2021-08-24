@@ -1,7 +1,7 @@
 package de.chojo.sqlutil.updater;
 
 import de.chojo.sqlutil.base.QueryFactoryHolder;
-import de.chojo.sqlutil.updater.logging.LoggerAdapter;
+import de.chojo.sqlutil.logging.LoggerAdapter;
 import de.chojo.sqlutil.wrapper.QueryBuilderConfig;
 
 import javax.sql.DataSource;

@@ -1,6 +1,4 @@
-package de.chojo.sqlutil.updater.logging;
-
-import de.chojo.sqlutil.updater.logging.LoggerAdapter;
+package de.chojo.sqlutil.logging;
 
 public abstract class SimpleLogger<T> implements LoggerAdapter {
     protected final T log;
