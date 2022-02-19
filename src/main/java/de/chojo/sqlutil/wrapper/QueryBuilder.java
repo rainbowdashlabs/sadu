@@ -61,8 +61,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     private QueryBuilder(DataSource dataSource, Class<T> clazz) {
         super(dataSource);
-        executionException = new QueryExecutionException("An error occured while executing a query.");
-        wrappedExecutionException = new WrappedQueryExecutionException("An error occured while executing a query.");
+        executionException = new QueryExecutionException("An error occurred while executing a query.");
+        wrappedExecutionException = new WrappedQueryExecutionException("An error occurred while executing a query.");
     }
 
     /**
@@ -187,7 +187,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public void logDbError(SQLException e) {
-        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> super.logDbError(executionException));
+        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(e), () -> super.logDbError(e));
     }
 
     // SINGLE RETRIEVAL
