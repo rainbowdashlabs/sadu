@@ -1,0 +1,19 @@
+{
+  "baseBranches": ["development"],
+  "dependencyDashboard": true,
+  "labels": ["dependencies"],
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "groupName": "log4j",
+      "matchPackagePrefixes": ["org.apache.logging.log4j"]
+    }
+  ],
+  "reviewers": [
+    "RainbowDashLabs"
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 10
+}
