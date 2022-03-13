@@ -1,3 +1,9 @@
+/*
+ *     SPDX-License-Identifier: AGPL-3.0-only
+ *
+ *     Copyright (C) 2022 RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sqlutil.wrapper.exception;
 
 import de.chojo.sqlutil.wrapper.QueryBuilder;
