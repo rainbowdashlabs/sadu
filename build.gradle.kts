@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.2.0"
+version = "1.2.1"
 val testContainersVersion = "1.16.3"
 
 repositories {

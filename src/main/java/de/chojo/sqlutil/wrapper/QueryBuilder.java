@@ -17,7 +17,6 @@ import de.chojo.sqlutil.wrapper.stage.ResultStage;
 import de.chojo.sqlutil.wrapper.stage.RetrievalStage;
 import de.chojo.sqlutil.wrapper.stage.StatementStage;
 import de.chojo.sqlutil.wrapper.stage.UpdateStage;
-import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -32,8 +31,8 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * This query builder can be used to execute one or more queries onto a database via a connection provided by a datasource.
@@ -64,6 +63,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
     private ThrowingFunction<T, ResultSet, SQLException> currResultMapper;
     private QueryBuilderConfig config;
+    private ExecutorService executorService;
 
     private QueryBuilder(DataSource dataSource, Class<T> clazz) {
         super(dataSource);
@@ -225,7 +225,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public CompletableFuture<Integer> execute() {
-        return CompletableFuture.supplyAsync(this::executeSync);
+        return CompletableFuture.supplyAsync(this::executeSync, config.executor());
     }
 
     @Override

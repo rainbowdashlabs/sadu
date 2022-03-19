@@ -7,10 +7,11 @@
 package de.chojo.sqlutil.wrapper;
 
 import de.chojo.sqlutil.wrapper.exception.QueryExecutionException;
-import org.jetbrains.annotations.Contract;
 
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
 
 /**
@@ -25,11 +26,13 @@ public class QueryBuilderConfig {
     private final boolean throwing;
     private final boolean atomic;
     private final Consumer<SQLException> exceptionHandler;
+    private final ExecutorService executor;
 
-    private QueryBuilderConfig(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler) {
+    private QueryBuilderConfig(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler, ExecutorService executorService) {
         this.throwing = throwing;
         this.atomic = atomic;
         this.exceptionHandler = exceptionHandler;
+        this.executor = executorService;
     }
 
     /**
@@ -63,6 +66,10 @@ public class QueryBuilderConfig {
         return Optional.ofNullable(exceptionHandler);
     }
 
+    public ExecutorService executor() {
+        return executor;
+    }
+
     /**
      * Builder for a {@link QueryBuilderConfig}
      */
@@ -70,6 +77,7 @@ public class QueryBuilderConfig {
         boolean throwing;
         boolean atomic = true;
         Consumer<SQLException> exceptionHandler;
+        private ExecutorService executorService = ForkJoinPool.commonPool();
 
         /**
          * Sets the query builder as throwing. This will cause any occuring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
@@ -108,12 +116,22 @@ public class QueryBuilderConfig {
         }
 
         /**
+         * Sets the exector service used for the completable futures.
+         * @param executorService executor service
+         * @return The {@link Builder} in with the executor set.
+         */
+        public Builder withExecutor(ExecutorService executorService){
+            this.executorService = executorService;
+            return this;
+        }
+
+        /**
          * Retrieve a new {@link QueryBuilderConfig} instance.
          *
          * @return config with defined values
          */
         public QueryBuilderConfig build() {
-            return new QueryBuilderConfig(throwing, atomic, exceptionHandler);
+            return new QueryBuilderConfig(throwing, atomic, exceptionHandler, executorService);
         }
     }
 }
