@@ -258,8 +258,8 @@ HikariDataSource build=DataSourceCreator.create(DataSource.class)
         .withUser("root")
         .withPassword("passy")
         .create()
-        .setMaximumPoolSize(20)
-        .setMinimumIdle(2)
+        .withMaximumPoolSize(20)
+        .withMinimumIdle(2)
         .build();
 ```
 
@@ -269,8 +269,8 @@ As an alternative the DbConfig can be used.
 HikariDataSource build=DataSourceCreator.create(DataSource.class)
         .withSettings(new DbConfig("localhost","5432","root","passy","db"))
         .create()
-        .setMaximumPoolSize(20)
-        .setMinimumIdle(2)
+        .withMaximumPoolSize(20)
+        .withMinimumIdle(2)
         .build();
 ```
 Every value which is not set will be the default value provided by the database driver.
