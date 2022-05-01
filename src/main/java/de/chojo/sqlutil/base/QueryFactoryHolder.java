@@ -50,4 +50,12 @@ public abstract class QueryFactoryHolder extends DataHolder {
     public QueryStage<Void> builder() {
         return factory.builder();
     }
+
+    public QueryBuilderFactory factory() {
+        return factory;
+    }
+
+    public DataSource source() {
+        return factory.source();
+    }
 }

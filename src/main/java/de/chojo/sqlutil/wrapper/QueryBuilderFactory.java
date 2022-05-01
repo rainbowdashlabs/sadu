@@ -52,4 +52,8 @@ public class QueryBuilderFactory {
     public QueryStage<Void> builder() {
         return QueryBuilder.builder(dataSource, Void.class).configure(config);
     }
+
+    public DataSource source() {
+        return dataSource;
+    }
 }
