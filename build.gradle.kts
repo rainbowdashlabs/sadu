@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.2.3"
+version = "1.3.0"
 val testContainersVersion = "1.16.3"
 
 repositories {
@@ -32,7 +32,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     // testcontainers
-    testImplementation("org.testcontainers", "testcontainers", testContainersVersion)
+    testImplementation("org.testcontainers:junit-jupiter:1.16.3")
+    testImplementation ("org.testcontainers", "testcontainers", testContainersVersion)
     implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
     // container
     testImplementation("org.testcontainers", "mysql", testContainersVersion)
@@ -73,7 +74,7 @@ java {
 }
 
 
-tasks{
+tasks {
     test {
         useJUnitPlatform()
         testLogging {

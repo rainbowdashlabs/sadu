@@ -10,6 +10,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sqlutil.datasource.stage.ConfigurationStage;
 import de.chojo.sqlutil.datasource.stage.PropertyStage;
+import de.chojo.sqlutil.updater.SqlType;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -22,35 +23,34 @@ import java.util.concurrent.ThreadFactory;
 public class DataSourceCreator implements PropertyStage, ConfigurationStage {
     private final Properties properties = new Properties();
     private HikariConfig hikariConfig;
+    private SqlType type;
 
-    private DataSourceCreator() {
+    private DataSourceCreator(SqlType type) {
+        this.type = type;
     }
 
     /**
      * Create a new DataSource creator.
      *
-     * @param dataSourceClass data source implementation
+     * @param type            The type of database which is targeted by this data source
+     * @param dataSourceClass data source implementation.
      * @return a {@link DataSourceCreator} in {@link PropertyStage}.
      */
-    public static PropertyStage create(Class<? extends DataSource> dataSourceClass) {
-        var dataSourceCreator = new DataSourceCreator();
-        dataSourceCreator.withProperty("dataSourceClassName", dataSourceClass.getName());
-        return dataSourceCreator;
+    public static PropertyStage create(SqlType type, Class<? extends DataSource> dataSourceClass) {
+        return create(type, dataSourceClass.getName());
     }
 
     /**
      * Create a new DataSource creator.
      *
+     * @param type            The type of database which is targeted by this data source
      * @param dataSourceClass data source implementation
      * @return a {@link DataSourceCreator} in {@link PropertyStage}.
-     *
-     * @deprecated Use {@link DataSourceCreator#create(Class)} instead. It is
+     * @deprecated Use {@link DataSourceCreator#create(SqlType, Class)} instead. It is
      */
     @Deprecated
-    public static PropertyStage create(String dataSourceClass) {
-        var dataSourceCreator = new DataSourceCreator();
-        dataSourceCreator.withProperty("dataSourceClassName", dataSourceClass);
-        return dataSourceCreator;
+    public static PropertyStage create(SqlType type, String dataSourceClass) {
+        return new DataSourceCreator(type).withProperty("dataSourceClassName", dataSourceClass);
     }
 
     @Override
@@ -61,37 +61,37 @@ public class DataSourceCreator implements PropertyStage, ConfigurationStage {
 
     @Override
     public PropertyStage withAddress(String address) {
-        properties.setProperty("dataSource.serverName", address);
+        withProperty("dataSource.serverName", address);
         return this;
     }
 
     @Override
     public PropertyStage withPort(String portNumber) {
-        properties.setProperty("dataSource.portNumber", portNumber);
+        withProperty("dataSource.portNumber", portNumber);
         return this;
     }
 
     @Override
     public PropertyStage withPort(int portNumber) {
-        properties.setProperty("dataSource.portNumber", String.valueOf(portNumber));
+        withProperty("dataSource.portNumber", String.valueOf(portNumber));
         return this;
     }
 
     @Override
     public PropertyStage withUser(String user) {
-        properties.setProperty("dataSource.user", user);
+        withProperty("dataSource.user", user);
         return this;
     }
 
     @Override
     public PropertyStage withPassword(String password) {
-        properties.setProperty("dataSource.password", password);
+        withProperty("dataSource.password", password);
         return this;
     }
 
     @Override
     public PropertyStage forDatabase(String database) {
-        properties.setProperty("dataSource.databaseName", database);
+        withProperty("dataSource.databaseName", database);
         return this;
     }
 
@@ -103,7 +103,12 @@ public class DataSourceCreator implements PropertyStage, ConfigurationStage {
 
     @Override
     public ConfigurationStage create() {
-        hikariConfig = new HikariConfig(properties);
+        if (type.useJdbcUrl()) {
+            hikariConfig = new HikariConfig();
+            hikariConfig.setJdbcUrl(type.buildJdbcUrl(properties));
+        } else {
+            hikariConfig = new HikariConfig(properties);
+        }
         return this;
     }
 

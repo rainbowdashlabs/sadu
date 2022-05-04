@@ -6,8 +6,11 @@
 
 package de.chojo.sqlutil.datasource;
 
+import de.chojo.sqlutil.updater.SqlType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.mariadb.jdbc.MariaDbPoolDataSource;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.SQLException;
@@ -18,7 +21,7 @@ class DataSourceCreatorTest {
 
     //@Test
     public void postgresTest() throws SQLException {
-        var build = DataSourceCreator.create(PGSimpleDataSource.class)
+        var build = DataSourceCreator.create(SqlType.POSTGRES, PGSimpleDataSource.class)
                 .withAddress("localhost")
                 .forDatabase("postgres")
                 .withPort(5432)
@@ -34,7 +37,7 @@ class DataSourceCreatorTest {
 
     //@Test
     public void mariadbTest() throws SQLException {
-        var build = DataSourceCreator.create(MariaDbDataSource.class)
+        var build = DataSourceCreator.create(SqlType.MARIADB, MariaDbDataSource.class)
                 .withAddress("localhost")
                 .forDatabase("test_db")
                 .withPort(3306)

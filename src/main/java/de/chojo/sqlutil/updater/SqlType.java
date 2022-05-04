@@ -7,6 +7,9 @@
 package de.chojo.sqlutil.updater;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public interface SqlType {
 
@@ -27,6 +30,15 @@ public interface SqlType {
     String insertVersion(String table);
 
     String deleteVersion(String table);
+
+    default boolean useJdbcUrl() {
+        return false;
+    }
+
+    default String buildJdbcUrl(Properties properties) {
+        if (!useJdbcUrl()) return "";
+        throw new RuntimeException("build url is not implementd, but a jdbc url is required");
+    }
 
     default String[] splitStatements(String queries) {
         return new String[]{queries};
@@ -69,6 +81,47 @@ public interface SqlType {
         @Override
         public String[] splitStatements(String queries) {
             return cleanStatements(queries.split(";"));
+        }
+
+        @Override
+        public boolean useJdbcUrl() {
+            return true;
+        }
+
+        @Override
+        public String buildJdbcUrl(Properties properties) {
+            // jdbc:mariadb:[replication:|loadbalance:|sequential:]//<hostDescription>[,<hostDescription>...]/[database][?<key1>=<value1>[&<key2>=<value2>]]
+            var jdbc = new StringBuilder("jdbc:mariadb://");
+
+            var props = properties.entrySet().stream()
+                    .filter(entry -> ((String) entry.getKey()).startsWith("dataSource."))
+                    .collect(Collectors.toMap(
+                            entry -> ((String) entry.getKey()).replace("dataSource.", ""),
+                            entry -> (String) entry.getValue()));
+
+            if (props.containsKey("serverName")) {
+                jdbc.append(props.remove("serverName"));
+            }
+
+            if (props.containsKey("portNumber")) {
+                jdbc.append(":").append(props.remove("portNumber"));
+            }
+
+            if (props.containsKey("databaseName")) {
+                jdbc.append("/").append(props.remove("databaseName"));
+            }
+
+            if(!props.isEmpty()){
+                jdbc.append("?");
+            }
+
+            var values = props.entrySet().stream()
+                    .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue()))
+                    .collect(Collectors.joining("&"));
+
+            jdbc.append(values);
+
+            return jdbc.toString();
         }
     }
 
