@@ -8,107 +8,55 @@ package de.chojo.sqlutil.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import de.chojo.sqlutil.databases.SqlType;
 import de.chojo.sqlutil.datasource.stage.ConfigurationStage;
-import de.chojo.sqlutil.datasource.stage.PropertyStage;
-import de.chojo.sqlutil.updater.SqlType;
+import de.chojo.sqlutil.datasource.stage.JdbcStage;
+import de.chojo.sqlutil.jdbc.JdbcConfig;
+import org.slf4j.Logger;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.Consumer;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Class to create a {@link HikariDataSource} with a builder pattern.
+ * @param <T> database type defined by the {@link SqlType}
  */
-public class DataSourceCreator implements PropertyStage, ConfigurationStage {
-    private final Properties properties = new Properties();
+public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>, ConfigurationStage {
+    private static final Logger log = getLogger(DataSourceCreator.class);
+    private final T builder;
     private HikariConfig hikariConfig;
-    private SqlType type;
 
-    private DataSourceCreator(SqlType type) {
-        this.type = type;
+    private DataSourceCreator(SqlType<T> type) {
+        this.builder = type.jdbcBuilder();
     }
 
     /**
      * Create a new DataSource creator.
      *
-     * @param type            The type of database which is targeted by this data source
-     * @param dataSourceClass data source implementation.
-     * @return a {@link DataSourceCreator} in {@link PropertyStage}.
+     * @param type The type of database which is targeted by this data source
+     * @param <T> database type defined by the {@link SqlType}
+     * @return a {@link DataSourceCreator} in {@link JdbcStage}.
      */
-    public static PropertyStage create(SqlType type, Class<? extends DataSource> dataSourceClass) {
-        return create(type, dataSourceClass.getName());
-    }
-
-    /**
-     * Create a new DataSource creator.
-     *
-     * @param type            The type of database which is targeted by this data source
-     * @param dataSourceClass data source implementation
-     * @return a {@link DataSourceCreator} in {@link PropertyStage}.
-     * @deprecated Use {@link DataSourceCreator#create(SqlType, Class)} instead. It is
-     */
-    @Deprecated
-    public static PropertyStage create(SqlType type, String dataSourceClass) {
-        return new DataSourceCreator(type).withProperty("dataSourceClassName", dataSourceClass);
+    public static <T extends JdbcConfig<?>> JdbcStage<T> create(SqlType<T> type) {
+        return new DataSourceCreator<>(type);
     }
 
     @Override
-    public PropertyStage withProperty(String key, String value) {
-        properties.setProperty(key, value);
-        return this;
-    }
-
-    @Override
-    public PropertyStage withAddress(String address) {
-        withProperty("dataSource.serverName", address);
-        return this;
-    }
-
-    @Override
-    public PropertyStage withPort(String portNumber) {
-        withProperty("dataSource.portNumber", portNumber);
-        return this;
-    }
-
-    @Override
-    public PropertyStage withPort(int portNumber) {
-        withProperty("dataSource.portNumber", String.valueOf(portNumber));
-        return this;
-    }
-
-    @Override
-    public PropertyStage withUser(String user) {
-        withProperty("dataSource.user", user);
-        return this;
-    }
-
-    @Override
-    public PropertyStage withPassword(String password) {
-        withProperty("dataSource.password", password);
-        return this;
-    }
-
-    @Override
-    public PropertyStage forDatabase(String database) {
-        withProperty("dataSource.databaseName", database);
-        return this;
-    }
-
-    @Override
-    public PropertyStage withSettings(DbConfig config) {
-        config.apply(properties);
+    public JdbcStage<T> configure(Consumer<T> builder) {
+        builder.accept(this.builder);
         return this;
     }
 
     @Override
     public ConfigurationStage create() {
-        if (type.useJdbcUrl()) {
-            hikariConfig = new HikariConfig();
-            hikariConfig.setJdbcUrl(type.buildJdbcUrl(properties));
-        } else {
-            hikariConfig = new HikariConfig(properties);
-        }
+        var jdbcUrl = builder.jdbcUrl();
+        log.info("Creating Hikari config using jdbc url: {}", jdbcUrl);
+        hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(jdbcUrl);
         return this;
     }
 
@@ -155,7 +103,7 @@ public class DataSourceCreator implements PropertyStage, ConfigurationStage {
     }
 
     @Override
-    public DataSourceCreator withDataSourceClassName(Class<? extends DataSource> className) {
+    public DataSourceCreator<T> withDataSourceClassName(Class<? extends DataSource> className) {
         hikariConfig.setDataSourceClassName(className.getName());
         return this;
     }

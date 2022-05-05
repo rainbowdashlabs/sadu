@@ -6,6 +6,11 @@
 
 package de.chojo.sqlutil.updater;
 
+/**
+ * Class representing a version maintained by the {@link SqlUpdater}.
+ * <p>
+ * A version id defined by a major and a patch version.
+ */
 public class SqlVersion {
     private final int major;
     private final int patch;
@@ -15,10 +20,20 @@ public class SqlVersion {
         this.patch = patch;
     }
 
+    /**
+     * Major version
+     *
+     * @return major
+     */
     public int major() {
         return major;
     }
 
+    /**
+     * Patch version
+     *
+     * @return patch
+     */
     public int patch() {
         return patch;
     }

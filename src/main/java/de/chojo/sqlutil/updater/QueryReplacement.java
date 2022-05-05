@@ -7,9 +7,15 @@
 package de.chojo.sqlutil.updater;
 
 public class QueryReplacement {
-    String target;
-    String replacement;
+    private final String target;
+    private final String replacement;
 
+    /**
+     * Creates a new replacement
+     *
+     * @param target      regular expression for the target
+     * @param replacement replacement of the target
+     */
     public QueryReplacement(String target, String replacement) {
         this.target = target;
         this.replacement = replacement;

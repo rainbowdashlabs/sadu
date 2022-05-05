@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
@@ -21,7 +22,7 @@ public class QueryBuilderConfig {
     /**
      * Contains the default configuration.
      */
-    public static QueryBuilderConfig DEFAULT = builder().build();
+    private static final AtomicReference<QueryBuilderConfig> DEFAULT = new AtomicReference<>(builder().build());
 
     private final boolean throwing;
     private final boolean atomic;
@@ -117,10 +118,11 @@ public class QueryBuilderConfig {
 
         /**
          * Sets the exector service used for the completable futures.
+         *
          * @param executorService executor service
          * @return The {@link Builder} in with the executor set.
          */
-        public Builder withExecutor(ExecutorService executorService){
+        public Builder withExecutor(ExecutorService executorService) {
             this.executorService = executorService;
             return this;
         }
@@ -133,5 +135,13 @@ public class QueryBuilderConfig {
         public QueryBuilderConfig build() {
             return new QueryBuilderConfig(throwing, atomic, exceptionHandler, executorService);
         }
+
+
+    }
+    public static void setDefault(QueryBuilderConfig config) {
+        DEFAULT.set(config);
+    }
+    public static AtomicReference<QueryBuilderConfig> defaultConfig() {
+        return DEFAULT;
     }
 }

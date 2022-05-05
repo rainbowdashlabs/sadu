@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.3.0"
+version = "1.4.0"
 val testContainersVersion = "1.16.3"
 
 repositories {
@@ -24,10 +24,14 @@ dependencies {
 
     api("com.zaxxer", "HikariCP", "5.0.1")
     api("org.jetbrains", "annotations", "23.0.0")
+    implementation("org.xerial:sqlite-jdbc:3.36.0.3")
 
+    // database driver
+    testImplementation("org.xerial:sqlite-jdbc:3.36.0.3")
     testImplementation("org.postgresql", "postgresql", "42.3.3")
     testImplementation("org.mariadb.jdbc", "mariadb-java-client", "3.0.3")
     testImplementation("mysql", "mysql-connector-java", "8.0.28")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
@@ -70,7 +74,7 @@ java {
     withSourcesJar()
     withJavadocJar()
 
-    sourceCompatibility = JavaVersion.VERSION_11;
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 

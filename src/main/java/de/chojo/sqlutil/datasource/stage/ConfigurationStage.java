@@ -88,6 +88,7 @@ public interface ConfigurationStage {
      * Set the fully qualified class name of the JDBC {@link DataSource} that will be used create Connections.
      *
      * @param className the fully qualified name of the JDBC {@link DataSource} class
+     * @return Configuration Stage with value set.
      */
     ConfigurationStage withDataSourceClassName(Class<? extends DataSource> className);
 

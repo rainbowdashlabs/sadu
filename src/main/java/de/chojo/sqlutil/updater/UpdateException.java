@@ -6,7 +6,7 @@
 
 package de.chojo.sqlutil.updater;
 
-public class UpdateException extends RuntimeException{
+public class UpdateException extends RuntimeException {
     public UpdateException() {
     }
 

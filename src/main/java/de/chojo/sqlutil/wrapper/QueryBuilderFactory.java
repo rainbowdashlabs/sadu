@@ -10,6 +10,7 @@ import de.chojo.sqlutil.wrapper.stage.ConfigurationStage;
 import de.chojo.sqlutil.wrapper.stage.QueryStage;
 
 import javax.sql.DataSource;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class provides simple methods to create preconfigured {@link QueryBuilder}.
@@ -19,7 +20,7 @@ import javax.sql.DataSource;
  * This results in a QueryBuilder in the {@link QueryStage} and skips the {@link ConfigurationStage}.
  */
 public class QueryBuilderFactory {
-    private final QueryBuilderConfig config;
+    private final AtomicReference<QueryBuilderConfig> config;
     private final DataSource dataSource;
 
     /**
@@ -28,9 +29,13 @@ public class QueryBuilderFactory {
      * @param config     configuration
      * @param dataSource data source
      */
-    public QueryBuilderFactory(QueryBuilderConfig config, DataSource dataSource) {
+    public QueryBuilderFactory(AtomicReference<QueryBuilderConfig> config, DataSource dataSource) {
         this.config = config;
         this.dataSource = dataSource;
+    }
+
+    public QueryBuilderFactory(DataSource dataSource) {
+        this(QueryBuilderConfig.defaultConfig(), dataSource);
     }
 
     /**

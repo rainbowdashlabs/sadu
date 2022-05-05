@@ -10,6 +10,8 @@ import de.chojo.sqlutil.wrapper.QueryBuilder;
 import de.chojo.sqlutil.wrapper.QueryBuilderConfig;
 import de.chojo.sqlutil.wrapper.QueryBuilderFactory;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Configuration stage of a {@link QueryBuilder}
  *
@@ -24,7 +26,19 @@ public interface ConfigurationStage<T> {
      * @param config The config of the {@link QueryBuilder}
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
      */
-    QueryStage<T> configure(QueryBuilderConfig config);
+    default QueryStage<T> configure(QueryBuilderConfig config) {
+        return configure(new AtomicReference<>(config));
+    }
+
+    /**
+     * Configure the query builder.
+     * <p>
+     * A configured {@link QueryBuilderFactory} can be used to skip this step.
+     *
+     * @param config The config of the {@link QueryBuilder}
+     * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
+     */
+    QueryStage<T> configure(AtomicReference<QueryBuilderConfig> config);
 
     /**
      * Set the settings to default values.

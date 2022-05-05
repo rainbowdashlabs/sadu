@@ -31,10 +31,19 @@ public class WrappedQueryExecutionException extends RuntimeException {
         return super.initCause(cause);
     }
 
+
+    /**
+     * SQL state of the exception
+      * @return sql state
+     */
     public String getSQLState() {
         return cause.getSQLState();
     }
 
+    /**
+     * Error code of the exception
+     * @return error code
+     */
     public int getErrorCode() {
         return cause.getErrorCode();
     }

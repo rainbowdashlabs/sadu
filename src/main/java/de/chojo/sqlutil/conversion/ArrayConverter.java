@@ -109,7 +109,6 @@ public final class ArrayConverter {
      * @throws SQLException                    if an error occurs while attempting to access the array
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Collection<T>> T toCollection(ResultSet resultSet, String column, Supplier<T> supplier) throws SQLException {
         var collection = supplier.get();
         collection.addAll(List.of(toArray(resultSet, column)));

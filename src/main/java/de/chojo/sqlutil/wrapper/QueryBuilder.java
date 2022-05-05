@@ -32,7 +32,7 @@ import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This query builder can be used to execute one or more queries onto a database via a connection provided by a datasource.
@@ -62,7 +62,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private String currQuery;
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
     private ThrowingFunction<T, ResultSet, SQLException> currResultMapper;
-    private QueryBuilderConfig config;
+    private AtomicReference<QueryBuilderConfig> config;
     private ExecutorService executorService;
 
     private QueryBuilder(DataSource dataSource, Class<T> clazz) {
@@ -96,14 +96,14 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     // CONFIGURATION STAGE
 
     @Override
-    public QueryStage<T> configure(QueryBuilderConfig config) {
+    public QueryStage<T> configure(AtomicReference<QueryBuilderConfig> config) {
         this.config = config;
         return this;
     }
 
     @Override
     public QueryStage<T> defaultConfig() {
-        config = QueryBuilderConfig.DEFAULT;
+        config = QueryBuilderConfig.defaultConfig();
         return this;
     }
 
@@ -193,7 +193,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public void logDbError(SQLException e) {
-        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(e), () -> super.logDbError(e));
+        config.get().exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(e), () -> super.logDbError(e));
     }
 
     // SINGLE RETRIEVAL
@@ -225,7 +225,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public CompletableFuture<Integer> execute() {
-        return CompletableFuture.supplyAsync(this::executeSync, config.executor());
+        return CompletableFuture.supplyAsync(this::executeSync, config.get().executor());
     }
 
     @Override
@@ -260,20 +260,20 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     private void handleException(SQLException e) {
-        if (config.isThrowing()) {
+        if (config.get().isThrowing()) {
             wrappedExecutionException.initCause(e);
             throw wrappedExecutionException;
         }
         executionException.initCause(e);
-        config.exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> logDbError(executionException));
+        config.get().exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> logDbError(executionException));
     }
 
     private void autoCommit(Connection conn) throws SQLException {
-        conn.setAutoCommit(!config.isAtomic());
+        conn.setAutoCommit(!config.get().isAtomic());
     }
 
     private void commit(Connection conn) throws SQLException {
-        if (config.isAtomic()) conn.commit();
+        if (config.get().isAtomic()) conn.commit();
     }
 
     private class QueryTask {

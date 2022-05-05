@@ -55,6 +55,7 @@ public class ParamBuilder {
      * <P><B>Note:</B> You must specify the parameter's SQL type.
      *
      * @param sqlType the SQL type code defined in <code>java.sql.Types</code>
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
@@ -65,7 +66,6 @@ public class ParamBuilder {
      *                                         <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
      *                                         or  <code>STRUCT</code> data type and the JDBC driver does not support
      *                                         this data type
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNull(int sqlType) throws SQLException {
         stmt.setNull(index(), sqlType);
@@ -78,11 +78,11 @@ public class ParamBuilder {
      * to an SQL <code>BIT</code> or <code>BOOLEAN</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement;
      *                      if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBoolean(Boolean x) throws SQLException {
         if (x == null) return setNull(Types.BOOLEAN);
@@ -96,10 +96,10 @@ public class ParamBuilder {
      * to an SQL <code>TINYINT</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setByte(Byte x) throws SQLException {
         if (x == null) return setNull(Types.BIT);
@@ -113,10 +113,10 @@ public class ParamBuilder {
      * to an SQL <code>SMALLINT</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setShort(Short x) throws SQLException {
         if (x == null) return setNull(Types.INTEGER);
@@ -130,10 +130,10 @@ public class ParamBuilder {
      * to an SQL <code>INTEGER</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setInt(Integer x) throws SQLException {
         if (x == null) return setNull(Types.INTEGER);
@@ -147,10 +147,10 @@ public class ParamBuilder {
      * to an SQL <code>BIGINT</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setLong(Long x) throws SQLException {
         if (x == null) return setNull(Types.BIGINT);
@@ -164,10 +164,10 @@ public class ParamBuilder {
      * to an SQL <code>REAL</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setFloat(Float x) throws SQLException {
         if (x == null) return setNull(Types.FLOAT);
@@ -181,10 +181,10 @@ public class ParamBuilder {
      * to an SQL <code>DOUBLE</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setDouble(Double x) throws SQLException {
         if (x == null) return setNull(Types.DOUBLE);
@@ -198,10 +198,10 @@ public class ParamBuilder {
      * it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBigDecimal(BigDecimal x) throws SQLException {
         if (x == null) return setNull(Types.DECIMAL);
@@ -218,10 +218,10 @@ public class ParamBuilder {
      * when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setString(String x) throws SQLException {
         if (x == null) return setNull(Types.VARCHAR);
@@ -236,10 +236,10 @@ public class ParamBuilder {
      * <code>VARBINARY</code> values) when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBytes(byte[] x) throws SQLException {
         if (x == null) return setNull(Types.BINARY);
@@ -255,10 +255,10 @@ public class ParamBuilder {
      * to an SQL <code>DATE</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setDate(Date x) throws SQLException {
         if (x == null) return setNull(Types.DATE);
@@ -272,10 +272,10 @@ public class ParamBuilder {
      * to an SQL <code>TIME</code> value when it sends it to the database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setTime(Time x) throws SQLException {
         if (x == null) return setNull(Types.TIME);
@@ -290,10 +290,10 @@ public class ParamBuilder {
      * database.
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setTimestamp(Timestamp x) throws SQLException {
         if (x == null) return setNull(Types.TIMESTAMP);
@@ -316,10 +316,10 @@ public class ParamBuilder {
      *
      * @param x      the Java input stream that contains the ASCII parameter value
      * @param length the number of bytes in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setAsciiStream(InputStream x, int length) throws SQLException {
         if (x == null) return setNull(Types.VARCHAR);
@@ -341,10 +341,10 @@ public class ParamBuilder {
      *
      * @param x      the java input stream which contains the binary parameter value
      * @param length the number of bytes in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBinaryStream(InputStream x, int length) throws SQLException {
         if (x == null) return setNull(Types.VARCHAR);
@@ -361,13 +361,13 @@ public class ParamBuilder {
      * @param x             the object containing the input parameter value
      * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
      *                      sent to the database
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or this
      *                                         method is called on a closed PreparedStatement
      * @throws SQLFeatureNotSupportedException if
      *                                         the JDBC driver does not support the specified targetSqlType
      * @see Types
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setObject(Object x, int targetSqlType) throws SQLException {
         if (x == null) return setNull(targetSqlType);
@@ -406,11 +406,11 @@ public class ParamBuilder {
      * object is of a class implementing more than one of the interfaces named above.
      *
      * @param x the object containing the input parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs;
      *                      this method is called on a closed <code>PreparedStatement</code>
      *                      or the type of the given object is ambiguous
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setObject(Object x) throws SQLException {
         stmt.setObject(index(), x);
@@ -433,11 +433,11 @@ public class ParamBuilder {
      * @param reader the <code>java.io.Reader</code> object that contains the
      *               Unicode data
      * @param length the number of characters in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
      * @since 1.2
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setCharacterStream(Reader reader, int length) throws SQLException {
         if (reader == null) return setNull(Types.VARCHAR);
@@ -452,12 +452,12 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param x an SQL <code>REF</code> value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.2
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setRef(Ref x) throws SQLException {
         if (x == null) return setNull(Types.REF);
@@ -471,12 +471,12 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param x a <code>Blob</code> object that maps an SQL <code>BLOB</code> value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.2
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBlob(Blob x) throws SQLException {
         if (x == null) return setNull(Types.BLOB);
@@ -490,12 +490,12 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param x a <code>Clob</code> object that maps an SQL <code>CLOB</code> value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.2
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setClob(Clob x) throws SQLException {
         if (x == null) return setNull(Types.CLOB);
@@ -509,12 +509,12 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param x an <code>Array</code> object that maps an SQL <code>ARRAY</code> value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.2
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setArray(Array x) throws SQLException {
         if (x == null) return setNull(Types.ARRAY);
@@ -528,12 +528,12 @@ public class ParamBuilder {
      * when it sends it to the database.
      *
      * @param x the <code>java.net.URL</code> object to be set
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.4
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setURL(URL x) throws SQLException {
         if (x == null) return setNull(Types.DATALINK);
@@ -547,12 +547,12 @@ public class ParamBuilder {
      * to the database
      *
      * @param x the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setRowId(RowId x) throws SQLException {
         if (x == null) return setNull(Types.ROWID);
@@ -569,6 +569,7 @@ public class ParamBuilder {
      * when it sends it to the database.
      *
      * @param value the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if the driver does not support national
      *                                         character sets;  if the driver can detect that a data conversion
@@ -576,7 +577,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNString(String value) throws SQLException {
         if (value == null) return setNull(Types.NVARCHAR);
@@ -592,6 +592,7 @@ public class ParamBuilder {
      *
      * @param value  the parameter value
      * @param length the number of characters in the parameter data.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if the driver does not support national
      *                                         character sets;  if the driver can detect that a data conversion
@@ -599,7 +600,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNCharacterStream(Reader value, long length) throws SQLException {
         if (value == null) return setNull(Types.VARCHAR);
@@ -612,6 +612,7 @@ public class ParamBuilder {
      * SQL <code>NCLOB</code> value when it sends it to the database.
      *
      * @param value the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if the driver does not support national
      *                                         character sets;  if the driver can detect that a data conversion
@@ -619,7 +620,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNClob(NClob value) throws SQLException {
         if (value == null) return setNull(Types.NCLOB);
@@ -639,12 +639,12 @@ public class ParamBuilder {
      *
      * @param reader An object that contains the data to set the parameter value to.
      * @param length the number of characters in the parameter data.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs; this method is called on
      *                                         a closed <code>PreparedStatement</code> or if the length specified is less than zero.
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setClob(Reader reader, long length) throws SQLException {
         if (reader == null) return setNull(Types.VARCHAR);
@@ -666,6 +666,7 @@ public class ParamBuilder {
      * @param inputStream An object that contains the data to set the parameter
      *                    value to.
      * @param length      the number of bytes in the parameter data.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs;
      *                                         this method is called on a closed <code>PreparedStatement</code>;
@@ -674,7 +675,6 @@ public class ParamBuilder {
      *                                         the specified length.
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBlob(InputStream inputStream, long length) throws SQLException {
         if (inputStream == null) return setNull(Types.VARCHAR);
@@ -694,6 +694,7 @@ public class ParamBuilder {
      *
      * @param reader An object that contains the data to set the parameter value to.
      * @param length the number of characters in the parameter data.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if the length specified is less than zero;
      *                                         if the driver does not support national character sets;
@@ -702,7 +703,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNClob(Reader reader, long length) throws SQLException {
         if (reader == null) return setNull(Types.VARCHAR);
@@ -716,6 +716,7 @@ public class ParamBuilder {
      * SQL <code>XML</code> value when it sends it to the database.
      *
      * @param xmlObject a <code>SQLXML</code> object that maps an SQL <code>XML</code> value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs;
      *                                         this method is called on a closed <code>PreparedStatement</code>
@@ -724,7 +725,6 @@ public class ParamBuilder {
      *                                         the <code>SQLXML</code> object
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setSQLXML(SQLXML xmlObject) throws SQLException {
         if (xmlObject == null) return setNull(Types.SQLXML);
@@ -767,6 +767,7 @@ public class ParamBuilder {
      *                      this is the length
      *                      of the data in the stream or reader.  For all other types,
      *                      this value will be ignored.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs;
      *                                         this method is called on a closed <code>PreparedStatement</code> or
@@ -776,7 +777,6 @@ public class ParamBuilder {
      * @throws SQLFeatureNotSupportedException if
      *                                         the JDBC driver does not support the specified targetSqlType
      * @see Types
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setObject(Object x, int targetSqlType, int scaleOrLength) throws SQLException {
         if (x == null) return setNull(targetSqlType);
@@ -799,11 +799,11 @@ public class ParamBuilder {
      *
      * @param x      the Java input stream that contains the ASCII parameter value
      * @param length the number of bytes in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setAsciiStream(InputStream x, long length) throws SQLException {
         if (x == null) return setNull(Types.VARCHAR);
@@ -825,11 +825,11 @@ public class ParamBuilder {
      *
      * @param x      the java input stream which contains the binary parameter value
      * @param length the number of bytes in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBinaryStream(InputStream x, long length) throws SQLException {
         if (x == null) return setNull(Types.LONGVARBINARY);
@@ -853,11 +853,11 @@ public class ParamBuilder {
      * @param reader the <code>java.io.Reader</code> object that contains the
      *               Unicode data
      * @param length the number of characters in the stream
+     * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed <code>PreparedStatement</code>
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setCharacterStream(Reader reader, long length) throws SQLException {
         if (reader == null) return setNull(Types.LONGVARCHAR);
@@ -881,12 +881,12 @@ public class ParamBuilder {
      * <code>setAsciiStream</code> which takes a length parameter.
      *
      * @param x the Java input stream that contains the ASCII parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setAsciiStream(InputStream x) throws SQLException {
         if (x == null) return setNull(Types.LONGVARCHAR);
@@ -909,12 +909,12 @@ public class ParamBuilder {
      * <code>setBinaryStream</code> which takes a length parameter.
      *
      * @param x the java input stream which contains the binary parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBinaryStream(InputStream x) throws SQLException {
         if (x == null) return setNull(Types.LONGVARBINARY);
@@ -940,12 +940,12 @@ public class ParamBuilder {
      *
      * @param reader the <code>java.io.Reader</code> object that contains the
      *               Unicode data
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setCharacterStream(Reader reader) throws SQLException {
         if (reader == null) return setNull(Types.LONGVARCHAR);
@@ -966,6 +966,7 @@ public class ParamBuilder {
      * <code>setNCharacterStream</code> which takes a length parameter.
      *
      * @param value the parameter value
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if the driver does not support national
      *                                         character sets;  if the driver can detect that a data conversion
@@ -973,7 +974,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNCharacterStream(Reader value) throws SQLException {
         if (value == null) return setNull(Types.VARCHAR);
@@ -994,13 +994,13 @@ public class ParamBuilder {
      * <code>setClob</code> which takes a length parameter.
      *
      * @param reader An object that contains the data to set the parameter value to.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs; this method is called on
      *                                         a closed <code>PreparedStatement</code>or if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setClob(Reader reader) throws SQLException {
         if (reader == null) return setNull(Types.CLOB);
@@ -1022,6 +1022,7 @@ public class ParamBuilder {
      *
      * @param inputStream An object that contains the data to set the parameter
      *                    value to.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs;
      *                                         this method is called on a closed <code>PreparedStatement</code> or
@@ -1029,7 +1030,6 @@ public class ParamBuilder {
      *                                         to a parameter marker in the SQL statement,
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setBlob(InputStream inputStream) throws SQLException {
         if (inputStream == null) return setNull(Types.VARCHAR);
@@ -1049,6 +1049,7 @@ public class ParamBuilder {
      * <code>setNClob</code> which takes a length parameter.
      *
      * @param reader An object that contains the data to set the parameter value to.
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement;
      *                                         if the driver does not support national character sets;
@@ -1057,7 +1058,6 @@ public class ParamBuilder {
      *                                         this method is called on a closed <code>PreparedStatement</code>
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      * @since 1.6
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setNClob(Reader reader) throws SQLException {
         if (reader == null) return setNull(Types.VARCHAR);
@@ -1075,6 +1075,7 @@ public class ParamBuilder {
      *
      * @param x             the object containing the input parameter value
      * @param targetSqlType the SQL type to be sent to the database
+     * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a
      *                                         parameter marker in the SQL statement; if a database access error occurs
      *                                         or this method is called on a closed {@code PreparedStatement}
@@ -1083,7 +1084,6 @@ public class ParamBuilder {
      * @see JDBCType
      * @see SQLType
      * @since 1.8
-     * @return ParamBuilder with values set.
      */
     public ParamBuilder setObject(Object x, SQLType targetSqlType) throws SQLException {
         if (x == null) return setNull(targetSqlType.getVendorTypeNumber());

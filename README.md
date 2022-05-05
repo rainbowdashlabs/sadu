@@ -4,6 +4,8 @@
 [![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo/sql-util?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo/sql-util?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
 
+### [Javadocs](https://rainbowdashlabs.github.io/sql-util/)
+
 # SQL-Util
 
 This project contains various functions I use for sql handling.
@@ -44,7 +46,8 @@ You can change the current used logger adapter via `DataHolder.setupLogger(Logge
 
 ### QueryBuilder
 
-You can obtain a [QueryBuilder](#QueryBuilder) directly inside a QueryObject via `QueryBuilder#queryBuilder(Class<T>)`.\
+You can obtain a [QueryBuilder](#QueryBuilder) directly inside a QueryObject via `QueryBuilder#queryBuilder
+(Class<T>)`.\
 Read more at the [QueryBuilder](#QueryBuilder) section.
 
 ### Connection
@@ -250,54 +253,26 @@ builder(String.class)
 
 The DataSourceCreator can be used to build HikariDataScource with a builder pattern.
 
+Choose the correct SqlType for your data source. The methods available in the configuration depend on the SqlType.
+
 ```java
-HikariDataSource build=DataSourceCreator.create(DataSource.class)
-        .withAddress("localhost")
-        .forDatabase("db")
-        .withPort(2000)
-        .withUser("root")
-        .withPassword("passy")
+HikariDataSource build = DataSourceCreator.create(SqlType.POSTGRES)
+        .configure(builder -> builder
+            .host("localhost")
+            .database("postgres")
+            .port(5432)
+            .user("postgres")
+            .password("root"))
         .create()
         .withMaximumPoolSize(20)
         .withMinimumIdle(2)
         .build();
+
 ```
 
-As an alternative the DbConfig can be used.
-
-```java
-HikariDataSource build=DataSourceCreator.create(DataSource.class)
-        .withSettings(new DbConfig("localhost","5432","root","passy","db"))
-        .create()
-        .withMaximumPoolSize(20)
-        .withMinimumIdle(2)
-        .build();
-```
 Every value which is not set will be the default value provided by the database driver.
 
 The data source needs to be replaced with your proper data source implementation.
-
-## Sidenote for Sqlite
-
-The DataSourceCreator can not be used for SqLite since the driver lacks implementation of several required methods to
-work with Hikari. Just create a SqLite DataSource according to the documentation.
-
-```java
-public static DataSource createSqLiteDataSource(Path path) {
-    try {
-        Files.createFile(path);
-    } catch (FileAlreadyExistsException e) {
-        System.out.println("Found database");
-    } catch (IOException e) {
-        e.printStackTrace();
-        throw new IllegalStateException("Failed to init Database");
-    }
-    var sqLiteDataSource = new SQLiteDataSource();
-    sqLiteDataSource.setUrl("jdbc:sqlite:" + path.toString());
-
-    return sqLiteDataSource;
-}
-```
 
 
 
