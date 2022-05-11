@@ -85,6 +85,35 @@ public interface SqlType<T extends JdbcConfig<?>> {
     String deleteVersion(String table);
 
     /**
+     * Returns a query which returns a boolean indicating if a schema with this name exists.
+     *
+     * @return query to check for schema
+     */
+    default String schemaExists() {
+        if (hasSchemas()) {
+            throw new RuntimeException("schemas are supported but not implemented");
+        }
+        return "";
+    }
+
+    ;
+
+    /**
+     * Returns a query to create a schema with this name.
+     *
+     * @param schema schema
+     * @return query to create schema
+     */
+    default String createSchema(String schema) {
+        if (hasSchemas()) {
+            throw new RuntimeException("schemas are supported but not implemented");
+        }
+        return "";
+    }
+
+    ;
+
+    /**
      * Returns the {@link JdbcConfig} implementation for this database
      *
      * @return jdbc builder
@@ -109,5 +138,16 @@ public interface SqlType<T extends JdbcConfig<?>> {
      */
     default String[] cleanStatements(String[] queries) {
         return Arrays.stream(queries).filter(query -> !query.isBlank()).toArray(String[]::new);
+    }
+
+    /**
+     * Indicates if this type supports schemas.
+     * <p>
+     * When schemas are supported the methods {@link #createSchema(String)} and {@link #schemaExists()} needs to be implemented.
+     *
+     * @return true when schemas are supported
+     */
+    default boolean hasSchemas() {
+        return false;
     }
 }

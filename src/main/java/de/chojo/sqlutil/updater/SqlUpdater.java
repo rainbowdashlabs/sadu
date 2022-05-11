@@ -11,6 +11,7 @@ import de.chojo.sqlutil.databases.SqlType;
 import de.chojo.sqlutil.jdbc.JdbcConfig;
 import de.chojo.sqlutil.logging.LoggerAdapter;
 import de.chojo.sqlutil.wrapper.QueryBuilderConfig;
+import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * An SQL updater which performs database updates via upgrade scripts.
@@ -95,20 +98,21 @@ import java.util.stream.Collectors;
  */
 public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
     private final SqlVersion version;
-    private final LoggerAdapter log;
+    private String[] schemas;
+    private static final Logger log = getLogger(SqlUpdater.class);
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final SqlType<T> type;
 
-    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, LoggerAdapter loggerAdapter, SqlType<T> type) {
+    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, SqlType<T> type, String[] schemas) {
         super(source, config);
         this.source = source;
         this.versionTable = versionTable;
         this.replacements = replacements;
-        this.log = loggerAdapter;
         this.type = type;
         this.version = version;
+        this.schemas = schemas;
     }
 
     /**
@@ -195,6 +199,20 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
 
     private void forceDatabaseConsistency() throws IOException, SQLException {
         try (var conn = source.getConnection()) {
+            if (type.hasSchemas()) {
+
+                for (var schema : schemas) {
+                    if (!schemaExists(schema)) {
+                        try (var stmt = conn.prepareStatement(type.createSchema(schema))) {
+                            stmt.execute();
+                            log.info("Schema {} did not exist. Created.", schema);
+                        }
+                    } else {
+                        log.info("Schema {} does exist. Proceeding.", schema);
+                    }
+                }
+            }
+
             var isSetup = false;
             try (var stmt = conn.prepareStatement(type.createVersionTableQuery(versionTable))) {
                 stmt.execute();
@@ -219,6 +237,19 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
                 updateVersion(version.major(), 0);
             }
         }
+    }
+
+    private boolean schemaExists(String schema) {
+        try (var conn = source.getConnection(); var stmt = conn.prepareStatement(type.schemaExists())) {
+            stmt.setString(1, schema);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            log.error("Could not check if schema {} exists", schema, e);
+        }
+        return false;
     }
 
     /**
@@ -323,12 +354,28 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
         private QueryReplacement[] replacements = new QueryReplacement[0];
         private LoggerAdapter logger;
         private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
+        private String[] schemas;
 
         private SqlUpdaterBuilder(DataSource dataSource, SqlVersion version, SqlType<T> type) {
             this.source = dataSource;
             this.version = version;
             this.type = type;
         }
+
+        /**
+         * Set the schemas which should be created if they do not exist.
+         *
+         * @param schemas schemas
+         * @return builder instance
+         */
+        public SqlUpdaterBuilder<T> setSchemas(String... schemas) {
+            if (!type.hasSchemas()) {
+                throw new IllegalStateException("This sql type does not support schemas");
+            }
+            this.schemas = schemas;
+            return this;
+        }
+
 
         /**
          * The version table which contains major and patch version.
@@ -384,7 +431,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
          * @throws IOException  If the scripts can't be read.
          */
         public void execute() throws SQLException, IOException {
-            var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, logger, type);
+            var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, schemas);
             sqlUpdater.init();
         }
     }

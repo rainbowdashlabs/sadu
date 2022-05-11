@@ -30,7 +30,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * <p>
  * You may use a {@link QueryBuilderFactory} for builder creation or extend {@link QueryFactoryHolder}
  */
-public abstract class DataHolder implements DataSource {
+public abstract class DataHolder implements DataSourceProvider {
     private static LoggerAdapter log = LoggerAdapter.wrap(getLogger(DataHolder.class));
     private final DataSource dataSource;
 
@@ -88,48 +88,12 @@ public abstract class DataHolder implements DataSource {
      * @throws SQLException        if a database access error occurs
      * @throws SQLTimeoutException when the driver has determined that the timeout value specified by the setLoginTimeout method has been exceeded and has at least tried to cancel the current database connection attempt
      */
-    @Override
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
     @Override
-    public Connection getConnection(String username, String password) throws SQLException {
-        return dataSource.getConnection(username, password);
-    }
-
-    @Override
-    public PrintWriter getLogWriter() throws SQLException {
-        return dataSource.getLogWriter();
-    }
-
-    @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
-        dataSource.setLogWriter(out);
-    }
-
-    @Override
-    public void setLoginTimeout(int seconds) throws SQLException {
-dataSource.setLoginTimeout(seconds);
-    }
-
-    @Override
-    public int getLoginTimeout() throws SQLException {
-        return dataSource.getLoginTimeout();
-    }
-
-    @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return dataSource.getParentLogger();
-    }
-
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        return dataSource.unwrap(iface);
-    }
-
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return dataSource.isWrapperFor(iface);
+    public DataSource source() {
+        return dataSource;
     }
 }

@@ -28,12 +28,51 @@ public abstract class QueryFactoryHolder extends DataHolder {
      * @param config     factory config
      */
     public QueryFactoryHolder(DataSource dataSource, QueryBuilderConfig config) {
-        super(dataSource);
-        factory = new QueryBuilderFactory(new AtomicReference<>(config), dataSource);
+        this(dataSource, new AtomicReference<>(config));
     }
-    public QueryFactoryHolder(DataSource dataSource) {
+
+    private QueryFactoryHolder(DataSource dataSource, AtomicReference<QueryBuilderConfig> config) {
         super(dataSource);
-        factory = new QueryBuilderFactory(QueryBuilderConfig.defaultConfig(), dataSource);
+        factory = new QueryBuilderFactory(config, dataSource);
+    }
+
+    /**
+     * Create a new QueryFactoryholder
+     *
+     * @param dataSource datasource
+     */
+    public QueryFactoryHolder(DataSource dataSource) {
+        this(dataSource, QueryBuilderConfig.defaultConfig());
+    }
+
+    /**
+     * Creates a {@link QueryFactoryHolder} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     *
+     * @param provider provider
+     * @param config   factory config
+     */
+    public QueryFactoryHolder(DataSourceProvider provider, QueryBuilderConfig config) {
+        this(provider.source(), config);
+    }
+
+    /**
+     * Creates a {@link QueryFactoryHolder} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     *
+     * @param provider provider
+     */
+    public QueryFactoryHolder(DataSourceProvider provider) {
+        this(provider.source());
+    }
+
+    /**
+     * Creates a {@link QueryFactoryHolder} based on the passed {@link QueryFactoryHolder}.
+     * <p>
+     * Configuration will be copied.
+     *
+     * @param factoryHolder parent factory holder
+     */
+    public QueryFactoryHolder(QueryFactoryHolder factoryHolder) {
+        this(factoryHolder.source(), factoryHolder.factory().config());
     }
 
     /**
@@ -58,6 +97,7 @@ public abstract class QueryFactoryHolder extends DataHolder {
 
     /**
      * Get the underlying factory
+     *
      * @return query factory
      */
     public QueryBuilderFactory factory() {
@@ -66,6 +106,7 @@ public abstract class QueryFactoryHolder extends DataHolder {
 
     /**
      * Get the underlying data source
+     *
      * @return datasource
      */
     public DataSource source() {

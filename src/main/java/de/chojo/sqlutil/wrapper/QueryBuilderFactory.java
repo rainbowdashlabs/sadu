@@ -61,4 +61,8 @@ public class QueryBuilderFactory {
     public DataSource source() {
         return dataSource;
     }
+
+    public AtomicReference<QueryBuilderConfig> config() {
+        return config;
+    }
 }

@@ -19,4 +19,24 @@ public class Postgres extends DefaultType<PostgresJdbc> {
     public PostgresJdbc jdbcBuilder() {
         return new PostgresJdbc();
     }
+
+    @Override
+    public boolean hasSchemas() {
+        return true;
+    }
+
+    @Override
+    public String schemaExists() {
+        return """
+                SELECT EXISTS (
+                   SELECT FROM information_schema.tables
+                   WHERE  table_schema = ?
+                   );
+                """;
+    }
+
+    @Override
+    public String createSchema(String schema) {
+        return String.format("CREATE SCHEMA IF NOT EXISTS %s;", schema);
+    }
 }
