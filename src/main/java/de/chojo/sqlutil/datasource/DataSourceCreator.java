@@ -54,7 +54,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     @Override
     public ConfigurationStage create() {
         var jdbcUrl = builder.jdbcUrl();
-        log.info("Creating Hikari config using jdbc url: {}", jdbcUrl);
+        log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?&", "password=******"));
         hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcUrl);
         return this;
