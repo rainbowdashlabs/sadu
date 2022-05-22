@@ -15,6 +15,9 @@ import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -321,7 +324,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
     private String loadFromResource(Object... path) throws IOException {
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
         try (var patchFile = getClass().getClassLoader().getResourceAsStream("database/" + type.getName() + "/" + patch)) {
-            return new String(patchFile.readAllBytes());
+            return new String(patchFile.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
 
