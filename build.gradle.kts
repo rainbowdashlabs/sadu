@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.4.4"
+version = "1.4.5"
 val testContainersVersion = "1.16.3"
 
 repositories {
@@ -24,7 +24,6 @@ dependencies {
 
     api("com.zaxxer", "HikariCP", "5.0.1")
     api("org.jetbrains", "annotations", "23.0.0")
-    implementation("org.xerial:sqlite-jdbc:3.36.0.3")
 
     // database driver
     testImplementation("org.xerial:sqlite-jdbc:3.36.0.3")
@@ -37,8 +36,8 @@ dependencies {
 
     // testcontainers
     testImplementation("org.testcontainers:junit-jupiter:1.17.1")
-    testImplementation ("org.testcontainers", "testcontainers", testContainersVersion)
-    implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
+    testImplementation("org.testcontainers", "testcontainers", testContainersVersion)
+    testImplementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
     // container
     testImplementation("org.testcontainers", "mysql", testContainersVersion)
     testImplementation("org.testcontainers", "mariadb", testContainersVersion)

@@ -24,8 +24,8 @@ class DataSourceCreatorTest {
                         .host("localhost")
                         .database("postgres")
                         .port(5432)
-                        .user("postgres")
-                        .password("root"))
+                        .user("u28b0uiqheubf")
+                        .password("As1$%&^\"!=hH5"))
                 .create()
                 .withMaximumPoolSize(20)
                 .withMinimumIdle(2)
@@ -36,13 +36,21 @@ class DataSourceCreatorTest {
 
     //@Test
     public void mariadbTest() throws SQLException {
+        String s = SqlType.MARIADB.jdbcBuilder()
+                .host("localhost")
+                .database("public")
+                .port(3306)
+                .password("As1$%&^\"!=hH5")
+                .user("u28_b0uiqheubf")
+                //.password("asd")
+                .jdbcUrl();
         var build = DataSourceCreator.create(SqlType.MARIADB)
                 .configure(builder -> builder
                         .host("localhost")
                         .database("public")
                         .port(3306)
-                        .user("root")
-                        .password("root"))
+                        .password("As1$%&^!=hH5")
+                        .user("test"))
                 .create()
                 .withMaximumPoolSize(20)
                 .withMinimumIdle(2)

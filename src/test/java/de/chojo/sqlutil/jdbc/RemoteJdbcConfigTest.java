@@ -93,11 +93,25 @@ class RemoteJdbcConfigTest {
     }
 
     @Test
-    void testParameter() {
+    void testSpaceEscapeParameter() {
         var jdbcUrl = jdbc.host("host").addParameter("key", "value 1").jdbcUrl();
         Assertions.assertEquals("jdbc:driver://host/?key=value+1", jdbcUrl);
-        jdbcUrl = jdbc.host("host").addParameter("key2", "value=1").jdbcUrl();
-        Assertions.assertEquals("jdbc:driver://host/?key=value+1&key2=value%3D1", jdbcUrl);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> jdbc.addParameter("key", "value"));
+    }
+
+    @Test
+    void testEqualCharEscapeParameter() {
+        var jdbcUrl = jdbc.host("host").addParameter("key2", "value=1").jdbcUrl();
+        Assertions.assertEquals("jdbc:driver://host/?key2=value%3D1", jdbcUrl);
+    }
+
+    @Test
+    void testReassigmentParameter() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> jdbc.addParameter("key", "value").addParameter("key", "value"));
+    }
+
+    @Test
+    void testQueryEncodingParameter() {
+        var jdbcUrl = jdbc.host("host").addParameter("key", "value&1").jdbcUrl();
+        Assertions.assertEquals("jdbc:driver://host/?key=value%261", jdbcUrl);
     }
 }
