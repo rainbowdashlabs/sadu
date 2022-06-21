@@ -167,6 +167,11 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
         return super.addParameter(key, value);
     }
 
+    @Override
+    protected String defaultDriverClass() {
+        return "org.mariadb.jdbc.Driver";
+    }
+
     public enum SslMode {
         /**
          * Do not use SSL/TLS

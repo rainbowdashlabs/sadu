@@ -6,18 +6,41 @@
 
 package de.chojo.sqlutil.jdbc;
 
-import de.chojo.sqlutil.databases.SqlType;
-
+import java.sql.Driver;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * A basic jdbc config
+ *
  * @param <T> type of config
  */
 public abstract class JdbcConfig<T extends JdbcConfig<?>> {
     private final Set<JdbProperty<?>> parameter = new LinkedHashSet<>();
+
+    private String driverClass = null;
+
+    public T setDriverClass(String driverClass) {
+        this.driverClass = driverClass;
+        return self();
+    }
+
+    public <V extends Driver> T setDriverClass(V driverClass) {
+        return setDriverClass(driverClass.getClass().getName());
+    }
+
+    /**
+     * Returns the full path of the driver class
+     *
+     * @return driver class
+     */
+    protected abstract String defaultDriverClass();
+
+    public final String driverClass() {
+        return Optional.ofNullable(driverClass).orElse(defaultDriverClass());
+    }
 
     /**
      * Returns the driver name of the jdbc url
@@ -54,6 +77,7 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     /**
      * Returns the base url without parameter
+     *
      * @return base url
      */
     protected abstract String baseUrl();

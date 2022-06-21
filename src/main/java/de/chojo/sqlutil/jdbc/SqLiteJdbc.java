@@ -55,6 +55,11 @@ public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
     }
 
     @Override
+    protected String defaultDriverClass() {
+        return "org.sqlite.JDBC";
+    }
+
+    @Override
     public String driver() {
         return "mysql";
     }

@@ -23,6 +23,10 @@ public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
         return addParameter("connectTimeout", millis);
     }
 
+    @Override
+    protected String defaultDriverClass() {
+        return "com.mysql.jdbc.Driver";
+    }
 
     /**
      * {@inheritDoc}

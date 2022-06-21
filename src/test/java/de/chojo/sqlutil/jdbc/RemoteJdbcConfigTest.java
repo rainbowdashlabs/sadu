@@ -21,6 +21,11 @@ class RemoteJdbcConfigTest {
             protected String driver() {
                 return "driver";
             }
+
+            @Override
+            protected String defaultDriverClass() {
+                return null;
+            }
         };
     }
 

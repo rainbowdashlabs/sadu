@@ -167,6 +167,11 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
         return super.addParameter(key, value);
     }
 
+    @Override
+    protected String defaultDriverClass() {
+        return "org.postgresql.Driver";
+    }
+
     public enum SslMode {
         /**
          * No validation

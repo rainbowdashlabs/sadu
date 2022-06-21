@@ -53,11 +53,20 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
 
     @Override
     public ConfigurationStage create() {
+        loadDriverClass();
         var jdbcUrl = builder.jdbcUrl();
         log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
         hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcUrl);
         return this;
+    }
+
+    private void loadDriverClass(){
+        try {
+            Class.forName(builder.driverClass());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Could not load driver class. Is class in class path? Use #setDriverClass when using relocation.", e);
+        }
     }
 
     @Override
