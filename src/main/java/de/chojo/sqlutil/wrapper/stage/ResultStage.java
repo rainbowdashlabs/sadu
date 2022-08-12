@@ -52,11 +52,10 @@ public interface ResultStage<T> {
     /**
      * Insert data into a table. Alias for {@link #update()}
      *
-     * @return The {@link QueryBuilder} in a {@link UpdateStage} to update the data.
+     * @return The {@link QueryBuilder} in a {@link InsertStage} to update the data.
      */
-    default UpdateStage insert() {
-        return update();
-    }
+    InsertStage insert();
+
 
     /**
      * Append another query to the query builder.

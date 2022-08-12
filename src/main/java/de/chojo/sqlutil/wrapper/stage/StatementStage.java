@@ -24,16 +24,38 @@ public interface StatementStage<T> {
      *
      * @param stmt statement to change
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the parameters applied to the query.
+     * @deprecated This method exists for the sole purpose of backwards compatibility. Usage of {@link #parameter(ThrowingConsumer)} is prefered.
      */
+    @Deprecated
     ResultStage<T> params(ThrowingConsumer<PreparedStatement, SQLException> stmt);
 
     /**
      * Set the parameter of the {@link PreparedStatement} of the query.
+     * <p>
+     * Use the query builder so set the parameters in the defined order.
+     * <p>
+     * {@code stmt -> stmt.setString("value").setInt(1)}
      *
      * @param params a consumer of a param builder used for simple setting of params.
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the parameters applied to the query.
+     * @deprecated use {@link #parameter(ThrowingConsumer)} instead
      */
-    ResultStage<T> paramsBuilder(ThrowingConsumer<ParamBuilder, SQLException> params);
+    @Deprecated(forRemoval = true)
+    default ResultStage<T> paramsBuilder(ThrowingConsumer<ParamBuilder, SQLException> params){
+        return parameter(params);
+    }
+
+    /**
+     * Set the parameter of the {@link PreparedStatement} of the query.
+     * <p>
+     * Use the query builder so set the parameters in the defined order.
+     * <p>
+     * {@code stmt -> stmt.setString("value").setInt(1)}
+     *
+     * @param stmt a consumer of a param builder used for simple setting of params.
+     * @return The {@link QueryBuilder} in a {@link ResultStage} with the parameters applied to the query.
+     */
+    ResultStage<T> parameter(ThrowingConsumer<ParamBuilder, SQLException> stmt);
 
     /**
      * Skip this stage and set no parameters in the query.

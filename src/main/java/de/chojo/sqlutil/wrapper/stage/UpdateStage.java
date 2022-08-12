@@ -20,11 +20,35 @@ import java.util.concurrent.Executor;
  */
 public interface UpdateStage {
     /**
+     * Executes the update.
+     *
+     * @return A {@link CompletableFuture} which returns the number of changed rows.
+     */
+    UpdateResult sendSync();
+
+    /**
+     * Executes the update async.
+     *
+     * @return A {@link CompletableFuture} which returns the number of changed rows.
+     */
+    CompletableFuture<UpdateResult> send();
+
+    /**
+     * Executes the update async.
+     *
+     * @param executor executor used for async call
+     * @return A {@link CompletableFuture} which returns the number of changed rows.
+     */
+    CompletableFuture<UpdateResult> send(Executor executor);
+
+    /**
      * Execute the update async.
      *
      * @return A {@link CompletableFuture} which returns the number of changed rows.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @deprecated Deprecated in favor of {@link #send()}
      */
+    @Deprecated
     CompletableFuture<Integer> execute();
 
     /**
@@ -33,7 +57,9 @@ public interface UpdateStage {
      * @param executor executor used for async call
      * @return A {@link CompletableFuture} which returns the number of changed rows.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @deprecated Deprecated in favor of {@link #send(Executor)}
      */
+    @Deprecated
     CompletableFuture<Integer> execute(Executor executor);
 
     /**
@@ -41,6 +67,8 @@ public interface UpdateStage {
      *
      * @return Number of changed rows
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @deprecated Deprecated in favor of {@link #sendSync()}
      */
+    @Deprecated
     int executeSync();
 }

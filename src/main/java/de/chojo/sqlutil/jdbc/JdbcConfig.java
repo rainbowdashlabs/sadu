@@ -6,6 +6,8 @@
 
 package de.chojo.sqlutil.jdbc;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Driver;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -20,15 +22,19 @@ import java.util.stream.Collectors;
 public abstract class JdbcConfig<T extends JdbcConfig<?>> {
     private final Set<JdbProperty<?>> parameter = new LinkedHashSet<>();
 
-    private String driverClass = null;
+    private String driverClass;
 
-    public T setDriverClass(String driverClass) {
+    public T setDriverClass(@NotNull String driverClass) {
         this.driverClass = driverClass;
         return self();
     }
 
-    public <V extends Driver> T setDriverClass(V driverClass) {
-        return setDriverClass(driverClass.getClass().getName());
+    public <V extends Driver> T setDriverClass(@NotNull V driverClass) {
+        return setDriverClass(driverClass.getClass());
+    }
+
+    public <V extends Driver> T setDriverClass(@NotNull Class<V> driverClass) {
+        return setDriverClass(driverClass.getName());
     }
 
     /**
