@@ -7,82 +7,114 @@ plugins {
 }
 
 group = "de.chojo"
-version = "1.5.0"
-val testContainersVersion = "1.17.3"
-
-repositories {
-    mavenCentral()
-}
-
-license {
-    header(rootProject.file("HEADER.txt"))
-    include("**/*.java")
-}
+version = "1.0.0"
 
 dependencies {
-    api("org.slf4j", "slf4j-api", "1.7.36")
-
-    api("com.zaxxer", "HikariCP", "5.0.1")
-    api("org.jetbrains", "annotations", "23.0.0")
-
-    // database driver
-    testImplementation("org.xerial:sqlite-jdbc:3.39.2.0")
-    testImplementation("org.postgresql", "postgresql", "42.4.1")
-    testImplementation("org.mariadb.jdbc", "mariadb-java-client", "3.0.7")
-    testImplementation("mysql", "mysql-connector-java", "8.0.30")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    // testcontainers
-    testImplementation("org.testcontainers:junit-jupiter:1.17.3")
-    testImplementation ("org.testcontainers", "testcontainers", testContainersVersion)
-    implementation(platform("org.testcontainers:testcontainers-bom:$testContainersVersion"))
-
-    // container
-    testImplementation("org.testcontainers", "mysql", testContainersVersion)
-    testImplementation("org.testcontainers", "mariadb", testContainersVersion)
-    testImplementation("org.testcontainers", "postgresql", testContainersVersion)
+    implementation(project(":sadu-sqlite"))
+    implementation(project(":sadu-postgres"))
+    implementation(project(":sadu-mariadb"))
+    implementation(project(":sadu-mysql"))
+    implementation(project(":sadu-updater"))
+    implementation(project(":sadu-datasource"))
 }
 
-publishData {
-    useEldoNexusRepos()
-    publishComponent("java")
+subprojects {
+    apply {
+        // We want to apply several plugins to subprojects
+        plugin<JavaPlugin>()
+        plugin<org.cadixdev.gradle.licenser.Licenser>()
+        plugin<de.chojo.PublishData>()
+        plugin<JavaLibraryPlugin>()
+        plugin<MavenPublishPlugin>()
+    }
 }
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        publishData.configurePublication(this)
+// we configure some plugins for all moduls
+allprojects {
+    // Our most commonly used repositories
+    repositories {
+        mavenCentral()
+        // This repo contains, stable, dev and snapshots
+        maven("https://eldonexus.de/repository/maven-public/")
+        // This repo contains several common repositories.
+        maven("https://eldonexus.de/repository/maven-proxies/")
     }
 
-    repositories {
-        maven {
-            authentication {
-                credentials(PasswordCredentials::class) {
-                    username = System.getenv("NEXUS_USERNAME")
-                    password = System.getenv("NEXUS_PASSWORD")
+    java {
+        // We want to generate sources
+        withSourcesJar()
+        // We want to generate javadocs
+        withJavadocJar()
+    }
+
+    // some base dependencies we wanna have everywhere
+    dependencies {
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    }
+
+    license {
+        // We configure the plugin to use the content of a file called HEADER.txt in our project root
+        header(rootProject.file("HEADER.txt"))
+        // The header should be applied to all files in any directory which end with .java
+        include("**/*.java")
+    }
+
+    publishData {
+        useEldoNexusRepos(true)
+        publishComponent("java")
+    }
+
+    publishing {
+        publications.create<MavenPublication>("maven") {
+            publishData.configurePublication(this)
+            pom {
+                url.set("https://github.com/rainbowdashlabs/sadu")
+                developers {
+                    developer {
+                        name.set("Florian Fülling")
+                        url.set("https://github.com/rainbowdashlabs")
+                    }
+                }
+                licenses {
+                    license {
+                        name.set("GNU Affero General Public License v3.0")
+                        url.set("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
+                    }
                 }
             }
+        }
 
-            name = "EldoNexus"
-            setUrl(publishData.getRepository())
+        repositories {
+            maven {
+                authentication {
+                    credentials(PasswordCredentials::class) {
+                        username = System.getenv("NEXUS_USERNAME")
+                        password = System.getenv("NEXUS_PASSWORD")
+                    }
+                }
+
+                setUrl(publishData.getRepository())
+                name = "EldoNexus"
+            }
+        }
+    }
+
+    // We configure some general tasks for our modules
+    tasks {
+        test {
+            dependsOn(licenseCheck)
+            useJUnitPlatform()
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
         }
     }
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-
-    sourceCompatibility = JavaVersion.VERSION_15
-}
-
-
 tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
+    register<Javadoc>("alljavadoc") {
+        setDestinationDir(file("${buildDir}/docs/javadoc"))
+        setSource(project.rootProject.allprojects.map { p -> p.sourceSets.main.get().allJava })
+        classpath = files(project.rootProject.allprojects.map { p -> p.sourceSets.main.get().compileClasspath })
     }
 }
