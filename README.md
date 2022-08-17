@@ -4,7 +4,7 @@
 [![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo/sadu?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
 
-### [Javadocs](https://rainbowdashlabs.github.io/sql-util/)
+### [Javadocs](https://rainbowdashlabs.github.io/sadu/)
 
 # SADU - Sql and damn utilitites
 
