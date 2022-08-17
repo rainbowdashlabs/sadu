@@ -10,12 +10,12 @@ group = "de.chojo"
 version = "1.0.0"
 
 dependencies {
-    implementation(project(":sadu-sqlite"))
-    implementation(project(":sadu-postgres"))
-    implementation(project(":sadu-mariadb"))
-    implementation(project(":sadu-mysql"))
-    implementation(project(":sadu-updater"))
-    implementation(project(":sadu-datasource"))
+    api(project(":sadu-sqlite"))
+    api(project(":sadu-postgres"))
+    api(project(":sadu-mariadb"))
+    api(project(":sadu-mysql"))
+    api(project(":sadu-updater"))
+    api(project(":sadu-datasource"))
 }
 
 subprojects {
@@ -28,34 +28,27 @@ subprojects {
         plugin<MavenPublishPlugin>()
     }
 }
-// we configure some plugins for all moduls
+
 allprojects {
-    // Our most commonly used repositories
     repositories {
         mavenCentral()
-        // This repo contains, stable, dev and snapshots
         maven("https://eldonexus.de/repository/maven-public/")
-        // This repo contains several common repositories.
         maven("https://eldonexus.de/repository/maven-proxies/")
     }
 
     java {
-        // We want to generate sources
         withSourcesJar()
-        // We want to generate javadocs
         withJavadocJar()
+        sourceCompatibility = JavaVersion.VERSION_15
     }
 
-    // some base dependencies we wanna have everywhere
     dependencies {
         testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     }
 
     license {
-        // We configure the plugin to use the content of a file called HEADER.txt in our project root
         header(rootProject.file("HEADER.txt"))
-        // The header should be applied to all files in any directory which end with .java
         include("**/*.java")
     }
 
