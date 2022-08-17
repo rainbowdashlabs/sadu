@@ -1,15 +1,9 @@
 {
-  "baseBranches": ["development"],
+  "baseBranches": ["dev"],
   "dependencyDashboard": true,
   "labels": ["dependencies"],
   "extends": [
     "config:base"
-  ],
-  "packageRules": [
-    {
-      "groupName": "log4j",
-      "matchPackagePrefixes": ["org.apache.logging.log4j"]
-    }
   ],
   "reviewers": [
     "RainbowDashLabs"
