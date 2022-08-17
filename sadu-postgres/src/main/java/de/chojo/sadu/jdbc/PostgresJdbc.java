@@ -167,6 +167,28 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
         return super.addParameter(key, value);
     }
 
+    /**
+     * Specify the schema or several schema to be set in the search-path. This schema will be used to resolve
+     * unqualified object names used in statements over this connection.
+     *
+     * @param schemas one or more schemas
+     * @return builder instance
+     */
+    public PostgresJdbc currentSchema(String schema, String... schemas) {
+        return addParameter("currentSchema", String.join(",", schema, String.join(",")));
+    }
+
+    /**
+     * Specifies the name of the application that is using the connection. This allows a database administrator to see
+     * what applications are connected to the server and what resources they are using through views like pgstatactivity.
+     *
+     * @param applicationName application name
+     * @return builder instance
+     */
+    public PostgresJdbc applicationName(String applicationName) {
+        return addParameter("ApplicationName", applicationName);
+    }
+
     @Override
     protected String defaultDriverClass() {
         return "org.postgresql.Driver";

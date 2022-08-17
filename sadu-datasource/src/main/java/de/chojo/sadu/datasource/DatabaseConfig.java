@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  * Class which provides basic data for a database
  */
-public class DbConfig {
+public class DatabaseConfig {
     private final String address;
     private final String port;
     private final String user;
@@ -31,7 +31,7 @@ public class DbConfig {
      * @param password password
      * @param database database
      */
-    public DbConfig(@Nullable String address, @Nullable String port, @Nullable String user, @Nullable String password, @Nullable String database) {
+    public DatabaseConfig(@Nullable String address, @Nullable String port, @Nullable String user, @Nullable String password, @Nullable String database) {
         this.address = address;
         this.port = port;
         this.user = user;

@@ -107,7 +107,8 @@ allprojects {
 tasks {
     register<Javadoc>("alljavadoc") {
         setDestinationDir(file("${buildDir}/docs/javadoc"))
-        setSource(project.rootProject.allprojects.map { p -> p.sourceSets.main.get().allJava })
-        classpath = files(project.rootProject.allprojects.map { p -> p.sourceSets.main.get().compileClasspath })
+        val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
+        setSource(projects.map { p -> p.sourceSets.main.get().allJava })
+        classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })
     }
 }

@@ -6,8 +6,8 @@
 
 package de.chojo.sadu.datasource;
 
+import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.databases.SqLite;
-import de.chojo.sadu.databases.SqlType;
 import de.chojo.sadu.jdbc.SqLiteJdbc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,8 @@ class DataSourceCreatorTest {
 
     @Test
     public void sqliteTest() throws SQLException {
-        var build = DataSourceCreator.create(new SqLite())
+        // Create a datasource for sqlite
+        HikariDataSource build = DataSourceCreator.create(SqLite.sqlite())
                 .configure(SqLiteJdbc::memory)
                 .create()
                 .withMaximumPoolSize(20)

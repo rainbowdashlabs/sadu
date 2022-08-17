@@ -20,3 +20,4 @@ pluginManagement{
         }
     }
 }
+include("sadu-examples")
