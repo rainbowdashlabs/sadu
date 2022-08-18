@@ -14,8 +14,16 @@ import java.sql.SQLException;
  * Exception to wrap {@link Exception} as {@link Exception} thrown during queries executed by {@link QueryBuilder}
  */
 public class QueryExecutionException extends SQLException {
+    /**
+     * Cause of the exception
+     */
     private SQLException cause;
 
+    /**
+     * Creates a new exception
+     *
+     * @param message message
+     */
     public QueryExecutionException(String message) {
         super(message);
     }

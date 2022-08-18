@@ -125,7 +125,7 @@ public class MyQueries extends QueryFactory {
                 .key();
     }
 
-    private class Result{
+    private class Result {
         private final String result;
 
         private Result(String result) {

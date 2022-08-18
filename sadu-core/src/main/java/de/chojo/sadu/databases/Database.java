@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 /**
  * Defines a sql type and handles RDBMS specific actions.
- *
+ * <p>
  * Every type should implement two static methods, which provide the driver by name and one by get.
  *
  * <pre>{@code

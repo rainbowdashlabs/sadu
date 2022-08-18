@@ -24,15 +24,30 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     private String driverClass;
 
+    /**
+     * Set the driver class which should be used.
+     * <p>
+     * This needs to be set when relocation is used.
+     * <p>
+     * Usage of {@link #driverClass(Class)} is recommended.
+     *
+     * @param driverClass fully qualified path of the driver class
+     * @return builder class
+     */
     public T driverClass(@NotNull String driverClass) {
         this.driverClass = driverClass;
         return self();
     }
 
-    public <V extends Driver> T driverClass(@NotNull V driverClass) {
-        return driverClass(driverClass.getClass());
-    }
-
+    /**
+     * Set the driver class which should be used.
+     * <p>
+     * This needs to be set when relocation is used.
+     *
+     * @param driverClass Class reference of the driver
+     * @param <V>         Class of type Driver
+     * @return builder class
+     */
     public <V extends Driver> T driverClass(@NotNull Class<V> driverClass) {
         return driverClass(driverClass.getName());
     }
@@ -44,6 +59,11 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
      */
     protected abstract String defaultDriverClass();
 
+    /**
+     * Get the fully qualified path of the driver class
+     *
+     * @return path of driver class
+     */
     public final String driverClass() {
         return Optional.ofNullable(driverClass).orElse(defaultDriverClass());
     }

@@ -20,8 +20,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
 
-import static org.slf4j.LoggerFactory.getLogger;
-
 /**
  * Class to create a {@link HikariDataSource} with a builder pattern.
  *

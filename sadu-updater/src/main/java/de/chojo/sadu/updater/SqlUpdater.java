@@ -9,7 +9,6 @@ package de.chojo.sadu.updater;
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.logging.LoggerAdapter;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * An SQL updater which performs database updates via upgrade scripts.
@@ -99,13 +96,13 @@ import static org.slf4j.LoggerFactory.getLogger;
  *  </pre>
  */
 public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
-    private final SqlVersion version;
-    private String[] schemas;
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
+    private final SqlVersion version;
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T> type;
+    private String[] schemas;
 
     private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T> type, String[] schemas) {
         super(source, config);
@@ -135,7 +132,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         }
 
         var ver = version.split("\\.");
-        return new SqlUpdaterBuilder(dataSource, new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1])), type);
+        return new SqlUpdaterBuilder<>(dataSource, new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1])), type);
     }
 
     /**
@@ -354,7 +351,6 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         private final Database<T> type;
         private String versionTable = "version";
         private QueryReplacement[] replacements = new QueryReplacement[0];
-        private LoggerAdapter logger;
         private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
         private String[] schemas;
 
@@ -401,17 +397,6 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          */
         public SqlUpdaterBuilder<T> setReplacements(QueryReplacement... replacements) {
             this.replacements = replacements;
-            return this;
-        }
-
-        /**
-         * Set a logger adapter used for logging.
-         *
-         * @param logger logger adapter
-         * @return builder instance
-         */
-        public SqlUpdaterBuilder<T> withLogger(LoggerAdapter logger) {
-            this.logger = logger;
             return this;
         }
 

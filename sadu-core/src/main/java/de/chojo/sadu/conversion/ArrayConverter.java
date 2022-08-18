@@ -231,6 +231,7 @@ public final class ArrayConverter {
     private static Array fromResultSet(ResultSet resultSet, String column) throws SQLException {
         return resultSet.getArray(column);
     }
+
     private static Array fromResultSet(ResultSet resultSet, int column) throws SQLException {
         return resultSet.getArray(column);
     }

@@ -10,6 +10,7 @@ import de.chojo.sadu.jdbc.JdbcConfig;
 
 /**
  * Represents a default database
+ *
  * @param <T> database type defined by the {@link Database}
  */
 public abstract class DefaultDatabase<T extends JdbcConfig<?>> implements Database<T> {

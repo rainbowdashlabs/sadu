@@ -9,8 +9,17 @@ package de.chojo.sadu.jdbc;
 import java.io.File;
 import java.nio.file.Path;
 
+/**
+ * A builder to create a jdbc url for SqLite
+ */
 public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
     private String path = ":memory:";
+
+    /**
+     * Creates a new builder for a sqlite jdbc url.
+     */
+    public SqLiteJdbc() {
+    }
 
     /**
      * Sets the database to in-memory mode.

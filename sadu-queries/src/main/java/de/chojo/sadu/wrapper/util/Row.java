@@ -34,10 +34,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Represents the row of an result set. Made to restrict actions on valid calls.
+ */
 @SuppressWarnings("unused")
 public class Row {
     private final ResultSet resultSet;
 
+    /**
+     * Wraps a result set into a row
+     *
+     * @param resultSet result set
+     */
     public Row(ResultSet resultSet) {
         this.resultSet = resultSet;
     }
@@ -531,6 +539,7 @@ public class Row {
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param <T>         type of list
      * @return the column value; if the value is SQL {@code NULL}, the
      * value returned is {@code null}
      * @throws SQLException if the columnLabel is not valid;
@@ -546,6 +555,7 @@ public class Row {
      * of this {@code ResultSet} object as a {@code List} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
+     * @param <T>         type of list
      * @return the column value; if the value is SQL {@code NULL}, the
      * value returned is {@code null}
      * @throws SQLException if the columnLabel is not valid;
@@ -1421,6 +1431,7 @@ public class Row {
      * @param columnIndex the first column is 1, the second is 2, ...
      * @param type        Class representing the Java data type to convert the designated
      *                    column to.
+     * @param <T>         Type of object
      * @return an instance of {@code type} holding the column value
      * @throws SQLException                    if conversion is not supported, type is null or
      *                                         another error occurs. The getCause() method of the
@@ -1452,6 +1463,7 @@ public class Row {
      *                    of the column
      * @param type        Class representing the Java data type to convert the designated
      *                    column to.
+     * @param <T>         Type of object
      * @return an instance of {@code type} holding the column value
      * @throws SQLException                    if conversion is not supported, type is null or
      *                                         another error occurs. The getCause() method of the

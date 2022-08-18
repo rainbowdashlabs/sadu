@@ -8,18 +8,32 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.SqLiteJdbc;
 
+/**
+ * Represents a SqLite database.
+ */
 public class SqLite extends DefaultDatabase<SqLiteJdbc> {
 
     private static final SqLite type = new SqLite();
 
+    private SqLite() {
+    }
+
+    /**
+     * The SqLite type.
+     *
+     * @return database type
+     */
     public static SqLite sqlite() {
         return type;
     }
+
+    /**
+     * The SqLite type.
+     *
+     * @return database type
+     */
     public static SqLite get() {
         return type;
-    }
-
-    private SqLite() {
     }
 
     @Override

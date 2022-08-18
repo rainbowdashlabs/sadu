@@ -8,31 +8,34 @@ package de.chojo.sadu.types;
 
 import static de.chojo.sadu.types.SqlType.ofName;
 
+/**
+ * Represents the data types of a MariaDB database
+ */
 public interface MariaDbTypes {
     /**
-     * Fixed < 255 with padding
+     * Fixed {@literal <} 255 with padding
      */
     SqlType CHAR = ofName("CHAR");
 
     /**
-     * < 65,353 Bytes
+     * {@literal <} 65,353 Bytes
      */
     SqlType VARCHAR = ofName("VARCHAR");
 
     /**
-     * < 255 Bytes
+     * {@literal <} 255 Bytes
      */
     SqlType TINYTEXT = ofName("TINYTEXT");
     /**
-     * < 65,353 Bytes
+     * {@literal <} 65,353 Bytes
      */
     SqlType TEXT = ofName("TEXT");
     /**
-     * < 16,777,215 Bytes
+     * {@literal <} 16,777,215 Bytes
      */
     SqlType MEDIUMTEXT = ofName("MEDIUMTEXT");
     /**
-     * < 4,294,967,295 Bytes
+     * {@literal <} 4,294,967,295 Bytes
      */
     SqlType LONGTEXT = ofName("LONGTEXT");
 
@@ -76,33 +79,42 @@ public interface MariaDbTypes {
     SqlType BOOLEAN = ofName("BOOLEAN");
 
     /**
-     * Fixed < 255 with padding
+     * Fixed {@literal <} 255 with padding
      */
     SqlType BINARY = ofName("BINARY");
     /**
-     * < 65,353 Bytes
+     * {@literal <} 65,353 Bytes
      */
     SqlType VARBINARY = ofName("VARBINARY");
 
     /**
-     * < 255 Bytes
+     * {@literal <} 255 Bytes
      */
     SqlType TINYBLOB = ofName("TINYBLOB");
     /**
-     * < 65,353
+     * {@literal <} 65,353
      */
     SqlType BLOB = ofName("BLOB");
     /**
-     * < 16,777,215 Bytes
+     * {@literal <} 16,777,215 Bytes
      */
     SqlType MEDIUMBLOB = ofName("MEDIUMBLOB");
     /**
-     * < 4,294,967,295
+     * {@literal <} 4,294,967,295
      */
     SqlType LONGBLOB = ofName("LONGBLOB");
 
+    /**
+     * Date
+     */
     SqlType DATE = ofName("DATE");
+    /**
+     * Time
+     */
     SqlType TIME = ofName("TIME");
+    /**
+     * Timestamp
+     */
     SqlType TIMESTAMP = ofName("TIMESTAMP");
 
 }

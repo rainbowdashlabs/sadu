@@ -7,10 +7,9 @@
 package de.chojo.sadu.base;
 
 import de.chojo.sadu.exceptions.ExceptionTransformer;
-import de.chojo.sadu.logging.LoggerAdapter;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -27,7 +26,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * You may use a {@link QueryFactory} for builder creation or extend {@link QueryFactory}
  */
 public abstract class DataHolder implements DataSourceProvider {
-    private static LoggerAdapter log = LoggerAdapter.wrap(LoggerFactory.getLogger(DataHolder.class));
+    private static final Logger log = getLogger(DataHolder.class);
     private final DataSource dataSource;
 
     /**
@@ -37,14 +36,6 @@ public abstract class DataHolder implements DataSourceProvider {
      */
     public DataHolder(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    /**
-     * Setup the logger used for logging.
-     * @param adapter logger adapter
-     */
-    public static void setupLogger(LoggerAdapter adapter) {
-        log = adapter;
     }
 
     /**

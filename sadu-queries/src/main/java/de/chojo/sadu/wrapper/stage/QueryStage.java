@@ -25,7 +25,7 @@ public interface QueryStage<T> {
     /**
      * Set the query to execute.
      *
-     * @param sql   query to set.
+     * @param sql     query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
@@ -49,7 +49,7 @@ public interface QueryStage<T> {
      * <p>
      * This will also skip the statement stage.
      *
-     * @param sql   query to set.
+     * @param sql     query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.

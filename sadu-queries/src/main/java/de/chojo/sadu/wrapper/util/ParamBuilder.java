@@ -86,6 +86,7 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param list A {@code Collection} that maps an SQL {@code ARRAY} value
+     * @param type The type of the sql column.
      * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or
@@ -104,7 +105,7 @@ public class ParamBuilder {
      * sends it to the database.
      *
      * @param array An {@code Array} object that maps an SQL {@code ARRAY} value
-     * @param type An
+     * @param type  An
      * @return ParamBuilder with values set.
      * @throws SQLException                    if parameterIndex does not correspond to a parameter
      *                                         marker in the SQL statement; if a database access error occurs or

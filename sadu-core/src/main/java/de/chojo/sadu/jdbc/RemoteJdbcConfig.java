@@ -8,6 +8,11 @@ package de.chojo.sadu.jdbc;
 
 import java.util.regex.Pattern;
 
+/**
+ * Represents a jdbc config for a remote database.
+ *
+ * @param <T> type of database
+ */
 public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends JdbcConfig<T> {
     private static final Pattern IPV4 = Pattern.compile("^(?:\\d{1,3}\\.){3}\\d{1,3}$");
     private static final Pattern IPV6 = Pattern.compile(
@@ -149,6 +154,13 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
         return jdbc.toString();
     }
 
+    /**
+     * Sets the login data
+     *
+     * @param user     username
+     * @param password user password
+     * @return builder instance
+     */
     public T login(String user, String password) {
         password(password).user(user);
         return self();

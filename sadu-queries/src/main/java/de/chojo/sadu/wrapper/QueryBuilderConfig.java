@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.wrapper;
 
+import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 
@@ -38,12 +39,30 @@ public class QueryBuilderConfig {
     }
 
     /**
-     * Get a builder for a {@link QueryBuilderConfig}
+     * Get a builder for a QueryBuilderconfig
      *
      * @return new builder instance
      */
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * Sets the default config. This config will be used by all {@link QueryBuilder} and {@link QueryFactory} which do not have their own configuration.
+     *
+     * @param config config to set
+     */
+    public static void setDefault(QueryBuilderConfig config) {
+        DEFAULT.set(config);
+    }
+
+    /**
+     * Gets a reference on the configuration. The underlying configuration may change at any time.
+     *
+     * @return config reference
+     */
+    public static AtomicReference<QueryBuilderConfig> defaultConfig() {
+        return DEFAULT;
     }
 
     /**
@@ -64,10 +83,20 @@ public class QueryBuilderConfig {
         return atomic;
     }
 
+    /**
+     * Exception handler for thrown exceptions
+     *
+     * @return error handler
+     */
     public Optional<Consumer<SQLException>> exceptionHandler() {
         return Optional.ofNullable(exceptionHandler);
     }
 
+    /**
+     * Executor to submit the conpletable futures.
+     *
+     * @return executor
+     */
     public ExecutorService executor() {
         return executor;
     }
@@ -78,6 +107,7 @@ public class QueryBuilderConfig {
     public static class Builder {
         private boolean throwing;
         private boolean atomic = true;
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr", "CallToPrintStackTrace"})
         private Consumer<SQLException> exceptionHandler = throwables -> {
             System.err.println(ExceptionTransformer.prettyException(throwables));
             throwables.printStackTrace();
@@ -88,7 +118,7 @@ public class QueryBuilderConfig {
         /**
          * Sets the query builder as throwing. This will cause any occuring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
          *
-         * @return The {@link Builder} with the value set.
+         * @return builder instance
          */
         public Builder throwExceptions() {
             throwing = true;
@@ -99,7 +129,7 @@ public class QueryBuilderConfig {
          * Sets the query builder exception handler. This will only have an effect if {@link #throwExceptions()} is not called.
          *
          * @param exceptionHandler handler for exception
-         * @return The {@link Builder} with the value set.
+         * @return builder instance
          */
         public Builder withExceptionHandler(Consumer<SQLException> exceptionHandler) {
             this.exceptionHandler = exceptionHandler;
@@ -122,7 +152,6 @@ public class QueryBuilderConfig {
          * When the queries are atomic they will be executed in one transaction. This will cause that no data will be changed if any query fails to execute.
          * <p>
          * On default queries will be also executed atomic. This method just exists for convenience. No queries will be executed after one query fails in any way.
-         * <p>
          *
          * @return The {@link Builder} in with the atomic value set.
          */
@@ -135,7 +164,7 @@ public class QueryBuilderConfig {
          * Sets the exector service used for the completable futures.
          *
          * @param executorService executor service
-         * @return The {@link Builder} in with the executor set.
+         * @return builder instance
          */
         public Builder withExecutor(ExecutorService executorService) {
             this.executorService = executorService;
@@ -150,13 +179,5 @@ public class QueryBuilderConfig {
         public QueryBuilderConfig build() {
             return new QueryBuilderConfig(throwing, atomic, exceptionHandler, executorService);
         }
-    }
-
-    public static void setDefault(QueryBuilderConfig config) {
-        DEFAULT.set(config);
-    }
-
-    public static AtomicReference<QueryBuilderConfig> defaultConfig() {
-        return DEFAULT;
     }
 }
