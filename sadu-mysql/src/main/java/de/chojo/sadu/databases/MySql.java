@@ -8,7 +8,7 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.MySQLJdbc;
 
-public class MySql extends DefaultType<MySQLJdbc> {
+public class MySql extends DefaultDatabase<MySQLJdbc> {
 
     private static final MySql type = new MySql();
 

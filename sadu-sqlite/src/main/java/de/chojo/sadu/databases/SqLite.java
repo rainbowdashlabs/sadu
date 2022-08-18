@@ -8,7 +8,7 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.SqLiteJdbc;
 
-public class SqLite extends DefaultType<SqLiteJdbc> {
+public class SqLite extends DefaultDatabase<SqLiteJdbc> {
 
     private static final SqLite type = new SqLite();
 

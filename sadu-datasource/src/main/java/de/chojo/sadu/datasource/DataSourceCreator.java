@@ -8,7 +8,7 @@ package de.chojo.sadu.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.SqlType;
+import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
 import de.chojo.sadu.jdbc.JdbcConfig;
@@ -25,14 +25,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 /**
  * Class to create a {@link HikariDataSource} with a builder pattern.
  *
- * @param <T> database type defined by the {@link SqlType}
+ * @param <T> database type defined by the {@link Database}
  */
 public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>, ConfigurationStage {
     private static final Logger log = LoggerFactory.getLogger(DataSourceCreator.class);
     private final T builder;
     private HikariConfig hikariConfig;
 
-    private DataSourceCreator(SqlType<T> type) {
+    private DataSourceCreator(Database<T> type) {
         this.builder = type.jdbcBuilder();
     }
 
@@ -40,10 +40,10 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      * Create a new DataSource creator.
      *
      * @param type The type of database which is targeted by this data source
-     * @param <T>  database type defined by the {@link SqlType}
+     * @param <T>  database type defined by the {@link Database}
      * @return a {@link DataSourceCreator} in {@link JdbcStage}.
      */
-    public static <T extends JdbcConfig<?>> JdbcStage<T> create(SqlType<T> type) {
+    public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T> type) {
         return new DataSourceCreator<>(type);
     }
 

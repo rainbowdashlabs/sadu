@@ -8,7 +8,7 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.MariaDbJdbc;
 
-public class MariaDb extends DefaultType<MariaDbJdbc> {
+public class MariaDb extends DefaultDatabase<MariaDbJdbc> {
 
     private static final MariaDb type = new MariaDb();
 

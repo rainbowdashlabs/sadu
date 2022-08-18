@@ -16,14 +16,15 @@ import de.chojo.sadu.wrapper.stage.InsertStage;
 import de.chojo.sadu.wrapper.stage.QueryStage;
 import de.chojo.sadu.wrapper.stage.ResultStage;
 import de.chojo.sadu.wrapper.stage.RetrievalStage;
+import de.chojo.sadu.wrapper.util.ParamBuilder;
+import de.chojo.sadu.wrapper.util.Row;
 import de.chojo.sadu.wrapper.stage.StatementStage;
-import de.chojo.sadu.wrapper.stage.UpdateResult;
+import de.chojo.sadu.wrapper.util.UpdateResult;
 import de.chojo.sadu.wrapper.stage.UpdateStage;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayDeque;
@@ -63,7 +64,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private final WrappedQueryExecutionException wrappedExecutionException;
     private String currQuery;
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
-    private ThrowingFunction<T, ResultSet, SQLException> currResultMapper;
+    private ThrowingFunction<T, Row, SQLException> currResultMapper;
     private AtomicReference<QueryBuilderConfig> config;
 
     private QueryBuilder(DataSource dataSource) {
@@ -139,7 +140,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     // RESULT STAGE
 
     @Override
-    public RetrievalStage<T> readRow(ThrowingFunction<T, ResultSet, SQLException> mapper) {
+    public RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper) {
         this.currResultMapper = mapper;
         queueTask();
         return this;
@@ -349,11 +350,11 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private class QueryTask {
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
-        private final ThrowingFunction<T, ResultSet, SQLException> resultMapper;
+        private final ThrowingFunction<T, Row, SQLException> resultMapper;
         private final QueryExecutionException executionException;
 
         public QueryTask(String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
-                         ThrowingFunction<T, ResultSet, SQLException> resultMapper) {
+                         ThrowingFunction<T, Row, SQLException> resultMapper) {
             query = currQuery;
             this.statementConsumer = statementConsumer;
             this.resultMapper = resultMapper;
@@ -370,7 +371,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                while (resultSet.next()) results.add(resultMapper.apply(resultSet));
+                var row = new Row(resultSet);
+                while (resultSet.next()) results.add(resultMapper.apply(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }
@@ -381,7 +383,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                if (resultSet.next()) return Optional.ofNullable(resultMapper.apply(resultSet));
+                var row = new Row(resultSet);
+                if (resultSet.next()) return Optional.ofNullable(resultMapper.apply(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }

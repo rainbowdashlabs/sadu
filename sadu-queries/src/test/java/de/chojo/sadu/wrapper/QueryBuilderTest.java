@@ -8,8 +8,9 @@ package de.chojo.sadu.wrapper;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.databases.SqLite;
-import de.chojo.sadu.databases.SqlType;
 import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.types.SqLiteTypes;
+import de.chojo.sadu.types.SqlType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 class QueryBuilderTest {
@@ -55,12 +57,12 @@ class QueryBuilderTest {
                                     )
                                     """)
                 .update()
-                .execute()
+                .send()
                 .join();
 
         long l = QueryBuilder.builder(source).defaultConfig()
                 .query("INSERT INTO test(user_name) VALUES(?)")
-                .parameter(stmt -> stmt.setString("test"))
+                .parameter(stmt -> stmt.setString("test").setArray(Collections.emptyList(), SqLiteTypes.REAL))
                 .insert()
                 .keySync()
                 .orElse(-1L);
@@ -80,7 +82,7 @@ class QueryBuilderTest {
                                     )
                                     """)
                 .update()
-                .execute()
+                .send()
                 .join();
 
         List<Long> l = QueryBuilder.builder(source).defaultConfig()

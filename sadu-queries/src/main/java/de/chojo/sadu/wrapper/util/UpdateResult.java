@@ -4,7 +4,7 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.stage;
+package de.chojo.sadu.wrapper.util;
 
 public class UpdateResult {
     private final int rows;

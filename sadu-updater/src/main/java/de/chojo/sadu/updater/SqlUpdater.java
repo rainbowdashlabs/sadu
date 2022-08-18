@@ -7,7 +7,7 @@
 package de.chojo.sadu.updater;
 
 import de.chojo.sadu.base.QueryFactory;
-import de.chojo.sadu.databases.SqlType;
+import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
 import de.chojo.sadu.logging.LoggerAdapter;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
@@ -105,9 +105,9 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
-    private final SqlType<T> type;
+    private final Database<T> type;
 
-    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, SqlType<T> type, String[] schemas) {
+    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T> type, String[] schemas) {
         super(source, config);
         this.source = source;
         this.versionTable = versionTable;
@@ -124,11 +124,11 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      *
      * @param dataSource the data source to connect to the database
      * @param type       the sql type of the database
-     * @param <T>        type of the database defined by the {@link SqlType}
+     * @param <T>        type of the database defined by the {@link Database}
      * @return new builder instance
      * @throws IOException if the version file does not exist.
      */
-    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder builder(DataSource dataSource, SqlType<T> type) throws IOException {
+    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder builder(DataSource dataSource, Database<T> type) throws IOException {
         var version = "";
         try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
             version = new String(versionFile.readAllBytes()).trim();
@@ -144,10 +144,10 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      * @param dataSource the data source to connect to the database
      * @param version    the version with {@code Major.Patch}
      * @param type       the sql type of the database
-     * @param <T>        type of the database defined by the {@link SqlType}
+     * @param <T>        type of the database defined by the {@link Database}
      * @return builder instance
      */
-    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder<T> builder(DataSource dataSource, SqlVersion version, SqlType<T> type) {
+    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder<T> builder(DataSource dataSource, SqlVersion version, Database<T> type) {
         return new SqlUpdaterBuilder<>(dataSource, version, type);
     }
 
@@ -346,19 +346,19 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     /**
      * Class to build a {@link SqlUpdater} with a builder pattern
      *
-     * @param <T> The type of the jdbc link defined by the {@link SqlType}
+     * @param <T> The type of the jdbc link defined by the {@link Database}
      */
     public static class SqlUpdaterBuilder<T extends JdbcConfig<?>> {
         private final DataSource source;
         private final SqlVersion version;
-        private final SqlType<T> type;
+        private final Database<T> type;
         private String versionTable = "version";
         private QueryReplacement[] replacements = new QueryReplacement[0];
         private LoggerAdapter logger;
         private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
         private String[] schemas;
 
-        private SqlUpdaterBuilder(DataSource dataSource, SqlVersion version, SqlType<T> type) {
+        private SqlUpdaterBuilder(DataSource dataSource, SqlVersion version, Database<T> type) {
             this.source = dataSource;
             this.version = version;
             this.type = type;

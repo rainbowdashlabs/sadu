@@ -33,9 +33,9 @@ import java.util.Arrays;
  * }
  * }</pre>
  *
- * @param <T> type of the database defined by the {@link SqlType}
+ * @param <T> type of the database defined by the {@link Database}
  */
-public interface SqlType<T extends JdbcConfig<?>> {
+public interface Database<T extends JdbcConfig<?>> {
 
     /**
      * Creates a query to create a version table on the database.

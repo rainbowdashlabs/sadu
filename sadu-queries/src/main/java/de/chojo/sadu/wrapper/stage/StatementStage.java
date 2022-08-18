@@ -7,7 +7,7 @@
 package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingConsumer;
-import de.chojo.sadu.wrapper.ParamBuilder;
+import de.chojo.sadu.wrapper.util.ParamBuilder;
 import de.chojo.sadu.wrapper.QueryBuilder;
 
 import java.sql.PreparedStatement;
