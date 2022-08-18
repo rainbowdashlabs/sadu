@@ -1,0 +1,1616 @@
+/*
+ *     SPDX-License-Identifier: AGPL-3.0-only
+ *
+ *     Copyright (C) 2022 RainbowDashLabs and Contributor
+ */
+
+package de.chojo.sadu.wrapper.util;
+
+import de.chojo.sadu.conversion.ArrayConverter;
+import de.chojo.sadu.conversion.UUIDConverter;
+
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Date;
+import java.sql.JDBCType;
+import java.sql.NClob;
+import java.sql.Ref;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.RowId;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.sql.SQLType;
+import java.sql.SQLXML;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Represents the row of an result set. Made to restrict actions on valid calls.
+ */
+@SuppressWarnings("unused")
+public class Row {
+    private final ResultSet resultSet;
+
+    /**
+     * Wraps a result set into a row
+     *
+     * @param resultSet result set
+     */
+    public Row(ResultSet resultSet) {
+        this.resultSet = resultSet;
+    }
+
+    /**
+     * Get the underlying result set
+     *
+     * @return resultSet
+     */
+    public ResultSet resultSet() {
+        return resultSet;
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code String} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public String getString(int columnIndex) throws SQLException {
+        return resultSet.getString(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code UUID} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException             if the columnIndex is not valid;
+     *                                  if a database access error occurs or this method is
+     *                                  called on a closed result set
+     * @throws IllegalArgumentException If value does not conform to the string representation as
+     *                                  described in {@link #toString}
+     */
+    public UUID getUuidFromString(int columnIndex) throws SQLException {
+        return UUID.fromString(resultSet.getString(columnIndex));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code boolean} in the Java programming language.
+     *
+     * <P>If the designated column has a datatype of CHAR or VARCHAR
+     * and contains a "0" or has a datatype of BIT, TINYINT, SMALLINT, INTEGER or BIGINT
+     * and contains  a 0, a value of {@code false} is returned.  If the designated column has a datatype
+     * of CHAR or VARCHAR
+     * and contains a "1" or has a datatype of BIT, TINYINT, SMALLINT, INTEGER or BIGINT
+     * and contains  a 1, a value of {@code true} is returned.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code false}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public boolean getBoolean(int columnIndex) throws SQLException {
+        return resultSet.getBoolean(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code byte} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public byte getByte(int columnIndex) throws SQLException {
+        return resultSet.getByte(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code short} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public short getShort(int columnIndex) throws SQLException {
+        return resultSet.getShort(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * an {@code int} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public int getInt(int columnIndex) throws SQLException {
+        return resultSet.getInt(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code long} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public long getLong(int columnIndex) throws SQLException {
+        return resultSet.getLong(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code float} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public float getFloat(int columnIndex) throws SQLException {
+        return resultSet.getFloat(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code double} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public double getDouble(int columnIndex) throws SQLException {
+        return resultSet.getDouble(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code byte} array in the Java programming language.
+     * The bytes represent the raw values returned by the driver.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public byte[] getBytes(int columnIndex) throws SQLException {
+        return resultSet.getBytes(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code UUID} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public UUID getUuidFromBytes(int columnIndex) throws SQLException {
+        return UUIDConverter.convert(resultSet.getBytes(columnIndex));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Date} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Date getDate(int columnIndex) throws SQLException {
+        return resultSet.getDate(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Time} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Time getTime(int columnIndex) throws SQLException {
+        return resultSet.getTime(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Timestamp} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Timestamp getTimestamp(int columnIndex) throws SQLException {
+        return resultSet.getTimestamp(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a stream of ASCII characters. The value can then be read in chunks from the
+     * stream. This method is particularly
+     * suitable for retrieving large {@code LONGVARCHAR} values.
+     * The JDBC driver will
+     * do any necessary conversion from the database format into ASCII.
+     *
+     * <P><B>Note:</B> All the data in the returned stream must be
+     * read prior to getting the value of any other column. The next
+     * call to a getter method implicitly closes the stream.  Also, a
+     * stream may return {@code 0} when the method
+     * {@code InputStream.available}
+     * is called whether there is data available or not.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a Java input stream that delivers the database column value
+     * as a stream of one-byte ASCII characters;
+     * if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public InputStream getAsciiStream(int columnIndex) throws SQLException {
+        return resultSet.getAsciiStream(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a  stream of
+     * uninterpreted bytes. The value can then be read in chunks from the
+     * stream. This method is particularly
+     * suitable for retrieving large {@code LONGVARBINARY} values.
+     *
+     * <P><B>Note:</B> All the data in the returned stream must be
+     * read prior to getting the value of any other column. The next
+     * call to a getter method implicitly closes the stream.  Also, a
+     * stream may return {@code 0} when the method
+     * {@code InputStream.available}
+     * is called whether there is data available or not.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a Java input stream that delivers the database column value
+     * as a stream of uninterpreted bytes;
+     * if the value is SQL {@code NULL}, the value returned is
+     * {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public InputStream getBinaryStream(int columnIndex) throws SQLException {
+        return resultSet.getBinaryStream(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code String} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public String getString(String columnLabel) throws SQLException {
+        return resultSet.getString(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code UUID} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public UUID getUuidFromString(String columnLabel) throws SQLException {
+        return UUID.fromString(resultSet.getString(columnLabel));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code boolean} in the Java programming language.
+     *
+     * <P>If the designated column has a datatype of CHAR or VARCHAR
+     * and contains a "0" or has a datatype of BIT, TINYINT, SMALLINT, INTEGER or BIGINT
+     * and contains  a 0, a value of {@code false} is returned.  If the designated column has a datatype
+     * of CHAR or VARCHAR
+     * and contains a "1" or has a datatype of BIT, TINYINT, SMALLINT, INTEGER or BIGINT
+     * and contains  a 1, a value of {@code true} is returned.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code false}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public boolean getBoolean(String columnLabel) throws SQLException {
+        return resultSet.getBoolean(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code byte} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public byte getByte(String columnLabel) throws SQLException {
+        return resultSet.getByte(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code short} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public short getShort(String columnLabel) throws SQLException {
+        return resultSet.getShort(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * an {@code int} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public int getInt(String columnLabel) throws SQLException {
+        return resultSet.getInt(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code long} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public long getLong(String columnLabel) throws SQLException {
+        return resultSet.getLong(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code float} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public float getFloat(String columnLabel) throws SQLException {
+        return resultSet.getFloat(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code double} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code 0}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public double getDouble(String columnLabel) throws SQLException {
+        return resultSet.getDouble(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code byte} array in the Java programming language.
+     * The bytes represent the raw values returned by the driver.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public byte[] getBytes(String columnLabel) throws SQLException {
+        return resultSet.getBytes(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code UUID} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public UUID getUuidFromBytes(String columnLabel) throws SQLException {
+        return UUIDConverter.convert(resultSet.getBytes(columnLabel));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code UUID} in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param <T>         type of list
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public <T> List<T> getList(String columnLabel) throws SQLException {
+        return ArrayConverter.toList(resultSet, columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code List} in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param <T>         type of list
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public <T> List<T> getList(int columnIndex) throws SQLException {
+        return ArrayConverter.toList(resultSet, columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Date} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Date getDate(String columnLabel) throws SQLException {
+        return resultSet.getDate(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Time} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Time getTime(String columnLabel) throws SQLException {
+        return resultSet.getTime(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code java.sql.Timestamp} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Timestamp getTimestamp(String columnLabel) throws SQLException {
+        return resultSet.getTimestamp(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a stream of
+     * ASCII characters. The value can then be read in chunks from the
+     * stream. This method is particularly
+     * suitable for retrieving large {@code LONGVARCHAR} values.
+     * The JDBC driver will
+     * do any necessary conversion from the database format into ASCII.
+     *
+     * <P><B>Note:</B> All the data in the returned stream must be
+     * read prior to getting the value of any other column. The next
+     * call to a getter method implicitly closes the stream. Also, a
+     * stream may return {@code 0} when the method {@code available}
+     * is called whether there is data available or not.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a Java input stream that delivers the database column value
+     * as a stream of one-byte ASCII characters.
+     * If the value is SQL {@code NULL},
+     * the value returned is {@code null}.
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public InputStream getAsciiStream(String columnLabel) throws SQLException {
+        return resultSet.getAsciiStream(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a stream of uninterpreted
+     * {@code byte}s.
+     * The value can then be read in chunks from the
+     * stream. This method is particularly
+     * suitable for retrieving large {@code LONGVARBINARY}
+     * values.
+     *
+     * <P><B>Note:</B> All the data in the returned stream must be
+     * read prior to getting the value of any other column. The next
+     * call to a getter method implicitly closes the stream. Also, a
+     * stream may return {@code 0} when the method {@code available}
+     * is called whether there is data available or not.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a Java input stream that delivers the database column value
+     * as a stream of uninterpreted bytes;
+     * if the value is SQL {@code NULL}, the result is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public InputStream getBinaryStream(String columnLabel) throws SQLException {
+        return resultSet.getBinaryStream(columnLabel);
+    }
+
+    /**
+     * Retrieves the  number, types and properties of
+     * this {@code ResultSet} object's columns.
+     *
+     * @return the description of this {@code ResultSet} object's columns
+     * @throws SQLException if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public ResultSetMetaData getMetaData() throws SQLException {
+        return resultSet.getMetaData();
+    }
+
+    /**
+     * <p>Gets the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * an {@code Object} in the Java programming language.
+     *
+     * <p>This method will return the value of the given column as a
+     * Java object.  The type of the Java object will be the default
+     * Java object type corresponding to the column's SQL type,
+     * following the mapping for built-in types specified in the JDBC
+     * specification. If the value is an SQL {@code NULL},
+     * the driver returns a Java {@code null}.
+     *
+     * <p>This method may also be used to read database-specific
+     * abstract data types.
+     * <p>
+     * In the JDBC 2.0 API, the behavior of method
+     * {@code getObject} is extended to materialize
+     * data of SQL user-defined types.
+     * <p>
+     * If {@code Connection.getTypeMap} does not throw a
+     * {@code SQLFeatureNotSupportedException},
+     * then when a column contains a structured or distinct value,
+     * the behavior of this method is as
+     * if it were a call to: {@code getObject(columnIndex,
+     * this.getStatement().getConnection().getTypeMap())}.
+     * <p>
+     * If {@code Connection.getTypeMap} does throw a
+     * {@code SQLFeatureNotSupportedException},
+     * then structured values are not supported, and distinct values
+     * are mapped to the default Java class as determined by the
+     * underlying SQL type of the DISTINCT type.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code java.lang.Object} holding the column value
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Object getObject(int columnIndex) throws SQLException {
+        return resultSet.getObject(columnIndex);
+    }
+
+    /**
+     * <p>Gets the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * an {@code Object} in the Java programming language.
+     *
+     * <p>This method will return the value of the given column as a
+     * Java object.  The type of the Java object will be the default
+     * Java object type corresponding to the column's SQL type,
+     * following the mapping for built-in types specified in the JDBC
+     * specification. If the value is an SQL {@code NULL},
+     * the driver returns a Java {@code null}.
+     * <p>
+     * This method may also be used to read database-specific
+     * abstract data types.
+     * <p>
+     * In the JDBC 2.0 API, the behavior of the method
+     * {@code getObject} is extended to materialize
+     * data of SQL user-defined types.  When a column contains
+     * a structured or distinct value, the behavior of this method is as
+     * if it were a call to: {@code getObject(columnIndex,
+     * this.getStatement().getConnection().getTypeMap())}.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code java.lang.Object} holding the column value
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public Object getObject(String columnLabel) throws SQLException {
+        return resultSet.getObject(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.io.Reader} object.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code java.io.Reader} object that contains the column
+     * value; if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language.
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     * @since 1.2
+     */
+    public Reader getCharacterStream(int columnIndex) throws SQLException {
+        return resultSet.getCharacterStream(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.io.Reader} object.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code java.io.Reader} object that contains the column
+     * value; if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     * @since 1.2
+     */
+    public Reader getCharacterStream(String columnLabel) throws SQLException {
+        return resultSet.getCharacterStream(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.math.BigDecimal} with full precision.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value (full precision);
+     * if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language.
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     * @since 1.2
+     */
+    public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
+        return resultSet.getBigDecimal(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.math.BigDecimal} with full precision.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value (full precision);
+     * if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language.
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     * @since 1.2
+     */
+    public BigDecimal getBigDecimal(String columnLabel) throws SQLException {
+        return resultSet.getBigDecimal(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as an {@code Object}
+     * in the Java programming language.
+     * If the value is an SQL {@code NULL},
+     * the driver returns a Java {@code null}.
+     * This method uses the given {@code Map} object
+     * for the custom mapping of the
+     * SQL structured or distinct type that is being retrieved.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param map         a {@code java.util.Map} object that contains the mapping
+     *                    from SQL type names to classes in the Java programming language
+     * @return an {@code Object} in the Java programming language
+     * representing the SQL value
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Object getObject(int columnIndex, Map<String, Class<?>> map) throws SQLException {
+        return resultSet.getObject(columnIndex, map);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Ref} object
+     * in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code Ref} object representing an SQL {@code REF}
+     * value
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Ref getRef(int columnIndex) throws SQLException {
+        return resultSet.getRef(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Blob} object
+     * in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code Blob} object representing the SQL
+     * {@code BLOB} value in the specified column
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Blob getBlob(int columnIndex) throws SQLException {
+        return resultSet.getBlob(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Clob} object
+     * in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code Clob} object representing the SQL
+     * {@code CLOB} value in the specified column
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Clob getClob(int columnIndex) throws SQLException {
+        return resultSet.getClob(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as an {@code Array} object
+     * in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return an {@code Array} object representing the SQL
+     * {@code ARRAY} value in the specified column
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Array getArray(int columnIndex) throws SQLException {
+        return resultSet.getArray(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as an {@code Object}
+     * in the Java programming language.
+     * If the value is an SQL {@code NULL},
+     * the driver returns a Java {@code null}.
+     * This method uses the specified {@code Map} object for
+     * custom mapping if appropriate.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param map         a {@code java.util.Map} object that contains the mapping
+     *                    from SQL type names to classes in the Java programming language
+     * @return an {@code Object} representing the SQL value in the
+     * specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Object getObject(String columnLabel, Map<String, Class<?>> map) throws SQLException {
+        return resultSet.getObject(columnLabel, map);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Ref} object
+     * in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code Ref} object representing the SQL {@code REF}
+     * value in the specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Ref getRef(String columnLabel) throws SQLException {
+        return resultSet.getRef(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Blob} object
+     * in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code Blob} object representing the SQL {@code BLOB}
+     * value in the specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Blob getBlob(String columnLabel) throws SQLException {
+        return resultSet.getBlob(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code Clob} object
+     * in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code Clob} object representing the SQL {@code CLOB}
+     * value in the specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Clob getClob(String columnLabel) throws SQLException {
+        return resultSet.getClob(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as an {@code Array} object
+     * in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return an {@code Array} object representing the SQL {@code ARRAY} value in
+     * the specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.2
+     */
+    public Array getArray(String columnLabel) throws SQLException {
+        return resultSet.getArray(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the date if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the date
+     * @return the column value as a {@code java.sql.Date} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Date getDate(int columnIndex, Calendar cal) throws SQLException {
+        return resultSet.getDate(columnIndex, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the date if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the date
+     * @return the column value as a {@code java.sql.Date} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Date getDate(String columnLabel, Calendar cal) throws SQLException {
+        return resultSet.getDate(columnLabel, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the time if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the time
+     * @return the column value as a {@code java.sql.Time} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Time getTime(int columnIndex, Calendar cal) throws SQLException {
+        return resultSet.getTime(columnIndex, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the time if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the time
+     * @return the column value as a {@code java.sql.Time} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Time getTime(String columnLabel, Calendar cal) throws SQLException {
+        return resultSet.getTime(columnLabel, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.sql.Timestamp} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
+        return resultSet.getTimestamp(columnIndex, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the date
+     * @return the column value as a {@code java.sql.Timestamp} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid or
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+     * @since 1.2
+     */
+    public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
+        return resultSet.getTimestamp(columnLabel, cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * object in the Java programming language.
+     *
+     * @param columnIndex the index of the column 1 is the first, 2 is the second,...
+     * @return the column value as a {@code java.net.URL} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs; this method
+     *                                         is called on a closed result set or if a URL is malformed
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.4
+     */
+    public URL getURL(int columnIndex) throws SQLException {
+        return resultSet.getURL(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value as a {@code java.net.URL} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs; this method
+     *                                         is called on a closed result set or if a URL is malformed
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.4
+     */
+    public URL getURL(String columnLabel) throws SQLException {
+        return resultSet.getURL(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row of this
+     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * programming language.
+     *
+     * @param columnIndex the first column is 1, the second 2, ...
+     * @return the column value; if the value is a SQL {@code NULL} the
+     * value returned is {@code null}
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public RowId getRowId(int columnIndex) throws SQLException {
+        return resultSet.getRowId(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row of this
+     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value ; if the value is a SQL {@code NULL} the
+     * value returned is {@code null}
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public RowId getRowId(String columnLabel) throws SQLException {
+        return resultSet.getRowId(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code NClob} object
+     * in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code NClob} object representing the SQL
+     * {@code NCLOB} value in the specified column
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if the driver does not support national
+     *                                         character sets;  if the driver can detect that a data conversion
+     *                                         error could occur; this method is called on a closed result set
+     *                                         or if a database access error occurs
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public NClob getNClob(int columnIndex) throws SQLException {
+        return resultSet.getNClob(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a {@code NClob} object
+     * in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code NClob} object representing the SQL {@code NCLOB}
+     * value in the specified column
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if the driver does not support national
+     *                                         character sets;  if the driver can detect that a data conversion
+     *                                         error could occur; this method is called on a closed result set
+     *                                         or if a database access error occurs
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public NClob getNClob(String columnLabel) throws SQLException {
+        return resultSet.getNClob(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in  the current row of
+     * this {@code ResultSet} as a
+     * {@code java.sql.SQLXML} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code SQLXML} object that maps an {@code SQL XML} value
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public SQLXML getSQLXML(int columnIndex) throws SQLException {
+        return resultSet.getSQLXML(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in  the current row of
+     * this {@code ResultSet} as a
+     * {@code java.sql.SQLXML} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code SQLXML} object that maps an {@code SQL XML} value
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public SQLXML getSQLXML(String columnLabel) throws SQLException {
+        return resultSet.getSQLXML(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code String} in the Java programming language.
+     * It is intended for use when
+     * accessing  {@code NCHAR},{@code NVARCHAR}
+     * and {@code LONGNVARCHAR} columns.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public String getNString(int columnIndex) throws SQLException {
+        return resultSet.getNString(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as
+     * a {@code String} in the Java programming language.
+     * It is intended for use when
+     * accessing  {@code NCHAR},{@code NVARCHAR}
+     * and {@code LONGNVARCHAR} columns.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public String getNString(String columnLabel) throws SQLException {
+        return resultSet.getNString(columnLabel);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.io.Reader} object.
+     * It is intended for use when
+     * accessing  {@code NCHAR},{@code NVARCHAR}
+     * and {@code LONGNVARCHAR} columns.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return a {@code java.io.Reader} object that contains the column
+     * value; if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language.
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public Reader getNCharacterStream(int columnIndex) throws SQLException {
+        return resultSet.getNCharacterStream(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object as a
+     * {@code java.io.Reader} object.
+     * It is intended for use when
+     * accessing  {@code NCHAR},{@code NVARCHAR}
+     * and {@code LONGNVARCHAR} columns.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return a {@code java.io.Reader} object that contains the column
+     * value; if the value is SQL {@code NULL}, the value returned is
+     * {@code null} in the Java programming language
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.6
+     */
+    public Reader getNCharacterStream(String columnLabel) throws SQLException {
+        return resultSet.getNCharacterStream(columnLabel);
+    }
+
+    /**
+     * <p>Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object and will convert from the
+     * SQL type of the column to the requested Java data type, if the
+     * conversion is supported. If the conversion is not
+     * supported  or null is specified for the type, a
+     * {@code SQLException} is thrown.
+     * <p>
+     * At a minimum, an implementation must support the conversions defined in
+     * Appendix B, Table B-3 and conversion of appropriate user defined SQL
+     * types to a Java type which implements {@code SQLData}, or {@code Struct}.
+     * Additional conversions may be supported and are vendor defined.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param type        Class representing the Java data type to convert the designated
+     *                    column to.
+     * @param <T>         Type of object
+     * @return an instance of {@code type} holding the column value
+     * @throws SQLException                    if conversion is not supported, type is null or
+     *                                         another error occurs. The getCause() method of the
+     *                                         exception may provide a more detailed exception, for example, if
+     *                                         a conversion error occurs
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.7
+     */
+    public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
+        return resultSet.getObject(columnIndex, type);
+    }
+
+    /**
+     * <p>Retrieves the value of the designated column in the current row
+     * of this {@code ResultSet} object and will convert from the
+     * SQL type of the column to the requested Java data type, if the
+     * conversion is supported. If the conversion is not
+     * supported  or null is specified for the type, a
+     * {@code SQLException} is thrown.
+     * <p>
+     * At a minimum, an implementation must support the conversions defined in
+     * Appendix B, Table B-3 and conversion of appropriate user defined SQL
+     * types to a Java type which implements {@code SQLData}, or {@code Struct}.
+     * Additional conversions may be supported and are vendor defined.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.
+     *                    If the SQL AS clause was not specified, then the label is the name
+     *                    of the column
+     * @param type        Class representing the Java data type to convert the designated
+     *                    column to.
+     * @param <T>         Type of object
+     * @return an instance of {@code type} holding the column value
+     * @throws SQLException                    if conversion is not supported, type is null or
+     *                                         another error occurs. The getCause() method of the
+     *                                         exception may provide a more detailed exception, for example, if
+     *                                         a conversion error occurs
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
+     *                                         this method
+     * @since 1.7
+     */
+    public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
+        return resultSet.getObject(columnLabel, type);
+    }
+
+    /**
+     * Updates the designated column with an {@code Object} value.
+     * <p>
+     * The updater methods are used to update column values in the
+     * current row or the insert row.  The updater methods do not
+     * update the underlying database; instead the {@code updateRow} or
+     * {@code insertRow} methods are called to update the database.
+     * <p>
+     * If the second argument is an {@code InputStream} then the stream must contain
+     * the number of bytes specified by scaleOrLength.  If the second argument is a
+     * {@code Reader} then the reader must contain the number of characters specified
+     * by scaleOrLength. If these conditions are not true the driver will generate a
+     * {@code SQLException} when the statement is executed.
+     * <p>
+     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     *
+     * @param columnIndex   the first column is 1, the second is 2, ...
+     * @param x             the new column value
+     * @param targetSqlType the SQL type to be sent to the database
+     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
+     *                      this is the number of digits after the decimal point. For
+     *                      Java Object types {@code InputStream} and {@code Reader},
+     *                      this is the length
+     *                      of the data in the stream or reader.  For all other types,
+     *                      this value will be ignored.
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs;
+     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
+     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
+     * @see JDBCType
+     * @see SQLType
+     * @since 1.8
+     */
+    public void updateObject(int columnIndex, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
+        resultSet.updateObject(columnIndex, x, targetSqlType, scaleOrLength);
+    }
+
+    /**
+     * Updates the designated column with an {@code Object} value.
+     * <p>
+     * The updater methods are used to update column values in the
+     * current row or the insert row.  The updater methods do not
+     * update the underlying database; instead the {@code updateRow} or
+     * {@code insertRow} methods are called to update the database.
+     * <p>
+     * If the second argument is an {@code InputStream} then the stream must
+     * contain number of bytes specified by scaleOrLength.  If the second
+     * argument is a {@code Reader} then the reader must contain the number
+     * of characters specified by scaleOrLength. If these conditions are not
+     * true the driver will generate a
+     * {@code SQLException} when the statement is executed.
+     * <p>
+     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     *
+     * @param columnLabel   the label for the column specified with the SQL AS
+     *                      clause.  If the SQL AS clause was not specified, then the label is
+     *                      the name of the column
+     * @param x             the new column value
+     * @param targetSqlType the SQL type to be sent to the database
+     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
+     *                      this is the number of digits after the decimal point. For
+     *                      Java Object types {@code InputStream} and {@code Reader},
+     *                      this is the length
+     *                      of the data in the stream or reader.  For all other types,
+     *                      this value will be ignored.
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs;
+     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
+     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
+     * @see JDBCType
+     * @see SQLType
+     * @since 1.8
+     */
+    public void updateObject(String columnLabel, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
+        resultSet.updateObject(columnLabel, x, targetSqlType, scaleOrLength);
+    }
+
+    /**
+     * Updates the designated column with an {@code Object} value.
+     * <p>
+     * The updater methods are used to update column values in the
+     * current row or the insert row.  The updater methods do not
+     * update the underlying database; instead the {@code updateRow} or
+     * {@code insertRow} methods are called to update the database.
+     * <p>
+     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     *
+     * @param columnIndex   the first column is 1, the second is 2, ...
+     * @param x             the new column value
+     * @param targetSqlType the SQL type to be sent to the database
+     * @throws SQLException                    if the columnIndex is not valid;
+     *                                         if a database access error occurs;
+     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
+     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
+     * @see JDBCType
+     * @see SQLType
+     * @since 1.8
+     */
+    public void updateObject(int columnIndex, Object x, SQLType targetSqlType) throws SQLException {
+        resultSet.updateObject(columnIndex, x, targetSqlType);
+    }
+
+    /**
+     * Updates the designated column with an {@code Object} value.
+     * <p>
+     * The updater methods are used to update column values in the
+     * current row or the insert row.  The updater methods do not
+     * update the underlying database; instead the {@code updateRow} or
+     * {@code insertRow} methods are called to update the database.
+     * <p>
+     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     *
+     * @param columnLabel   the label for the column specified with the SQL AS
+     *                      clause.  If the SQL AS clause was not specified, then the label is
+     *                      the name of the column
+     * @param x             the new column value
+     * @param targetSqlType the SQL type to be sent to the database
+     * @throws SQLException                    if the columnLabel is not valid;
+     *                                         if a database access error occurs;
+     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
+     *                                         or this method is called on a closed result set
+     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
+     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
+     * @see JDBCType
+     * @see SQLType
+     * @since 1.8
+     */
+    public void updateObject(String columnLabel, Object x, SQLType targetSqlType) throws SQLException {
+        resultSet.updateObject(columnLabel, x, targetSqlType);
+    }
+}
