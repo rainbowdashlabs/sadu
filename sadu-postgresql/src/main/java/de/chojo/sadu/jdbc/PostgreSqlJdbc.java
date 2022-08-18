@@ -6,6 +6,9 @@
 
 package de.chojo.sadu.jdbc;
 
+/**
+ * Builder to create a jdbc url for postgresql.
+ */
 public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     @Override
     public String driver() {
@@ -171,7 +174,8 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
      * Specify the schema or several schema to be set in the search-path. This schema will be used to resolve
      * unqualified object names used in statements over this connection.
      *
-     * @param schemas one or more schemas
+     * @param schema  the default schema
+     * @param schemas additionally used schemas
      * @return builder instance
      */
     public PostgreSqlJdbc currentSchema(String schema, String... schemas) {
@@ -194,6 +198,9 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
         return "org.postgresql.Driver";
     }
 
+    /**
+     * Represents different ssl modes.
+     */
     public enum SslMode {
         /**
          * No validation

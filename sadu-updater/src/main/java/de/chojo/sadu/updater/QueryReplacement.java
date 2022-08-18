@@ -6,6 +6,9 @@
 
 package de.chojo.sadu.updater;
 
+/**
+ * Represents a replacement inside a sql query.
+ */
 public class QueryReplacement {
     private final String target;
     private final String replacement;
@@ -21,6 +24,12 @@ public class QueryReplacement {
         this.replacement = replacement;
     }
 
+    /**
+     * Applies the replacement on the input query
+     *
+     * @param source source
+     * @return the changed query
+     */
     public String apply(String source) {
         return source.replaceAll(target, replacement);
     }

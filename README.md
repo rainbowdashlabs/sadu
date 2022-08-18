@@ -1,8 +1,8 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/RainbowDashLabs/sadu/Verify%20state?style=for-the-badge&label=Build)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/RainbowDashLabs/sadu/Publish%20to%20Nexus?style=for-the-badge&label=Publish)
-[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.chojo/sadu?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
-[![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo/sadu?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
+[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.chojo.sadu/sadu?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
+[![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo.sadu/sadu?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
 
 ### [Javadocs](https://rainbowdashlabs.github.io/sadu/)
 
@@ -76,20 +76,21 @@ But using the query builder your code becomes this:
 ```java
 class MyQueries extends QueryFactory {
     MyQueries(DataSource dataSource){
-        this.dataSource = dataSource;
+        super(dataSource);
     }
 
     public CompletableFuture<Optional<Result>> getResultNew(int id) {
         return builder(Result.class)
                 .query("SELECT result FROM results WHERE id = ?")
-                .paramsBuilder(stmt -> stmt.setInt(id))
+                .parameters(stmt -> stmt.setInt(id))
                 .readRow(rs -> new Result(rs.getString("result")))
                 .first();
     }
 }
 ```
 
-Beautiful isnt it? The query builder will enforce try with resources and additionally handle the exceptions for you.
+Beautiful isnt it? The query builder will enforce try with resources, set parameters in the order defined by you,
+read the result set and additionally handle the exceptions for you.
 
 [How does it work?](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries#how-does-it-work)
 
@@ -111,6 +112,6 @@ to use it import: `sadu-updater`
 Learn how to use it [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Updater)
 
 
-[nexus_releases]: https://eldonexus.de/#browse/browse:maven-releases:de%2Fchojo%2Fsadu
-[nexus_snapshots]: https://eldonexus.de/#browse/browse:maven-snapshots:de%2Fchojo%2Fsadu
-[nexus_dev]: https://eldonexus.de/#browse/browse:maven-dev:de%2Fchojo%2Fsadu
+[nexus_releases]: https://eldonexus.de/#browse/browse:maven-releases:de%2Fchojo%2Fsadu%2Fsadu
+[nexus_snapshots]: https://eldonexus.de/#browse/browse:maven-snapshots:de%2Fchojo%2Fsadu%2Fsadu
+[nexus_dev]: https://eldonexus.de/#browse/browse:maven-dev:de%2Fchojo%2Fsadu%2Fsadu

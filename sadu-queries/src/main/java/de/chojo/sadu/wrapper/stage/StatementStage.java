@@ -7,8 +7,8 @@
 package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingConsumer;
-import de.chojo.sadu.wrapper.ParamBuilder;
 import de.chojo.sadu.wrapper.QueryBuilder;
+import de.chojo.sadu.wrapper.util.ParamBuilder;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -41,7 +41,7 @@ public interface StatementStage<T> {
      * @deprecated use {@link #parameter(ThrowingConsumer)} instead
      */
     @Deprecated(forRemoval = true)
-    default ResultStage<T> paramsBuilder(ThrowingConsumer<ParamBuilder, SQLException> params){
+    default ResultStage<T> paramsBuilder(ThrowingConsumer<ParamBuilder, SQLException> params) {
         return parameter(params);
     }
 

@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+/**
+ * Stage representing the result of a insert statement.
+ */
 public interface InsertStage extends UpdateStage {
     /**
      * Retrieve the first created key async

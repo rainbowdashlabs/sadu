@@ -17,13 +17,14 @@ import de.chojo.sadu.wrapper.stage.QueryStage;
 import de.chojo.sadu.wrapper.stage.ResultStage;
 import de.chojo.sadu.wrapper.stage.RetrievalStage;
 import de.chojo.sadu.wrapper.stage.StatementStage;
-import de.chojo.sadu.wrapper.stage.UpdateResult;
 import de.chojo.sadu.wrapper.stage.UpdateStage;
+import de.chojo.sadu.wrapper.util.ParamBuilder;
+import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayDeque;
@@ -63,7 +64,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private final WrappedQueryExecutionException wrappedExecutionException;
     private String currQuery;
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
-    private ThrowingFunction<T, ResultSet, SQLException> currResultMapper;
+    private ThrowingFunction<T, Row, SQLException> currResultMapper;
     private AtomicReference<QueryBuilderConfig> config;
 
     private QueryBuilder(DataSource dataSource) {
@@ -112,13 +113,13 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public StatementStage<T> query(String query) {
-        this.currQuery = query;
+        currQuery = query;
         return this;
     }
 
     @Override
     public ResultStage<T> queryWithoutParams(String query) {
-        this.currQuery = query;
+        currQuery = query;
         return emptyParams();
     }
 
@@ -126,28 +127,28 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public ResultStage<T> params(ThrowingConsumer<PreparedStatement, SQLException> stmt) {
-        this.currStatementConsumer = stmt;
+        currStatementConsumer = stmt;
         return this;
     }
 
     @Override
     public ResultStage<T> parameter(ThrowingConsumer<ParamBuilder, SQLException> params) {
-        this.currStatementConsumer = stmt -> params.accept(new ParamBuilder(stmt));
+        currStatementConsumer = stmt -> params.accept(new ParamBuilder(stmt));
         return this;
     }
 
     // RESULT STAGE
 
     @Override
-    public RetrievalStage<T> readRow(ThrowingFunction<T, ResultSet, SQLException> mapper) {
-        this.currResultMapper = mapper;
+    public RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper) {
+        currResultMapper = mapper;
         queueTask();
         return this;
     }
 
     @Override
     public UpdateStage update() {
-        currResultMapper = s -> null;
+        currResultMapper = row -> null;
         queueTask();
         return this;
     }
@@ -160,7 +161,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public QueryStage<T> append() {
-        currResultMapper = s -> null;
+        currResultMapper = row -> null;
         queueTask();
         return this;
     }
@@ -263,6 +264,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         return CompletableFuture.supplyAsync(this::keySync, executor);
     }
 
+    @SuppressWarnings("OverlyBroadCatchBlock")
     @Override
     public Optional<Long> keySync() {
         try (var conn = getConnection()) {
@@ -303,6 +305,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         return CompletableFuture.supplyAsync(this::executeSync, executor);
     }
 
+    @SuppressWarnings("OverlyBroadCatchBlock")
     @Override
     public int executeSync() {
         try (var conn = getConnection()) {
@@ -322,13 +325,14 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     Thats why we will execute all queries inside this method regardless of the method which calls this method
     We will use a single connection for this, since the user may be interested in the last inserted id or something.
     */
-    private QueryTask executeAndGetLast(Connection conn) throws SQLException {
+    private QueryTask executeAndGetLast(Connection conn) throws QueryExecutionException {
         while (tasks.size() > 1) {
             tasks.poll().execute(conn);
         }
         return tasks.poll();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void handleException(SQLException e) {
         if (config.get().isThrowing()) {
             wrappedExecutionException.initCause(e);
@@ -346,49 +350,53 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         if (config.get().isAtomic()) conn.commit();
     }
 
+    @SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
     private class QueryTask {
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
-        private final ThrowingFunction<T, ResultSet, SQLException> resultMapper;
+        private final ThrowingFunction<T, Row, SQLException> resultMapper;
         private final QueryExecutionException executionException;
 
-        public QueryTask(String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
-                         ThrowingFunction<T, ResultSet, SQLException> resultMapper) {
+        private QueryTask(String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
+                          ThrowingFunction<T, Row, SQLException> resultMapper) {
             query = currQuery;
             this.statementConsumer = statementConsumer;
             this.resultMapper = resultMapper;
             executionException = new QueryExecutionException("An error occured while executing a query.");
         }
 
-        private void initAndThrow(SQLException e) throws SQLException {
+        @SuppressWarnings("ResultOfMethodCallIgnored")
+        private void initAndThrow(SQLException e) throws QueryExecutionException {
             executionException.initCause(e);
             throw executionException;
         }
 
-        public List<T> retrieveResults(Connection conn) throws SQLException {
+        public List<T> retrieveResults(Connection conn) throws QueryExecutionException {
             List<T> results = new ArrayList<>();
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                while (resultSet.next()) results.add(resultMapper.apply(resultSet));
+                var row = new Row(resultSet);
+                while (resultSet.next()) results.add(resultMapper.apply(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }
             return results;
         }
 
-        public Optional<T> retrieveResult(Connection conn) throws SQLException {
+        public Optional<T> retrieveResult(Connection conn) throws QueryExecutionException {
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                if (resultSet.next()) return Optional.ofNullable(resultMapper.apply(resultSet));
+                var row = new Row(resultSet);
+                if (resultSet.next()) return Optional.ofNullable(resultMapper.apply(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }
             return Optional.empty();
         }
 
-        public void execute(Connection conn) throws SQLException {
+        public void execute(Connection conn) throws QueryExecutionException {
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 stmt.execute();
@@ -397,7 +405,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             }
         }
 
-        public List<Long> retrieveKeys(Connection conn) throws SQLException {
+        public List<Long> retrieveKeys(Connection conn) throws QueryExecutionException {
             List<Long> results = new ArrayList<>();
             try (var stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statementConsumer.accept(stmt);
@@ -410,7 +418,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             return results;
         }
 
-        public Optional<Long> retrieveKey(Connection conn) throws SQLException {
+        public Optional<Long> retrieveKey(Connection conn) throws QueryExecutionException {
             try (var stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statementConsumer.accept(stmt);
                 stmt.execute();
@@ -422,7 +430,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             return Optional.empty();
         }
 
-        public int update(Connection conn) throws SQLException {
+        public int update(Connection conn) throws QueryExecutionException {
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 return stmt.executeUpdate();

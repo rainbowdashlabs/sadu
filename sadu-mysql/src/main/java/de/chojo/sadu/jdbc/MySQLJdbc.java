@@ -6,6 +6,9 @@
 
 package de.chojo.sadu.jdbc;
 
+/**
+ * A builder to create a MySQL jdbc url.
+ */
 public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
     @Override
     public String driver() {
@@ -29,8 +32,6 @@ public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @see <a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html/">MySql parameter</a>
      */
     @Override
