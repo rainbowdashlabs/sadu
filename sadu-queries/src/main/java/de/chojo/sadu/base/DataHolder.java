@@ -9,7 +9,6 @@ package de.chojo.sadu.base;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.logging.LoggerAdapter;
 import de.chojo.sadu.wrapper.QueryBuilder;
-import de.chojo.sadu.wrapper.QueryBuilderFactory;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * <p>
  * Provides convinience methods for connection retrieval, logging and a querybuilder.
  * <p>
- * You may use a {@link QueryBuilderFactory} for builder creation or extend {@link QueryFactoryHolder}
+ * You may use a {@link QueryFactory} for builder creation or extend {@link QueryFactory}
  */
 public abstract class DataHolder implements DataSourceProvider {
     private static LoggerAdapter log = LoggerAdapter.wrap(LoggerFactory.getLogger(DataHolder.class));

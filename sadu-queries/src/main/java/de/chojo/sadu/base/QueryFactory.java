@@ -6,8 +6,8 @@
 
 package de.chojo.sadu.base;
 
+import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
-import de.chojo.sadu.wrapper.QueryBuilderFactory;
 import de.chojo.sadu.wrapper.stage.QueryStage;
 
 import javax.sql.DataSource;
@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p>
  * Can be used instead of a {@link DataHolder}
  */
-public abstract class QueryFactoryHolder extends DataHolder {
-    private final QueryBuilderFactory factory;
+public class QueryFactory extends DataHolder {
+    private final AtomicReference<QueryBuilderConfig> config;
 
     /**
      * Create a new QueryFactoryholder
@@ -27,13 +27,13 @@ public abstract class QueryFactoryHolder extends DataHolder {
      * @param dataSource datasource
      * @param config     factory config
      */
-    public QueryFactoryHolder(DataSource dataSource, QueryBuilderConfig config) {
+    public QueryFactory(DataSource dataSource, QueryBuilderConfig config) {
         this(dataSource, new AtomicReference<>(config));
     }
 
-    private QueryFactoryHolder(DataSource dataSource, AtomicReference<QueryBuilderConfig> config) {
+    private QueryFactory(DataSource dataSource, AtomicReference<QueryBuilderConfig> config) {
         super(dataSource);
-        factory = new QueryBuilderFactory(config, dataSource);
+        this.config = config;
     }
 
     /**
@@ -41,38 +41,38 @@ public abstract class QueryFactoryHolder extends DataHolder {
      *
      * @param dataSource datasource
      */
-    public QueryFactoryHolder(DataSource dataSource) {
+    public QueryFactory(DataSource dataSource) {
         this(dataSource, QueryBuilderConfig.defaultConfig());
     }
 
     /**
-     * Creates a {@link QueryFactoryHolder} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     * Creates a {@link QueryFactory} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
      *
      * @param provider provider
      * @param config   factory config
      */
-    public QueryFactoryHolder(DataSourceProvider provider, QueryBuilderConfig config) {
+    public QueryFactory(DataSourceProvider provider, QueryBuilderConfig config) {
         this(provider.source(), config);
     }
 
     /**
-     * Creates a {@link QueryFactoryHolder} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     * Creates a {@link QueryFactory} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
      *
      * @param provider provider
      */
-    public QueryFactoryHolder(DataSourceProvider provider) {
+    public QueryFactory(DataSourceProvider provider) {
         this(provider.source());
     }
 
     /**
-     * Creates a {@link QueryFactoryHolder} based on the passed {@link QueryFactoryHolder}.
+     * Creates a {@link QueryFactory} based on the passed {@link QueryFactory}.
      * <p>
      * Configuration will be copied.
      *
      * @param factoryHolder parent factory holder
      */
-    public QueryFactoryHolder(QueryFactoryHolder factoryHolder) {
-        this(factoryHolder.source(), factoryHolder.factory().config());
+    public QueryFactory(QueryFactory factoryHolder) {
+        this(factoryHolder.source(), factoryHolder.config());
     }
 
     /**
@@ -83,7 +83,7 @@ public abstract class QueryFactoryHolder extends DataHolder {
      * @return a new query builder in a {@link QueryStage}
      */
     public <T> QueryStage<T> builder(Class<T> clazz) {
-        return factory.builder(clazz);
+        return QueryBuilder.builder(source(), clazz).configure(config);
     }
 
     /**
@@ -92,24 +92,11 @@ public abstract class QueryFactoryHolder extends DataHolder {
      * @return a new query builder in a {@link QueryStage}
      */
     public QueryStage<Void> builder() {
-        return factory.builder();
+        return QueryBuilder.builder(source(), Void.class).configure(config);
     }
 
-    /**
-     * Get the underlying factory
-     *
-     * @return query factory
-     */
-    public QueryBuilderFactory factory() {
-        return factory;
+    public AtomicReference<QueryBuilderConfig> config() {
+        return config;
     }
 
-    /**
-     * Get the underlying data source
-     *
-     * @return datasource
-     */
-    public DataSource source() {
-        return factory.source();
-    }
 }
