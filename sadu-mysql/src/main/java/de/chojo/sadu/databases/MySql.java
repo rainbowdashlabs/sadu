@@ -8,18 +8,32 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.MySQLJdbc;
 
-public class MySql extends DefaultType<MySQLJdbc> {
+/**
+ * Represents a SqLite database.
+ */
+public class MySql extends DefaultDatabase<MySQLJdbc> {
 
     private static final MySql type = new MySql();
 
+    private MySql() {
+    }
+
+    /**
+     * The MySQL type.
+     *
+     * @return database type
+     */
     public static MySql mysql() {
         return type;
     }
+
+    /**
+     * The MySQL type.
+     *
+     * @return database type
+     */
     public static MySql get() {
         return type;
-    }
-
-    private MySql() {
     }
 
     @Override

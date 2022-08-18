@@ -9,6 +9,7 @@ package de.chojo.sadu.wrapper.stage;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
+import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;

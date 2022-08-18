@@ -57,37 +57,39 @@ allprojects {
         publishComponent("java")
     }
 
-    publishing {
-        publications.create<MavenPublication>("maven") {
-            publishData.configurePublication(this)
-            pom {
-                url.set("https://github.com/rainbowdashlabs/sadu")
-                developers {
-                    developer {
-                        name.set("Florian Fülling")
-                        url.set("https://github.com/rainbowdashlabs")
+    if (!project.name.contains("examples")) {
+        publishing {
+            publications.create<MavenPublication>("maven") {
+                publishData.configurePublication(this)
+                pom {
+                    url.set("https://github.com/rainbowdashlabs/sadu")
+                    developers {
+                        developer {
+                            name.set("Florian Fülling")
+                            url.set("https://github.com/rainbowdashlabs")
+                        }
                     }
-                }
-                licenses {
-                    license {
-                        name.set("GNU Affero General Public License v3.0")
-                        url.set("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
+                    licenses {
+                        license {
+                            name.set("GNU Affero General Public License v3.0")
+                            url.set("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
+                        }
                     }
                 }
             }
-        }
 
-        repositories {
-            maven {
-                authentication {
-                    credentials(PasswordCredentials::class) {
-                        username = System.getenv("NEXUS_USERNAME")
-                        password = System.getenv("NEXUS_PASSWORD")
+            repositories {
+                maven {
+                    authentication {
+                        credentials(PasswordCredentials::class) {
+                            username = System.getenv("NEXUS_USERNAME")
+                            password = System.getenv("NEXUS_PASSWORD")
+                        }
                     }
-                }
 
-                setUrl(publishData.getRepository())
-                name = "EldoNexus"
+                    setUrl(publishData.getRepository())
+                    name = "EldoNexus"
+                }
             }
         }
     }

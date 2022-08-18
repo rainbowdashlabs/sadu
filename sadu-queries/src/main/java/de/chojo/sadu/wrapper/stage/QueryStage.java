@@ -25,13 +25,13 @@ public interface QueryStage<T> {
     /**
      * Set the query to execute.
      *
-     * @param query   query to set.
+     * @param sql     query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
      */
-    default StatementStage<T> query(String query, Object... objects) {
-        return query(String.format(query, objects));
+    default StatementStage<T> query(String sql, Object... objects) {
+        return query(String.format(sql, objects));
     }
 
     /**
@@ -49,12 +49,12 @@ public interface QueryStage<T> {
      * <p>
      * This will also skip the statement stage.
      *
-     * @param query   query to set.
+     * @param sql     query to set.
      * @param objects objects to replace in a {@link String#format(String, Object...)}
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.
      */
-    default ResultStage<T> queryWithoutParams(String query, Object... objects) {
-        return queryWithoutParams(String.format(query, objects));
+    default ResultStage<T> queryWithoutParams(String sql, Object... objects) {
+        return queryWithoutParams(String.format(sql, objects));
     }
 }

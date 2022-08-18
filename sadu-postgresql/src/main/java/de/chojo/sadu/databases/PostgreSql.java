@@ -8,18 +8,32 @@ package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.PostgreSqlJdbc;
 
-public class PostgreSql extends DefaultType<PostgreSqlJdbc> {
+/**
+ * Represents a PostgreSQL database.
+ */
+public class PostgreSql extends DefaultDatabase<PostgreSqlJdbc> {
 
     private static final PostgreSql type = new PostgreSql();
 
+    private PostgreSql() {
+    }
+
+    /**
+     * The PostgreSQL type.
+     *
+     * @return database type
+     */
     public static PostgreSql postgresql() {
         return type;
     }
+
+    /**
+     * The PostgreSQL type.
+     *
+     * @return database type
+     */
     public static PostgreSql get() {
         return type;
-    }
-
-    private PostgreSql() {
     }
 
     @Override

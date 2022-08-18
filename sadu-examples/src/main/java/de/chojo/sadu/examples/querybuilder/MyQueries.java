@@ -7,7 +7,7 @@
 package de.chojo.sadu.examples.querybuilder;
 
 import de.chojo.sadu.base.QueryFactory;
-import de.chojo.sadu.wrapper.stage.UpdateResult;
+import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -125,7 +125,7 @@ public class MyQueries extends QueryFactory {
                 .key();
     }
 
-    private class Result{
+    private class Result {
         private final String result;
 
         private Result(String result) {

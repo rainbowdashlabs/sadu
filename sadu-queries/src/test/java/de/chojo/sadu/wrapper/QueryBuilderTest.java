@@ -8,7 +8,6 @@ package de.chojo.sadu.wrapper;
 
 import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.databases.SqLite;
-import de.chojo.sadu.databases.SqlType;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -55,7 +54,7 @@ class QueryBuilderTest {
                                     )
                                     """)
                 .update()
-                .execute()
+                .send()
                 .join();
 
         long l = QueryBuilder.builder(source).defaultConfig()
@@ -80,7 +79,7 @@ class QueryBuilderTest {
                                     )
                                     """)
                 .update()
-                .execute()
+                .send()
                 .join();
 
         List<Long> l = QueryBuilder.builder(source).defaultConfig()

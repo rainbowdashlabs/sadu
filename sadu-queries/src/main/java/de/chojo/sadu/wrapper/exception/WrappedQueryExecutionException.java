@@ -14,15 +14,21 @@ import java.sql.SQLException;
  * Exception to wrap {@link Exception} as {@link RuntimeException} thrown during queries executed by {@link QueryBuilder}
  */
 public class WrappedQueryExecutionException extends RuntimeException {
+    /**
+     * Cause of the exception
+     */
     private SQLException cause;
 
+    /**
+     * Creates a new exception.
+     *
+     * @param message message
+     */
     public WrappedQueryExecutionException(String message) {
         super(message);
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @throws ClassCastException If the throwable is not a {@link SQLException}
      */
     @Override
@@ -34,7 +40,8 @@ public class WrappedQueryExecutionException extends RuntimeException {
 
     /**
      * SQL state of the exception
-      * @return sql state
+     *
+     * @return sql state
      */
     public String getSQLState() {
         return cause.getSQLState();
@@ -42,6 +49,7 @@ public class WrappedQueryExecutionException extends RuntimeException {
 
     /**
      * Error code of the exception
+     *
      * @return error code
      */
     public int getErrorCode() {

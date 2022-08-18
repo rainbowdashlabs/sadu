@@ -10,9 +10,10 @@ import de.chojo.sadu.jdbc.JdbcConfig;
 
 /**
  * Represents a default database
- * @param <T> database type defined by the {@link SqlType}
+ *
+ * @param <T> database type defined by the {@link Database}
  */
-public abstract class DefaultType<T extends JdbcConfig<?>> implements SqlType<T> {
+public abstract class DefaultDatabase<T extends JdbcConfig<?>> implements Database<T> {
 
     @Override
     public String versionQuery(String table) {

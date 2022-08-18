@@ -8,6 +8,14 @@ package de.chojo.sadu.base;
 
 import javax.sql.DataSource;
 
+/**
+ * A class which can provide a datasource
+ */
 public interface DataSourceProvider {
+    /**
+     * Get the underlying datasource
+     *
+     * @return datasource
+     */
     DataSource source();
 }

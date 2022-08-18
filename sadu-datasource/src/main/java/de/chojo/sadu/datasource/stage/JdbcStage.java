@@ -15,6 +15,7 @@ public interface JdbcStage<T> {
 
     /**
      * configure the jdbc builder
+     *
      * @param builder builder
      * @return builder isntance
      */

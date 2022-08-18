@@ -95,6 +95,11 @@ public class QueryFactory extends DataHolder {
         return QueryBuilder.builder(source(), Void.class).configure(config);
     }
 
+    /**
+     * Gets the underlying config.
+     *
+     * @return config reference
+     */
     public AtomicReference<QueryBuilderConfig> config() {
         return config;
     }

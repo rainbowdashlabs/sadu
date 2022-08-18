@@ -8,8 +8,8 @@ package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.QueryBuilder;
+import de.chojo.sadu.wrapper.util.Row;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,16 +22,12 @@ import java.sql.SQLException;
 public interface ResultStage<T> {
 
     /**
-     * Extract results from a results set.
-     * <p>
-     * This function should not loop through the results set.
-     * <p>
-     * It should only transform the current row to the requested object.
+     * Extract results from the current row.
      *
      * @param mapper mapper to map the current row.
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
-    RetrievalStage<T> readRow(ThrowingFunction<T, ResultSet, SQLException> mapper);
+    RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper);
 
     /**
      * Mark this query as update query.

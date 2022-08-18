@@ -15,6 +15,12 @@ public class SqlVersion {
     private final int major;
     private final int patch;
 
+    /**
+     * A new SqlVersion with a major and patch version
+     *
+     * @param major major
+     * @param patch patch
+     */
     public SqlVersion(int major, int patch) {
         this.major = major;
         this.patch = patch;
