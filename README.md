@@ -41,6 +41,58 @@ to use it import: `sadu-queries`
 
 Learn how to use the query builder [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries)
 
+### But why should I use it?
+
+Before I give you a long talk about how much nicer the syntax and code is let me simple show you a comparison.
+
+Without the query builder your code would ideally look like this:
+```java
+class MyQueries {
+    
+    DataSource dataSource;
+    
+    MyQueries(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
+    public CompletableFuture<Optional<Result>> getResultOld(int id) {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Connection conn = source().getConnection(); PreparedStatement stmt = conn.prepareStatement("SELECT result FROM results WHERE id = ?")) {
+                stmt.setInt(id);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return Optional.of(new Result(rs.getString("result"));
+                }
+            } catch (SQLException e) {
+                logger.error("Something went wrong", e);
+            }
+            return Optional.empty();
+        });
+    }
+}
+```
+
+But using the query builder your code becomes this:
+```java
+class MyQueries extends QueryFactory {
+    MyQueries(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
+    public CompletableFuture<Optional<Result>> getResultNew(int id) {
+        return builder(Result.class)
+                .query("SELECT result FROM results WHERE id = ?")
+                .paramsBuilder(stmt -> stmt.setInt(id))
+                .readRow(rs -> new Result(rs.getString("result")))
+                .first();
+    }
+}
+```
+
+Beautiful isnt it? The query builder will enforce try with resources and additionally handle the exceptions for you.
+
+[How does it work?](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries#how-does-it-work)
+
 ## Datasource Builder
 SADU offsers a data source builder to create data sources for the databases listed above.
 
