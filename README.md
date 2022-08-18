@@ -43,6 +43,7 @@ Learn how to use the query builder [here](https://github.com/RainbowDashLabs/sad
 
 ### But why should I use it?
 
+# Why use the query builder?
 Before I give you a long talk about how much nicer the syntax and code is let me simple show you a comparison.
 
 Without the query builder your code would ideally look like this:
@@ -76,20 +77,21 @@ But using the query builder your code becomes this:
 ```java
 class MyQueries extends QueryFactory {
     MyQueries(DataSource dataSource){
-        this.dataSource = dataSource;
+        super(dataSource);
     }
 
     public CompletableFuture<Optional<Result>> getResultNew(int id) {
         return builder(Result.class)
                 .query("SELECT result FROM results WHERE id = ?")
-                .paramsBuilder(stmt -> stmt.setInt(id))
+                .parameters(stmt -> stmt.setInt(id))
                 .readRow(rs -> new Result(rs.getString("result")))
                 .first();
     }
 }
 ```
 
-Beautiful isnt it? The query builder will enforce try with resources and additionally handle the exceptions for you.
+Beautiful isnt it? The query builder will enforce try with resources, set parameters in the order defined by you,
+read the result set and additionally handle the exceptions for you.
 
 [How does it work?](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries#how-does-it-work)
 
