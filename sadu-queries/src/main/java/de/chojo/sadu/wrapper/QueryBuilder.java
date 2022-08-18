@@ -50,7 +50,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * This behaviour can be changed by calling {@link QueryBuilderConfig.Builder#notAtomic()} ()} on config creation.
  * <p>
  * Any exception thrown while executing queries will be wrapped into an {@link QueryExecutionException}. This exception
- * was created on query submission to the query builder. Not that this is not the execution, which may be called on
+ * was created on query submission to the query builder. Note that this is not the execution, which may be called on
  * another thread. This exception will help you to trace back async calls.
  * <p>
  * Any {@link SQLException} thrown inside the query builder will not be thrown but logged by default.

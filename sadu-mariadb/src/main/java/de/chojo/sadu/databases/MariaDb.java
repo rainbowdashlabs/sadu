@@ -15,9 +15,15 @@ public class MariaDb extends DefaultType<MariaDbJdbc> {
     public static MariaDb mariadb() {
         return type;
     }
+    public static MariaDb get() {
+        return type;
+    }
+
+    private MariaDb() {
+    }
 
     @Override
-    public String getName() {
+    public String name() {
         return "mariadb";
     }
 

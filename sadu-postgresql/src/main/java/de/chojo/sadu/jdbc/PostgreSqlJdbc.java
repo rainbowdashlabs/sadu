@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.jdbc;
 
-public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
+public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     @Override
     public String driver() {
         return "postgresql";
@@ -19,7 +19,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param millis milliseconds
      * @return builder instance
      */
-    public PostgresJdbc connectTimeout(int millis) {
+    public PostgreSqlJdbc connectTimeout(int millis) {
         return addParameter("connectTimeout", millis);
     }
 
@@ -33,7 +33,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param ssl ssl mode.
      * @return builder instance
      */
-    public PostgresJdbc ssl(boolean ssl) {
+    public PostgreSqlJdbc ssl(boolean ssl) {
         return addParameter("ssl", ssl);
     }
 
@@ -44,7 +44,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslFactory ssl factory.
      * @return builder instance
      */
-    public PostgresJdbc sslFactory(String sslFactory) {
+    public PostgreSqlJdbc sslFactory(String sslFactory) {
         return addParameter("sslFactory", sslFactory);
     }
 
@@ -56,7 +56,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslMode ssl mode. Default {@link SslMode#PREFER}
      * @return builder instance
      */
-    public PostgresJdbc sslMode(SslMode sslMode) {
+    public PostgreSqlJdbc sslMode(SslMode sslMode) {
         return addParameter("sslMode", sslMode);
     }
 
@@ -70,7 +70,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param path vert path
      * @return builder instance
      */
-    public PostgresJdbc sslcert(String path) {
+    public PostgreSqlJdbc sslcert(String path) {
         return addParameter("sslcert", path);
     }
 
@@ -82,7 +82,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param path path
      * @return builder instance
      */
-    public PostgresJdbc sslkey(String path) {
+    public PostgreSqlJdbc sslkey(String path) {
         return addParameter("sslkey", path);
     }
 
@@ -94,7 +94,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslrootcert sslrootcert
      * @return builder instance
      */
-    public PostgresJdbc sslrootcert(String sslrootcert) {
+    public PostgreSqlJdbc sslrootcert(String sslrootcert) {
         return addParameter("sslrootcert", sslrootcert);
     }
 
@@ -104,7 +104,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslhostnameverifier sslhostnameverifier
      * @return builder instance
      */
-    public PostgresJdbc sslhostnameverifier(String sslhostnameverifier) {
+    public PostgreSqlJdbc sslhostnameverifier(String sslhostnameverifier) {
         return addParameter("sslhostnameverifier", sslhostnameverifier);
     }
 
@@ -114,7 +114,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslpasswordcallback sslpasswordcallback
      * @return builder instance
      */
-    public PostgresJdbc sslpasswordcallback(String sslpasswordcallback) {
+    public PostgreSqlJdbc sslpasswordcallback(String sslpasswordcallback) {
         return addParameter("sslpasswordcallback", sslpasswordcallback);
     }
 
@@ -124,7 +124,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param sslpassword sslpassword
      * @return builder instance
      */
-    public PostgresJdbc sslpassword(int sslpassword) {
+    public PostgreSqlJdbc sslpassword(int sslpassword) {
         return addParameter("sslpassword", sslpassword);
     }
 
@@ -134,7 +134,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param state state. Default: false
      * @return builder instance
      */
-    public PostgresJdbc allowMultiQueries(boolean state) {
+    public PostgreSqlJdbc allowMultiQueries(boolean state) {
         return addParameter("allowMultiQueries", state);
     }
 
@@ -143,7 +143,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      *
      * @return builder instance
      */
-    public PostgresJdbc allowMultiQueries() {
+    public PostgreSqlJdbc allowMultiQueries() {
         return allowMultiQueries(true);
     }
 
@@ -153,7 +153,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param state state. Default: false
      * @return builder instance
      */
-    public PostgresJdbc dumpQueriesOnException(boolean state) {
+    public PostgreSqlJdbc dumpQueriesOnException(boolean state) {
         return addParameter("dumpQueriesOnException", state);
     }
 
@@ -163,7 +163,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @see <a href="https://jdbc.postgresql.org/documentation/head/connect.html">Postgres parameter</a>
      */
     @Override
-    public <V> PostgresJdbc addParameter(String key, V value) {
+    public <V> PostgreSqlJdbc addParameter(String key, V value) {
         return super.addParameter(key, value);
     }
 
@@ -174,7 +174,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param schemas one or more schemas
      * @return builder instance
      */
-    public PostgresJdbc currentSchema(String schema, String... schemas) {
+    public PostgreSqlJdbc currentSchema(String schema, String... schemas) {
         return addParameter("currentSchema", String.join(",", schema, String.join(",")));
     }
 
@@ -185,7 +185,7 @@ public class PostgresJdbc extends RemoteJdbcConfig<PostgresJdbc> {
      * @param applicationName application name
      * @return builder instance
      */
-    public PostgresJdbc applicationName(String applicationName) {
+    public PostgreSqlJdbc applicationName(String applicationName) {
         return addParameter("ApplicationName", applicationName);
     }
 

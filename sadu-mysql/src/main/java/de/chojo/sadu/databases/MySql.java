@@ -15,9 +15,15 @@ public class MySql extends DefaultType<MySQLJdbc> {
     public static MySql mysql() {
         return type;
     }
+    public static MySql get() {
+        return type;
+    }
+
+    private MySql() {
+    }
 
     @Override
-    public String getName() {
+    public String name() {
         return "mysql";
     }
 

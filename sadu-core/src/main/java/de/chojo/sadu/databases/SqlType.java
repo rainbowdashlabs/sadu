@@ -6,12 +6,32 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.databases.exceptions.NotImplementedException;
+import de.chojo.sadu.databases.exceptions.NotSupportedException;
 import de.chojo.sadu.jdbc.JdbcConfig;
 
 import java.util.Arrays;
 
 /**
  * Defines a sql type and handles RDBMS specific actions.
+ *
+ * Every type should implement two static methods, which provide the driver by name and one by get.
+ *
+ * <pre>{@code
+ * class MySqlType extends SqlType<MySqlTypeJdbc> {
+ *      private static final MySqlType type = MySqlType();
+ *
+ *      public static MySqlType mysqltype() {
+ *          return type;
+ *      }
+ *
+ *      public static MySqlType get() {
+ *          return type;
+ *      }
+ *
+ *      private MySqlType(){}
+ * }
+ * }</pre>
  *
  * @param <T> type of the database defined by the {@link SqlType}
  */
@@ -33,14 +53,41 @@ public interface SqlType<T extends JdbcConfig<?>> {
      * @param table table name
      * @return query to read the version table
      */
-    String getVersion(String table);
+    String versionQuery(String table);
 
     /**
      * Get a unique name to identify the database.
      *
      * @return database name
      */
-    String getName();
+    String name();
+
+    /**
+     * Get the alias for the database name.
+     *
+     * @return array of aliases
+     */
+    default String[] alias() {
+        return new String[0];
+    }
+
+    /**
+     * Checks if the given name matches the {@link #name()} or any {@link #alias()}. Case insentitive.
+     *
+     * @param name name to check
+     * @return true if any match was found
+     */
+    default boolean matches(String name) {
+        if (name.equalsIgnoreCase(name())) {
+            return true;
+        }
+        for (var alias : alias()) {
+            if (alias.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Creates a query to insert a version into the version table.
@@ -67,9 +114,9 @@ public interface SqlType<T extends JdbcConfig<?>> {
      */
     default String schemaExists() {
         if (hasSchemas()) {
-            throw new RuntimeException("schemas are supported but not implemented");
+            throw new NotImplementedException("Schemas are supported but not implemented");
         }
-        return "";
+        throw new NotSupportedException("Schemas are not supported.");
     }
 
     ;
@@ -82,9 +129,9 @@ public interface SqlType<T extends JdbcConfig<?>> {
      */
     default String createSchema(String schema) {
         if (hasSchemas()) {
-            throw new RuntimeException("schemas are supported but not implemented");
+            throw new NotImplementedException("Schemas are supported but not implemented");
         }
-        return "";
+        throw new NotSupportedException("Schemas are not supported.");
     }
 
     ;

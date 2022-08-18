@@ -32,7 +32,7 @@ class QueryBuilderTest {
 
     @BeforeEach
     public void setupDB() {
-        source = DataSourceCreator.create(new SqLite())
+        source = DataSourceCreator.create(SqLite.sqlite())
                 .configure(config -> config.path("data.db"))
                 .create()
                 .build();

@@ -15,7 +15,7 @@ import de.chojo.sadu.jdbc.JdbcConfig;
 public abstract class DefaultType<T extends JdbcConfig<?>> implements SqlType<T> {
 
     @Override
-    public String getVersion(String table) {
+    public String versionQuery(String table) {
         return String.format("SELECT major, patch FROM %s LIMIT 1", table);
     }
 

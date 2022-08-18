@@ -22,7 +22,7 @@ If you want to use all projects simply import the whole thing.
 ```gradle
 maven("https://eldonexus.de/repository/maven-public")
 
-implementation("de.chojo", "sadu", "version")
+implementation("de.chojo.sadu", "sadu", "version")
 ```
 
 ## Database dependencies

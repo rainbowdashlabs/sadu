@@ -6,9 +6,9 @@
 
 package de.chojo.sadu.wrapper.stage;
 
+import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
-import de.chojo.sadu.wrapper.QueryBuilderFactory;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,7 +21,7 @@ public interface ConfigurationStage<T> {
     /**
      * Configure the query builder.
      * <p>
-     * A configured {@link QueryBuilderFactory} can be used to skip this step.
+     * A configured {@link QueryFactory} can be used to skip this step.
      *
      * @param config The config of the {@link QueryBuilder}
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
@@ -33,7 +33,7 @@ public interface ConfigurationStage<T> {
     /**
      * Configure the query builder.
      * <p>
-     * A configured {@link QueryBuilderFactory} can be used to skip this step.
+     * A configured {@link QueryFactory} can be used to skip this step.
      *
      * @param config The config of the {@link QueryBuilder}
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
@@ -45,7 +45,7 @@ public interface ConfigurationStage<T> {
      * <p>
      * Default will be atomic transactions and not throwing any exception.
      * <p>
-     * A configured {@link QueryBuilderFactory} can be used to skip this step.
+     * A configured {@link QueryFactory} can be used to skip this step.
      *
      * @return The {@link QueryBuilder} in
      */

@@ -52,14 +52,6 @@ public interface RetrievalStage<T> {
     List<T> allSync();
 
     /**
-     * Retrieve all created keys as a list
-     *
-     * @return results as list
-     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
-     */
-    List<Long> keysSync();
-
-    /**
      * Retrieve the first result from the results set async
      *
      * @return A {@link CompletableFuture} to retrieve the data.

@@ -6,12 +6,12 @@ plugins {
     id("org.cadixdev.licenser") version "0.6.1"
 }
 
-group = "de.chojo"
+group = "de.chojo.sadu"
 version = "1.0.0"
 
 dependencies {
     api(project(":sadu-sqlite"))
-    api(project(":sadu-postgres"))
+    api(project(":sadu-postgresql"))
     api(project(":sadu-mariadb"))
     api(project(":sadu-mysql"))
     api(project(":sadu-updater"))

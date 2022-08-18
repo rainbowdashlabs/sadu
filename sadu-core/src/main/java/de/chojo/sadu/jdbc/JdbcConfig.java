@@ -24,17 +24,17 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     private String driverClass;
 
-    public T setDriverClass(@NotNull String driverClass) {
+    public T driverClass(@NotNull String driverClass) {
         this.driverClass = driverClass;
         return self();
     }
 
-    public <V extends Driver> T setDriverClass(@NotNull V driverClass) {
-        return setDriverClass(driverClass.getClass());
+    public <V extends Driver> T driverClass(@NotNull V driverClass) {
+        return driverClass(driverClass.getClass());
     }
 
-    public <V extends Driver> T setDriverClass(@NotNull Class<V> driverClass) {
-        return setDriverClass(driverClass.getName());
+    public <V extends Driver> T driverClass(@NotNull Class<V> driverClass) {
+        return driverClass(driverClass.getName());
     }
 
     /**

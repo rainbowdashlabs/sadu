@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.base.QueryFactoryHolder;
+import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.SqlType;
 import de.chojo.sadu.jdbc.JdbcConfig;
 import de.chojo.sadu.logging.LoggerAdapter;
@@ -98,7 +98,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *      - 2/patch_1.sql
  *  </pre>
  */
-public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
+public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     private final SqlVersion version;
     private String[] schemas;
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
@@ -220,7 +220,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
                 stmt.execute();
             }
 
-            try (var stmt = conn.prepareStatement(type.getVersion(versionTable))) {
+            try (var stmt = conn.prepareStatement(type.versionQuery(versionTable))) {
                 var resultSet = stmt.executeQuery();
                 if (!resultSet.next()) {
                     log.info("Version table " + versionTable + " is empty. Attempting database setup.");
@@ -282,7 +282,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
 
     private VersionInfo getVersionInfo() {
         try (var conn = source.getConnection(); var statement = conn
-                .prepareStatement(type.getVersion(versionTable))) {
+                .prepareStatement(type.versionQuery(versionTable))) {
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new VersionInfo(resultSet.getInt("major"), resultSet.getInt("patch"));
@@ -313,7 +313,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
     }
 
     private boolean patchExists(int major, int patch) {
-        return getClass().getClassLoader().getResource("database/" + type.getName() + "/" + major + "/patch_" + patch + ".sql") != null;
+        return getClass().getClassLoader().getResource("database/" + type.name() + "/" + major + "/patch_" + patch + ".sql") != null;
     }
 
     private String loadPatch(int major, int patch) throws IOException {
@@ -322,7 +322,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
 
     private String loadFromResource(Object... path) throws IOException {
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
-        try (var patchFile = getClass().getClassLoader().getResourceAsStream("database/" + type.getName() + "/" + patch)) {
+        try (var patchFile = getClass().getClassLoader().getResourceAsStream("database/" + type.name() + "/" + patch)) {
             return new String(patchFile.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
@@ -416,7 +416,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactoryHolder {
         }
 
         /**
-         * Set the {@link QueryBuilderConfig} for the underlying {@link QueryFactoryHolder}
+         * Set the {@link QueryBuilderConfig} for the underlying {@link QueryFactory}
          *
          * @param config config so apply
          * @return builder instance

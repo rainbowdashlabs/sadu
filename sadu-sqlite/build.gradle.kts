@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation(project(":sadu-core"))
+    api(project(":sadu-core"))
 }

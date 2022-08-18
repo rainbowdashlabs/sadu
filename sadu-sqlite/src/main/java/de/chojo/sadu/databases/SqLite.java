@@ -15,6 +15,12 @@ public class SqLite extends DefaultType<SqLiteJdbc> {
     public static SqLite sqlite() {
         return type;
     }
+    public static SqLite get() {
+        return type;
+    }
+
+    private SqLite() {
+    }
 
     @Override
     public String createVersionTableQuery(String table) {
@@ -22,7 +28,7 @@ public class SqLite extends DefaultType<SqLiteJdbc> {
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return "sqlite";
     }
 
