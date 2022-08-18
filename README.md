@@ -43,7 +43,6 @@ Learn how to use the query builder [here](https://github.com/RainbowDashLabs/sad
 
 ### But why should I use it?
 
-# Why use the query builder?
 Before I give you a long talk about how much nicer the syntax and code is let me simple show you a comparison.
 
 Without the query builder your code would ideally look like this:
