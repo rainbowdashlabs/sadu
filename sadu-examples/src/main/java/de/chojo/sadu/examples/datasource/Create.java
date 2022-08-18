@@ -1,13 +1,15 @@
 package de.chojo.sadu.examples.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.Postgres;
+import de.chojo.sadu.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
+import org.postgresql.Driver;
 
 public class Create {
     public static void main(String[] args) {
+
         // Create a new datasource for a postgres database
-        HikariDataSource dataSource = DataSourceCreator.create(Postgres.postgres())
+        HikariDataSource dataSource = DataSourceCreator.create(PostgreSql.postgresql())
                 // We configure the usual stuff.
                 .configure(config -> config.host("localhost")
                         .port(5432)
@@ -20,6 +22,7 @@ public class Create {
                         .currentSchema("default")
                         // We also set an application name
                         .applicationName("SADU-Examples")
+                        .driverClass(Driver.class)
                 )
                 // We create the hikari data source
                 .create()
