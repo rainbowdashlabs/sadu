@@ -82,7 +82,7 @@ public class QueryFactory extends DataHolder {
      * @param <T>   type if result as class
      * @return a new query builder in a {@link QueryStage}
      */
-    public <T> QueryStage<T> builder(Class<T> clazz) {
+    public static <T> QueryStage<T> builder(Class<T> clazz) {
         return QueryBuilder.builder(source(), clazz).configure(config);
     }
 
