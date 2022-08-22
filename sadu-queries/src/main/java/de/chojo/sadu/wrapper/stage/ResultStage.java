@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.QueryBuilder;
+import de.chojo.sadu.wrapper.mapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.SQLException;
@@ -28,6 +29,15 @@ public interface ResultStage<T> {
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
     RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper);
+
+    /**
+     * Maps the rows of the result with a previously registered {@link RowMapper}.
+     *
+     * The best matching mapper will be used for the result set.
+     *
+     * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
+     */
+    ResultStage<T> map();
 
     /**
      * Mark this query as update query.
