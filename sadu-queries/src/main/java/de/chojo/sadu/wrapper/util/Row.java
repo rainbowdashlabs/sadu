@@ -1479,7 +1479,7 @@ public class Row {
         return resultSet.getObject(columnAlias(columnLabel), type);
     }
 
-    public String columnAlias(String columnLabel) {
+    private String columnAlias(String columnLabel) {
         return config.aliases().getOrDefault(columnLabel, columnLabel);
     }
 }
