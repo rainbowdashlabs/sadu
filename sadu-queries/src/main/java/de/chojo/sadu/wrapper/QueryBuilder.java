@@ -165,7 +165,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     @Override
     public RetrievalStage<T> map(MapperConfig mapperConfig) {
         Objects.requireNonNull(clazz);
-        this.mapperConfig = mapperConfig;
+        this.mapperConfig = mapperConfig.clone();
         return this;
     }
 
