@@ -12,11 +12,29 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Result {
+public final class Result {
+    private Result() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
+
+    /**
+     * Get a set of column names in this result set
+     *
+     * @param set result set.
+     * @return set of column names.
+     * @throws SQLException if a database access error occurs.
+     */
     public static Set<String> columnNames(ResultSet set) throws SQLException {
         return columnNames(set.getMetaData());
     }
 
+    /**
+     * Get a set of column names in this result set
+     *
+     * @param meta result set meta.
+     * @return set of column names.
+     * @throws SQLException if a database access error occurs.
+     */
     public static Set<String> columnNames(ResultSetMetaData meta) throws SQLException {
         Set<String> columns = new HashSet<>();
         for (int i = 1; i <= meta.getColumnCount(); i++) {

@@ -12,6 +12,7 @@ import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
@@ -23,6 +24,7 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
         this.clazz = clazz;
     }
 
+
     @Override
     public RowMapperBuilder<T> setMapper(ThrowingFunction<T, Row, SQLException> mapper) {
         this.mapper = mapper;
@@ -31,6 +33,11 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
 
     public RowMapperBuilder<T> addColumn(String column) {
         columns.add(column);
+        return this;
+    }
+
+    public RowMapperBuilder<T> addColumns(String... columns) {
+        this.columns.addAll(List.of(columns));
         return this;
     }
 

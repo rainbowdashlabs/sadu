@@ -13,7 +13,11 @@ import java.sql.SQLException;
 
 public class MappingException extends RuntimeException {
 
-    public MappingException(ResultSetMetaData meta) throws SQLException {
-        super("No mapper present for " + String.join(", ", Result.columnNames(meta)));
+    public MappingException(String message) {
+        super(message);
+    }
+
+    public static MappingException create(ResultSetMetaData meta) throws SQLException {
+        return new MappingException("No mapper present for " + String.join(", ", Result.columnNames(meta)));
     }
 }

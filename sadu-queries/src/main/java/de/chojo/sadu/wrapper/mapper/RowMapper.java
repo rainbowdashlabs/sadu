@@ -20,6 +20,10 @@ import java.util.Set;
 import static de.chojo.sadu.wrapper.mapper.util.Result.columnNames;
 import static org.slf4j.LoggerFactory.getLogger;
 
+/**
+ * Class representing the mapping of a column to an object.
+ * @param <T> type of retuned object
+ */
 public class RowMapper<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
@@ -40,6 +44,10 @@ public class RowMapper<T> {
         return clazz;
     }
 
+    public Set<String> columns() {
+        return columns;
+    }
+
     public T map(Row row) throws SQLException {
         return mapper.apply(row);
     }
@@ -55,7 +63,17 @@ public class RowMapper<T> {
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
     public int applicable(ResultSet resultSet) throws SQLException {
-        return applicable(resultSet.getMetaData());
+        return applicable(resultSet, false);
+    }
+
+    /**
+     * Checks how many rows of the result set are applicable.
+     *
+     * @param resultSet result set
+     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     */
+    public int applicable(ResultSet resultSet, boolean strict) throws SQLException {
+        return applicable(resultSet.getMetaData(), strict);
     }
 
     /**
@@ -65,6 +83,16 @@ public class RowMapper<T> {
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
     public int applicable(ResultSetMetaData resultSet) {
+        return applicable(resultSet, false);
+    }
+
+    /**
+     * Checks how many rows of the result set are applicable.
+     *
+     * @param resultSet meta of a result set
+     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     */
+    public int applicable(ResultSetMetaData resultSet, boolean strict) {
         Set<String> names;
         try {
             names = columnNames(resultSet);
@@ -83,6 +111,11 @@ public class RowMapper<T> {
             // The result set has not all rows we need.
             return 0;
         }
+
+        if (strict && size != columns.size()) {
+            return 0;
+        }
+
         return names.size();
     }
 
