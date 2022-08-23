@@ -11,6 +11,7 @@ import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import de.chojo.sadu.wrapper.stage.InsertStage;
@@ -71,7 +72,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
     private RowMapper<T> currRowMapper;
     private AtomicReference<QueryBuilderConfig> config;
-    private boolean strict = false;
+    private MapperConfig mapperConfig = new MapperConfig();
 
     private QueryBuilder(DataSource dataSource, Class<T> clazz) {
         super(dataSource);
@@ -162,9 +163,9 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     @Override
-    public RetrievalStage<T> map(boolean strict) {
+    public RetrievalStage<T> map(MapperConfig mapperConfig) {
         Objects.requireNonNull(clazz);
-        this.strict = strict;
+        this.mapperConfig = mapperConfig;
         return this;
     }
 
@@ -189,7 +190,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     private void queueTask() {
-        tasks.add(new QueryTask(clazz, currQuery, currStatementConsumer, currRowMapper, strict));
+        tasks.add(new QueryTask(clazz, currQuery, currStatementConsumer, currRowMapper, mapperConfig));
     }
 
     // RETRIEVAL STAGE
@@ -379,16 +380,16 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
         private RowMapper<T> rowMapper;
-        private final boolean strict;
+        private final MapperConfig mapperConfig;
         private final QueryExecutionException executionException;
 
         private QueryTask(Class<T> clazz, String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
-                          RowMapper<T> rowMapper, boolean strict) {
+                          RowMapper<T> rowMapper, MapperConfig mapperConfig) {
             this.clazz = clazz;
             query = currQuery;
             this.statementConsumer = statementConsumer;
             this.rowMapper = rowMapper;
-            this.strict = strict;
+            this.mapperConfig = mapperConfig;
             executionException = new QueryExecutionException("An error occured while executing a query.");
         }
 
@@ -403,7 +404,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                var row = new Row(resultSet);
+                var row = new Row(resultSet, mapperConfig);
                 while (resultSet.next()) results.add(mapper(resultSet).map(row));
             } catch (SQLException e) {
                 initAndThrow(e);
@@ -415,7 +416,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                var row = new Row(resultSet);
+                var row = new Row(resultSet, mapperConfig);
                 if (resultSet.next()) return Optional.ofNullable(mapper(resultSet).map(row));
             } catch (SQLException e) {
                 initAndThrow(e);
@@ -471,7 +472,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             if (rowMapper != null) {
                 return rowMapper;
             }
-            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet, strict);
+            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet, mapperConfig);
             return rowMapper;
         }
     }

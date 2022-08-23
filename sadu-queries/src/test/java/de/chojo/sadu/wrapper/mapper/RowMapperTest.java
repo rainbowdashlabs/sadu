@@ -25,13 +25,17 @@ class RowMapperTest {
 
     @Test
     void map() throws SQLException {
-        var map = Mapper.sparse.map(new Row(MetaResult.sparseResultSet()));
+        var map = Mapper.sparse.map(new Row(MetaResult.sparseResultSet(), MapperConfig.DEFAULT));
         Assertions.assertEquals(Result.class, map.getClass(), "Polimorphism check failed.");
         Assertions.assertEquals(new Result(1, "result"), map);
 
-        map = Mapper.full.map(new Row(MetaResult.fullResultSet()));
+        map = Mapper.full.map(new Row(MetaResult.fullResultSet(), MapperConfig.DEFAULT));
         Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
         Assertions.assertEquals(new MetaResult(1, "result", "meta"), map);
+
+        map = Mapper.full.map(new Row(MetaResult.aliasedResultSet(), new MapperConfig().addAlias("result", "r_result")));
+        Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
+        Assertions.assertEquals(new Result(1, "result"), map);
     }
 
     @Test

@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.util;
 
 import de.chojo.sadu.conversion.ArrayConverter;
 import de.chojo.sadu.conversion.UUIDConverter;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -39,13 +40,16 @@ import java.util.UUID;
 public class Row {
     private final ResultSet resultSet;
 
+    private final MapperConfig config;
+
     /**
      * Wraps a result set into a row
      *
      * @param resultSet result set
      */
-    public Row(ResultSet resultSet) {
+    public Row(ResultSet resultSet, MapperConfig config) {
         this.resultSet = resultSet;
+        this.config = config;
     }
 
     /**
@@ -360,7 +364,7 @@ public class Row {
      *                      called on a closed result set
      */
     public String getString(String columnLabel) throws SQLException {
-        return resultSet.getString(columnLabel);
+        return resultSet.getString(columnAlias(columnLabel));
     }
 
     /**
@@ -376,7 +380,7 @@ public class Row {
      *                      called on a closed result set
      */
     public UUID getUuidFromString(String columnLabel) throws SQLException {
-        return UUID.fromString(resultSet.getString(columnLabel));
+        return UUID.fromString(resultSet.getString(columnAlias(columnLabel)));
     }
 
     /**
@@ -399,7 +403,7 @@ public class Row {
      *                      called on a closed result set
      */
     public boolean getBoolean(String columnLabel) throws SQLException {
-        return resultSet.getBoolean(columnLabel);
+        return resultSet.getBoolean(columnAlias(columnLabel));
     }
 
     /**
@@ -415,7 +419,7 @@ public class Row {
      *                      called on a closed result set
      */
     public byte getByte(String columnLabel) throws SQLException {
-        return resultSet.getByte(columnLabel);
+        return resultSet.getByte(columnAlias(columnLabel));
     }
 
     /**
@@ -431,7 +435,7 @@ public class Row {
      *                      called on a closed result set
      */
     public short getShort(String columnLabel) throws SQLException {
-        return resultSet.getShort(columnLabel);
+        return resultSet.getShort(columnAlias(columnLabel));
     }
 
     /**
@@ -447,7 +451,7 @@ public class Row {
      *                      called on a closed result set
      */
     public int getInt(String columnLabel) throws SQLException {
-        return resultSet.getInt(columnLabel);
+        return resultSet.getInt(columnAlias(columnLabel));
     }
 
     /**
@@ -463,7 +467,7 @@ public class Row {
      *                      called on a closed result set
      */
     public long getLong(String columnLabel) throws SQLException {
-        return resultSet.getLong(columnLabel);
+        return resultSet.getLong(columnAlias(columnLabel));
     }
 
     /**
@@ -479,7 +483,7 @@ public class Row {
      *                      called on a closed result set
      */
     public float getFloat(String columnLabel) throws SQLException {
-        return resultSet.getFloat(columnLabel);
+        return resultSet.getFloat(columnAlias(columnLabel));
     }
 
     /**
@@ -495,7 +499,7 @@ public class Row {
      *                      called on a closed result set
      */
     public double getDouble(String columnLabel) throws SQLException {
-        return resultSet.getDouble(columnLabel);
+        return resultSet.getDouble(columnAlias(columnLabel));
     }
 
     /**
@@ -512,7 +516,7 @@ public class Row {
      *                      called on a closed result set
      */
     public byte[] getBytes(String columnLabel) throws SQLException {
-        return resultSet.getBytes(columnLabel);
+        return resultSet.getBytes(columnAlias(columnLabel));
     }
 
     /**
@@ -528,7 +532,7 @@ public class Row {
      *                      called on a closed result set
      */
     public UUID getUuidFromBytes(String columnLabel) throws SQLException {
-        return UUIDConverter.convert(resultSet.getBytes(columnLabel));
+        return UUIDConverter.convert(resultSet.getBytes(columnAlias(columnLabel)));
     }
 
     /**
@@ -577,7 +581,7 @@ public class Row {
      *                      called on a closed result set
      */
     public Date getDate(String columnLabel) throws SQLException {
-        return resultSet.getDate(columnLabel);
+        return resultSet.getDate(columnAlias(columnLabel));
     }
 
     /**
@@ -594,7 +598,7 @@ public class Row {
      *                      called on a closed result set
      */
     public Time getTime(String columnLabel) throws SQLException {
-        return resultSet.getTime(columnLabel);
+        return resultSet.getTime(columnAlias(columnLabel));
     }
 
     /**
@@ -610,7 +614,7 @@ public class Row {
      *                      called on a closed result set
      */
     public Timestamp getTimestamp(String columnLabel) throws SQLException {
-        return resultSet.getTimestamp(columnLabel);
+        return resultSet.getTimestamp(columnAlias(columnLabel));
     }
 
     /**
@@ -638,7 +642,7 @@ public class Row {
      *                      called on a closed result set
      */
     public InputStream getAsciiStream(String columnLabel) throws SQLException {
-        return resultSet.getAsciiStream(columnLabel);
+        return resultSet.getAsciiStream(columnAlias(columnLabel));
     }
 
     /**
@@ -665,7 +669,7 @@ public class Row {
      *                      called on a closed result set
      */
     public InputStream getBinaryStream(String columnLabel) throws SQLException {
-        return resultSet.getBinaryStream(columnLabel);
+        return resultSet.getBinaryStream(columnAlias(columnLabel));
     }
 
     /**
@@ -751,7 +755,7 @@ public class Row {
      *                      called on a closed result set
      */
     public Object getObject(String columnLabel) throws SQLException {
-        return resultSet.getObject(columnLabel);
+        return resultSet.getObject(columnAlias(columnLabel));
     }
 
     /**
@@ -787,7 +791,7 @@ public class Row {
      * @since 1.2
      */
     public Reader getCharacterStream(String columnLabel) throws SQLException {
-        return resultSet.getCharacterStream(columnLabel);
+        return resultSet.getCharacterStream(columnAlias(columnLabel));
     }
 
     /**
@@ -823,7 +827,7 @@ public class Row {
      * @since 1.2
      */
     public BigDecimal getBigDecimal(String columnLabel) throws SQLException {
-        return resultSet.getBigDecimal(columnLabel);
+        return resultSet.getBigDecimal(columnAlias(columnLabel));
     }
 
     /**
@@ -950,7 +954,7 @@ public class Row {
      * @since 1.2
      */
     public Object getObject(String columnLabel, Map<String, Class<?>> map) throws SQLException {
-        return resultSet.getObject(columnLabel, map);
+        return resultSet.getObject(columnAlias(columnLabel), map);
     }
 
     /**
@@ -969,7 +973,7 @@ public class Row {
      * @since 1.2
      */
     public Ref getRef(String columnLabel) throws SQLException {
-        return resultSet.getRef(columnLabel);
+        return resultSet.getRef(columnAlias(columnLabel));
     }
 
     /**
@@ -988,7 +992,7 @@ public class Row {
      * @since 1.2
      */
     public Blob getBlob(String columnLabel) throws SQLException {
-        return resultSet.getBlob(columnLabel);
+        return resultSet.getBlob(columnAlias(columnLabel));
     }
 
     /**
@@ -1007,7 +1011,7 @@ public class Row {
      * @since 1.2
      */
     public Clob getClob(String columnLabel) throws SQLException {
-        return resultSet.getClob(columnLabel);
+        return resultSet.getClob(columnAlias(columnLabel));
     }
 
     /**
@@ -1026,7 +1030,7 @@ public class Row {
      * @since 1.2
      */
     public Array getArray(String columnLabel) throws SQLException {
-        return resultSet.getArray(columnLabel);
+        return resultSet.getArray(columnAlias(columnLabel));
     }
 
     /**
@@ -1072,7 +1076,7 @@ public class Row {
      * @since 1.2
      */
     public Date getDate(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getDate(columnLabel, cal);
+        return resultSet.getDate(columnAlias(columnLabel), cal);
     }
 
     /**
@@ -1118,7 +1122,7 @@ public class Row {
      * @since 1.2
      */
     public Time getTime(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getTime(columnLabel, cal);
+        return resultSet.getTime(columnAlias(columnLabel), cal);
     }
 
     /**
@@ -1164,7 +1168,7 @@ public class Row {
      * @since 1.2
      */
     public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getTimestamp(columnLabel, cal);
+        return resultSet.getTimestamp(columnAlias(columnLabel), cal);
     }
 
     /**
@@ -1204,7 +1208,7 @@ public class Row {
      * @since 1.4
      */
     public URL getURL(String columnLabel) throws SQLException {
-        return resultSet.getURL(columnLabel);
+        return resultSet.getURL(columnAlias(columnLabel));
     }
 
     /**
@@ -1242,7 +1246,7 @@ public class Row {
      * @since 1.6
      */
     public RowId getRowId(String columnLabel) throws SQLException {
-        return resultSet.getRowId(columnLabel);
+        return resultSet.getRowId(columnAlias(columnLabel));
     }
 
     /**
@@ -1284,7 +1288,7 @@ public class Row {
      * @since 1.6
      */
     public NClob getNClob(String columnLabel) throws SQLException {
-        return resultSet.getNClob(columnLabel);
+        return resultSet.getNClob(columnAlias(columnLabel));
     }
 
     /**
@@ -1320,7 +1324,7 @@ public class Row {
      * @since 1.6
      */
     public SQLXML getSQLXML(String columnLabel) throws SQLException {
-        return resultSet.getSQLXML(columnLabel);
+        return resultSet.getSQLXML(columnAlias(columnLabel));
     }
 
     /**
@@ -1364,7 +1368,7 @@ public class Row {
      * @since 1.6
      */
     public String getNString(String columnLabel) throws SQLException {
-        return resultSet.getNString(columnLabel);
+        return resultSet.getNString(columnAlias(columnLabel));
     }
 
     /**
@@ -1410,7 +1414,7 @@ public class Row {
      * @since 1.6
      */
     public Reader getNCharacterStream(String columnLabel) throws SQLException {
-        return resultSet.getNCharacterStream(columnLabel);
+        return resultSet.getNCharacterStream(columnAlias(columnLabel));
     }
 
     /**
@@ -1472,6 +1476,10 @@ public class Row {
      * @since 1.7
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
-        return resultSet.getObject(columnLabel, type);
+        return resultSet.getObject(columnAlias(columnLabel), type);
+    }
+
+    public String columnAlias(String columnLabel) {
+        return config.aliases().getOrDefault(columnLabel, columnLabel);
     }
 }

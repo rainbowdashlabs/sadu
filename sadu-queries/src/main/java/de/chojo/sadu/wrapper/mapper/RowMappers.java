@@ -93,8 +93,8 @@ public class RowMappers {
      * @param <T>   return type of mapper
      * @return mapper when found
      */
-    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set, boolean strict) throws SQLException {
-        return find(clazz, set.getMetaData(), strict);
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set, MapperConfig config) throws SQLException {
+        return find(clazz, set.getMetaData(), config);
     }
 
     /**
@@ -110,11 +110,11 @@ public class RowMappers {
      * @return mapper when found
      */
     @SuppressWarnings("unchecked")
-    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta, boolean strict) {
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) {
         return mapper(clazz)
                 .stream()
                 .filter(mapper -> !mapper.isWildcard())
-                .map(mapper -> Map.entry(mapper, mapper.applicable(meta, strict)))
+                .map(mapper -> Map.entry(mapper, mapper.applicable(meta, config.isStrict())))
                 .sorted(Collections.reverseOrder(Comparator.comparingInt(Map.Entry::getValue)))
                 .map(Map.Entry::getKey)
                 .findFirst()
@@ -131,12 +131,12 @@ public class RowMappers {
      * @param <T>    return type of mapper
      * @param clazz  clazz to find a mapper for
      * @param set    result set to find a matching mapper
-     * @param strict enables strict mode
+     * @param config mapper config
      * @return mapper when found
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, boolean strict) throws MappingException, SQLException {
-        return findOrWildcard(clazz, set.getMetaData(), strict);
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, MapperConfig config) throws MappingException, SQLException {
+        return findOrWildcard(clazz, set.getMetaData(), config);
     }
 
     /**
@@ -150,8 +150,8 @@ public class RowMappers {
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      * @throws SQLException     if a database access error occurs
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, boolean strict) throws MappingException, SQLException {
-        Optional<? extends RowMapper<T>> mapper = find(clazz, meta, strict)
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) throws MappingException, SQLException {
+        Optional<? extends RowMapper<T>> mapper = find(clazz, meta, config)
                 .or(() -> wildcard(clazz));
         if (mapper.isPresent()) {
             return mapper.get();

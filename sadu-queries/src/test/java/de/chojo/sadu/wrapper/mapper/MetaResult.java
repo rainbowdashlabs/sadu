@@ -44,9 +44,23 @@ class MetaResult extends Result {
         when(resultSet.getString("result")).thenReturn("result");
 
         ResultSetMetaData meta = mock(ResultSetMetaData.class);
-        when(meta.getColumnCount()).thenReturn(3);
+        when(meta.getColumnCount()).thenReturn(2);
         when(meta.getColumnLabel(1)).thenReturn("id");
         when(meta.getColumnLabel(2)).thenReturn("result");
+
+        when(resultSet.getMetaData()).thenReturn(meta);
+        return resultSet;
+    }
+
+    public static ResultSet aliasedResultSet() throws SQLException {
+        ResultSet resultSet = mock(ResultSet.class);
+        when(resultSet.getInt("id")).thenReturn(1);
+        when(resultSet.getString("r_result")).thenReturn("result");
+
+        ResultSetMetaData meta = mock(ResultSetMetaData.class);
+        when(meta.getColumnCount()).thenReturn(2);
+        when(meta.getColumnLabel(1)).thenReturn("id");
+        when(meta.getColumnLabel(2)).thenReturn("r_result");
 
         when(resultSet.getMetaData()).thenReturn(meta);
         return resultSet;

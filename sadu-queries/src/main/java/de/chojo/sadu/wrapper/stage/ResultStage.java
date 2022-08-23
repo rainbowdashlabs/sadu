@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.QueryBuilder;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 
@@ -38,19 +39,18 @@ public interface ResultStage<T> {
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
     default RetrievalStage<T> map() {
-        return map(false);
+        return map(MapperConfig.DEFAULT);
     }
 
     /**
      * Maps the rows of the result with a previously registered {@link RowMapper}.
      * <p>
-     * Maps the row via a strict mapper.
-     * This will only use mappers which have a mapping value for all columns or the wild card mapper if present and no matching mapper was found.
+     * Maps the row and applies a mapper config to the query builder.
      *
-     * @param strict strict mode
+     * @param mapperConfig mapper config
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
-    RetrievalStage<T> map(boolean strict);
+    RetrievalStage<T> map(MapperConfig mapperConfig);
 
     /**
      * Mark this query as update query.
