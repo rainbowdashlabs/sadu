@@ -56,9 +56,9 @@ class RowMapperTest {
 
         // Check strict mode.
         // Mapper is not applicable since we would loose the meta column
-        Assertions.assertEquals(0, Mapper.sparse.applicable(resultSet, true));
+        Assertions.assertEquals(0, Mapper.sparse.applicable(resultSet, new MapperConfig().strict()));
         // Mapper is applicable
-        Assertions.assertEquals(3, Mapper.full.applicable(resultSet, true));
+        Assertions.assertEquals(3, Mapper.full.applicable(resultSet, new MapperConfig().strict()));
         // Check non strict mode. Mapper can apply two fields
         Assertions.assertEquals(2, Mapper.sparse.applicable(resultSet));
         Assertions.assertEquals(3, Mapper.full.applicable(resultSet));
@@ -116,7 +116,7 @@ class RowMapperTest {
                 // Call map instead of read rows. We map the column result to r_result when it gets requested.
                 .map(new MapperConfig().addAlias("result", "r_result").strict())
                 .allSync();
-        
+
         results = QueryBuilder.builder(source, Result.class)
                 .defaultConfig(config -> config.rowMappers(rowMappers))
                 .query("""

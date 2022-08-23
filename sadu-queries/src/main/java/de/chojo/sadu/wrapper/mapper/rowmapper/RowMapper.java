@@ -64,7 +64,7 @@ public class RowMapper<T> {
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
     public int applicable(ResultSet resultSet) throws SQLException {
-        return applicable(resultSet, false);
+        return applicable(resultSet, MapperConfig.DEFAULT);
     }
 
     /**
@@ -73,8 +73,8 @@ public class RowMapper<T> {
      * @param resultSet result set
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
-    public int applicable(ResultSet resultSet, boolean strict) throws SQLException {
-        return applicable(resultSet.getMetaData(), MapperConfig.DEFAULT);
+    public int applicable(ResultSet resultSet, MapperConfig config) throws SQLException {
+        return applicable(resultSet.getMetaData(), config);
     }
 
     /**
