@@ -37,7 +37,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
-    ResultStage<T> map();
+    RetrievalStage<T> map();
 
     /**
      * Mark this query as update query.

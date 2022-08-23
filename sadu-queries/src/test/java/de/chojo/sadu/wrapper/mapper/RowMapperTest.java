@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
+import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.util.Row;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,10 @@ class RowMapperTest {
 
     @Test
     void map() throws SQLException {
-        var map =Mapper.sparse.map(new Row(Result.sparseResultSet()));
+        var map = Mapper.sparse.map(new Row(Result.sparseResultSet()));
         Assertions.assertEquals(map, new Result(1, "result"));
 
-        map =Mapper.sparse.map(new Row(Result.fullResultSet()));
+        map = Mapper.sparse.map(new Row(Result.fullResultSet()));
         Assertions.assertEquals(map, new Result(1, "result", "meta"));
     }
 
@@ -48,5 +49,28 @@ class RowMapperTest {
         Assertions.assertEquals(3, Mapper.full.applicable(resultSet));
     }
 
+    void syntaxExample() {
+        // Create a row mapper for the Result class with three different colums
+        RowMapper<Result> mapper = RowMapper.forClass(Result.class)
+                                            // Define how the row should be mapped
+                                            .setMapper(row -> new Result(row.getInt("id"),
+                                                    row.getString("result"),
+                                                    row.getString("meta")))
+                                            // define the column names
+                                            .addColumn("id")
+                                            .addColumn("result")
+                                            .addColumn("meta")
+                                            .build();
 
+        // Register the mapper
+        RowMappers.register(mapper);
+
+        QueryBuilder.builder(null, Result.class)
+                .defaultConfig()
+                .query("SELECT id, result, meta FROM results")
+                .emptyParams()
+                // Call map instead of read rows. This will let the query builder determine the type by itself.
+                .map()
+                .allSync();
+    }
 }

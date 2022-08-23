@@ -152,7 +152,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     @Override
-    public ResultStage<T> map() {
+    public RetrievalStage<T> map() {
         return this;
     }
 
