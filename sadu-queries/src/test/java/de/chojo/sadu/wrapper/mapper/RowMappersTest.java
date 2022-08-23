@@ -14,12 +14,13 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
 class RowMappersTest {
+    static RowMappers rowMappers = new RowMappers();
 
     @BeforeAll
     static void setUp() {
-        RowMappers.register(Mapper.full);
-        RowMappers.register(Mapper.sparse);
-        RowMappers.register(Mapper.wildcard);
+        rowMappers.register(Mapper.full);
+        rowMappers.register(Mapper.sparse);
+        rowMappers.register(Mapper.wildcard);
     }
 
     @AfterEach
@@ -28,17 +29,17 @@ class RowMappersTest {
 
     @Test
     void wildcard() throws SQLException {
-        var rowMapper = RowMappers.wildcard(Result.class);
+        var rowMapper = rowMappers.wildcard(Result.class);
         Assertions.assertTrue(rowMapper.isPresent());
     }
 
     @Test
     void find() throws SQLException {
-        var rowMapper = RowMappers.find(Result.class, Result.fullResultSet());
+        var rowMapper = rowMappers.find(Result.class, Result.fullResultSet());
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.full, rowMapper.get());
 
-        rowMapper = RowMappers.find(Result.class, Result.sparseResultSet());
+        rowMapper = rowMappers.find(Result.class, Result.sparseResultSet());
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.sparse, rowMapper.get());
     }

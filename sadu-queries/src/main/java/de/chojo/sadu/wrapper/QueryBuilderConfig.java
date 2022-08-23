@@ -9,8 +9,12 @@ package de.chojo.sadu.wrapper;
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
+import de.chojo.sadu.wrapper.mapper.RowMapper;
+import de.chojo.sadu.wrapper.mapper.RowMappers;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -30,12 +34,14 @@ public class QueryBuilderConfig {
     private final boolean atomic;
     private final Consumer<SQLException> exceptionHandler;
     private final ExecutorService executor;
+    private final RowMappers rowMappers;
 
-    private QueryBuilderConfig(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler, ExecutorService executorService) {
+    private QueryBuilderConfig(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler, ExecutorService executorService, RowMappers rowMappers) {
         this.throwing = throwing;
         this.atomic = atomic;
         this.exceptionHandler = exceptionHandler;
         this.executor = executorService;
+        this.rowMappers = rowMappers;
     }
 
     /**
@@ -84,6 +90,15 @@ public class QueryBuilderConfig {
     }
 
     /**
+     * Get the row mappers of the config.
+     *
+     * @return row mappers instance
+     */
+    public RowMappers rowMappers() {
+        return rowMappers;
+    }
+
+    /**
      * Exception handler for thrown exceptions
      *
      * @return error handler
@@ -101,6 +116,10 @@ public class QueryBuilderConfig {
         return executor;
     }
 
+    public Builder toBuilder() {
+        return new Builder(throwing, atomic, exceptionHandler, executor, rowMappers);
+    }
+
     /**
      * Builder for a {@link QueryBuilderConfig}
      */
@@ -113,7 +132,21 @@ public class QueryBuilderConfig {
             throwables.printStackTrace();
         };
 
+        private RowMappers rowMappers = new RowMappers();
+
+
         private ExecutorService executorService = ForkJoinPool.commonPool();
+
+        private Builder(boolean throwing, boolean atomic, Consumer<SQLException> exceptionHandler, ExecutorService executor, RowMappers rowMappers) {
+            this.throwing = throwing;
+            this.atomic = atomic;
+            this.exceptionHandler = exceptionHandler;
+            executorService = executor;
+            this.rowMappers = rowMappers;
+        }
+
+        public Builder() {
+        }
 
         /**
          * Sets the query builder as throwing. This will cause any occuring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
@@ -172,12 +205,35 @@ public class QueryBuilderConfig {
         }
 
         /**
+         * Adds a new row mapper to the  row mappers.
+         *
+         * @param rowMapper row mapper to add
+         * @return builder instance
+         */
+        public Builder addRowMapper(RowMapper<?> rowMapper) {
+            rowMappers.register(rowMapper);
+            return this;
+        }
+
+        /**
+         * Adds a row mappers instance, overriding the previously registered one
+         *
+         * @param rowMappers row mappers instance to add
+         * @return builder instance
+         */
+        public Builder rowMappers(@NotNull RowMappers rowMappers) {
+            Objects.requireNonNull(rowMappers);
+            this.rowMappers = rowMappers;
+            return this;
+        }
+
+        /**
          * Retrieve a new {@link QueryBuilderConfig} instance.
          *
          * @return config with defined values
          */
         public QueryBuilderConfig build() {
-            return new QueryBuilderConfig(throwing, atomic, exceptionHandler, executorService);
+            return new QueryBuilderConfig(throwing, atomic, exceptionHandler, executorService, rowMappers);
         }
     }
 }

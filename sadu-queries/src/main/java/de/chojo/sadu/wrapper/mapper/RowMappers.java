@@ -23,12 +23,8 @@ import java.util.Optional;
 /**
  * Class to register {@link RowMapper} to amp rows to objects.
  */
-public final class RowMappers {
+public class RowMappers {
     private static final Map<Class<?>, List<RowMapper<?>>> MAPPER = new HashMap<>();
-
-    private RowMappers() {
-        throw new UnsupportedOperationException("This is a utility class.");
-    }
 
     /**
      * Registers a new mapper for a class.
@@ -38,7 +34,7 @@ public final class RowMappers {
      * @param rowMapper the mapper to register
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
-    public static void register(RowMapper<?> rowMapper) {
+    public RowMappers register(RowMapper<?> rowMapper) {
         var rowMappers = MAPPER.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
         for (var mapper : rowMappers) {
             if (mapper.columns().containsAll(rowMapper.columns())
@@ -48,6 +44,7 @@ public final class RowMappers {
         }
 
         rowMappers.add(rowMapper);
+        return this;
     }
 
     private static List<RowMapper<?>> mapper(Class<?> clazz) {
@@ -61,7 +58,7 @@ public final class RowMappers {
      * @param <T> type of mapper
      */
     @SuppressWarnings("unchecked")
-    public static <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
+    public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
         return mapper(clazz).stream()
                             .filter(RowMapper::isWildcard)
                             .findAny()
@@ -80,7 +77,7 @@ public final class RowMappers {
      * @param <T>   return type of mapper
      * @return mapper when found
      */
-    public static <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set) throws SQLException {
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set) throws SQLException {
         return find(clazz, set.getMetaData());
     }
 
@@ -97,7 +94,7 @@ public final class RowMappers {
      * @return mapper when found
      */
     @SuppressWarnings("unchecked")
-    public static <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta) {
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta) {
         return mapper(clazz)
                 .stream()
                 .filter(mapper -> !mapper.isWildcard())
@@ -121,7 +118,7 @@ public final class RowMappers {
      * @return mapper when found
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      */
-    public static <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set) throws MappingException, SQLException {
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set) throws MappingException, SQLException {
         return findOrWildcard(clazz, set.getMetaData());
     }
 
@@ -136,7 +133,7 @@ public final class RowMappers {
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      * @throws SQLException     if a database access error occurs
      */
-    public static <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta) throws MappingException, SQLException {
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta) throws MappingException, SQLException {
         Optional<? extends RowMapper<T>> mapper = find(clazz, meta)
                 .or(() -> wildcard(clazz));
         if (mapper.isPresent()) {

@@ -7,6 +7,7 @@
 package de.chojo.sadu.wrapper;
 
 import de.chojo.sadu.base.DataHolder;
+import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
@@ -39,6 +40,7 @@ import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 /**
  * This query builder can be used to execute one or more queries onto a database via a connection provided by a datasource.
@@ -111,6 +113,14 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     @Override
     public QueryStage<T> defaultConfig() {
         config = QueryBuilderConfig.defaultConfig();
+        return this;
+    }
+
+    @Override
+    public QueryStage<T> defaultConfig(Consumer<QueryBuilderConfig.Builder> builderModifier) {
+        var builder = config.get().toBuilder();
+        builderModifier.accept(builder);
+        config = new AtomicReference<>(builder.build());
         return this;
     }
 
@@ -457,7 +467,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             if (rowMapper != null) {
                 return rowMapper;
             }
-            rowMapper = RowMappers.findOrWildcard(clazz, resultSet);
+            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet);
             return rowMapper;
         }
     }

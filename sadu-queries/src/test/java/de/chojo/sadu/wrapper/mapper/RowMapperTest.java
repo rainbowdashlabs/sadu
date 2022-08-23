@@ -50,27 +50,27 @@ class RowMapperTest {
     }
 
     void syntaxExample() {
-        // Create a row mapper for the Result class with three different colums
-        RowMapper<Result> mapper = RowMapper.forClass(Result.class)
-                                            // Define how the row should be mapped
-                                            .setMapper(row -> new Result(row.getInt("id"),
-                                                    row.getString("result"),
-                                                    row.getString("meta")))
-                                            // define the column names
-                                            .addColumn("id")
-                                            .addColumn("result")
-                                            .addColumn("meta")
-                                            .build();
+// Create a row mapper for the Result class with three different colums
+RowMapper<Result> mapper = RowMapper.forClass(Result.class)
+                                    // Define how the row should be mapped
+                                    .setMapper(row -> new Result(row.getInt("id"),
+                                            row.getString("result"),
+                                            row.getString("meta")))
+                                    // define the column names
+                                    .addColumn("id")
+                                    .addColumn("result")
+                                    .addColumn("meta")
+                                    .build();
 
-        // Register the mapper
-        RowMappers.register(mapper);
+// Register the mapper
+RowMappers rowMappers = new RowMappers().register(mapper);
 
-        QueryBuilder.builder(null, Result.class)
-                .defaultConfig()
-                .query("SELECT id, result, meta FROM results")
-                .emptyParams()
-                // Call map instead of read rows. This will let the query builder determine the type by itself.
-                .map()
-                .allSync();
+QueryBuilder.builder(null, Result.class)
+        .defaultConfig(config -> config.rowMappers(rowMappers))
+        .query("SELECT id, result, meta FROM results")
+        .emptyParams()
+        // Call map instead of read rows. This will let the query builder determine the type by itself.
+        .map()
+        .allSync();
     }
 }
