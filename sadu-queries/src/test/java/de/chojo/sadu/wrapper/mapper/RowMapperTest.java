@@ -116,5 +116,17 @@ class RowMapperTest {
                 // Call map instead of read rows. We map the column result to r_result when it gets requested.
                 .map(new MapperConfig().addAlias("result", "r_result").strict())
                 .allSync();
+        
+        results = QueryBuilder.builder(source, Result.class)
+                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .query("""
+                       SELECT a.id, a.title as a_title, p.title FROM applications a
+                       LEFT JOIN paragraph p WHERE p.application_id = a.id
+                       WHERE a.id = ?
+                       """)
+                .emptyParams()
+                // Call map instead of read rows. We map the column result to r_result when it gets requested.
+                .map(new MapperConfig().addAlias("result", "r_result").strict())
+                .allSync();
     }
 }

@@ -19,18 +19,19 @@ public class MapperConfig implements Cloneable {
     }
 
     /**
-     * Adds a alias for a column.
+     * Adds an alias for a column.
      * <p>
-     * This is helpful to resolve column name collisions.
+     * This is helpful to resolve object with the same structure but different column names.
+     * <p>
+     * {@code record DateCount(LocalDateTime time, int count ){}}
      *
      * <pre>
      * {@code
-     * SELECT a.title as a_title, p.title as p_title FROM applications a
-     * LEFT JOIN paragraph p WHERE p.application_id = a.id
-     * WHERE a.id = ?
+     * SELECT month, count FROM month_stats;
+     * SELECT day, count FROM day_stats;
      * }</pre>
      * <p>
-     * Simply add a alias for title and set it to p_title. When your mapper now requests the title column it will get the value of p_title.
+     * Simply add an alias for time and set it to month or day. When your mapper now requests the time column it will get the value of month or day.
      * <p>
      * Not that this counts for every call on a row.
      *
