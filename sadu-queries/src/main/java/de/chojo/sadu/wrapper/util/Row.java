@@ -17,7 +17,6 @@ import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
-import java.sql.JDBCType;
 import java.sql.NClob;
 import java.sql.Ref;
 import java.sql.ResultSet;
@@ -25,7 +24,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.RowId;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-import java.sql.SQLType;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -61,7 +59,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -77,7 +75,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -95,7 +93,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code boolean} in the Java programming language.
      *
      * <P>If the designated column has a datatype of CHAR or VARCHAR
@@ -118,7 +116,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -134,7 +132,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code short} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -150,7 +148,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code int} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -166,7 +164,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code long} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -182,7 +180,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code float} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -198,7 +196,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code double} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -214,7 +212,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} array in the Java programming language.
      * The bytes represent the raw values returned by the driver.
      *
@@ -231,7 +229,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -247,7 +245,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Date} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -263,7 +261,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Time} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -279,7 +277,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Timestamp} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -295,7 +293,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a stream of ASCII characters. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARCHAR} values.
@@ -324,7 +322,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a  stream of
+     * of this {@code Row} object as a  stream of
      * uninterpreted bytes. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARBINARY} values.
@@ -351,7 +349,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -367,7 +365,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -383,7 +381,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code boolean} in the Java programming language.
      *
      * <P>If the designated column has a datatype of CHAR or VARCHAR
@@ -406,7 +404,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -422,7 +420,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code short} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -438,7 +436,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code int} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -454,7 +452,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code long} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -470,7 +468,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code float} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -486,7 +484,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code double} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -502,7 +500,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} array in the Java programming language.
      * The bytes represent the raw values returned by the driver.
      *
@@ -519,7 +517,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -535,7 +533,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -552,7 +550,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code List} in the Java programming language.
+     * of this {@code Row} object as a {@code List} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
      * @param <T>         type of list
@@ -568,7 +566,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Date} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -584,7 +582,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Time} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -601,7 +599,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Timestamp} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -617,7 +615,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a stream of
+     * of this {@code Row} object as a stream of
      * ASCII characters. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARCHAR} values.
@@ -645,7 +643,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a stream of uninterpreted
+     * of this {@code Row} object as a stream of uninterpreted
      * {@code byte}s.
      * The value can then be read in chunks from the
      * stream. This method is particularly
@@ -672,9 +670,9 @@ public class Row {
 
     /**
      * Retrieves the  number, types and properties of
-     * this {@code ResultSet} object's columns.
+     * this {@code Row} object's columns.
      *
-     * @return the description of this {@code ResultSet} object's columns
+     * @return the description of this {@code Row} object's columns
      * @throws SQLException if a database access error occurs or this method is
      *                      called on a closed result set
      */
@@ -684,7 +682,7 @@ public class Row {
 
     /**
      * <p>Gets the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code Object} in the Java programming language.
      *
      * <p>This method will return the value of the given column as a
@@ -726,7 +724,7 @@ public class Row {
 
     /**
      * <p>Gets the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code Object} in the Java programming language.
      *
      * <p>This method will return the value of the given column as a
@@ -758,7 +756,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -776,7 +774,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -794,7 +792,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.math.BigDecimal} with full precision.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -812,7 +810,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.math.BigDecimal} with full precision.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -830,7 +828,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Object}
+     * of this {@code Row} object as an {@code Object}
      * in the Java programming language.
      * If the value is an SQL {@code NULL},
      * the driver returns a Java {@code null}.
@@ -856,7 +854,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Ref} object
+     * of this {@code Row} object as a {@code Ref} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -875,7 +873,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Blob} object
+     * of this {@code Row} object as a {@code Blob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -894,7 +892,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Clob} object
+     * of this {@code Row} object as a {@code Clob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -913,7 +911,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Array} object
+     * of this {@code Row} object as an {@code Array} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -932,7 +930,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Object}
+     * of this {@code Row} object as an {@code Object}
      * in the Java programming language.
      * If the value is an SQL {@code NULL},
      * the driver returns a Java {@code null}.
@@ -957,7 +955,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Ref} object
+     * of this {@code Row} object as a {@code Ref} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -976,7 +974,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Blob} object
+     * of this {@code Row} object as a {@code Blob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -995,7 +993,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Clob} object
+     * of this {@code Row} object as a {@code Clob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1014,7 +1012,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Array} object
+     * of this {@code Row} object as an {@code Array} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1033,7 +1031,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * of this {@code Row} object as a {@code java.sql.Date} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the date if the underlying database does not store
@@ -1056,7 +1054,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * of this {@code Row} object as a {@code java.sql.Date} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the date if the underlying database does not store
@@ -1079,7 +1077,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * of this {@code Row} object as a {@code java.sql.Time} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the time if the underlying database does not store
@@ -1102,7 +1100,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * of this {@code Row} object as a {@code java.sql.Time} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the time if the underlying database does not store
@@ -1125,7 +1123,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * of this {@code Row} object as a {@code java.sql.Timestamp} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the timestamp if the underlying database does not store
@@ -1148,7 +1146,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * of this {@code Row} object as a {@code java.sql.Timestamp} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the timestamp if the underlying database does not store
@@ -1171,7 +1169,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * of this {@code Row} object as a {@code java.net.URL}
      * object in the Java programming language.
      *
      * @param columnIndex the index of the column 1 is the first, 2 is the second,...
@@ -1191,7 +1189,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * of this {@code Row} object as a {@code java.net.URL}
      * object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1211,7 +1209,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row of this
-     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * {@code Row} object as a {@code java.sql.RowId} object in the Java
      * programming language.
      *
      * @param columnIndex the first column is 1, the second 2, ...
@@ -1230,7 +1228,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row of this
-     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * {@code Row} object as a {@code java.sql.RowId} object in the Java
      * programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1249,7 +1247,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code NClob} object
+     * of this {@code Row} object as a {@code NClob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -1270,7 +1268,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code NClob} object
+     * of this {@code Row} object as a {@code NClob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1291,7 +1289,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in  the current row of
-     * this {@code ResultSet} as a
+     * this {@code Row} as a
      * {@code java.sql.SQLXML} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -1309,7 +1307,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in  the current row of
-     * this {@code ResultSet} as a
+     * this {@code Row} as a
      * {@code java.sql.SQLXML} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1327,7 +1325,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1349,7 +1347,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1371,7 +1369,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1394,7 +1392,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1417,7 +1415,7 @@ public class Row {
 
     /**
      * <p>Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object and will convert from the
+     * of this {@code Row} object and will convert from the
      * SQL type of the column to the requested Java data type, if the
      * conversion is supported. If the conversion is not
      * supported  or null is specified for the type, a
@@ -1447,7 +1445,7 @@ public class Row {
 
     /**
      * <p>Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object and will convert from the
+     * of this {@code Row} object and will convert from the
      * SQL type of the column to the requested Java data type, if the
      * conversion is supported. If the conversion is not
      * supported  or null is specified for the type, a
@@ -1475,142 +1473,5 @@ public class Row {
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return resultSet.getObject(columnLabel, type);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * If the second argument is an {@code InputStream} then the stream must contain
-     * the number of bytes specified by scaleOrLength.  If the second argument is a
-     * {@code Reader} then the reader must contain the number of characters specified
-     * by scaleOrLength. If these conditions are not true the driver will generate a
-     * {@code SQLException} when the statement is executed.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnIndex   the first column is 1, the second is 2, ...
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
-     *                      this is the number of digits after the decimal point. For
-     *                      Java Object types {@code InputStream} and {@code Reader},
-     *                      this is the length
-     *                      of the data in the stream or reader.  For all other types,
-     *                      this value will be ignored.
-     * @throws SQLException                    if the columnIndex is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        resultSet.updateObject(columnIndex, x, targetSqlType, scaleOrLength);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * If the second argument is an {@code InputStream} then the stream must
-     * contain number of bytes specified by scaleOrLength.  If the second
-     * argument is a {@code Reader} then the reader must contain the number
-     * of characters specified by scaleOrLength. If these conditions are not
-     * true the driver will generate a
-     * {@code SQLException} when the statement is executed.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnLabel   the label for the column specified with the SQL AS
-     *                      clause.  If the SQL AS clause was not specified, then the label is
-     *                      the name of the column
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
-     *                      this is the number of digits after the decimal point. For
-     *                      Java Object types {@code InputStream} and {@code Reader},
-     *                      this is the length
-     *                      of the data in the stream or reader.  For all other types,
-     *                      this value will be ignored.
-     * @throws SQLException                    if the columnLabel is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        resultSet.updateObject(columnLabel, x, targetSqlType, scaleOrLength);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnIndex   the first column is 1, the second is 2, ...
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @throws SQLException                    if the columnIndex is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType) throws SQLException {
-        resultSet.updateObject(columnIndex, x, targetSqlType);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnLabel   the label for the column specified with the SQL AS
-     *                      clause.  If the SQL AS clause was not specified, then the label is
-     *                      the name of the column
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @throws SQLException                    if the columnLabel is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType) throws SQLException {
-        resultSet.updateObject(columnLabel, x, targetSqlType);
     }
 }

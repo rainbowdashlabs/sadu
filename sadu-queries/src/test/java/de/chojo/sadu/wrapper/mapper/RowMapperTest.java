@@ -7,6 +7,7 @@
 package de.chojo.sadu.wrapper.mapper;
 
 import de.chojo.sadu.wrapper.QueryBuilder;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,13 +54,11 @@ class RowMapperTest {
 // Create a row mapper for the Result class with three different colums
 RowMapper<Result> mapper = RowMapper.forClass(Result.class)
                                     // Define how the row should be mapped
-                                    .setMapper(row -> new Result(row.getInt("id"),
+                                    .mapper(row -> new Result(row.getInt("id"),
                                             row.getString("result"),
                                             row.getString("meta")))
                                     // define the column names
-                                    .addColumn("id")
-                                    .addColumn("result")
-                                    .addColumn("meta")
+                                    .addColumns("id", "result", "meta")
                                     .build();
 
 // Register the mapper

@@ -4,7 +4,7 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.builder;
+package de.chojo.sadu.wrapper.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.util.Row;
@@ -12,5 +12,11 @@ import de.chojo.sadu.wrapper.util.Row;
 import java.sql.SQLException;
 
 public interface PartialRowMapper<T> {
-    RowMapperBuilder<T> setMapper(ThrowingFunction<T, Row, SQLException> mapper);
+    /**
+     * Adds a mapper to map a row to the required object.
+     *
+     * @param mapper mapper
+     * @return builder instance
+     */
+    RowMapperBuilder<T> mapper(ThrowingFunction<? extends T, Row, SQLException> mapper);
 }

@@ -6,22 +6,24 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
+
 public class Mapper {
     public static final RowMapper<Result> wildcard = RowMapper.forClass(Result.class)
-                                                              .setMapper(row -> new Result(row.getInt("id"),
+                                                              .mapper(row -> new Result(row.getInt("id"),
                                                                       row.getString("result"),
                                                                       row.getString("meta")))
                                                               .build();
 
     public static final RowMapper<Result> sparse = RowMapper.forClass(Result.class)
-                                                            .setMapper(row -> new Result(row.getInt("id"),
+                                                            .mapper(row -> new Result(row.getInt("id"),
                                                                     row.getString("result"),
                                                                     row.getString("meta")))
                                                             .addColumn("id")
                                                             .addColumn("result")
                                                             .build();
     public static final RowMapper<Result> full = RowMapper.forClass(Result.class)
-                                                          .setMapper(row -> new Result(row.getInt("id"),
+                                                          .mapper(row -> new Result(row.getInt("id"),
                                                                   row.getString("result")))
                                                           .addColumn("id")
                                                           .addColumn("result")

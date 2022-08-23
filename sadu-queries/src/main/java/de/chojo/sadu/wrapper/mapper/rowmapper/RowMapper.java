@@ -4,11 +4,9 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper;
+package de.chojo.sadu.wrapper.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.mapper.builder.PartialRowMapper;
-import de.chojo.sadu.wrapper.mapper.builder.RowMapperBuilder;
 import de.chojo.sadu.wrapper.util.Row;
 import org.slf4j.Logger;
 
@@ -27,10 +25,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RowMapper<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
-    private final ThrowingFunction<T, Row, SQLException> mapper;
+    private final ThrowingFunction<? extends T, Row, SQLException> mapper;
     private final Set<String> columns;
 
-    public RowMapper(Class<T> clazz, ThrowingFunction<T, Row, SQLException> mapper, Set<String> columns) {
+    RowMapper(Class<T> clazz, ThrowingFunction<? extends T, Row, SQLException> mapper, Set<String> columns) {
         this.clazz = clazz;
         this.mapper = mapper;
         this.columns = columns;
@@ -122,6 +120,6 @@ public class RowMapper<T> {
 
     @Override
     public String toString() {
-        return "RowMapper{clazz=%s, columns=%s}".formatted(clazz, String.join(", ", columns));
+        return "RowMapper{clazz=%s, columns=%s}".formatted(clazz.getName(), String.join(", ", columns));
     }
 }

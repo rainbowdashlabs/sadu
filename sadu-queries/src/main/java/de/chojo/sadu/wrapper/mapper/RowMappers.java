@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.mapper;
 
 import de.chojo.sadu.wrapper.mapper.exceptions.MappingAlreadyRegisteredException;
 import de.chojo.sadu.wrapper.mapper.exceptions.MappingException;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -21,10 +22,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Class to register {@link RowMapper} to amp rows to objects.
+ * Class to register {@link RowMapper} to map rows to objects.
  */
 public class RowMappers {
-    private static final Map<Class<?>, List<RowMapper<?>>> MAPPER = new HashMap<>();
+    private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
 
     /**
      * Registers a new mapper for a class.
@@ -35,7 +36,7 @@ public class RowMappers {
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
     public RowMappers register(RowMapper<?> rowMapper) {
-        var rowMappers = MAPPER.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
+        var rowMappers = mapper.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
         for (var mapper : rowMappers) {
             if (mapper.columns().containsAll(rowMapper.columns())
                 && mapper.columns().size() == rowMapper.columns().size()) {
@@ -47,8 +48,8 @@ public class RowMappers {
         return this;
     }
 
-    private static List<RowMapper<?>> mapper(Class<?> clazz) {
-        return MAPPER.getOrDefault(clazz, Collections.emptyList());
+    private List<RowMapper<?>> mapper(Class<?> clazz) {
+        return mapper.getOrDefault(clazz, Collections.emptyList());
     }
 
     /**

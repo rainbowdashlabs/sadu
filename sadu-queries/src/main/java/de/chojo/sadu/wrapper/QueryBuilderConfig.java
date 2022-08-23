@@ -9,7 +9,7 @@ package de.chojo.sadu.wrapper;
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.RowMapper;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.mapper.RowMappers;
 import org.jetbrains.annotations.NotNull;
 

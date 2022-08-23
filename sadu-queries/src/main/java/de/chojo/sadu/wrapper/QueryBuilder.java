@@ -7,13 +7,11 @@
 package de.chojo.sadu.wrapper;
 
 import de.chojo.sadu.base.DataHolder;
-import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.RowMapper;
-import de.chojo.sadu.wrapper.mapper.RowMappers;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import de.chojo.sadu.wrapper.stage.InsertStage;
 import de.chojo.sadu.wrapper.stage.QueryStage;
@@ -156,7 +154,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper) {
-        currRowMapper = RowMapper.forClass(clazz).setMapper(mapper).build();
+        currRowMapper = RowMapper.forClass(clazz).mapper(mapper).build();
         queueTask();
         return this;
     }
