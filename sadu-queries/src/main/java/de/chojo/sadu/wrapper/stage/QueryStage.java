@@ -17,10 +17,10 @@ public interface QueryStage<T> {
     /**
      * Set the query to execute.
      *
-     * @param query query to set.
+     * @param sql query to set.
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
      */
-    StatementStage<T> query(String query);
+    StatementStage<T> query(String sql);
 
     /**
      * Set the query to execute.
@@ -39,10 +39,10 @@ public interface QueryStage<T> {
      * <p>
      * This will also skip the statement stage.
      *
-     * @param query query to set.
+     * @param sql query to set.
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.
      */
-    ResultStage<T> queryWithoutParams(String query);
+    ResultStage<T> queryWithoutParams(String sql);
 
     /**
      * Set the query to execute.

@@ -11,6 +11,8 @@ import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import de.chojo.sadu.wrapper.stage.InsertStage;
 import de.chojo.sadu.wrapper.stage.QueryStage;
@@ -25,17 +27,20 @@ import de.chojo.sadu.wrapper.util.UpdateResult;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 /**
  * This query builder can be used to execute one or more queries onto a database via a connection provided by a datasource.
@@ -62,13 +67,16 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private final Queue<QueryTask> tasks = new ArrayDeque<>();
     private final QueryExecutionException executionException;
     private final WrappedQueryExecutionException wrappedExecutionException;
+    private final Class<T> clazz;
     private String currQuery;
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
-    private ThrowingFunction<T, Row, SQLException> currResultMapper;
+    private RowMapper<T> currRowMapper;
     private AtomicReference<QueryBuilderConfig> config;
+    private MapperConfig mapperConfig = new MapperConfig();
 
-    private QueryBuilder(DataSource dataSource) {
+    private QueryBuilder(DataSource dataSource, Class<T> clazz) {
         super(dataSource);
+        this.clazz = clazz;
         executionException = new QueryExecutionException("An error occurred while executing a query.");
         wrappedExecutionException = new WrappedQueryExecutionException("An error occurred while executing a query.");
     }
@@ -82,7 +90,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
      * @return a new query builder in a {@link QueryStage}
      */
     public static <T> ConfigurationStage<T> builder(DataSource source, Class<T> clazz) {
-        return new QueryBuilder<>(source);
+        return new QueryBuilder<>(source, clazz);
     }
 
     /**
@@ -92,7 +100,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
      * @return a new query builder in a {@link QueryStage}
      */
     public static ConfigurationStage<?> builder(DataSource source) {
-        return new QueryBuilder<>(source);
+        return new QueryBuilder<>(source, null);
     }
 
     // CONFIGURATION STAGE
@@ -106,6 +114,14 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     @Override
     public QueryStage<T> defaultConfig() {
         config = QueryBuilderConfig.defaultConfig();
+        return this;
+    }
+
+    @Override
+    public QueryStage<T> defaultConfig(Consumer<QueryBuilderConfig.Builder> builderModifier) {
+        var builder = config.get().toBuilder();
+        builderModifier.accept(builder);
+        config = new AtomicReference<>(builder.build());
         return this;
     }
 
@@ -141,14 +157,22 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper) {
-        currResultMapper = mapper;
+        Objects.requireNonNull(clazz);
+        currRowMapper = RowMapper.forClass(clazz).mapper(mapper).build();
         queueTask();
         return this;
     }
 
     @Override
+    public RetrievalStage<T> map(MapperConfig mapperConfig) {
+        Objects.requireNonNull(clazz);
+        this.mapperConfig = mapperConfig.clone();
+        return this;
+    }
+
+    @Override
     public UpdateStage update() {
-        currResultMapper = row -> null;
+        currRowMapper = null;
         queueTask();
         return this;
     }
@@ -161,13 +185,13 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public QueryStage<T> append() {
-        currResultMapper = row -> null;
+        currRowMapper = null;
         queueTask();
         return this;
     }
 
     private void queueTask() {
-        tasks.add(new QueryTask(currQuery, currStatementConsumer, currResultMapper));
+        tasks.add(new QueryTask(clazz, currQuery, currStatementConsumer, currRowMapper, mapperConfig));
     }
 
     // RETRIEVAL STAGE
@@ -339,7 +363,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             throw wrappedExecutionException;
         }
         executionException.initCause(e);
-        config.get().exceptionHandler().ifPresentOrElse(consumer -> consumer.accept(executionException), () -> logDbError(executionException));
+        config.get().exceptionHandler()
+              .ifPresentOrElse(consumer -> consumer.accept(executionException), () -> logDbError(executionException));
     }
 
     private void autoCommit(Connection conn) throws SQLException {
@@ -352,16 +377,20 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
     private class QueryTask {
+        private final Class<T> clazz;
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
-        private final ThrowingFunction<T, Row, SQLException> resultMapper;
+        private final MapperConfig mapperConfig;
         private final QueryExecutionException executionException;
+        private RowMapper<T> rowMapper;
 
-        private QueryTask(String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
-                          ThrowingFunction<T, Row, SQLException> resultMapper) {
+        private QueryTask(Class<T> clazz, String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
+                          RowMapper<T> rowMapper, MapperConfig mapperConfig) {
+            this.clazz = clazz;
             query = currQuery;
             this.statementConsumer = statementConsumer;
-            this.resultMapper = resultMapper;
+            this.rowMapper = rowMapper;
+            this.mapperConfig = mapperConfig;
             executionException = new QueryExecutionException("An error occured while executing a query.");
         }
 
@@ -376,8 +405,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                var row = new Row(resultSet);
-                while (resultSet.next()) results.add(resultMapper.apply(row));
+                var row = new Row(resultSet, mapperConfig);
+                while (resultSet.next()) results.add(mapper(resultSet).map(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }
@@ -388,8 +417,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             try (var stmt = conn.prepareStatement(query)) {
                 statementConsumer.accept(stmt);
                 var resultSet = stmt.executeQuery();
-                var row = new Row(resultSet);
-                if (resultSet.next()) return Optional.ofNullable(resultMapper.apply(row));
+                var row = new Row(resultSet, mapperConfig);
+                if (resultSet.next()) return Optional.ofNullable(mapper(resultSet).map(row));
             } catch (SQLException e) {
                 initAndThrow(e);
             }
@@ -438,6 +467,14 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
                 initAndThrow(e);
             }
             return 0;
+        }
+
+        private RowMapper<T> mapper(ResultSet resultSet) throws SQLException {
+            if (rowMapper != null) {
+                return rowMapper;
+            }
+            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet, mapperConfig);
+            return rowMapper;
         }
     }
 }
