@@ -39,7 +39,7 @@ class RowMappersTest {
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.full, rowMapper.get());
 
-        rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(),  MapperConfig.DEFAULT);
+        rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(), MapperConfig.DEFAULT);
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.sparse, rowMapper.get());
     }

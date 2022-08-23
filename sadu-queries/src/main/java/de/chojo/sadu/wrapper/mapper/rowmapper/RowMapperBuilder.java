@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
-    private ThrowingFunction<? extends T, Row, SQLException> mapper;
     private final Set<String> columns = new HashSet<>();
+    private ThrowingFunction<? extends T, Row, SQLException> mapper;
 
     RowMapperBuilder(Class<T> clazz) {
         this.clazz = clazz;
@@ -53,6 +53,7 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
 
     /**
      * Build the row mapper.
+     *
      * @return new RowMapper instance
      */
     public RowMapper<T> build() {

@@ -12,7 +12,6 @@ import de.chojo.sadu.wrapper.QueryBuilderConfig;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Configuration stage of a {@link QueryBuilder}

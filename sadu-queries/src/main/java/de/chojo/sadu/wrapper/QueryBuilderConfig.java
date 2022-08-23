@@ -39,7 +39,7 @@ public class QueryBuilderConfig {
         this.throwing = throwing;
         this.atomic = atomic;
         this.exceptionHandler = exceptionHandler;
-        this.executor = executorService;
+        executor = executorService;
         this.rowMappers = rowMappers;
     }
 
@@ -176,7 +176,7 @@ public class QueryBuilderConfig {
          * @return builder instance
          */
         public Builder disableDefaultLogger() {
-            this.exceptionHandler = null;
+            exceptionHandler = null;
             return this;
         }
 

@@ -21,6 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Class representing the mapping of a column to an object.
+ *
  * @param <T> type of retuned object
  */
 public class RowMapper<T> {

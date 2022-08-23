@@ -379,9 +379,9 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         private final Class<T> clazz;
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
-        private RowMapper<T> rowMapper;
         private final MapperConfig mapperConfig;
         private final QueryExecutionException executionException;
+        private RowMapper<T> rowMapper;
 
         private QueryTask(Class<T> clazz, String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
                           RowMapper<T> rowMapper, MapperConfig mapperConfig) {

@@ -69,9 +69,10 @@ public class RowMappers {
 
     /**
      * Gets the wild card mapper if registered.
+     *
      * @param clazz class to get the mapper
+     * @param <T>   type of mapper
      * @return mapper if exists
-     * @param <T> type of mapper
      */
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
@@ -89,7 +90,7 @@ public class RowMappers {
      * The mapper with the most matching columns will be returned.
      *
      * @param clazz clazz to find a mapper for
-     * @param set  result set to find a matching mapper
+     * @param set   result set to find a matching mapper
      * @param <T>   return type of mapper
      * @return mapper when found
      */

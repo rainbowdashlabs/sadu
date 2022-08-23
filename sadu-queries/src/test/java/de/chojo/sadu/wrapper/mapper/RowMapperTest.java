@@ -68,53 +68,53 @@ class RowMapperTest {
         DataSource source = null;
 
 // Create a row mapper for the Result class with three different colums
-RowMapper<Result> fullMapper = RowMapper.forClass(Result.class)
-                                        // Define how the row should be mapped
-                                        .mapper(row -> new MetaResult(row.getInt("id"),
-                                                row.getString("result"),
-                                                row.getString("meta")))
-                                        // define the column names
-                                        .addColumns("id", "result", "meta")
-                                        .build();
+        RowMapper<Result> fullMapper = RowMapper.forClass(Result.class)
+                                                // Define how the row should be mapped
+                                                .mapper(row -> new MetaResult(row.getInt("id"),
+                                                        row.getString("result"),
+                                                        row.getString("meta")))
+                                                // define the column names
+                                                .addColumns("id", "result", "meta")
+                                                .build();
 
 // Allows polymorphism
-RowMapper<Result> sparseMapper = RowMapper.forClass(Result.class)
-                                          // Define how the row should be mapped
-                                          .mapper(row -> new Result(row.getInt("id"),
-                                                  row.getString("result")))
-                                          // define the column names
-                                          .addColumns("id", "result")
-                                          .build();
+        RowMapper<Result> sparseMapper = RowMapper.forClass(Result.class)
+                                                  // Define how the row should be mapped
+                                                  .mapper(row -> new Result(row.getInt("id"),
+                                                          row.getString("result")))
+                                                  // define the column names
+                                                  .addColumns("id", "result")
+                                                  .build();
 
 // Register the mapper
-RowMappers rowMappers = new RowMappers().register(fullMapper, sparseMapper);
+        RowMappers rowMappers = new RowMappers().register(fullMapper, sparseMapper);
 
 // Retrieves a list of MetaResults
-List<Result> metaResults = QueryBuilder.builder(source, Result.class)
-        .defaultConfig(config -> config.rowMappers(rowMappers))
-        .query("SELECT id, result, meta FROM results")
-        .emptyParams()
-        // Call map instead of read rows. This will let the query builder determine the type by itself.
-        .map()
-        .allSync();
+        List<Result> metaResults = QueryBuilder.builder(source, Result.class)
+                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .query("SELECT id, result, meta FROM results")
+                .emptyParams()
+                // Call map instead of read rows. This will let the query builder determine the type by itself.
+                .map()
+                .allSync();
 
 
 // Retrieves a list of Results
-List<Result> results = QueryBuilder.builder(source, Result.class)
-        .defaultConfig(config -> config.rowMappers(rowMappers))
-        .query("SELECT id, result FROM results")
-        .emptyParams()
-        // Call map instead of read rows. This will let the query builder determine the type by itself.
-        .map()
-        .allSync();
+        List<Result> results = QueryBuilder.builder(source, Result.class)
+                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .query("SELECT id, result FROM results")
+                .emptyParams()
+                // Call map instead of read rows. This will let the query builder determine the type by itself.
+                .map()
+                .allSync();
 
 // Allows setting of an alias for a column without the need of creating a new mapper
-results = QueryBuilder.builder(source, Result.class)
-        .defaultConfig(config -> config.rowMappers(rowMappers))
-        .query("SELECT id, result as r_result FROM results")
-        .emptyParams()
-        // Call map instead of read rows. We map the column result to r_result when it gets requested.
-        .map(new MapperConfig().addAlias("result", "r_result"))
-        .allSync();
+        results = QueryBuilder.builder(source, Result.class)
+                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .query("SELECT id, result as r_result FROM results")
+                .emptyParams()
+                // Call map instead of read rows. We map the column result to r_result when it gets requested.
+                .map(new MapperConfig().addAlias("result", "r_result"))
+                .allSync();
     }
 }

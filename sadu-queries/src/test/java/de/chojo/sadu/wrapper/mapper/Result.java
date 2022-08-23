@@ -6,8 +6,6 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
-import static org.mockito.Mockito.mock;
-
 class Result {
     int id;
     String result;
