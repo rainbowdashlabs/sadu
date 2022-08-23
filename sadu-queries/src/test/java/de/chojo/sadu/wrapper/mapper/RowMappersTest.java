@@ -8,15 +8,15 @@ package de.chojo.sadu.wrapper.mapper;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
 class RowMappersTest {
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         RowMappers.register(Mapper.full);
         RowMappers.register(Mapper.sparse);
         RowMappers.register(Mapper.wildcard);
