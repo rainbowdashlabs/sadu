@@ -19,7 +19,7 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private ThrowingFunction<? extends T, Row, SQLException> mapper;
     private final Set<String> columns = new HashSet<>();
 
-    public RowMapperBuilder(Class<T> clazz) {
+    RowMapperBuilder(Class<T> clazz) {
         this.clazz = clazz;
     }
 

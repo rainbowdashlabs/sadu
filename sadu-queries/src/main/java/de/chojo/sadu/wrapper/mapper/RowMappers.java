@@ -48,6 +48,21 @@ public class RowMappers {
         return this;
     }
 
+    /**
+     * Registers new mapper.
+     * <p>
+     * A class can only have one mapper per column combination.
+     *
+     * @param rowMapper one or more mapper to register
+     * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
+     */
+    public RowMappers register(RowMapper<?>... rowMapper) {
+        for (var mapper : rowMapper) {
+            register(mapper);
+        }
+        return this;
+    }
+
     private List<RowMapper<?>> mapper(Class<?> clazz) {
         return mapper.getOrDefault(clazz, Collections.emptyList());
     }
@@ -78,8 +93,8 @@ public class RowMappers {
      * @param <T>   return type of mapper
      * @return mapper when found
      */
-    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set) throws SQLException {
-        return find(clazz, set.getMetaData());
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set, boolean strict) throws SQLException {
+        return find(clazz, set.getMetaData(), strict);
     }
 
     /**
@@ -95,11 +110,11 @@ public class RowMappers {
      * @return mapper when found
      */
     @SuppressWarnings("unchecked")
-    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta) {
+    public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta, boolean strict) {
         return mapper(clazz)
                 .stream()
                 .filter(mapper -> !mapper.isWildcard())
-                .map(mapper -> Map.entry(mapper, mapper.applicable(meta)))
+                .map(mapper -> Map.entry(mapper, mapper.applicable(meta, strict)))
                 .sorted(Collections.reverseOrder(Comparator.comparingInt(Map.Entry::getValue)))
                 .map(Map.Entry::getKey)
                 .findFirst()
@@ -113,14 +128,15 @@ public class RowMappers {
      * <p>
      * The mapper with the most matching columns will be returned.
      *
-     * @param clazz clazz to find a mapper for
-     * @param set   result set to find a matching mapper
-     * @param <T>   return type of mapper
+     * @param <T>    return type of mapper
+     * @param clazz  clazz to find a mapper for
+     * @param set    result set to find a matching mapper
+     * @param strict enables strict mode
      * @return mapper when found
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set) throws MappingException, SQLException {
-        return findOrWildcard(clazz, set.getMetaData());
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, boolean strict) throws MappingException, SQLException {
+        return findOrWildcard(clazz, set.getMetaData(), strict);
     }
 
     /**
@@ -134,8 +150,8 @@ public class RowMappers {
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      * @throws SQLException     if a database access error occurs
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta) throws MappingException, SQLException {
-        Optional<? extends RowMapper<T>> mapper = find(clazz, meta)
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, boolean strict) throws MappingException, SQLException {
+        Optional<? extends RowMapper<T>> mapper = find(clazz, meta, strict)
                 .or(() -> wildcard(clazz));
         if (mapper.isPresent()) {
             return mapper.get();

@@ -9,8 +9,8 @@ package de.chojo.sadu.wrapper;
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.mapper.RowMappers;
+import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
@@ -29,7 +29,6 @@ public class QueryBuilderConfig {
      * Contains the default configuration.
      */
     private static final AtomicReference<QueryBuilderConfig> DEFAULT = new AtomicReference<>(builder().build());
-
     private final boolean throwing;
     private final boolean atomic;
     private final Consumer<SQLException> exceptionHandler;
@@ -45,12 +44,13 @@ public class QueryBuilderConfig {
     }
 
     /**
-     * Get a builder for a QueryBuilderconfig
+     * Get a builder for a QueryBuilderconfig.
+     * The builder is prepopulated by the values set via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
      *
      * @return new builder instance
      */
     public static Builder builder() {
-        return new Builder();
+        return DEFAULT.get().toBuilder();
     }
 
     /**
@@ -59,6 +59,7 @@ public class QueryBuilderConfig {
      * @param config config to set
      */
     public static void setDefault(QueryBuilderConfig config) {
+        Objects.requireNonNull(config);
         DEFAULT.set(config);
     }
 
@@ -186,7 +187,7 @@ public class QueryBuilderConfig {
          * <p>
          * On default queries will be also executed atomic. This method just exists for convenience. No queries will be executed after one query fails in any way.
          *
-         * @return The {@link Builder} in with the atomic value set.
+         * @return builder instance
          */
         public Builder notAtomic() {
             atomic = false;

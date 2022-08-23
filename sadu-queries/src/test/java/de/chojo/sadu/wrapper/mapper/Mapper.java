@@ -11,20 +11,19 @@ import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 public class Mapper {
     public static final RowMapper<Result> wildcard = RowMapper.forClass(Result.class)
                                                               .mapper(row -> new Result(row.getInt("id"),
-                                                                      row.getString("result"),
-                                                                      row.getString("meta")))
+                                                                      row.getString("result")))
                                                               .build();
 
     public static final RowMapper<Result> sparse = RowMapper.forClass(Result.class)
                                                             .mapper(row -> new Result(row.getInt("id"),
-                                                                    row.getString("result"),
-                                                                    row.getString("meta")))
+                                                                    row.getString("result")))
                                                             .addColumn("id")
                                                             .addColumn("result")
                                                             .build();
     public static final RowMapper<Result> full = RowMapper.forClass(Result.class)
-                                                          .mapper(row -> new Result(row.getInt("id"),
-                                                                  row.getString("result")))
+                                                          .mapper(row -> new MetaResult(row.getInt("id"),
+                                                                  row.getString("result"),
+                                                                  row.getString("meta")))
                                                           .addColumn("id")
                                                           .addColumn("result")
                                                           .addColumn("meta")

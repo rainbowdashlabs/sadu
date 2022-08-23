@@ -32,12 +32,25 @@ public interface ResultStage<T> {
 
     /**
      * Maps the rows of the result with a previously registered {@link RowMapper}.
-     *
+     * <p>
      * The best matching mapper will be used for the result set.
      *
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
-    RetrievalStage<T> map();
+    default RetrievalStage<T> map() {
+        return map(false);
+    }
+
+    /**
+     * Maps the rows of the result with a previously registered {@link RowMapper}.
+     * <p>
+     * Maps the row via a strict mapper.
+     * This will only use mappers which have a mapping value for all columns or the wild card mapper if present and no matching mapper was found.
+     *
+     * @param strict strict mode
+     * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
+     */
+    RetrievalStage<T> map(boolean strict);
 
     /**
      * Mark this query as update query.

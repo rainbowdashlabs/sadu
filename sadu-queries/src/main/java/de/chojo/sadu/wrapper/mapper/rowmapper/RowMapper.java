@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import static de.chojo.sadu.wrapper.mapper.util.Result.columnNames;
@@ -77,23 +78,23 @@ public class RowMapper<T> {
     /**
      * Checks how many rows of the result set are applicable.
      *
-     * @param resultSet meta of a result set
+     * @param meta meta of a result set
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
-    public int applicable(ResultSetMetaData resultSet) {
-        return applicable(resultSet, false);
+    public int applicable(ResultSetMetaData meta) {
+        return applicable(meta, false);
     }
 
     /**
      * Checks how many rows of the result set are applicable.
      *
-     * @param resultSet meta of a result set
+     * @param meta meta of a result set
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
-    public int applicable(ResultSetMetaData resultSet, boolean strict) {
+    public int applicable(ResultSetMetaData meta, boolean strict) {
         Set<String> names;
         try {
-            names = columnNames(resultSet);
+            names = columnNames(meta);
         } catch (SQLException e) {
             log.error("Could not read columns", e);
             return 0;
@@ -103,18 +104,21 @@ public class RowMapper<T> {
             // The result set has less rows than we need
             return 0;
         }
-        names.retainAll(columns);
 
-        if (names.size() != columns.size()) {
+        Set<String> overlap = new HashSet<>(names);
+        overlap.retainAll(columns);
+
+        if (overlap.size() != columns.size()) {
             // The result set has not all rows we need.
             return 0;
         }
 
+        // Check that the result set has the same size as the expected columns when strict mode is enabled.
         if (strict && size != columns.size()) {
             return 0;
         }
 
-        return names.size();
+        return overlap.size();
     }
 
 

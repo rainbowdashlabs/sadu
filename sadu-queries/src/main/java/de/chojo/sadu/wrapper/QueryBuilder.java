@@ -33,6 +33,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
@@ -70,6 +71,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     private ThrowingConsumer<PreparedStatement, SQLException> currStatementConsumer;
     private RowMapper<T> currRowMapper;
     private AtomicReference<QueryBuilderConfig> config;
+    private boolean strict = false;
 
     private QueryBuilder(DataSource dataSource, Class<T> clazz) {
         super(dataSource);
@@ -160,7 +162,9 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     @Override
-    public RetrievalStage<T> map() {
+    public RetrievalStage<T> map(boolean strict) {
+        Objects.requireNonNull(clazz);
+        this.strict = strict;
         return this;
     }
 
@@ -185,7 +189,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     }
 
     private void queueTask() {
-        tasks.add(new QueryTask(clazz, currQuery, currStatementConsumer, currRowMapper));
+        tasks.add(new QueryTask(clazz, currQuery, currStatementConsumer, currRowMapper, strict));
     }
 
     // RETRIEVAL STAGE
@@ -375,14 +379,16 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
         private final String query;
         private final ThrowingConsumer<PreparedStatement, SQLException> statementConsumer;
         private RowMapper<T> rowMapper;
+        private final boolean strict;
         private final QueryExecutionException executionException;
 
         private QueryTask(Class<T> clazz, String currQuery, ThrowingConsumer<PreparedStatement, SQLException> statementConsumer,
-                          RowMapper<T> rowMapper) {
+                          RowMapper<T> rowMapper, boolean strict) {
             this.clazz = clazz;
             query = currQuery;
             this.statementConsumer = statementConsumer;
             this.rowMapper = rowMapper;
+            this.strict = strict;
             executionException = new QueryExecutionException("An error occured while executing a query.");
         }
 
@@ -465,7 +471,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             if (rowMapper != null) {
                 return rowMapper;
             }
-            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet);
+            rowMapper = config.get().rowMappers().findOrWildcard(clazz, resultSet, strict);
             return rowMapper;
         }
     }

@@ -35,11 +35,11 @@ class RowMappersTest {
 
     @Test
     void find() throws SQLException {
-        var rowMapper = rowMappers.find(Result.class, Result.fullResultSet());
+        var rowMapper = rowMappers.find(Result.class, MetaResult.fullResultSet(), false);
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.full, rowMapper.get());
 
-        rowMapper = rowMappers.find(Result.class, Result.sparseResultSet());
+        rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(), false);
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.sparse, rowMapper.get());
     }
