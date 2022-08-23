@@ -36,11 +36,11 @@ allprojects {
         maven("https://eldonexus.de/repository/maven-proxies/")
     }
 
-    javaToolchains {
-        java {
-            withSourcesJar()
-            withJavadocJar()
-            sourceCompatibility = JavaVersion.VERSION_15
+    java {
+        withSourcesJar()
+        withJavadocJar()
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(15))
         }
     }
 
