@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.chojo.sadu.wrapper.mapper.util.Result.columnNames;
+import static de.chojo.sadu.wrapper.mapper.util.Results.columnNames;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**

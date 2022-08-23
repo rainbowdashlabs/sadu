@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.wrapper.mapper.exceptions;
 
-import de.chojo.sadu.wrapper.mapper.util.Result;
+import de.chojo.sadu.wrapper.mapper.util.Results;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -18,6 +18,6 @@ public class MappingException extends RuntimeException {
     }
 
     public static MappingException create(ResultSetMetaData meta) throws SQLException {
-        return new MappingException("No mapper present for " + String.join(", ", Result.columnNames(meta)));
+        return new MappingException("No mapper present for " + String.join(", ", Results.columnNames(meta)));
     }
 }

@@ -24,7 +24,7 @@ import java.util.Optional;
 /**
  * Class to register {@link RowMapper} to map rows to objects.
  */
-public class RowMappers {
+public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
 
     /**
@@ -35,11 +35,10 @@ public class RowMappers {
      * @param rowMapper the mapper to register
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
-    public RowMappers register(RowMapper<?> rowMapper) {
+    public RowMapperRegistry register(RowMapper<?> rowMapper) {
         var rowMappers = mapper.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
         for (var mapper : rowMappers) {
-            if (mapper.columns().containsAll(rowMapper.columns())
-                && mapper.columns().size() == rowMapper.columns().size()) {
+            if (mapper.columns().equals(rowMapper.columns())) {
                 throw new MappingAlreadyRegisteredException("A mapping with pattern " + String.join(",", rowMapper.columns() + " is already registered."));
             }
         }
@@ -56,7 +55,7 @@ public class RowMappers {
      * @param rowMapper one or more mapper to register
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
-    public RowMappers register(RowMapper<?>... rowMapper) {
+    public RowMapperRegistry register(RowMapper<?>... rowMapper) {
         for (var mapper : rowMapper) {
             register(mapper);
         }

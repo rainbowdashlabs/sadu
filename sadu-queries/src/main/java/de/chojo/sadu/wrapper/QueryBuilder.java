@@ -157,6 +157,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     @Override
     public RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper) {
+        Objects.requireNonNull(clazz);
         currRowMapper = RowMapper.forClass(clazz).mapper(mapper).build();
         queueTask();
         return this;

@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class Result {
-    private Result() {
+public final class Results {
+    private Results() {
         throw new UnsupportedOperationException("This is a utility class.");
     }
 

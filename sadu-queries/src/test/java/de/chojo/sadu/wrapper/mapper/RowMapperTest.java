@@ -9,7 +9,6 @@ package de.chojo.sadu.wrapper.mapper;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -88,11 +87,11 @@ class RowMapperTest {
                                                   .build();
 
 // Register the mapper
-        RowMappers rowMappers = new RowMappers().register(fullMapper, sparseMapper);
+        RowMapperRegistry rowMapperRegistry = new RowMapperRegistry().register(fullMapper, sparseMapper);
 
 // Retrieves a list of MetaResults
         List<Result> metaResults = QueryBuilder.builder(source, Result.class)
-                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .defaultConfig(config -> config.rowMappers(rowMapperRegistry))
                 .query("SELECT id, result, meta FROM results")
                 .emptyParams()
                 // Call map instead of read rows. This will let the query builder determine the type by itself.
@@ -102,7 +101,7 @@ class RowMapperTest {
 
 // Retrieves a list of Results
         List<Result> results = QueryBuilder.builder(source, Result.class)
-                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .defaultConfig(config -> config.rowMappers(rowMapperRegistry))
                 .query("SELECT id, result FROM results")
                 .emptyParams()
                 // Call map instead of read rows. This will let the query builder determine the type by itself.
@@ -111,7 +110,7 @@ class RowMapperTest {
 
 // Allows setting of an alias for a column without the need of creating a new mapper
         results = QueryBuilder.builder(source, Result.class)
-                .defaultConfig(config -> config.rowMappers(rowMappers))
+                .defaultConfig(config -> config.rowMappers(rowMapperRegistry))
                 .query("SELECT id, result as r_result FROM results")
                 .emptyParams()
                 // Call map instead of read rows. We map the column result to r_result when it gets requested.

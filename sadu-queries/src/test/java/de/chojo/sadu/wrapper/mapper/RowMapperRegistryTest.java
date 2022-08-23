@@ -7,7 +7,6 @@
 package de.chojo.sadu.wrapper.mapper;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +15,12 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class RowMappersTest {
-    static RowMappers rowMappers = new RowMappers();
+class RowMapperRegistryTest {
+    static RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
 
     @BeforeAll
     static void setUp() {
-        rowMappers.register(Mapper.full, Mapper.sparse, Mapper.wildcard);
+        rowMapperRegistry.register(Mapper.full, Mapper.sparse, Mapper.wildcard);
     }
 
     @AfterEach
@@ -30,21 +29,21 @@ class RowMappersTest {
 
     @Test
     void wildcard() throws SQLException {
-        var rowMapper = rowMappers.wildcard(Result.class);
+        var rowMapper = rowMapperRegistry.wildcard(Result.class);
         assertTrue(rowMapper.isPresent());
     }
 
     @Test
     void find() throws SQLException {
-        var rowMapper = rowMappers.find(Result.class, MetaResult.fullResultSet(), MapperConfig.DEFAULT);
+        var rowMapper = rowMapperRegistry.find(Result.class, MetaResult.fullResultSet(), MapperConfig.DEFAULT);
         assertTrue(rowMapper.isPresent());
         assertEquals(Mapper.full, rowMapper.get());
 
-        rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(), MapperConfig.DEFAULT);
+        rowMapper = rowMapperRegistry.find(Result.class, MetaResult.sparseResultSet(), MapperConfig.DEFAULT);
         assertTrue(rowMapper.isPresent());
         assertEquals(Mapper.sparse, rowMapper.get());
 
-        rowMapper = rowMappers.find(Result.class, MetaResult.aliasedResultSet(),
+        rowMapper = rowMapperRegistry.find(Result.class, MetaResult.aliasedResultSet(),
                 new MapperConfig()
                         .addAlias("result", "r_result")
                         .strict());
