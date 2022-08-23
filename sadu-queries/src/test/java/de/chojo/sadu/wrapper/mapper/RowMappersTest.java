@@ -18,9 +18,7 @@ class RowMappersTest {
 
     @BeforeAll
     static void setUp() {
-        rowMappers.register(Mapper.full);
-        rowMappers.register(Mapper.sparse);
-        rowMappers.register(Mapper.wildcard);
+        rowMappers.register(Mapper.full, Mapper.sparse, Mapper.wildcard);
     }
 
     @AfterEach
@@ -40,6 +38,13 @@ class RowMappersTest {
         Assertions.assertEquals(Mapper.full, rowMapper.get());
 
         rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(), MapperConfig.DEFAULT);
+        Assertions.assertTrue(rowMapper.isPresent());
+        Assertions.assertEquals(Mapper.sparse, rowMapper.get());
+
+        rowMapper = rowMappers.find(Result.class, MetaResult.aliasedResultSet(),
+                new MapperConfig()
+                        .addAlias("result", "r_result")
+                        .strict());
         Assertions.assertTrue(rowMapper.isPresent());
         Assertions.assertEquals(Mapper.sparse, rowMapper.get());
     }

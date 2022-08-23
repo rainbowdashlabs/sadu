@@ -49,8 +49,9 @@ public class MapperConfig implements Cloneable {
     /**
      * This will only use mappers which have a mapping value for all columns or the wild card mapper if present and no matching mapper was found.
      */
-    public void strict() {
+    public MapperConfig strict() {
         strict = true;
+        return this;
     }
 
     @Override

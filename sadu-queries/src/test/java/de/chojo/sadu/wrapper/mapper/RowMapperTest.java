@@ -33,7 +33,7 @@ class RowMapperTest {
         Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
         Assertions.assertEquals(new MetaResult(1, "result", "meta"), map);
 
-        map = Mapper.full.map(new Row(MetaResult.aliasedResultSet(), new MapperConfig().addAlias("result", "r_result")));
+        map = Mapper.full.map(new Row(MetaResult.aliasedResultSet(), new MapperConfig().addAlias("result", "r_result").strict()));
         Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
         Assertions.assertEquals(new Result(1, "result"), map);
     }
@@ -114,7 +114,7 @@ class RowMapperTest {
                 .query("SELECT id, result as r_result FROM results")
                 .emptyParams()
                 // Call map instead of read rows. We map the column result to r_result when it gets requested.
-                .map(new MapperConfig().addAlias("result", "r_result"))
+                .map(new MapperConfig().addAlias("result", "r_result").strict())
                 .allSync();
     }
 }

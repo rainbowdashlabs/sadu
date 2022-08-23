@@ -7,6 +7,7 @@
 package de.chojo.sadu.wrapper.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.util.Row;
 import org.slf4j.Logger;
 
@@ -73,7 +74,7 @@ public class RowMapper<T> {
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
     public int applicable(ResultSet resultSet, boolean strict) throws SQLException {
-        return applicable(resultSet.getMetaData(), strict);
+        return applicable(resultSet.getMetaData(), MapperConfig.DEFAULT);
     }
 
     /**
@@ -83,16 +84,17 @@ public class RowMapper<T> {
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
     public int applicable(ResultSetMetaData meta) {
-        return applicable(meta, false);
+        return applicable(meta, MapperConfig.DEFAULT);
     }
 
     /**
      * Checks how many rows of the result set are applicable.
      *
-     * @param meta meta of a result set
+     * @param meta   meta of a result set
+     * @param config mapper config
      * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
      */
-    public int applicable(ResultSetMetaData meta, boolean strict) {
+    public int applicable(ResultSetMetaData meta, MapperConfig config) {
         Set<String> names;
         try {
             names = columnNames(meta);
@@ -100,6 +102,13 @@ public class RowMapper<T> {
             log.error("Could not read columns", e);
             return 0;
         }
+
+        var columns = new HashSet<>(this.columns);
+
+        for (var entry : config.aliases().entrySet()) {
+            if (columns.remove(entry.getKey())) columns.add(entry.getValue());
+        }
+
         int size = names.size();
         if (columns.size() > size) {
             // The result set has less rows than we need
@@ -115,7 +124,7 @@ public class RowMapper<T> {
         }
 
         // Check that the result set has the same size as the expected columns when strict mode is enabled.
-        if (strict && size != columns.size()) {
+        if (config.isStrict() && size != columns.size()) {
             return 0;
         }
 

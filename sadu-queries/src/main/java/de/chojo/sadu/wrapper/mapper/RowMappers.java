@@ -115,7 +115,7 @@ public class RowMappers {
         return mapper(clazz)
                 .stream()
                 .filter(mapper -> !mapper.isWildcard())
-                .map(mapper -> Map.entry(mapper, mapper.applicable(meta, config.isStrict())))
+                .map(mapper -> Map.entry(mapper, mapper.applicable(meta, config)))
                 .sorted(Collections.reverseOrder(Comparator.comparingInt(Map.Entry::getValue)))
                 .map(Map.Entry::getKey)
                 .findFirst()
