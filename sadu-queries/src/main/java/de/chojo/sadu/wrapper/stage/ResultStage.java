@@ -13,6 +13,8 @@ import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Represents a ResultStage of a {@link QueryBuilder}.
@@ -51,6 +53,20 @@ public interface ResultStage<T> {
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
     RetrievalStage<T> map(MapperConfig mapperConfig);
+
+    /**
+     * Maps the rows of the result with a previously registered {@link RowMapper}.
+     * <p>
+     * Maps the row and applies a mapper config to the query builder.
+     *
+     * @param mapperConfig modify the mapper config
+     * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
+     */
+     default RetrievalStage<T> map(Consumer<MapperConfig> mapperConfig){
+         var config = new MapperConfig();
+         mapperConfig.accept(config);
+         return map(config);
+     }
 
     /**
      * Mark this query as update query.

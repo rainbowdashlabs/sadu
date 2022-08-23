@@ -107,5 +107,14 @@ List<Result> results = QueryBuilder.builder(source, Result.class)
         // Call map instead of read rows. This will let the query builder determine the type by itself.
         .map()
         .allSync();
+
+// Allows setting of an alias for a column without the need of creating a new mapper
+results = QueryBuilder.builder(source, Result.class)
+        .defaultConfig(config -> config.rowMappers(rowMappers))
+        .query("SELECT id, result as r_result FROM results")
+        .emptyParams()
+        // Call map instead of read rows. We map the column result to r_result when it gets requested.
+        .map(new MapperConfig().addAlias("result", "r_result"))
+        .allSync();
     }
 }

@@ -28,7 +28,7 @@ public class QueryBuilderConfig {
     /**
      * Contains the default configuration.
      */
-    private static final AtomicReference<QueryBuilderConfig> DEFAULT = new AtomicReference<>(builder().build());
+    private static final AtomicReference<QueryBuilderConfig> DEFAULT = new AtomicReference<>(new Builder().build());
     private final boolean throwing;
     private final boolean atomic;
     private final Consumer<SQLException> exceptionHandler;
