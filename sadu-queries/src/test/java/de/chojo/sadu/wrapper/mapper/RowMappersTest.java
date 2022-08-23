@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class RowMappersTest {
     static RowMappers rowMappers = new RowMappers();
 
@@ -28,24 +31,24 @@ class RowMappersTest {
     @Test
     void wildcard() throws SQLException {
         var rowMapper = rowMappers.wildcard(Result.class);
-        Assertions.assertTrue(rowMapper.isPresent());
+        assertTrue(rowMapper.isPresent());
     }
 
     @Test
     void find() throws SQLException {
         var rowMapper = rowMappers.find(Result.class, MetaResult.fullResultSet(), MapperConfig.DEFAULT);
-        Assertions.assertTrue(rowMapper.isPresent());
-        Assertions.assertEquals(Mapper.full, rowMapper.get());
+        assertTrue(rowMapper.isPresent());
+        assertEquals(Mapper.full, rowMapper.get());
 
         rowMapper = rowMappers.find(Result.class, MetaResult.sparseResultSet(), MapperConfig.DEFAULT);
-        Assertions.assertTrue(rowMapper.isPresent());
-        Assertions.assertEquals(Mapper.sparse, rowMapper.get());
+        assertTrue(rowMapper.isPresent());
+        assertEquals(Mapper.sparse, rowMapper.get());
 
         rowMapper = rowMappers.find(Result.class, MetaResult.aliasedResultSet(),
                 new MapperConfig()
                         .addAlias("result", "r_result")
                         .strict());
-        Assertions.assertTrue(rowMapper.isPresent());
-        Assertions.assertEquals(Mapper.sparse, rowMapper.get());
+        assertTrue(rowMapper.isPresent());
+        assertEquals(Mapper.sparse, rowMapper.get());
     }
 }

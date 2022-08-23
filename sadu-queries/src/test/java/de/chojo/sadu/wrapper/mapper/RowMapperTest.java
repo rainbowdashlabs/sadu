@@ -18,6 +18,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,22 +27,22 @@ class RowMapperTest {
     @Test
     void map() throws SQLException {
         var map = Mapper.sparse.map(new Row(MetaResult.sparseResultSet(), MapperConfig.DEFAULT));
-        Assertions.assertEquals(Result.class, map.getClass(), "Polimorphism check failed.");
-        Assertions.assertEquals(new Result(1, "result"), map);
+        assertEquals(Result.class, map.getClass(), "Polimorphism check failed.");
+        assertEquals(new Result(1, "result"), map);
 
         map = Mapper.full.map(new Row(MetaResult.fullResultSet(), MapperConfig.DEFAULT));
-        Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
-        Assertions.assertEquals(new MetaResult(1, "result", "meta"), map);
+        assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
+        assertEquals(new MetaResult(1, "result", "meta"), map);
 
         map = Mapper.full.map(new Row(MetaResult.aliasedResultSet(), new MapperConfig().addAlias("result", "r_result").strict()));
-        Assertions.assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
-        Assertions.assertEquals(new Result(1, "result"), map);
+        assertEquals(MetaResult.class, map.getClass(), "Polimorphism check failed.");
+        assertEquals(new Result(1, "result"), map);
     }
 
     @Test
     void isWildcard() {
-        Assertions.assertTrue(Mapper.wildcard.isWildcard());
-        Assertions.assertFalse(Mapper.sparse.isWildcard());
+        assertTrue(Mapper.wildcard.isWildcard());
+        assertFalse(Mapper.sparse.isWildcard());
     }
 
     @Test
@@ -56,12 +57,12 @@ class RowMapperTest {
 
         // Check strict mode.
         // Mapper is not applicable since we would loose the meta column
-        Assertions.assertEquals(0, Mapper.sparse.applicable(resultSet, new MapperConfig().strict()));
+        assertEquals(0, Mapper.sparse.applicable(resultSet, new MapperConfig().strict()));
         // Mapper is applicable
-        Assertions.assertEquals(3, Mapper.full.applicable(resultSet, new MapperConfig().strict()));
+        assertEquals(3, Mapper.full.applicable(resultSet, new MapperConfig().strict()));
         // Check non strict mode. Mapper can apply two fields
-        Assertions.assertEquals(2, Mapper.sparse.applicable(resultSet));
-        Assertions.assertEquals(3, Mapper.full.applicable(resultSet));
+        assertEquals(2, Mapper.sparse.applicable(resultSet));
+        assertEquals(3, Mapper.full.applicable(resultSet));
     }
 
     void syntaxExample() {
@@ -112,18 +113,6 @@ class RowMapperTest {
         results = QueryBuilder.builder(source, Result.class)
                 .defaultConfig(config -> config.rowMappers(rowMappers))
                 .query("SELECT id, result as r_result FROM results")
-                .emptyParams()
-                // Call map instead of read rows. We map the column result to r_result when it gets requested.
-                .map(new MapperConfig().addAlias("result", "r_result").strict())
-                .allSync();
-
-        results = QueryBuilder.builder(source, Result.class)
-                .defaultConfig(config -> config.rowMappers(rowMappers))
-                .query("""
-                       SELECT a.id, a.title as a_title, p.title FROM applications a
-                       LEFT JOIN paragraph p WHERE p.application_id = a.id
-                       WHERE a.id = ?
-                       """)
                 .emptyParams()
                 // Call map instead of read rows. We map the column result to r_result when it gets requested.
                 .map(new MapperConfig().addAlias("result", "r_result").strict())
