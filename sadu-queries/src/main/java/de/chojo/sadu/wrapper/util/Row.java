@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.util;
 
 import de.chojo.sadu.conversion.ArrayConverter;
 import de.chojo.sadu.conversion.UUIDConverter;
+import de.chojo.sadu.wrapper.mapper.MapperConfig;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -17,7 +18,6 @@ import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
-import java.sql.JDBCType;
 import java.sql.NClob;
 import java.sql.Ref;
 import java.sql.ResultSet;
@@ -25,7 +25,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.RowId;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-import java.sql.SQLType;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -41,13 +40,16 @@ import java.util.UUID;
 public class Row {
     private final ResultSet resultSet;
 
+    private final MapperConfig config;
+
     /**
      * Wraps a result set into a row
      *
      * @param resultSet result set
      */
-    public Row(ResultSet resultSet) {
+    public Row(ResultSet resultSet, MapperConfig config) {
         this.resultSet = resultSet;
+        this.config = config;
     }
 
     /**
@@ -61,7 +63,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -77,7 +79,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -95,7 +97,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code boolean} in the Java programming language.
      *
      * <P>If the designated column has a datatype of CHAR or VARCHAR
@@ -118,7 +120,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -134,7 +136,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code short} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -150,7 +152,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code int} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -166,7 +168,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code long} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -182,7 +184,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code float} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -198,7 +200,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code double} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -214,7 +216,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} array in the Java programming language.
      * The bytes represent the raw values returned by the driver.
      *
@@ -231,7 +233,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -247,7 +249,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Date} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -263,7 +265,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Time} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -279,7 +281,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Timestamp} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -295,7 +297,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a stream of ASCII characters. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARCHAR} values.
@@ -324,7 +326,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a  stream of
+     * of this {@code Row} object as a  stream of
      * uninterpreted bytes. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARBINARY} values.
@@ -351,7 +353,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -362,12 +364,12 @@ public class Row {
      *                      called on a closed result set
      */
     public String getString(String columnLabel) throws SQLException {
-        return resultSet.getString(columnLabel);
+        return resultSet.getString(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -378,12 +380,12 @@ public class Row {
      *                      called on a closed result set
      */
     public UUID getUuidFromString(String columnLabel) throws SQLException {
-        return UUID.fromString(resultSet.getString(columnLabel));
+        return UUID.fromString(resultSet.getString(columnAlias(columnLabel)));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code boolean} in the Java programming language.
      *
      * <P>If the designated column has a datatype of CHAR or VARCHAR
@@ -401,12 +403,12 @@ public class Row {
      *                      called on a closed result set
      */
     public boolean getBoolean(String columnLabel) throws SQLException {
-        return resultSet.getBoolean(columnLabel);
+        return resultSet.getBoolean(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -417,12 +419,12 @@ public class Row {
      *                      called on a closed result set
      */
     public byte getByte(String columnLabel) throws SQLException {
-        return resultSet.getByte(columnLabel);
+        return resultSet.getByte(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code short} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -433,12 +435,12 @@ public class Row {
      *                      called on a closed result set
      */
     public short getShort(String columnLabel) throws SQLException {
-        return resultSet.getShort(columnLabel);
+        return resultSet.getShort(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code int} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -449,12 +451,12 @@ public class Row {
      *                      called on a closed result set
      */
     public int getInt(String columnLabel) throws SQLException {
-        return resultSet.getInt(columnLabel);
+        return resultSet.getInt(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code long} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -465,12 +467,12 @@ public class Row {
      *                      called on a closed result set
      */
     public long getLong(String columnLabel) throws SQLException {
-        return resultSet.getLong(columnLabel);
+        return resultSet.getLong(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code float} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -481,12 +483,12 @@ public class Row {
      *                      called on a closed result set
      */
     public float getFloat(String columnLabel) throws SQLException {
-        return resultSet.getFloat(columnLabel);
+        return resultSet.getFloat(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code double} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -497,12 +499,12 @@ public class Row {
      *                      called on a closed result set
      */
     public double getDouble(String columnLabel) throws SQLException {
-        return resultSet.getDouble(columnLabel);
+        return resultSet.getDouble(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code byte} array in the Java programming language.
      * The bytes represent the raw values returned by the driver.
      *
@@ -514,12 +516,12 @@ public class Row {
      *                      called on a closed result set
      */
     public byte[] getBytes(String columnLabel) throws SQLException {
-        return resultSet.getBytes(columnLabel);
+        return resultSet.getBytes(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -530,12 +532,12 @@ public class Row {
      *                      called on a closed result set
      */
     public UUID getUuidFromBytes(String columnLabel) throws SQLException {
-        return UUIDConverter.convert(resultSet.getBytes(columnLabel));
+        return UUIDConverter.convert(resultSet.getBytes(columnAlias(columnLabel)));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code UUID} in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -552,7 +554,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code List} in the Java programming language.
+     * of this {@code Row} object as a {@code List} in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
      * @param <T>         type of list
@@ -568,7 +570,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Date} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -579,12 +581,12 @@ public class Row {
      *                      called on a closed result set
      */
     public Date getDate(String columnLabel) throws SQLException {
-        return resultSet.getDate(columnLabel);
+        return resultSet.getDate(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Time} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -596,12 +598,12 @@ public class Row {
      *                      called on a closed result set
      */
     public Time getTime(String columnLabel) throws SQLException {
-        return resultSet.getTime(columnLabel);
+        return resultSet.getTime(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code java.sql.Timestamp} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -612,12 +614,12 @@ public class Row {
      *                      called on a closed result set
      */
     public Timestamp getTimestamp(String columnLabel) throws SQLException {
-        return resultSet.getTimestamp(columnLabel);
+        return resultSet.getTimestamp(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a stream of
+     * of this {@code Row} object as a stream of
      * ASCII characters. The value can then be read in chunks from the
      * stream. This method is particularly
      * suitable for retrieving large {@code LONGVARCHAR} values.
@@ -640,12 +642,12 @@ public class Row {
      *                      called on a closed result set
      */
     public InputStream getAsciiStream(String columnLabel) throws SQLException {
-        return resultSet.getAsciiStream(columnLabel);
+        return resultSet.getAsciiStream(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a stream of uninterpreted
+     * of this {@code Row} object as a stream of uninterpreted
      * {@code byte}s.
      * The value can then be read in chunks from the
      * stream. This method is particularly
@@ -667,14 +669,14 @@ public class Row {
      *                      called on a closed result set
      */
     public InputStream getBinaryStream(String columnLabel) throws SQLException {
-        return resultSet.getBinaryStream(columnLabel);
+        return resultSet.getBinaryStream(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the  number, types and properties of
-     * this {@code ResultSet} object's columns.
+     * this {@code Row} object's columns.
      *
-     * @return the description of this {@code ResultSet} object's columns
+     * @return the description of this {@code Row} object's columns
      * @throws SQLException if a database access error occurs or this method is
      *                      called on a closed result set
      */
@@ -684,7 +686,7 @@ public class Row {
 
     /**
      * <p>Gets the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code Object} in the Java programming language.
      *
      * <p>This method will return the value of the given column as a
@@ -726,7 +728,7 @@ public class Row {
 
     /**
      * <p>Gets the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * an {@code Object} in the Java programming language.
      *
      * <p>This method will return the value of the given column as a
@@ -753,12 +755,12 @@ public class Row {
      *                      called on a closed result set
      */
     public Object getObject(String columnLabel) throws SQLException {
-        return resultSet.getObject(columnLabel);
+        return resultSet.getObject(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -776,7 +778,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -789,12 +791,12 @@ public class Row {
      * @since 1.2
      */
     public Reader getCharacterStream(String columnLabel) throws SQLException {
-        return resultSet.getCharacterStream(columnLabel);
+        return resultSet.getCharacterStream(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.math.BigDecimal} with full precision.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -812,7 +814,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.math.BigDecimal} with full precision.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -825,12 +827,12 @@ public class Row {
      * @since 1.2
      */
     public BigDecimal getBigDecimal(String columnLabel) throws SQLException {
-        return resultSet.getBigDecimal(columnLabel);
+        return resultSet.getBigDecimal(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Object}
+     * of this {@code Row} object as an {@code Object}
      * in the Java programming language.
      * If the value is an SQL {@code NULL},
      * the driver returns a Java {@code null}.
@@ -856,7 +858,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Ref} object
+     * of this {@code Row} object as a {@code Ref} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -875,7 +877,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Blob} object
+     * of this {@code Row} object as a {@code Blob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -894,7 +896,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Clob} object
+     * of this {@code Row} object as a {@code Clob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -913,7 +915,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Array} object
+     * of this {@code Row} object as an {@code Array} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -932,7 +934,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Object}
+     * of this {@code Row} object as an {@code Object}
      * in the Java programming language.
      * If the value is an SQL {@code NULL},
      * the driver returns a Java {@code null}.
@@ -952,12 +954,12 @@ public class Row {
      * @since 1.2
      */
     public Object getObject(String columnLabel, Map<String, Class<?>> map) throws SQLException {
-        return resultSet.getObject(columnLabel, map);
+        return resultSet.getObject(columnAlias(columnLabel), map);
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Ref} object
+     * of this {@code Row} object as a {@code Ref} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -971,12 +973,12 @@ public class Row {
      * @since 1.2
      */
     public Ref getRef(String columnLabel) throws SQLException {
-        return resultSet.getRef(columnLabel);
+        return resultSet.getRef(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Blob} object
+     * of this {@code Row} object as a {@code Blob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -990,12 +992,12 @@ public class Row {
      * @since 1.2
      */
     public Blob getBlob(String columnLabel) throws SQLException {
-        return resultSet.getBlob(columnLabel);
+        return resultSet.getBlob(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code Clob} object
+     * of this {@code Row} object as a {@code Clob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1009,12 +1011,12 @@ public class Row {
      * @since 1.2
      */
     public Clob getClob(String columnLabel) throws SQLException {
-        return resultSet.getClob(columnLabel);
+        return resultSet.getClob(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as an {@code Array} object
+     * of this {@code Row} object as an {@code Array} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1028,12 +1030,12 @@ public class Row {
      * @since 1.2
      */
     public Array getArray(String columnLabel) throws SQLException {
-        return resultSet.getArray(columnLabel);
+        return resultSet.getArray(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * of this {@code Row} object as a {@code java.sql.Date} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the date if the underlying database does not store
@@ -1056,7 +1058,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Date} object
+     * of this {@code Row} object as a {@code java.sql.Date} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the date if the underlying database does not store
@@ -1074,12 +1076,12 @@ public class Row {
      * @since 1.2
      */
     public Date getDate(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getDate(columnLabel, cal);
+        return resultSet.getDate(columnAlias(columnLabel), cal);
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * of this {@code Row} object as a {@code java.sql.Time} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the time if the underlying database does not store
@@ -1102,7 +1104,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Time} object
+     * of this {@code Row} object as a {@code java.sql.Time} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the time if the underlying database does not store
@@ -1120,12 +1122,12 @@ public class Row {
      * @since 1.2
      */
     public Time getTime(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getTime(columnLabel, cal);
+        return resultSet.getTime(columnAlias(columnLabel), cal);
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * of this {@code Row} object as a {@code java.sql.Timestamp} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the timestamp if the underlying database does not store
@@ -1148,7 +1150,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.sql.Timestamp} object
+     * of this {@code Row} object as a {@code java.sql.Timestamp} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the timestamp if the underlying database does not store
@@ -1166,12 +1168,12 @@ public class Row {
      * @since 1.2
      */
     public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
-        return resultSet.getTimestamp(columnLabel, cal);
+        return resultSet.getTimestamp(columnAlias(columnLabel), cal);
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * of this {@code Row} object as a {@code java.net.URL}
      * object in the Java programming language.
      *
      * @param columnIndex the index of the column 1 is the first, 2 is the second,...
@@ -1191,7 +1193,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code java.net.URL}
+     * of this {@code Row} object as a {@code java.net.URL}
      * object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1206,12 +1208,12 @@ public class Row {
      * @since 1.4
      */
     public URL getURL(String columnLabel) throws SQLException {
-        return resultSet.getURL(columnLabel);
+        return resultSet.getURL(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row of this
-     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * {@code Row} object as a {@code java.sql.RowId} object in the Java
      * programming language.
      *
      * @param columnIndex the first column is 1, the second 2, ...
@@ -1230,7 +1232,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row of this
-     * {@code ResultSet} object as a {@code java.sql.RowId} object in the Java
+     * {@code Row} object as a {@code java.sql.RowId} object in the Java
      * programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1244,12 +1246,12 @@ public class Row {
      * @since 1.6
      */
     public RowId getRowId(String columnLabel) throws SQLException {
-        return resultSet.getRowId(columnLabel);
+        return resultSet.getRowId(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code NClob} object
+     * of this {@code Row} object as a {@code NClob} object
      * in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -1270,7 +1272,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a {@code NClob} object
+     * of this {@code Row} object as a {@code NClob} object
      * in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1286,12 +1288,12 @@ public class Row {
      * @since 1.6
      */
     public NClob getNClob(String columnLabel) throws SQLException {
-        return resultSet.getNClob(columnLabel);
+        return resultSet.getNClob(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in  the current row of
-     * this {@code ResultSet} as a
+     * this {@code Row} as a
      * {@code java.sql.SQLXML} object in the Java programming language.
      *
      * @param columnIndex the first column is 1, the second is 2, ...
@@ -1309,7 +1311,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in  the current row of
-     * this {@code ResultSet} as a
+     * this {@code Row} as a
      * {@code java.sql.SQLXML} object in the Java programming language.
      *
      * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
@@ -1322,12 +1324,12 @@ public class Row {
      * @since 1.6
      */
     public SQLXML getSQLXML(String columnLabel) throws SQLException {
-        return resultSet.getSQLXML(columnLabel);
+        return resultSet.getSQLXML(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1349,7 +1351,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as
+     * of this {@code Row} object as
      * a {@code String} in the Java programming language.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1366,12 +1368,12 @@ public class Row {
      * @since 1.6
      */
     public String getNString(String columnLabel) throws SQLException {
-        return resultSet.getNString(columnLabel);
+        return resultSet.getNString(columnAlias(columnLabel));
     }
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1394,7 +1396,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object as a
+     * of this {@code Row} object as a
      * {@code java.io.Reader} object.
      * It is intended for use when
      * accessing  {@code NCHAR},{@code NVARCHAR}
@@ -1412,12 +1414,12 @@ public class Row {
      * @since 1.6
      */
     public Reader getNCharacterStream(String columnLabel) throws SQLException {
-        return resultSet.getNCharacterStream(columnLabel);
+        return resultSet.getNCharacterStream(columnAlias(columnLabel));
     }
 
     /**
      * <p>Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object and will convert from the
+     * of this {@code Row} object and will convert from the
      * SQL type of the column to the requested Java data type, if the
      * conversion is supported. If the conversion is not
      * supported  or null is specified for the type, a
@@ -1447,7 +1449,7 @@ public class Row {
 
     /**
      * <p>Retrieves the value of the designated column in the current row
-     * of this {@code ResultSet} object and will convert from the
+     * of this {@code Row} object and will convert from the
      * SQL type of the column to the requested Java data type, if the
      * conversion is supported. If the conversion is not
      * supported  or null is specified for the type, a
@@ -1474,143 +1476,10 @@ public class Row {
      * @since 1.7
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
-        return resultSet.getObject(columnLabel, type);
+        return resultSet.getObject(columnAlias(columnLabel), type);
     }
 
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * If the second argument is an {@code InputStream} then the stream must contain
-     * the number of bytes specified by scaleOrLength.  If the second argument is a
-     * {@code Reader} then the reader must contain the number of characters specified
-     * by scaleOrLength. If these conditions are not true the driver will generate a
-     * {@code SQLException} when the statement is executed.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnIndex   the first column is 1, the second is 2, ...
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
-     *                      this is the number of digits after the decimal point. For
-     *                      Java Object types {@code InputStream} and {@code Reader},
-     *                      this is the length
-     *                      of the data in the stream or reader.  For all other types,
-     *                      this value will be ignored.
-     * @throws SQLException                    if the columnIndex is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        resultSet.updateObject(columnIndex, x, targetSqlType, scaleOrLength);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * If the second argument is an {@code InputStream} then the stream must
-     * contain number of bytes specified by scaleOrLength.  If the second
-     * argument is a {@code Reader} then the reader must contain the number
-     * of characters specified by scaleOrLength. If these conditions are not
-     * true the driver will generate a
-     * {@code SQLException} when the statement is executed.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnLabel   the label for the column specified with the SQL AS
-     *                      clause.  If the SQL AS clause was not specified, then the label is
-     *                      the name of the column
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @param scaleOrLength for an object of {@code java.math.BigDecimal} ,
-     *                      this is the number of digits after the decimal point. For
-     *                      Java Object types {@code InputStream} and {@code Reader},
-     *                      this is the length
-     *                      of the data in the stream or reader.  For all other types,
-     *                      this value will be ignored.
-     * @throws SQLException                    if the columnLabel is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        resultSet.updateObject(columnLabel, x, targetSqlType, scaleOrLength);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnIndex   the first column is 1, the second is 2, ...
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @throws SQLException                    if the columnIndex is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType) throws SQLException {
-        resultSet.updateObject(columnIndex, x, targetSqlType);
-    }
-
-    /**
-     * Updates the designated column with an {@code Object} value.
-     * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the {@code updateRow} or
-     * {@code insertRow} methods are called to update the database.
-     * <p>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
-     *
-     * @param columnLabel   the label for the column specified with the SQL AS
-     *                      clause.  If the SQL AS clause was not specified, then the label is
-     *                      the name of the column
-     * @param x             the new column value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @throws SQLException                    if the columnLabel is not valid;
-     *                                         if a database access error occurs;
-     *                                         the result set concurrency is {@code CONCUR_READ_ONLY}
-     *                                         or this method is called on a closed result set
-     * @throws SQLFeatureNotSupportedException if the JDBC driver does not
-     *                                         support this method; if the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
-     */
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType) throws SQLException {
-        resultSet.updateObject(columnLabel, x, targetSqlType);
+    private String columnAlias(String columnLabel) {
+        return config.aliases().getOrDefault(columnLabel, columnLabel);
     }
 }

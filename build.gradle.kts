@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo.sadu"
-version = "1.0.0"
+version = "1.1.0"
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -39,12 +39,15 @@ allprojects {
     java {
         withSourcesJar()
         withJavadocJar()
-        sourceCompatibility = JavaVersion.VERSION_15
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(15))
+        }
     }
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.0")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.0")
+        testImplementation("org.mockito", "mockito-core", "3.+")
     }
 
     license {

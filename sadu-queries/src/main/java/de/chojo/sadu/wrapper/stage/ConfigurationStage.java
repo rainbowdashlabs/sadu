@@ -11,6 +11,7 @@ import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 /**
  * Configuration stage of a {@link QueryBuilder}
@@ -47,9 +48,16 @@ public interface ConfigurationStage<T> {
      * <p>
      * A configured {@link QueryFactory} can be used to skip this step.
      *
-     * @return The {@link QueryBuilder} in
+     * @return The {@link QueryBuilder} in  {@link QueryStage} with the config set.
      */
     QueryStage<T> defaultConfig();
 
-
+    /**
+     * Allows to modify a config, prepopulated with the default values defined via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
+     * <p>
+     * A configured {@link QueryFactory} can be used to skip this step.
+     *
+     * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
+     */
+    QueryStage<T> defaultConfig(Consumer<QueryBuilderConfig.Builder> builderModifier);
 }
