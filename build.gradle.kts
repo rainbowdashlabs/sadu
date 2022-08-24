@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo.sadu"
-version = "1.0.0"
+version = "1.1.0"
 
 dependencies {
     api(project(":sadu-sqlite"))
