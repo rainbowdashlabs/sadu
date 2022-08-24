@@ -10,5 +10,9 @@ de.chojo.sadu.types
 de.chojo.sadu.updater
 de.chojo.sadu.wrapper
 de.chojo.sadu.wrapper.exception
+de.chojo.sadu.wrapper.mapper
+de.chojo.sadu.wrapper.mapper.exceptions
+de.chojo.sadu.wrapper.mapper.rowmapper
+de.chojo.sadu.wrapper.mapper.util
 de.chojo.sadu.wrapper.stage
 de.chojo.sadu.wrapper.util
