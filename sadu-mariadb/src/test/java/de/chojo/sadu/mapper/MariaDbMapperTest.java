@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MariaDbMapperTest {
 
     @Test
-    //@Disabled
+    @Disabled
     public void test() throws SQLException {
         MariaDbDataSource dataSource = new MariaDbDataSource(MariaDb.get().jdbcBuilder().login("root", "root").jdbcUrl());
 
