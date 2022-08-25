@@ -4,12 +4,16 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.util;
+package de.chojo.sadu.mapper.util;
+
+import de.chojo.sadu.types.SqlType;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public final class Results {
@@ -41,5 +45,18 @@ public final class Results {
             columns.add(meta.getColumnLabel(i));
         }
         return columns;
+    }
+
+    public static Optional<Integer> getColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types) throws SQLException {
+        for (int i = 1; i <= meta.getColumnCount(); i++) {
+            String typeName = meta.getColumnTypeName(i);
+            for (SqlType type : types) {
+                if (typeName.equalsIgnoreCase(type.name())) return Optional.of(i);
+                for (String alias : type.alias()) {
+                    if (typeName.equalsIgnoreCase(alias)) return Optional.of(i);
+                }
+            }
+        }
+        return Optional.empty();
     }
 }

@@ -28,9 +28,9 @@ public interface SqLiteTypes {
      * SqLite boolean type
      * Internally interpreted as an INTEGER
      */
-    SqlType BOOLEAN = ofName("BOOLEAN");
+    SqlType BOOLEAN = ofName("BOOLEAN", "INTEGER");
     /**
      * SqLite blob type
      */
-    SqlType BLOB = ofName("BOOLEAN");
+    SqlType BLOB = ofName("BLOB");
 }

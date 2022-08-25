@@ -1,6 +1,7 @@
 
 dependencies {
     api(project(":sadu-core"))
+    api(project(":sadu-mapper"))
 
     testImplementation(project(":sadu-datasource"))
     testImplementation(project(":sadu-sqlite"))

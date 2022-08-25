@@ -8,7 +8,7 @@ package de.chojo.sadu.wrapper.util;
 
 import de.chojo.sadu.conversion.ArrayConverter;
 import de.chojo.sadu.conversion.UUIDConverter;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
+import de.chojo.sadu.mapper.MapperConfig;
 
 import java.io.InputStream;
 import java.io.Reader;

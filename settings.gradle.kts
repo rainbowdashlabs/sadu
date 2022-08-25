@@ -22,3 +22,4 @@ pluginManagement{
         }
     }
 }
+include("sadu-mapper")
