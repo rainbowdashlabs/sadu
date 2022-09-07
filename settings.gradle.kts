@@ -8,7 +8,7 @@ include("sadu-mysql")
 include("sadu-datasource")
 include("sadu-queries")
 include("sadu-updater")
-
+include("sadu-mapper")
 include("sadu-examples")
 
 pluginManagement{
@@ -22,4 +22,3 @@ pluginManagement{
         }
     }
 }
-include("sadu-mapper")
