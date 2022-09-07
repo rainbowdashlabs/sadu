@@ -319,9 +319,9 @@ public class ParamBuilder {
      *                      marker in the SQL statement; if a database access error occurs or
      *                      this method is called on a closed {@code PreparedStatement}
      */
-    public <T extends Enum<?>> ParamBuilder setEnum(Class<T> x) throws SQLException {
+    public <T extends Enum<?>> ParamBuilder setEnum(T x) throws SQLException {
         if (x == null) return setNull(Types.VARCHAR);
-        stmt.setString(index(), x.getName());
+        stmt.setString(index(), x.name());
         return this;
     }
 
