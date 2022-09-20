@@ -10,6 +10,7 @@ import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
 
+import javax.annotation.CheckReturnValue;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -32,6 +33,7 @@ public interface RetrievalStage<T> {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<List<T>> all();
 
     /**
@@ -41,6 +43,7 @@ public interface RetrievalStage<T> {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<List<T>> all(Executor executor);
 
     /**
@@ -49,6 +52,7 @@ public interface RetrievalStage<T> {
      * @return results as list
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     List<T> allSync();
 
     /**
@@ -57,6 +61,7 @@ public interface RetrievalStage<T> {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<Optional<T>> first();
 
     /**
@@ -66,6 +71,7 @@ public interface RetrievalStage<T> {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<Optional<T>> first(Executor executor);
 
     /**
@@ -74,5 +80,6 @@ public interface RetrievalStage<T> {
      * @return result wrapped into an optional
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     Optional<T> firstSync();
 }
