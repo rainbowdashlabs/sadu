@@ -7,7 +7,7 @@
 package de.chojo.sadu.jdbc;
 
 /**
- * Builder to create a jdbc url for postgresql.
+ * A builder to create a PostgreSQL jdbc url.
  */
 public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     @Override
@@ -197,7 +197,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     }
 
     /**
-     * Represents different ssl modes.
+     * Represents different SSL modes.
      */
     public enum SslMode {
         /**

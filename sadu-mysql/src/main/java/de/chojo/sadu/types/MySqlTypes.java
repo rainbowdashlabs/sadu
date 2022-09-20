@@ -9,7 +9,7 @@ package de.chojo.sadu.types;
 import static de.chojo.sadu.types.SqlType.ofName;
 
 /**
- * Represents types of a MySQL database.
+ * Types present in a MySQL database.
  */
 public interface MySqlTypes {
     /**

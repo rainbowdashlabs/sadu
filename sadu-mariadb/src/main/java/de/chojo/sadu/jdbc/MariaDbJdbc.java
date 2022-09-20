@@ -7,7 +7,7 @@
 package de.chojo.sadu.jdbc;
 
 /**
- * Represents a builder to create a MariaDB jdbc url.
+ * A builder to create a MariaDB jdbc url.
  */
 public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     @Override
@@ -174,7 +174,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     }
 
     /**
-     * Represents different SSL modes
+     * Represents different SSL modes.
      */
     public enum SslMode {
         /**

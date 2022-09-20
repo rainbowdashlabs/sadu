@@ -9,7 +9,7 @@ package de.chojo.sadu.jdbc;
 import java.util.regex.Pattern;
 
 /**
- * Represents a jdbc config for a remote database.
+ * A base builder to create a remote database jdbc url.
  *
  * @param <T> type of database
  */

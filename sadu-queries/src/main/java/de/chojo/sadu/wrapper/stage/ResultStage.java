@@ -20,8 +20,12 @@ import java.util.function.Consumer;
  * Represents a ResultStage of a {@link QueryBuilder}.
  * <p>
  * A ResultStage is used to read the result set, perform updates or append another query.
+ * <p>
+ * Can forward to a {@link RetrievalStage} when data needs to be read, a {@link UpdateStage} when data is updated or deleted or a {@link InsertStage} when data gets inserted.
+ * <p>
+ * Additionally, it allows to go back to a {@link QueryStage} to add another query into the transaction.
  *
- * @param <T> type of ResultStage
+ * @param <T> return type
  */
 public interface ResultStage<T> {
 

@@ -15,9 +15,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Statement stage of a {@link QueryBuilder}
+ * Represents a StatementStage of a {@link QueryBuilder}.
+ * <p>
+ * Allows to set query parameter.
  *
- * @param <T> type
+ * @param <T> return type
  */
 public interface StatementStage<T> {
     /**

@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Utility class to handle and extract data from {@link ResultSet}s and {@link ResultSetMetaData}
+ */
 public final class Results {
     private Results() {
         throw new UnsupportedOperationException("This is a utility class.");

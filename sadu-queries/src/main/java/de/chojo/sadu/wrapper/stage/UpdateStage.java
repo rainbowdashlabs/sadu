@@ -17,7 +17,7 @@ import java.util.concurrent.Executor;
 /**
  * Represents a UpdateStage of a {@link QueryBuilder}.
  * <p>
- * A UpdateStage is used to execute an update and get the changed rows.
+ * Allows to check the changed rows of an update statement.
  */
 public interface UpdateStage {
     /**

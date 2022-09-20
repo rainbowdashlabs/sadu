@@ -9,7 +9,7 @@ package de.chojo.sadu.types;
 import static de.chojo.sadu.types.SqlType.ofName;
 
 /**
- * Types supported by SqLite.
+ * Types present in a SqLite database.
  */
 public interface SqLiteTypes {
     /**

@@ -10,7 +10,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 /**
- * A builder to create a jdbc url for SqLite
+ * A builder to create a SqLite jdbc url.
  */
 public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
     private String path = ":memory:";

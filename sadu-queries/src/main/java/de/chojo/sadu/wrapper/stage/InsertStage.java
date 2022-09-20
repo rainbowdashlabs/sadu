@@ -8,6 +8,7 @@ package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
+import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import javax.annotation.CheckReturnValue;
 import java.util.List;
@@ -16,7 +17,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * Stage representing the result of an insert statement.
+ * Represents a InsertStage providing the result of an insert statement.
+ * <p>
+ * Can either provide the created keys or a {@link UpdateResult} via the underlyint {@link UpdateStage}
  */
 public interface InsertStage extends UpdateStage {
     /**

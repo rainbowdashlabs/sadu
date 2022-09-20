@@ -8,6 +8,9 @@ package de.chojo.sadu.jdbc;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Driver;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -15,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * A basic jdbc config
+ * A base builder to create a jdbc url.
  *
  * @param <T> type of config
  */

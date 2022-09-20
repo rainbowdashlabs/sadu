@@ -15,9 +15,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
- * Configuration stage of a {@link QueryBuilder}
+ * Represents a ConfigurationStage of a {@link QueryBuilder}.
+ * <p>
+ * Allows to configure the {@link QueryBuilderConfig}. This stage can be skipped when using a {@link QueryFactory}.
  *
- * @param <T> type
+ * @param <T> return type
  */
 public interface ConfigurationStage<T> {
     /**
