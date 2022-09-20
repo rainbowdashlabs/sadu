@@ -32,13 +32,13 @@ class RemoteJdbcConfigTest {
     @Test
     void testDatabase() {
         var jdbcUrl = jdbc.database("database").jdbcUrl();
-        Assertions.assertEquals("jdbc:driver:database", jdbcUrl);
+        Assertions.assertEquals("jdbc:driver://localhost/database", jdbcUrl);
     }
 
     @Test
     void testNone() {
         var jdbcUrl = jdbc.jdbcUrl();
-        Assertions.assertEquals("jdbc:driver:/", jdbcUrl);
+        Assertions.assertEquals("jdbc:driver://localhost/", jdbcUrl);
     }
 
     @Test
@@ -56,7 +56,6 @@ class RemoteJdbcConfigTest {
     @Test
     void testPort() {
         jdbc.port(1234);
-        Assertions.assertThrows(IllegalStateException.class, () -> jdbc.jdbcUrl());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> jdbc.port(0));
         Assertions.assertThrows(IllegalArgumentException.class, () -> jdbc.port("0"));

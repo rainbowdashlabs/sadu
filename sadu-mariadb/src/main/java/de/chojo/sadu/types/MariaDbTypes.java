@@ -54,7 +54,7 @@ public interface MariaDbTypes {
     /**
      * -2,147,483,648 and 2,147,483,647
      */
-    SqlType INT = ofName("INT");
+    SqlType INT = ofName("INT", "INTEGER");
     /**
      * "Unlimited"
      */
@@ -76,7 +76,7 @@ public interface MariaDbTypes {
     /**
      * Boolean representation
      */
-    SqlType BOOLEAN = ofName("BOOLEAN");
+    SqlType BOOLEAN = ofName("BOOLEAN", "INTEGER");
 
     /**
      * Fixed {@literal <} 255 with padding

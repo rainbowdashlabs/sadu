@@ -4,12 +4,13 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.rowmapper;
+package de.chojo.sadu.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
+import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.util.Row;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.chojo.sadu.wrapper.mapper.util.Results.columnNames;
+import static de.chojo.sadu.mapper.util.Results.columnNames;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -26,7 +27,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @param <T> type of retuned object
  */
 public class RowMapper<T> {
-    private static final Logger log = getLogger(RowMapper.class);
+    private static final Logger log = LoggerFactory.getLogger(RowMapper.class);
     private final Class<T> clazz;
     private final ThrowingFunction<? extends T, Row, SQLException> mapper;
     private final Set<String> columns;

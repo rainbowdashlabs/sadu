@@ -6,13 +6,15 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
+import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.RowMapperRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RowMapperRegistryTest {

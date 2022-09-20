@@ -8,9 +8,9 @@ package de.chojo.sadu.wrapper;
 
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
+import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.RowMapperRegistry;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;

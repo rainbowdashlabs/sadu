@@ -9,7 +9,6 @@ package de.chojo.sadu.types;
 /**
  * Represents a named data type in a database.
  */
-@FunctionalInterface
 public interface SqlType {
     /**
      * Creates a new sql type with a name
@@ -17,8 +16,18 @@ public interface SqlType {
      * @param name name
      * @return new type
      */
-    static SqlType ofName(String name) {
-        return () -> name;
+    static SqlType ofName(String name, String... alias) {
+        return new SqlType() {
+            @Override
+            public String name() {
+                return name;
+            }
+
+            @Override
+            public String[] alias() {
+                return alias;
+            }
+        };
     }
 
     /**
@@ -27,4 +36,21 @@ public interface SqlType {
      * @return type
      */
     String name();
+
+    /**
+     * Alias for a type.
+     * <p>
+     * E.g. INTEGER for INT
+     *
+     * @return array of aliase for this type
+     */
+    String[] alias();
+
+    default String descr() {
+        if (alias().length == 0) {
+            return name();
+        }
+        return "%s (%s)".formatted(name(), String.join(", ", alias()));
+    }
+
 }

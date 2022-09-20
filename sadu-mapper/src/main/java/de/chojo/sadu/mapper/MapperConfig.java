@@ -4,7 +4,7 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper;
+package de.chojo.sadu.mapper;
 
 import java.util.HashMap;
 import java.util.Map;
