@@ -314,6 +314,7 @@ public class ParamBuilder {
      * when it sends it to the database.
      *
      * @param x the parameter value
+     * @param <T> Type of enum
      * @return ParamBuilder with values set.
      * @throws SQLException if parameterIndex does not correspond to a parameter
      *                      marker in the SQL statement; if a database access error occurs or

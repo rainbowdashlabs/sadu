@@ -25,7 +25,6 @@ import de.chojo.sadu.wrapper.util.Row;
 import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import javax.sql.DataSource;
-import javax.swing.tree.RowMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
