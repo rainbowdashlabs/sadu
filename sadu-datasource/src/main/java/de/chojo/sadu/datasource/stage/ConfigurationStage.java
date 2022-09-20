@@ -8,6 +8,7 @@ package de.chojo.sadu.datasource.stage;
 
 import com.zaxxer.hikari.HikariDataSource;
 
+import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -23,6 +24,7 @@ public interface ConfigurationStage {
      * @param connectionTimeoutMs the connection timeout in milliseconds
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withConnectionTimeout(long connectionTimeoutMs);
 
     /**
@@ -34,6 +36,7 @@ public interface ConfigurationStage {
      * @param idleTimeoutMs the idle timeout in milliseconds
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withIdleTimeout(long idleTimeoutMs);
 
     /**
@@ -44,6 +47,7 @@ public interface ConfigurationStage {
      * @param maxLifetimeMs the maximum connection lifetime in milliseconds
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withMaxLifetime(long maxLifetimeMs);
 
     /**
@@ -56,6 +60,7 @@ public interface ConfigurationStage {
      * @param maxPoolSize the maximum number of connections in the pool
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withMaximumPoolSize(int maxPoolSize);
 
     /**
@@ -66,6 +71,7 @@ public interface ConfigurationStage {
      * @param minIdle the minimum number of idle connections in the pool to maintain
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withMinimumIdle(int minIdle);
 
     /**
@@ -74,6 +80,7 @@ public interface ConfigurationStage {
      * @param password the password
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage usingPassword(String password);
 
     /**
@@ -82,6 +89,7 @@ public interface ConfigurationStage {
      * @param username the username
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage usingUsername(String username);
 
     /**
@@ -90,6 +98,7 @@ public interface ConfigurationStage {
      * @param className the fully qualified name of the JDBC {@link DataSource} class
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withDataSourceClassName(Class<? extends DataSource> className);
 
     /**
@@ -98,6 +107,7 @@ public interface ConfigurationStage {
      * @param isAutoCommit the desired auto-commit default for connections
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withAutoCommit(boolean isAutoCommit);
 
     /**
@@ -107,6 +117,7 @@ public interface ConfigurationStage {
      * @param keepaliveTimeMs the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled).
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withKeepaliveTime(long keepaliveTimeMs);
 
     /**
@@ -116,6 +127,7 @@ public interface ConfigurationStage {
      * @param poolName the name of the connection pool to use
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withPoolName(String poolName);
 
     /**
@@ -124,6 +136,7 @@ public interface ConfigurationStage {
      * @param executor the ScheduledExecutorService
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withScheduledExecutor(ScheduledExecutorService executor);
 
     /**
@@ -132,6 +145,7 @@ public interface ConfigurationStage {
      * @param schema the name of the default schema
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage forSchema(String schema);
 
     /**
@@ -140,6 +154,7 @@ public interface ConfigurationStage {
      * @param threadFactory the thread factory (setting to null causes the default thread factory to be used)
      * @return Configuration Stage with value set.
      */
+    @CheckReturnValue
     ConfigurationStage withThreadFactory(ThreadFactory threadFactory);
 
     /**
@@ -147,5 +162,6 @@ public interface ConfigurationStage {
      *
      * @return hikari data source instance
      */
+    @CheckReturnValue
     HikariDataSource build();
 }

@@ -12,6 +12,7 @@ import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.util.Row;
 
+import javax.annotation.CheckReturnValue;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
@@ -30,6 +31,7 @@ public interface ResultStage<T> {
      * @param mapper mapper to map the current row.
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
+    @CheckReturnValue
     RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper);
 
     /**
@@ -72,6 +74,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link UpdateStage} to update the data.
      */
+    @CheckReturnValue
     UpdateStage update();
 
     /**
@@ -79,6 +82,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link UpdateStage} to update the data.
      */
+    @CheckReturnValue
     default UpdateStage delete() {
         return update();
     }
@@ -88,6 +92,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link InsertStage} to update the data.
      */
+    @CheckReturnValue
     InsertStage insert();
 
 
@@ -96,5 +101,6 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link QueryStage}
      */
+    @CheckReturnValue
     QueryStage<T> append();
 }

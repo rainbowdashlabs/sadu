@@ -10,6 +10,7 @@ import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 
+import javax.annotation.CheckReturnValue;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -27,6 +28,7 @@ public interface ConfigurationStage<T> {
      * @param config The config of the {@link QueryBuilder}
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
      */
+    @CheckReturnValue
     default QueryStage<T> configure(QueryBuilderConfig config) {
         return configure(new AtomicReference<>(config));
     }
@@ -39,6 +41,7 @@ public interface ConfigurationStage<T> {
      * @param config The config of the {@link QueryBuilder}
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
      */
+    @CheckReturnValue
     QueryStage<T> configure(AtomicReference<QueryBuilderConfig> config);
 
     /**
@@ -50,6 +53,7 @@ public interface ConfigurationStage<T> {
      *
      * @return The {@link QueryBuilder} in  {@link QueryStage} with the config set.
      */
+    @CheckReturnValue
     QueryStage<T> defaultConfig();
 
     /**
@@ -59,5 +63,6 @@ public interface ConfigurationStage<T> {
      *
      * @return The {@link QueryBuilder} in {@link QueryStage} with the config set.
      */
+    @CheckReturnValue
     QueryStage<T> defaultConfig(Consumer<QueryBuilderConfig.Builder> builderModifier);
 }

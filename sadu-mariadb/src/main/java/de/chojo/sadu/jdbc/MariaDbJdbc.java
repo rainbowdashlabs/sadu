@@ -16,7 +16,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     }
 
     /**
-     * The connect timeout value, in milliseconds, or zero for no timeout.
+     * The connection timeout value, in milliseconds, or zero for no timeout.
      * Default: 30 000.
      *
      * @param millis milliseconds
