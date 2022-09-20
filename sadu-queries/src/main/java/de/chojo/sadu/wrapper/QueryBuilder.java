@@ -9,10 +9,10 @@ package de.chojo.sadu.wrapper;
 import de.chojo.sadu.base.DataHolder;
 import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
+import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import de.chojo.sadu.wrapper.stage.InsertStage;
 import de.chojo.sadu.wrapper.stage.QueryStage;
@@ -167,6 +167,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     public RetrievalStage<T> map(MapperConfig mapperConfig) {
         Objects.requireNonNull(clazz);
         this.mapperConfig = mapperConfig.clone();
+        queueTask();
         return this;
     }
 

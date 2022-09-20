@@ -4,11 +4,12 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper;
+package de.chojo.sadu.mapper;
 
-import de.chojo.sadu.wrapper.mapper.exceptions.MappingAlreadyRegisteredException;
-import de.chojo.sadu.wrapper.mapper.exceptions.MappingException;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.mapper.exceptions.MappingAlreadyRegisteredException;
+import de.chojo.sadu.mapper.exceptions.MappingException;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -56,6 +57,20 @@ public class RowMapperRegistry {
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
     public RowMapperRegistry register(RowMapper<?>... rowMapper) {
+        for (var mapper : rowMapper) {
+            register(mapper);
+        }
+        return this;
+    }
+    /**
+     * Registers new mapper.
+     * <p>
+     * A class can only have one mapper per column combination.
+     *
+     * @param rowMapper one or more mapper to register
+     * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
+     */
+    public RowMapperRegistry register(List<RowMapper<?>> rowMapper) {
         for (var mapper : rowMapper) {
             register(mapper);
         }

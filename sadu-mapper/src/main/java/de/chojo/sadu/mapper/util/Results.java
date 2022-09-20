@@ -4,12 +4,16 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.util;
+package de.chojo.sadu.mapper.util;
+
+import de.chojo.sadu.types.SqlType;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public final class Results {
@@ -37,9 +41,30 @@ public final class Results {
      */
     public static Set<String> columnNames(ResultSetMetaData meta) throws SQLException {
         Set<String> columns = new HashSet<>();
-        for (int i = 1; i <= meta.getColumnCount(); i++) {
+        for (var i = 1; i <= meta.getColumnCount(); i++) {
             columns.add(meta.getColumnLabel(i));
         }
         return columns;
+    }
+
+    /**
+     * Extracts the column index (1 based) of the first column with the requested type.
+     *
+     * @param meta  meta of the result set
+     * @param types a list of valid types where the index will be returned
+     * @return the index of the column with the first type contained in types
+     * @throws SQLException if a database access error occurs
+     */
+    public static Optional<Integer> getFirstColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types) throws SQLException {
+        for (var i = 1; i <= meta.getColumnCount(); i++) {
+            var typeName = meta.getColumnTypeName(i);
+            for (var type : types) {
+                if (typeName.equalsIgnoreCase(type.name())) return Optional.of(i);
+                for (var alias : type.alias()) {
+                    if (typeName.equalsIgnoreCase(alias)) return Optional.of(i);
+                }
+            }
+        }
+        return Optional.empty();
     }
 }

@@ -7,6 +7,9 @@
 package de.chojo.sadu.jdbc;
 
 import de.chojo.sadu.databases.MariaDb;
+import de.chojo.sadu.mapper.MariaDbMapper;
+import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.junit.jupiter.api.BeforeEach;
 
 class MariaDbJdbcTest {
