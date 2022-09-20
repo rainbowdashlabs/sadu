@@ -6,8 +6,6 @@
 
 package de.chojo.sadu.jdbc;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Represents a builder to create a MariaDB jdbc url.
  */

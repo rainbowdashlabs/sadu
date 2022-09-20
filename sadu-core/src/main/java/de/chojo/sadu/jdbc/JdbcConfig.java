@@ -8,7 +8,6 @@ package de.chojo.sadu.jdbc;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.CheckReturnValue;
 import java.sql.Driver;
 import java.util.LinkedHashSet;
 import java.util.Optional;
