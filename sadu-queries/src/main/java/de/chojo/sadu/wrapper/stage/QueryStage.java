@@ -8,6 +8,8 @@ package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.wrapper.QueryBuilder;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Query stage of a {@link QueryBuilder}
  *
@@ -20,6 +22,7 @@ public interface QueryStage<T> {
      * @param sql query to set.
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
      */
+    @CheckReturnValue
     StatementStage<T> query(String sql);
 
     /**
@@ -30,6 +33,7 @@ public interface QueryStage<T> {
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link StatementStage} with the query defined.
      */
+    @CheckReturnValue
     default StatementStage<T> query(String sql, Object... objects) {
         return query(String.format(sql, objects));
     }
@@ -42,6 +46,7 @@ public interface QueryStage<T> {
      * @param sql query to set.
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.
      */
+    @CheckReturnValue
     ResultStage<T> queryWithoutParams(String sql);
 
     /**
@@ -54,6 +59,7 @@ public interface QueryStage<T> {
      *                <b>Do not use this with user input! This should be only used to insert column or table names at runtime</b>
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the query defined and no parameter set.
      */
+    @CheckReturnValue
     default ResultStage<T> queryWithoutParams(String sql, Object... objects) {
         return queryWithoutParams(String.format(sql, objects));
     }
