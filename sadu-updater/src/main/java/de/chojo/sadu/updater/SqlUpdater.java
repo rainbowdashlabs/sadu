@@ -13,6 +13,7 @@ import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -125,6 +126,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      * @return new builder instance
      * @throws IOException if the version file does not exist.
      */
+    @CheckReturnValue
     public static <T extends JdbcConfig<?>> SqlUpdaterBuilder builder(DataSource dataSource, Database<T> type) throws IOException {
         var version = "";
         try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
@@ -366,6 +368,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param schemas schemas
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setSchemas(String... schemas) {
             if (!type.hasSchemas()) {
                 throw new IllegalStateException("This sql type does not support schemas");
@@ -383,6 +386,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param versionTable name of the version table
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setVersionTable(String versionTable) {
             this.versionTable = versionTable;
             return this;
@@ -395,6 +399,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param replacements replacements
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setReplacements(QueryReplacement... replacements) {
             this.replacements = replacements;
             return this;
@@ -406,6 +411,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param config config so apply
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> withConfig(QueryBuilderConfig config) {
             this.config = config;
             return this;

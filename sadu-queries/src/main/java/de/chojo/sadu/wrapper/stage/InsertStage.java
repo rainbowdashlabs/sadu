@@ -9,13 +9,14 @@ package de.chojo.sadu.wrapper.stage;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
 
+import javax.annotation.CheckReturnValue;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * Stage representing the result of a insert statement.
+ * Stage representing the result of an insert statement.
  */
 public interface InsertStage extends UpdateStage {
     /**
@@ -24,6 +25,7 @@ public interface InsertStage extends UpdateStage {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<Optional<Long>> key();
 
     /**
@@ -33,6 +35,7 @@ public interface InsertStage extends UpdateStage {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<Optional<Long>> key(Executor executor);
 
     /**
@@ -41,6 +44,7 @@ public interface InsertStage extends UpdateStage {
      * @return result wrapped into an optional
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     Optional<Long> keySync();
 
     /**
@@ -49,6 +53,7 @@ public interface InsertStage extends UpdateStage {
      * @return A list of created key.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     List<Long> keysSync();
 
     /**
@@ -57,6 +62,7 @@ public interface InsertStage extends UpdateStage {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<List<Long>> keys();
 
     /**
@@ -66,5 +72,6 @@ public interface InsertStage extends UpdateStage {
      * @return A {@link CompletableFuture} to retrieve the data.
      * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
      */
+    @CheckReturnValue
     CompletableFuture<List<Long>> keys(Executor executor);
 }

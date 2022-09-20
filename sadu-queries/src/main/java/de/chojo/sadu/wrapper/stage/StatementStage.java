@@ -10,6 +10,7 @@ import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.wrapper.QueryBuilder;
 import de.chojo.sadu.wrapper.util.ParamBuilder;
 
+import javax.annotation.CheckReturnValue;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -27,6 +28,7 @@ public interface StatementStage<T> {
      * @deprecated This method exists for the sole purpose of backwards compatibility. Usage of {@link #parameter(ThrowingConsumer)} is prefered.
      */
     @Deprecated
+    @CheckReturnValue
     ResultStage<T> params(ThrowingConsumer<PreparedStatement, SQLException> stmt);
 
     /**
@@ -41,6 +43,7 @@ public interface StatementStage<T> {
      * @deprecated use {@link #parameter(ThrowingConsumer)} instead
      */
     @Deprecated(forRemoval = true)
+    @CheckReturnValue
     default ResultStage<T> paramsBuilder(ThrowingConsumer<ParamBuilder, SQLException> params) {
         return parameter(params);
     }
@@ -55,6 +58,7 @@ public interface StatementStage<T> {
      * @param stmt a consumer of a param builder used for simple setting of params.
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the parameters applied to the query.
      */
+    @CheckReturnValue
     ResultStage<T> parameter(ThrowingConsumer<ParamBuilder, SQLException> stmt);
 
     /**
@@ -64,6 +68,7 @@ public interface StatementStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link ResultStage} with no parameters set.
      */
+    @CheckReturnValue
     default ResultStage<T> emptyParams() {
         return params(s -> {
         });
