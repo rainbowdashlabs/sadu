@@ -25,6 +25,7 @@ import de.chojo.sadu.wrapper.util.Row;
 import de.chojo.sadu.wrapper.util.UpdateResult;
 
 import javax.sql.DataSource;
+import javax.swing.tree.RowMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -347,7 +348,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     /*
     Execute all queries, since we are only interested in the result of the last of our queries.
-    Thats why we will execute all queries inside this method regardless of the method which calls this method
+    That's why we will execute all queries inside this method regardless of the method which calls this method
     We will use a single connection for this, since the user may be interested in the last inserted id or something.
     */
     private QueryTask executeAndGetLast(Connection conn) throws QueryExecutionException {
