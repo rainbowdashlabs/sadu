@@ -111,6 +111,13 @@ allprojects {
 
 tasks {
     register<Javadoc>("alljavadoc") {
+        val options = options as StandardJavadocDocletOptions
+        options.links(
+            "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
+            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
+        )
+
         setDestinationDir(file("${buildDir}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })
