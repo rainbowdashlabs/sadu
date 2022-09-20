@@ -106,17 +106,25 @@ allprojects {
                 events("passed", "skipped", "failed")
             }
         }
+
+        javadoc {
+            applyJavaDocOptions(options)
+        }
     }
+}
+
+fun applyJavaDocOptions(options: MinimalJavadocOptions){
+    val javaDocOptions = options as StandardJavadocDocletOptions
+    javaDocOptions.links(
+        "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
+        "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+        "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
+    )
 }
 
 tasks {
     register<Javadoc>("alljavadoc") {
-        val options = options as StandardJavadocDocletOptions
-        options.links(
-            "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
-            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
-            "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
-        )
+        applyJavaDocOptions(options)
 
         setDestinationDir(file("${buildDir}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
