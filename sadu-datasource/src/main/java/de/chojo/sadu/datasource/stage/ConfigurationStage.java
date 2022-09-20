@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Configuration stage, which is used to configura a {@link com.zaxxer.hikari.HikariConfig}.
+ * Configuration stage, which is used to configurate a {@link com.zaxxer.hikari.HikariConfig}.
  */
 public interface ConfigurationStage {
     /**
@@ -65,7 +65,7 @@ public interface ConfigurationStage {
 
     /**
      * The property controls the minimum number of idle connections that HikariCP tries to maintain in the pool,
-     * including both idle and in-use connections. If the idle connections dip below this value, HikariCP will make a
+     * including both idle and in-use connections. If the idle connections dip below this value, HikariCP will make the
      * best effort to restore them quickly and efficiently.
      *
      * @param minIdle the minimum number of idle connections in the pool to maintain

@@ -74,8 +74,6 @@ public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @see <a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html/">MySql parameter</a>
      */
     @Override

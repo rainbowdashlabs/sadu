@@ -9,7 +9,7 @@ package de.chojo.sadu.mapper;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapperConfig implements Cloneable {
+public class MapperConfig {
     public static final MapperConfig DEFAULT = new MapperConfig();
     private Map<String, String> aliases = new HashMap<>();
     private boolean strict = false;
@@ -55,8 +55,7 @@ public class MapperConfig implements Cloneable {
         return this;
     }
 
-    @Override
-    public MapperConfig clone() {
+    public MapperConfig copy() {
         var mapperConfig = new MapperConfig();
         mapperConfig.aliases = new HashMap<>(aliases);
         mapperConfig.strict = strict;

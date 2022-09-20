@@ -57,7 +57,7 @@ public interface ConfigurationStage<T> {
     QueryStage<T> defaultConfig();
 
     /**
-     * Allows to modify a config, prepopulated with the default values defined via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
+     * Allows to modify a config, pre-populated with the default values defined via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
      * <p>
      * A configured {@link QueryFactory} can be used to skip this step.
      *

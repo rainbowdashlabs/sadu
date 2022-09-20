@@ -18,7 +18,7 @@ public final class UUIDConverter {
     }
 
     /**
-     * Convert a uuid to a byte array
+     * Convert an uuid to a byte array
      *
      * @param uuid uuid
      * @return uuid as byte array
@@ -31,7 +31,7 @@ public final class UUIDConverter {
     }
 
     /**
-     * Convert a byte array to a uuid.
+     * Convert a byte array to an uuid.
      *
      * @param bytes bytes
      * @return new uuid instance

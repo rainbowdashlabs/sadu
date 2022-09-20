@@ -85,7 +85,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
      * Create a new query builder with a defined return type. Use it for selects.
      *
      * @param source datasource for connection
-     * @param clazz  class of required return type. Doesnt matter if you want a list or single result.
+     * @param clazz  class of required return type. Doesn't matter if you want a list or single result.
      * @param <T>    type of return type
      * @return a new query builder in a {@link QueryStage}
      */
@@ -166,7 +166,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     @Override
     public RetrievalStage<T> map(MapperConfig mapperConfig) {
         Objects.requireNonNull(clazz);
-        this.mapperConfig = mapperConfig.clone();
+        this.mapperConfig = mapperConfig.copy();
         queueTask();
         return this;
     }
@@ -392,7 +392,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             this.statementConsumer = statementConsumer;
             this.rowMapper = rowMapper;
             this.mapperConfig = mapperConfig;
-            executionException = new QueryExecutionException("An error occured while executing a query.");
+            executionException = new QueryExecutionException("An error occurred while executing a query.");
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")

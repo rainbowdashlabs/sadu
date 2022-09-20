@@ -21,7 +21,7 @@ import java.util.concurrent.Executor;
  * <p>
  * A RetrievalStage is used to retrieve the actual data from the database.
  * <p>
- * The RetrievalStage defines in which way the results should be retreived.
+ * The RetrievalStage defines in which way the results should be retrieved.
  *
  * @param <T> type of RetrievalStage
  */

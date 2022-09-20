@@ -32,7 +32,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     private HikariConfig hikariConfig;
 
     private DataSourceCreator(Database<T> type) {
-        this.builder = type.jdbcBuilder();
+        builder = type.jdbcBuilder();
     }
 
     /**
@@ -40,7 +40,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      *
      * @param type The type of database which is targeted by this data source
      * @param <T>  database type defined by the {@link Database}
-     * @return a {@link DataSourceCreator} in {@link JdbcStage}.
+     * @return a DataSourceCreator in {@link JdbcStage}.
      */
     @CheckReturnValue
     public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T> type) {

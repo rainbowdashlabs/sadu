@@ -25,7 +25,7 @@ public interface StatementStage<T> {
      *
      * @param stmt statement to change
      * @return The {@link QueryBuilder} in a {@link ResultStage} with the parameters applied to the query.
-     * @deprecated This method exists for the sole purpose of backwards compatibility. Usage of {@link #parameter(ThrowingConsumer)} is prefered.
+     * @deprecated This method exists for the sole purpose of backwards compatibility. Usage of {@link #parameter(ThrowingConsumer)} is preferred.
      */
     @Deprecated
     @CheckReturnValue
@@ -70,7 +70,7 @@ public interface StatementStage<T> {
      */
     @CheckReturnValue
     default ResultStage<T> emptyParams() {
-        return params(s -> {
+        return params(stmt -> {
         });
     }
 }

@@ -52,9 +52,9 @@ public class JdbProperty<T> {
         if (this == o) return true;
         if (!(o instanceof JdbProperty)) return false;
 
-        var that = (JdbProperty<?>) o;
+        var prop = (JdbProperty<?>) o;
 
-        return key.equals(that.key);
+        return key.equals(prop.key);
     }
 
     @Override

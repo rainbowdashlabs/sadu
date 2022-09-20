@@ -61,7 +61,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     }
 
     /**
-     * Permits providing server's certificate in DER form, or server's CA certificate. The server will be added to trustStor. This permits a self-signed certificate to be trusted.
+     * Permits providing server's certificate in DER form, or server's CA certificate. The server will be added to trust storage. This permits a self-signed certificate to be trusted.
      * <p>
      * Can be used in one of 2 forms :
      * <p>
@@ -161,8 +161,6 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @see <a href="https://mariadb.com/kb/en/about-mariadb-connector-j/">MariaDb parameter</a>
      */
     @Override
@@ -176,7 +174,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     }
 
     /**
-     * Represetns different SSL modes
+     * Represents different SSL modes
      */
     public enum SslMode {
         /**

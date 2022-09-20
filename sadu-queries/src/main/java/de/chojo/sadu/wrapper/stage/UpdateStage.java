@@ -46,7 +46,7 @@ public interface UpdateStage {
      * Execute the update async.
      *
      * @return A {@link CompletableFuture} which returns the number of changed rows.
-     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and an exceptions occurs during query building or execution
      * @deprecated Deprecated in favor of {@link #send()}
      */
     @Deprecated
@@ -57,7 +57,7 @@ public interface UpdateStage {
      *
      * @param executor executor used for async call
      * @return A {@link CompletableFuture} which returns the number of changed rows.
-     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and an exceptions occurs during query building or execution
      * @deprecated Deprecated in favor of {@link #send(Executor)}
      */
     @Deprecated
@@ -67,7 +67,7 @@ public interface UpdateStage {
      * Execute the update synced.
      *
      * @return Number of changed rows
-     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and a exceptions occurs during query building or execution
+     * @throws WrappedQueryExecutionException if {@link QueryBuilderConfig#isThrowing()} is set to {@code true} and an exceptions occurs during query building or execution
      * @deprecated Deprecated in favor of {@link #sendSync()}
      */
     @Deprecated

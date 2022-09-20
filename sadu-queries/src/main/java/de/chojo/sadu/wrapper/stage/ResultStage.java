@@ -26,7 +26,13 @@ import java.util.function.Consumer;
 public interface ResultStage<T> {
 
     /**
-     * Extract results from the current row.
+     * Extract results from the current row and only the current row. It doesn't matter if you will get 0,1 or more results.
+     * <p>
+     * <b>This is not the place to define how many results you want.</b>
+     * <p>
+     * <b>Do not try to read multiple rows here.</b>
+     * <p>
+     * <b>Do not modify the underlying result set.</b>
      *
      * @param mapper mapper to map the current row.
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.

@@ -34,7 +34,7 @@ public class Create {
                 .create()
                 // We set a max of 3 parallel connections.
                 .withMaximumPoolSize(3)
-                // And define that we want to keep always at least one connecction.
+                // And define that we want to keep always at least one connection.
                 .withMinimumIdle(1)
                 // in the end we build our datasource.
                 .build();
