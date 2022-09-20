@@ -14,17 +14,14 @@ import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public final class DefaultMapper {
     private DefaultMapper() {
@@ -63,11 +60,11 @@ public final class DefaultMapper {
         return RowMapper.forClass(java.util.UUID.class)
                         .mapper(row -> {
                             ResultSetMetaData meta = row.getMetaData();
-                            Optional<Integer> columnIndexOfType = Results.getColumnIndexOfType(meta, textTypes);
+                            Optional<Integer> columnIndexOfType = Results.getFirstColumnIndexOfType(meta, textTypes);
                             if (columnIndexOfType.isPresent()) {
                                 return row.getUuidFromString(columnIndexOfType.get());
                             }
-                            columnIndexOfType = Results.getColumnIndexOfType(meta, byteTypes);
+                            columnIndexOfType = Results.getFirstColumnIndexOfType(meta, byteTypes);
                             Integer index = columnIndexOfType.orElseThrow(() -> {
                                 List<SqlType> sqlTypes = new ArrayList<>(textTypes);
                                 sqlTypes.addAll(byteTypes);
@@ -82,7 +79,7 @@ public final class DefaultMapper {
         return RowMapper.forClass(clazz)
                         .mapper(row -> {
                             ResultSetMetaData meta = row.getMetaData();
-                            Optional<Integer> columnIndexOfType = Results.getColumnIndexOfType(meta, types);
+                            Optional<Integer> columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
                             Integer index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
                             return mapper.apply(row, index);
                         }).build();

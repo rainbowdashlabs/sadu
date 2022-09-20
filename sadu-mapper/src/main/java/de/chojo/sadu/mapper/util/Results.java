@@ -41,18 +41,26 @@ public final class Results {
      */
     public static Set<String> columnNames(ResultSetMetaData meta) throws SQLException {
         Set<String> columns = new HashSet<>();
-        for (int i = 1; i <= meta.getColumnCount(); i++) {
+        for (var i = 1; i <= meta.getColumnCount(); i++) {
             columns.add(meta.getColumnLabel(i));
         }
         return columns;
     }
 
-    public static Optional<Integer> getColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types) throws SQLException {
-        for (int i = 1; i <= meta.getColumnCount(); i++) {
-            String typeName = meta.getColumnTypeName(i);
-            for (SqlType type : types) {
+    /**
+     * Extracts the column index (1 based) of the first column with the requested type.
+     *
+     * @param meta  meta of the result set
+     * @param types a list of valid types where the index will be returned
+     * @return the index of the column with the first type contained in types
+     * @throws SQLException if a database access error occurs
+     */
+    public static Optional<Integer> getFirstColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types) throws SQLException {
+        for (var i = 1; i <= meta.getColumnCount(); i++) {
+            var typeName = meta.getColumnTypeName(i);
+            for (var type : types) {
                 if (typeName.equalsIgnoreCase(type.name())) return Optional.of(i);
-                for (String alias : type.alias()) {
+                for (var alias : type.alias()) {
                     if (typeName.equalsIgnoreCase(alias)) return Optional.of(i);
                 }
             }
