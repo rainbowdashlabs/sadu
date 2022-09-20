@@ -306,6 +306,27 @@ public class ParamBuilder {
     }
 
     /**
+     * Sets the designated parameter to the given Java {@code Enum} name value.
+     * The driver converts this
+     * to an SQL {@code VARCHAR} or {@code LONGVARCHAR} value
+     * (depending on the argument's
+     * size relative to the driver's limits on {@code VARCHAR} values)
+     * when it sends it to the database.
+     *
+     * @param x the parameter value
+     * @param <T> Type of enum
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public <T extends Enum<?>> ParamBuilder setEnum(T x) throws SQLException {
+        if (x == null) return setNull(Types.VARCHAR);
+        stmt.setString(index(), x.name());
+        return this;
+    }
+
+    /**
      * Sets the designated parameter to the given Java array of bytes.  The driver converts
      * this to an SQL {@code VARBINARY} or {@code LONGVARBINARY}
      * (depending on the argument's size relative to the driver's limits on
