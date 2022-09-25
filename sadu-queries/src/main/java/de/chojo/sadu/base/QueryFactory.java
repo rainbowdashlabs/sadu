@@ -22,7 +22,7 @@ public class QueryFactory extends DataHolder {
     private final AtomicReference<QueryBuilderConfig> config;
 
     /**
-     * Create a new QueryFactoryholder
+     * Create a new QueryFactory
      *
      * @param dataSource datasource
      * @param config     factory config
@@ -37,7 +37,7 @@ public class QueryFactory extends DataHolder {
     }
 
     /**
-     * Create a new QueryFactoryholder
+     * Create a new QueryFactory
      *
      * @param dataSource datasource
      */
@@ -46,7 +46,7 @@ public class QueryFactory extends DataHolder {
     }
 
     /**
-     * Creates a {@link QueryFactory} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     * Creates a QueryFactory and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
      *
      * @param provider provider
      * @param config   factory config
@@ -56,7 +56,7 @@ public class QueryFactory extends DataHolder {
     }
 
     /**
-     * Creates a {@link QueryFactory} and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
+     * Creates a QueryFactory and uses the {@link DataSource} contained in the {@link DataSourceProvider}.
      *
      * @param provider provider
      */
@@ -65,7 +65,7 @@ public class QueryFactory extends DataHolder {
     }
 
     /**
-     * Creates a {@link QueryFactory} based on the passed {@link QueryFactory}.
+     * Creates a QueryFactory based on the passed QueryFactory.
      * <p>
      * Configuration will be copied.
      *

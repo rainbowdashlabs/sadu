@@ -72,7 +72,7 @@ public interface Database<T extends JdbcConfig<?>> {
     }
 
     /**
-     * Checks if the given name matches the {@link #name()} or any {@link #alias()}. Case insentitive.
+     * Checks if the given name matches the {@link #name()} or any {@link #alias()}. case-insensitive.
      *
      * @param name name to check
      * @return true if any match was found
@@ -119,8 +119,6 @@ public interface Database<T extends JdbcConfig<?>> {
         throw new NotSupportedException("Schemas are not supported.");
     }
 
-    ;
-
     /**
      * Returns a query to create a schema with this name.
      *
@@ -134,8 +132,6 @@ public interface Database<T extends JdbcConfig<?>> {
         throw new NotSupportedException("Schemas are not supported.");
     }
 
-    ;
-
     /**
      * Returns the {@link JdbcConfig} implementation for this database
      *
@@ -144,10 +140,12 @@ public interface Database<T extends JdbcConfig<?>> {
     T jdbcBuilder();
 
     /**
-     * If the db does not allow to execute multiple queries this function should return every query in one string
+     * The split queries, if the db does not allow to execute multiple queries this function should return every query in one string.
+     * <p>
+     * Otherwise, this array will only contain one entry.
      *
      * @param queries queries
-     * @return splitted queries if needed
+     * @return queries
      */
     default String[] splitStatements(String queries) {
         return new String[]{queries};

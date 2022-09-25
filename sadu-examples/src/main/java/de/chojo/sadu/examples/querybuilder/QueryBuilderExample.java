@@ -43,7 +43,7 @@ public class QueryBuilderExample extends QueryFactory {
     }
 
     public void createUser(String name, int age) {
-        builder().query("INSERT INTO user(name, arge) VALUES(?,?)")
+        builder().query("INSERT INTO user(name, age) VALUES(?,?)")
                 .parameter(p -> p.setString(name).setInt(age))
                 .insert()
                 .send();

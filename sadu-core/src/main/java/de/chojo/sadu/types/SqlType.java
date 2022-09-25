@@ -42,7 +42,7 @@ public interface SqlType {
      * <p>
      * E.g. INTEGER for INT
      *
-     * @return array of aliase for this type
+     * @return array of aliases for this type
      */
     String[] alias();
 

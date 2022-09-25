@@ -7,7 +7,7 @@
 package de.chojo.sadu.updater;
 
 /**
- * Represents a exception thrown while the database got updated.
+ * Represents an exception thrown while the database got updated.
  */
 public class UpdateException extends RuntimeException {
     /**

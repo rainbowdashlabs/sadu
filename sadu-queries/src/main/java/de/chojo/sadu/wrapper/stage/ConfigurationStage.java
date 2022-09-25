@@ -15,9 +15,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
- * Configuration stage of a {@link QueryBuilder}
+ * Represents a ConfigurationStage of a {@link QueryBuilder}.
+ * <p>
+ * Allows to configure the {@link QueryBuilderConfig}. This stage can be skipped when using a {@link QueryFactory}.
  *
- * @param <T> type
+ * @param <T> result type
  */
 public interface ConfigurationStage<T> {
     /**
@@ -57,7 +59,7 @@ public interface ConfigurationStage<T> {
     QueryStage<T> defaultConfig();
 
     /**
-     * Allows to modify a config, prepopulated with the default values defined via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
+     * Allows to modify a config, pre-populated with the default values defined via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
      * <p>
      * A configured {@link QueryFactory} can be used to skip this step.
      *
