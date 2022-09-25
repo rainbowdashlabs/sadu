@@ -86,7 +86,8 @@ public final class DefaultMapper {
     }
 
     private static SQLException createException(List<SqlType> types, ResultSetMetaData meta) {
-        var type = types.stream().map(SqlType::descr)
+        var type = types.stream()
+                        .map(SqlType::descr)
                         .collect(Collectors.joining(", "));
         var available = "error";
         try {

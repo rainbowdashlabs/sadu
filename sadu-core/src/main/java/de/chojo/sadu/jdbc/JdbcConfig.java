@@ -8,9 +8,6 @@ package de.chojo.sadu.jdbc;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.sql.Driver;
 import java.util.LinkedHashSet;
 import java.util.Optional;

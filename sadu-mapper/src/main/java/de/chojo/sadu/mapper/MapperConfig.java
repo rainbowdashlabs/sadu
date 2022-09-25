@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * The config of a {@link RowMapper}.
  */
-public class MapperConfig {
+public class MapperConfig implements Cloneable {
     public static final MapperConfig DEFAULT = new MapperConfig();
     private Map<String, String> aliases = new HashMap<>();
     private boolean strict = false;
@@ -62,6 +62,12 @@ public class MapperConfig {
     public MapperConfig strict() {
         strict = true;
         return this;
+    }
+
+    @Override
+    @Deprecated(forRemoval = true)
+    protected Object clone() {
+        return copy();
     }
 
     public MapperConfig copy() {

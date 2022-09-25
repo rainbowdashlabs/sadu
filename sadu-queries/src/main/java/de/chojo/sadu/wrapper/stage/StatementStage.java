@@ -72,7 +72,6 @@ public interface StatementStage<T> {
      */
     @CheckReturnValue
     default ResultStage<T> emptyParams() {
-        return params(stmt -> {
-        });
+        return params(stmt -> {});
     }
 }

@@ -72,7 +72,7 @@ public interface Database<T extends JdbcConfig<?>> {
     }
 
     /**
-     * Checks if the given name matches the {@link #name()} or any {@link #alias()}. Case-insensitive.
+     * Checks if the given name matches the {@link #name()} or any {@link #alias()}. case-insensitive.
      *
      * @param name name to check
      * @return true if any match was found
@@ -140,10 +140,12 @@ public interface Database<T extends JdbcConfig<?>> {
     T jdbcBuilder();
 
     /**
-     * If the db does not allow to execute multiple queries this function should return every query in one string
+     * The split queries, if the db does not allow to execute multiple queries this function should return every query in one string.
+     * <p>
+     * Otherwise, this array will only contain one entry.
      *
      * @param queries queries
-     * @return split queries if needed
+     * @return queries
      */
     default String[] splitStatements(String queries) {
         return new String[]{queries};
