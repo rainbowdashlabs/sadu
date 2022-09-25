@@ -9,7 +9,7 @@ package de.chojo.sadu.types;
 import static de.chojo.sadu.types.SqlType.ofName;
 
 /**
- * Represents the data types of a MariaDB database
+ * Types present in a MariaDB database.
  */
 public interface MariaDbTypes {
     /**

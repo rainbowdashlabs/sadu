@@ -46,7 +46,7 @@ public final class ArrayConverter {
     }
 
     /**
-     * Converts an array of a result set collumn to an java array
+     * Converts an array of a result set column to a java array
      *
      * @param resultSet result set
      * @param column    column name
@@ -64,7 +64,7 @@ public final class ArrayConverter {
     }
 
     /**
-     * Converts an array of a result set collumn to an java array
+     * Converts an array of a result set column to a java array
      *
      * @param resultSet result set
      * @param column    column name
@@ -97,7 +97,7 @@ public final class ArrayConverter {
     @SuppressWarnings("unchecked")
     @Nullable
     @Contract("_,_,!null -> !null")
-    public static <T> T[] toArray(@NotNull ResultSet resultSet, @NotNull int column, @Nullable T[] def) throws SQLException {
+    public static <T> T[] toArray(@NotNull ResultSet resultSet, int column, @Nullable T[] def) throws SQLException {
         var array = fromResultSet(resultSet, column);
         return array == null ? def : (T[]) toArray(array);
     }

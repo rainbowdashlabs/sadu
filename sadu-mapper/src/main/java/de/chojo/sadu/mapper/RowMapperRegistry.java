@@ -9,7 +9,6 @@ package de.chojo.sadu.mapper;
 import de.chojo.sadu.mapper.exceptions.MappingAlreadyRegisteredException;
 import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
-import de.chojo.sadu.wrapper.util.Row;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

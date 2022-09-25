@@ -9,7 +9,7 @@ package de.chojo.sadu.types;
 import static de.chojo.sadu.types.SqlType.ofName;
 
 /**
- * Types present in a postgresql database.
+ * Types present in a PostgreSQL database.
  */
 public interface PostgreSqlTypes {
     /**

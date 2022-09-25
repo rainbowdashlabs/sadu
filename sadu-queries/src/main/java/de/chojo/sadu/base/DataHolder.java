@@ -21,11 +21,11 @@ import static org.slf4j.LoggerFactory.getLogger;
 /**
  * Base class which can be used for classes which call the database.
  * <p>
- * Provides convinience methods for connection retrieval, logging and a querybuilder.
+ * Provides convenience methods for connection retrieval, logging and a querybuilder.
  * <p>
  * You may use a {@link QueryFactory} for builder creation or extend {@link QueryFactory}
  */
-public abstract class DataHolder implements DataSourceProvider {
+public class DataHolder implements DataSourceProvider {
     private static final Logger log = getLogger(DataHolder.class);
     private final DataSource dataSource;
 
@@ -41,7 +41,7 @@ public abstract class DataHolder implements DataSourceProvider {
     /**
      * Get a query builder for easy sql execution.
      *
-     * @param clazz clazz which should be retrieved. Doesnt matter if you want a list and multiple results or not.
+     * @param clazz clazz which should be retrieved. Doesn't matter if you want a list and multiple results or not.
      * @param <T>   type of result
      * @return query builder in a query stage
      */
@@ -65,7 +65,7 @@ public abstract class DataHolder implements DataSourceProvider {
      * @param e exception
      */
     public void logDbError(SQLException e) {
-        logDbError("An error occured while executing a query", e);
+        logDbError("An error occurred while executing a query", e);
     }
 
     /**

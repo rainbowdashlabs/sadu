@@ -35,7 +35,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * A class which wrapps a {@link PreparedStatement} and allows to set the values with a builder pattern.
+ * A class wrapping a {@link PreparedStatement} and allows to set the values with a builder pattern.
  * <p>
  * The index of the argument will be moved automatically
  */
@@ -480,9 +480,8 @@ public class ParamBuilder {
      * will be converted to the corresponding SQL type before being
      * sent to the database.
      *
-     * <p>Note that this method may be used to pass database-
-     * specific abstract data types, by using a driver-specific Java
-     * type.
+     * <p>Note that this method may be used to pass database-specific
+     * abstract data types, by using a driver-specific Java type.
      * <p>
      * If the object is of a class implementing the interface {@code SQLData},
      * the JDBC driver should call the method {@code SQLData.writeSQL}

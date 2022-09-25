@@ -119,7 +119,7 @@ public class MyQueries extends QueryFactory {
                 .query("INSERT INTO results(result) VALUES(?)")
                 // We set the first parameter. No need to define the index.
                 .parameter(stmt -> stmt.setString(result))
-                // We say that we want to execute a insert
+                // We say that we want to execute an insert
                 .insert()
                 // We execute the query asynchronously and get the created key.
                 .key();

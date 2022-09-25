@@ -7,7 +7,7 @@
 package de.chojo.sadu.jdbc;
 
 /**
- * Builder to create a jdbc url for postgresql.
+ * A builder to create a PostgreSQL jdbc url.
  */
 public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     @Override
@@ -16,7 +16,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     }
 
     /**
-     * The connect timeout value, in milliseconds, or zero for no timeout.
+     * The connection timeout value, in milliseconds, or zero for no timeout.
      * Default: 30 000.
      *
      * @param millis milliseconds
@@ -64,7 +64,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     }
 
     /**
-     * Provide the full path for the certificate file. Defaults to /defaultdir/postgresql.crt, where defaultdir is ${user.home}/.postgresql/ in *nix systems and %appdata%/postgresql/ on windows.
+     * Provide the full path for the certificate file. Defaults to /defaultdir/postgresql.crt, where defaultdir is ${user.home}/.postgresql/ in *nix systems and %appdata%/postgresql/ on Windows.
      * <p>
      * It can be a PEM encoded X509v3 certificate
      * <p>
@@ -161,8 +161,6 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @see <a href="https://jdbc.postgresql.org/documentation/head/connect.html">Postgres parameter</a>
      */
     @Override
@@ -199,7 +197,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     }
 
     /**
-     * Represents different ssl modes.
+     * Represents different SSL modes.
      */
     public enum SslMode {
         /**
