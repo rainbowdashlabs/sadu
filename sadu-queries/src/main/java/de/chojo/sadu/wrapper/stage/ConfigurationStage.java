@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * <p>
  * Allows to configure the {@link QueryBuilderConfig}. This stage can be skipped when using a {@link QueryFactory}.
  *
- * @param <T> return type
+ * @param <T> result type
  */
 public interface ConfigurationStage<T> {
     /**

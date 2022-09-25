@@ -19,7 +19,7 @@ import java.util.concurrent.Executor;
 /**
  * Represents a InsertStage providing the result of an insert statement.
  * <p>
- * Can either provide the created keys or a {@link UpdateResult} via the underlyint {@link UpdateStage}
+ * Can either provide the created keys or a {@link UpdateResult} via the underlying {@link UpdateStage}
  */
 public interface InsertStage extends UpdateStage {
     /**

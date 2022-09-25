@@ -30,7 +30,7 @@ import java.util.function.Consumer;
 public interface ResultStage<T> {
 
     /**
-     * Extract results from the current row and only the current row. It doesn't matter if you will get 0,1 or more results.
+     * Extract results from the current row and only the current row. It doesn't matter if you will get 0, 1 or more results.
      * <p>
      * <b>This is not the place to define how many results you want.</b>
      * <p>
