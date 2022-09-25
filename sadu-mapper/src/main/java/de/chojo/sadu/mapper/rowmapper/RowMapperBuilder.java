@@ -14,6 +14,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A builder to build a {@link RowMapper}.
+ * @param <T> type of the mapper result.
+ */
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
     private final Set<String> columns = new HashSet<>();

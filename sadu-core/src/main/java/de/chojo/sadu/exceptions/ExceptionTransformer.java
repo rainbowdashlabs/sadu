@@ -9,7 +9,7 @@ package de.chojo.sadu.exceptions;
 import java.sql.SQLException;
 
 /**
- * Utilitites for database handling
+ * Utilities for database exception handling.
  */
 public final class ExceptionTransformer {
     private ExceptionTransformer() {

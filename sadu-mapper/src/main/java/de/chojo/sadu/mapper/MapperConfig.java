@@ -6,9 +6,14 @@
 
 package de.chojo.sadu.mapper;
 
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The config of a {@link RowMapper}.
+ */
 public class MapperConfig implements Cloneable {
     public static final MapperConfig DEFAULT = new MapperConfig();
     private Map<String, String> aliases = new HashMap<>();
@@ -43,6 +48,10 @@ public class MapperConfig implements Cloneable {
         return this;
     }
 
+    /**
+     * When true only mappers will be used, which have a mapping value for all columns or the wild card mapper if present and no matching mapper was found.
+     * @return true when strict
+     */
     public boolean isStrict() {
         return strict;
     }
@@ -56,7 +65,12 @@ public class MapperConfig implements Cloneable {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public MapperConfig clone() {
+        return copy();
+    }
+
+    public MapperConfig copy() {
         var mapperConfig = new MapperConfig();
         mapperConfig.aliases = new HashMap<>(aliases);
         mapperConfig.strict = strict;

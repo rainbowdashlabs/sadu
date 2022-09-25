@@ -18,13 +18,13 @@ package de.chojo.sadu.exceptions;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T, Exception extends java.lang.Exception> {
+public interface ThrowingConsumer<T, E extends java.lang.Exception> {
 
     /**
      * Performs this operation on the given argument.
      *
      * @param t the input argument
-     * @throws Exception if something went wrong
+     * @throws E if something went wrong
      */
-    void accept(T t) throws Exception;
+    void accept(T t) throws E;
 }

@@ -16,7 +16,7 @@ public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
     }
 
     /**
-     * The connect timeout value, in milliseconds, or zero for no timeout.
+     * The connection timeout value, in milliseconds, or zero for no timeout.
      * Default: 0.
      *
      * @param millis milliseconds
