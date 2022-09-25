@@ -66,7 +66,7 @@ public class MapperConfig implements Cloneable {
 
     @Override
     @Deprecated(forRemoval = true)
-    protected Object clone() {
+    public MapperConfig clone() {
         return copy();
     }
 
