@@ -6,13 +6,13 @@ de.chojo.sadu.datasource
 de.chojo.sadu.datasource.stage
 de.chojo.sadu.exceptions
 de.chojo.sadu.jdbc
+de.chojo.sadu.mapper
+de.chojo.sadu.mapper.exceptions
+de.chojo.sadu.mapper.rowmapper
+de.chojo.sadu.mapper.util
 de.chojo.sadu.types
 de.chojo.sadu.updater
 de.chojo.sadu.wrapper
 de.chojo.sadu.wrapper.exception
-de.chojo.sadu.wrapper.mapper
-de.chojo.sadu.wrapper.mapper.exceptions
-de.chojo.sadu.wrapper.mapper.rowmapper
-de.chojo.sadu.wrapper.mapper.util
 de.chojo.sadu.wrapper.stage
 de.chojo.sadu.wrapper.util
