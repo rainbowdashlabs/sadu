@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 
 public class Mapper {
     public static final RowMapper<Result> wildcard = RowMapper.forClass(Result.class)

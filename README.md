@@ -61,7 +61,7 @@ class MyQueries {
                 stmt.setInt(id);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    return Optional.of(new Result(rs.getString("result"));
+                    return Optional.of(new Result(rs.getString("result")));
                 }
             } catch (SQLException e) {
                 logger.error("Something went wrong", e);

@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * A basic jdbc config
+ * A base builder to create a jdbc url.
  *
  * @param <T> type of config
  */

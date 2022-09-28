@@ -13,6 +13,7 @@ import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
  *
  * <b>Setup</b>
  * <p>
- * Every Major version directory has to contain a {@code setup.sql} file. This file represents the inital state of the database version.
+ * Every Major version directory has to contain a {@code setup.sql} file. This file represents the initial state of the database version.
  * <p>
  * During the initial setup the {@code setup.sql} script of the highest major version is executed.
  * <p>
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
  * Every Major version which has a following major version requires a {@code migrate.sql} script.
  * <p>
  * This script should update the database to the same state as a clean installation via the new {@code setup.sql} would do.
- *
+ * <p>
  *
  * <pre>{@code
  * database
@@ -102,7 +103,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T> type;
-    private String[] schemas;
+    private final String[] schemas;
 
     private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T> type, String[] schemas) {
         super(source, config);
@@ -125,10 +126,11 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      * @return new builder instance
      * @throws IOException if the version file does not exist.
      */
-    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder builder(DataSource dataSource, Database<T> type) throws IOException {
+    @CheckReturnValue
+    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder<T> builder(DataSource dataSource, Database<T> type) throws IOException {
         var version = "";
         try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
-            version = new String(versionFile.readAllBytes()).trim();
+            version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
         }
 
         var ver = version.split("\\.");
@@ -241,9 +243,9 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     private boolean schemaExists(String schema) {
         try (var conn = source.getConnection(); var stmt = conn.prepareStatement(type.schemaExists())) {
             stmt.setString(1, schema);
-            var rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getBoolean(1);
+            var row = stmt.executeQuery();
+            if (row.next()) {
+                return row.getBoolean(1);
             }
         } catch (SQLException e) {
             log.error("Could not check if schema {} exists", schema, e);
@@ -354,8 +356,8 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
         private String[] schemas;
 
-        private SqlUpdaterBuilder(DataSource dataSource, SqlVersion version, Database<T> type) {
-            this.source = dataSource;
+        private SqlUpdaterBuilder(DataSource source, SqlVersion version, Database<T> type) {
+            this.source = source;
             this.version = version;
             this.type = type;
         }
@@ -366,6 +368,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param schemas schemas
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setSchemas(String... schemas) {
             if (!type.hasSchemas()) {
                 throw new IllegalStateException("This sql type does not support schemas");
@@ -383,6 +386,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param versionTable name of the version table
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setVersionTable(String versionTable) {
             this.versionTable = versionTable;
             return this;
@@ -395,6 +399,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param replacements replacements
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> setReplacements(QueryReplacement... replacements) {
             this.replacements = replacements;
             return this;
@@ -406,6 +411,7 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
          * @param config config so apply
          * @return builder instance
          */
+        @CheckReturnValue
         public SqlUpdaterBuilder<T> withConfig(QueryBuilderConfig config) {
             this.config = config;
             return this;

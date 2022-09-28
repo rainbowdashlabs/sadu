@@ -35,7 +35,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * A class which wrapps a {@link PreparedStatement} and allows to set the values with a builder pattern.
+ * A class wrapping a {@link PreparedStatement} and allows to set the values with a builder pattern.
  * <p>
  * The index of the argument will be moved automatically
  */
@@ -306,6 +306,27 @@ public class ParamBuilder {
     }
 
     /**
+     * Sets the designated parameter to the given Java {@code Enum} name value.
+     * The driver converts this
+     * to an SQL {@code VARCHAR} or {@code LONGVARCHAR} value
+     * (depending on the argument's
+     * size relative to the driver's limits on {@code VARCHAR} values)
+     * when it sends it to the database.
+     *
+     * @param x the parameter value
+     * @param <T> Type of enum
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public <T extends Enum<?>> ParamBuilder setEnum(T x) throws SQLException {
+        if (x == null) return setNull(Types.VARCHAR);
+        stmt.setString(index(), x.name());
+        return this;
+    }
+
+    /**
      * Sets the designated parameter to the given Java array of bytes.  The driver converts
      * this to an SQL {@code VARBINARY} or {@code LONGVARBINARY}
      * (depending on the argument's size relative to the driver's limits on
@@ -459,9 +480,8 @@ public class ParamBuilder {
      * will be converted to the corresponding SQL type before being
      * sent to the database.
      *
-     * <p>Note that this method may be used to pass database-
-     * specific abstract data types, by using a driver-specific Java
-     * type.
+     * <p>Note that this method may be used to pass database-specific
+     * abstract data types, by using a driver-specific Java type.
      * <p>
      * If the object is of a class implementing the interface {@code SQLData},
      * the JDBC driver should call the method {@code SQLData.writeSQL}

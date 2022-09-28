@@ -29,8 +29,6 @@ public class QueryExecutionException extends SQLException {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @throws ClassCastException If the throwable is not a {@link SQLException}
      */
     @Override

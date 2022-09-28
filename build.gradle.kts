@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo.sadu"
-version = "1.1.0"
+version = "1.2.0"
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -45,8 +45,8 @@ allprojects {
     }
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.0")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.0")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.1")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.1")
         testImplementation("org.mockito", "mockito-core", "3.+")
     }
 
@@ -106,11 +106,26 @@ allprojects {
                 events("passed", "skipped", "failed")
             }
         }
+
+        javadoc {
+            applyJavaDocOptions(options)
+        }
     }
+}
+
+fun applyJavaDocOptions(options: MinimalJavadocOptions){
+    val javaDocOptions = options as StandardJavadocDocletOptions
+    javaDocOptions.links(
+        "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
+        "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+        "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
+    )
 }
 
 tasks {
     register<Javadoc>("alljavadoc") {
+        applyJavaDocOptions(options)
+
         setDestinationDir(file("${buildDir}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })

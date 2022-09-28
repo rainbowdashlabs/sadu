@@ -4,10 +4,10 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.rowmapper;
+package de.chojo.sadu.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
+import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.util.Row;
 import org.slf4j.Logger;
 
@@ -17,13 +17,13 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static de.chojo.sadu.wrapper.mapper.util.Results.columnNames;
+import static de.chojo.sadu.mapper.util.Results.columnNames;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Class representing the mapping of a column to an object.
  *
- * @param <T> type of retuned object
+ * @param <T> type of returned object
  */
 public class RowMapper<T> {
     private static final Logger log = getLogger(RowMapper.class);
@@ -61,7 +61,7 @@ public class RowMapper<T> {
      * Checks how many rows of the result set are applicable.
      *
      * @param resultSet result set
-     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
     public int applicable(ResultSet resultSet) throws SQLException {
         return applicable(resultSet, MapperConfig.DEFAULT);
@@ -71,7 +71,7 @@ public class RowMapper<T> {
      * Checks how many rows of the result set are applicable.
      *
      * @param resultSet result set
-     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
     public int applicable(ResultSet resultSet, MapperConfig config) throws SQLException {
         return applicable(resultSet.getMetaData(), config);
@@ -81,7 +81,7 @@ public class RowMapper<T> {
      * Checks how many rows of the result set are applicable.
      *
      * @param meta meta of a result set
-     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
     public int applicable(ResultSetMetaData meta) {
         return applicable(meta, MapperConfig.DEFAULT);
@@ -92,7 +92,7 @@ public class RowMapper<T> {
      *
      * @param meta   meta of a result set
      * @param config mapper config
-     * @return If the result set is not applicable 0 will be returned. Otherwise the count of applicable rows will be returned.
+     * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
     public int applicable(ResultSetMetaData meta, MapperConfig config) {
         Set<String> names;
@@ -109,9 +109,9 @@ public class RowMapper<T> {
             if (columns.remove(entry.getKey())) columns.add(entry.getValue());
         }
 
-        int size = names.size();
+        var size = names.size();
         if (columns.size() > size) {
-            // The result set has less rows than we need
+            // The result set has fewer rows than we need
             return 0;
         }
 

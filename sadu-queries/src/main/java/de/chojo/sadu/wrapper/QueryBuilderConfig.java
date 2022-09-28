@@ -8,9 +8,9 @@ package de.chojo.sadu.wrapper;
 
 import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.exceptions.ExceptionTransformer;
+import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.RowMapperRegistry;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
@@ -44,8 +44,8 @@ public class QueryBuilderConfig {
     }
 
     /**
-     * Get a builder for a QueryBuilderconfig.
-     * The builder is prepopulated by the values set via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
+     * Get a builder for a QueryBuilderConfig.
+     * The builder is pre-populated by the values set via {@link QueryBuilderConfig#setDefault(QueryBuilderConfig)}
      *
      * @return new builder instance
      */
@@ -109,7 +109,7 @@ public class QueryBuilderConfig {
     }
 
     /**
-     * Executor to submit the conpletable futures.
+     * Executor to submit the completable futures.
      *
      * @return executor
      */
@@ -128,9 +128,9 @@ public class QueryBuilderConfig {
         private boolean throwing;
         private boolean atomic = true;
         @SuppressWarnings({"UseOfSystemOutOrSystemErr", "CallToPrintStackTrace"})
-        private Consumer<SQLException> exceptionHandler = throwables -> {
-            System.err.println(ExceptionTransformer.prettyException(throwables));
-            throwables.printStackTrace();
+        private Consumer<SQLException> exceptionHandler = throwable -> {
+            System.err.println(ExceptionTransformer.prettyException(throwable));
+            throwable.printStackTrace();
         };
 
         private RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
@@ -150,7 +150,7 @@ public class QueryBuilderConfig {
         }
 
         /**
-         * Sets the query builder as throwing. This will cause any occuring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
+         * Sets the query builder as throwing. This will cause any occurring exception to be wrapped into an {@link QueryExecutionException} and be thrown instead of logged.
          *
          * @return builder instance
          */
@@ -195,7 +195,7 @@ public class QueryBuilderConfig {
         }
 
         /**
-         * Sets the exector service used for the completable futures.
+         * Sets the executor service used for the completable futures.
          *
          * @param executorService executor service
          * @return builder instance

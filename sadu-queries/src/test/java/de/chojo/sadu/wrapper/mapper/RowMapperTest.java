@@ -6,8 +6,10 @@
 
 package de.chojo.sadu.wrapper.mapper;
 
+import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.QueryBuilder;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 import org.junit.jupiter.api.Test;
 

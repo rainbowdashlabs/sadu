@@ -15,6 +15,7 @@ import de.chojo.sadu.jdbc.JdbcConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -31,7 +32,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     private HikariConfig hikariConfig;
 
     private DataSourceCreator(Database<T> type) {
-        this.builder = type.jdbcBuilder();
+        builder = type.jdbcBuilder();
     }
 
     /**
@@ -39,19 +40,22 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      *
      * @param type The type of database which is targeted by this data source
      * @param <T>  database type defined by the {@link Database}
-     * @return a {@link DataSourceCreator} in {@link JdbcStage}.
+     * @return a DataSourceCreator in {@link JdbcStage}.
      */
+    @CheckReturnValue
     public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T> type) {
         return new DataSourceCreator<>(type);
     }
 
     @Override
+    @CheckReturnValue
     public JdbcStage<T> configure(Consumer<T> builder) {
         builder.accept(this.builder);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage create() {
         loadDriverClass();
         var jdbcUrl = builder.jdbcUrl();
@@ -70,90 +74,105 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withConnectionTimeout(long connectionTimeoutMs) {
         hikariConfig.setConnectionTimeout(connectionTimeoutMs);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withIdleTimeout(long idleTimeoutMs) {
         hikariConfig.setIdleTimeout(idleTimeoutMs);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withMaxLifetime(long maxLifetimeMs) {
         hikariConfig.setMaxLifetime(maxLifetimeMs);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withMaximumPoolSize(int maxPoolSize) {
         hikariConfig.setMaximumPoolSize(maxPoolSize);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withMinimumIdle(int minIdle) {
         hikariConfig.setMinimumIdle(minIdle);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage usingPassword(String password) {
         hikariConfig.setPassword(password);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage usingUsername(String username) {
         hikariConfig.setUsername(username);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public DataSourceCreator<T> withDataSourceClassName(Class<? extends DataSource> className) {
         hikariConfig.setDataSourceClassName(className.getName());
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withAutoCommit(boolean isAutoCommit) {
         hikariConfig.setAutoCommit(isAutoCommit);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withKeepaliveTime(long keepaliveTimeMs) {
         hikariConfig.setKeepaliveTime(keepaliveTimeMs);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withPoolName(String poolName) {
         hikariConfig.setPoolName(poolName);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withScheduledExecutor(ScheduledExecutorService executor) {
         hikariConfig.setScheduledExecutor(executor);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage forSchema(String schema) {
         hikariConfig.setSchema(schema);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public ConfigurationStage withThreadFactory(ThreadFactory threadFactory) {
         hikariConfig.setThreadFactory(threadFactory);
         return this;
     }
 
     @Override
+    @CheckReturnValue
     public HikariDataSource build() {
         return new HikariDataSource(hikariConfig);
     }

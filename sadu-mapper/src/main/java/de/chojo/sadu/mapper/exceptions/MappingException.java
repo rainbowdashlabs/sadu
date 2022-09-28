@@ -4,9 +4,9 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.exceptions;
+package de.chojo.sadu.mapper.exceptions;
 
-import de.chojo.sadu.wrapper.mapper.util.Results;
+import de.chojo.sadu.mapper.util.Results;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

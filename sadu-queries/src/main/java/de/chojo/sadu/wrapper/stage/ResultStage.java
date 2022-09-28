@@ -7,11 +7,12 @@
 package de.chojo.sadu.wrapper.stage;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
+import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.QueryBuilder;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.util.Row;
 
+import javax.annotation.CheckReturnValue;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
@@ -19,17 +20,28 @@ import java.util.function.Consumer;
  * Represents a ResultStage of a {@link QueryBuilder}.
  * <p>
  * A ResultStage is used to read the result set, perform updates or append another query.
+ * <p>
+ * Can forward to a {@link RetrievalStage} when data needs to be read, a {@link UpdateStage} when data is updated or deleted or a {@link InsertStage} when data gets inserted.
+ * <p>
+ * Additionally, it allows to go back to a {@link QueryStage} to add another query into the transaction.
  *
- * @param <T> type of ResultStage
+ * @param <T> return type
  */
 public interface ResultStage<T> {
 
     /**
-     * Extract results from the current row.
+     * Extract results from the current row and only the current row. It doesn't matter if you will get 0, 1 or more results.
+     * <p>
+     * <b>This is not the place to define how many results you want.</b>
+     * <p>
+     * <b>Do not try to read multiple rows here.</b>
+     * <p>
+     * <b>Do not modify the underlying result set.</b>
      *
      * @param mapper mapper to map the current row.
      * @return The {@link QueryBuilder} in a {@link RetrievalStage} to retrieve the row/s.
      */
+    @CheckReturnValue
     RetrievalStage<T> readRow(ThrowingFunction<T, Row, SQLException> mapper);
 
     /**
@@ -72,6 +84,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link UpdateStage} to update the data.
      */
+    @CheckReturnValue
     UpdateStage update();
 
     /**
@@ -79,6 +92,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link UpdateStage} to update the data.
      */
+    @CheckReturnValue
     default UpdateStage delete() {
         return update();
     }
@@ -88,6 +102,7 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link InsertStage} to update the data.
      */
+    @CheckReturnValue
     InsertStage insert();
 
 
@@ -96,5 +111,6 @@ public interface ResultStage<T> {
      *
      * @return The {@link QueryBuilder} in a {@link QueryStage}
      */
+    @CheckReturnValue
     QueryStage<T> append();
 }

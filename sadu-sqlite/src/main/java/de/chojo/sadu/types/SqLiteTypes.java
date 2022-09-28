@@ -9,7 +9,7 @@ package de.chojo.sadu.types;
 import static de.chojo.sadu.types.SqlType.ofName;
 
 /**
- * Types supported by SqLite.
+ * Types present in a SqLite database.
  */
 public interface SqLiteTypes {
     /**
@@ -28,9 +28,9 @@ public interface SqLiteTypes {
      * SqLite boolean type
      * Internally interpreted as an INTEGER
      */
-    SqlType BOOLEAN = ofName("BOOLEAN");
+    SqlType BOOLEAN = ofName("BOOLEAN", "INTEGER");
     /**
      * SqLite blob type
      */
-    SqlType BLOB = ofName("BOOLEAN");
+    SqlType BLOB = ofName("BLOB");
 }

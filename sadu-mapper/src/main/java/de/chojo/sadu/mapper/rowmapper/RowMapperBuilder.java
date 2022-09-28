@@ -4,7 +4,7 @@
  *     Copyright (C) 2022 RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.mapper.rowmapper;
+package de.chojo.sadu.mapper.rowmapper;
 
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.wrapper.util.Row;
@@ -14,6 +14,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A builder to build a {@link RowMapper}.
+ * @param <T> type of the mapper result.
+ */
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
     private final Set<String> columns = new HashSet<>();

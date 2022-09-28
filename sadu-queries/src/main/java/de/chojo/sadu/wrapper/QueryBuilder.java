@@ -9,10 +9,10 @@ package de.chojo.sadu.wrapper;
 import de.chojo.sadu.base.DataHolder;
 import de.chojo.sadu.exceptions.ThrowingConsumer;
 import de.chojo.sadu.exceptions.ThrowingFunction;
+import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.exception.QueryExecutionException;
 import de.chojo.sadu.wrapper.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.wrapper.mapper.MapperConfig;
-import de.chojo.sadu.wrapper.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.wrapper.stage.ConfigurationStage;
 import de.chojo.sadu.wrapper.stage.InsertStage;
 import de.chojo.sadu.wrapper.stage.QueryStage;
@@ -85,7 +85,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
      * Create a new query builder with a defined return type. Use it for selects.
      *
      * @param source datasource for connection
-     * @param clazz  class of required return type. Doesnt matter if you want a list or single result.
+     * @param clazz  class of required return type. Doesn't matter if you want a list or single result.
      * @param <T>    type of return type
      * @return a new query builder in a {@link QueryStage}
      */
@@ -166,7 +166,8 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
     @Override
     public RetrievalStage<T> map(MapperConfig mapperConfig) {
         Objects.requireNonNull(clazz);
-        this.mapperConfig = mapperConfig.clone();
+        this.mapperConfig = mapperConfig.copy();
+        queueTask();
         return this;
     }
 
@@ -346,7 +347,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
 
     /*
     Execute all queries, since we are only interested in the result of the last of our queries.
-    Thats why we will execute all queries inside this method regardless of the method which calls this method
+    That's why we will execute all queries inside this method regardless of the method which calls this method
     We will use a single connection for this, since the user may be interested in the last inserted id or something.
     */
     private QueryTask executeAndGetLast(Connection conn) throws QueryExecutionException {
@@ -391,7 +392,7 @@ public class QueryBuilder<T> extends DataHolder implements ConfigurationStage<T>
             this.statementConsumer = statementConsumer;
             this.rowMapper = rowMapper;
             this.mapperConfig = mapperConfig;
-            executionException = new QueryExecutionException("An error occured while executing a query.");
+            executionException = new QueryExecutionException("An error occurred while executing a query.");
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")

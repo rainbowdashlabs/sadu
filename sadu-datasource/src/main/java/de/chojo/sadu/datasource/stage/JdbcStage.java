@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.datasource.stage;
 
+import javax.annotation.CheckReturnValue;
 import java.util.function.Consumer;
 
 /**
@@ -17,8 +18,9 @@ public interface JdbcStage<T> {
      * configure the jdbc builder
      *
      * @param builder builder
-     * @return builder isntance
+     * @return builder instance
      */
+    @CheckReturnValue
     JdbcStage<T> configure(Consumer<T> builder);
 
     /**
