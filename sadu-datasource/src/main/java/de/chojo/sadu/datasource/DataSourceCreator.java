@@ -69,7 +69,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
         try {
             Class.forName(builder.driverClass());
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Could not load driver class. Is class in class path? Use #setDriverClass when using relocation.", e);
+            throw new DriverClassNotFoundException("Could not load driver class. Is class in class path? Use #setDriverClass when using relocation.");
         }
     }
 
