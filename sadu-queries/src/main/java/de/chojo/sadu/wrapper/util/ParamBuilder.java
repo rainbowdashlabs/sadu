@@ -31,6 +31,7 @@ import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -360,6 +361,25 @@ public class ParamBuilder {
     public ParamBuilder setDate(Date x) throws SQLException {
         if (x == null) return setNull(Types.DATE);
         stmt.setDate(index(), x);
+        return this;
+    }
+
+    /**
+     * Sets the designated parameter to the given {@code java.time.LocalDate} value
+     * using the default time zone of the virtual machine that is running
+     * the application.
+     * The driver converts this
+     * to an SQL {@code DATE} value when it sends it to the database.
+     *
+     * @param x the parameter value
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public ParamBuilder setLocalDate(LocalDate x) throws SQLException {
+        if (x == null ) return setNull(Types.DATE);
+        stmt.setDate(index(), Date.valueOf(x));
         return this;
     }
 
