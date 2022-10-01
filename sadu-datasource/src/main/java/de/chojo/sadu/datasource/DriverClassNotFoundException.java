@@ -1,3 +1,9 @@
+/*
+ *     SPDX-License-Identifier: AGPL-3.0-only
+ *
+ *     Copyright (C) 2022 RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sadu.datasource;
 
 /**
@@ -6,7 +12,7 @@ package de.chojo.sadu.datasource;
 
 public class DriverClassNotFoundException extends RuntimeException {
 
-    public DriverClassNotFoundException(String message) {
-        super(message);
+    public DriverClassNotFoundException(String message, ClassNotFoundException e) {
+        super(message, e);
     }
 }
