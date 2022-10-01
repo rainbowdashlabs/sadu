@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.databases.exceptions.NotImplementedException;
 import de.chojo.sadu.databases.exceptions.NotSupportedException;
 import de.chojo.sadu.jdbc.JdbcConfig;
@@ -34,8 +35,9 @@ import java.util.Arrays;
  * }</pre>
  *
  * @param <T> type of the database defined by the {@link Database}
+ * @param <U> type of the BaseSqlUpdater
  */
-public interface Database<T extends JdbcConfig<?>> {
+public interface Database<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> {
 
     /**
      * Creates a query to create a version table on the database.
@@ -171,4 +173,6 @@ public interface Database<T extends JdbcConfig<?>> {
     default boolean hasSchemas() {
         return false;
     }
+
+     UpdaterBuilder<T, U> newSqlUpdaterBuilder();
 }

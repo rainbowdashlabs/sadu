@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.JdbcConfig;
 
 /**
@@ -13,7 +14,7 @@ import de.chojo.sadu.jdbc.JdbcConfig;
  *
  * @param <T> database type defined by the {@link Database}
  */
-public abstract class DefaultDatabase<T extends JdbcConfig<?>> implements Database<T> {
+public abstract class DefaultDatabase<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> implements Database<T, U> {
 
     @Override
     public String versionQuery(String table) {

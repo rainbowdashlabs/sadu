@@ -6,12 +6,14 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.MySQLJdbc;
+import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 
 /**
  * Represents a SqLite database.
  */
-public class MySql extends DefaultDatabase<MySQLJdbc> {
+public class MySql extends DefaultDatabase<MySQLJdbc, BaseSqlUpdaterBuilder<MySQLJdbc, ?>> {
 
     private static final MySql type = new MySql();
 
@@ -49,5 +51,10 @@ public class MySql extends DefaultDatabase<MySQLJdbc> {
     @Override
     public String[] splitStatements(String queries) {
         return cleanStatements(queries.split(";"));
+    }
+
+    @Override
+    public UpdaterBuilder<MySQLJdbc, BaseSqlUpdaterBuilder<MySQLJdbc, ?>> newSqlUpdaterBuilder() {
+        return new BaseSqlUpdaterBuilder<>(this);
     }
 }

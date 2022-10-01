@@ -6,12 +6,14 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.SqLiteJdbc;
+import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 
 /**
  * Represents a SqLite database.
  */
-public class SqLite extends DefaultDatabase<SqLiteJdbc> {
+public class SqLite extends DefaultDatabase<SqLiteJdbc, BaseSqlUpdaterBuilder<SqLiteJdbc, ?>> {
 
     private static final SqLite type = new SqLite();
 
@@ -54,5 +56,10 @@ public class SqLite extends DefaultDatabase<SqLiteJdbc> {
     @Override
     public String[] splitStatements(String queries) {
         return cleanStatements(queries.split(";"));
+    }
+
+    @Override
+    public UpdaterBuilder<SqLiteJdbc, BaseSqlUpdaterBuilder<SqLiteJdbc, ?>> newSqlUpdaterBuilder() {
+        return new BaseSqlUpdaterBuilder<>(this);
     }
 }
