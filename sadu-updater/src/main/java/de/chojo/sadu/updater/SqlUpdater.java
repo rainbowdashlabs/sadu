@@ -96,15 +96,15 @@ import java.util.stream.Collectors;
  *      - 2/patch_1.sql
  *  </pre>
  */
-public class SqlUpdaterBuilder<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> extends QueryFactory {
-    private static final Logger log = LoggerFactory.getLogger(SqlUpdaterBuilder.class);
+public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> extends QueryFactory {
+    private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T, U> type;
 
-    protected SqlUpdaterBuilder(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type) {
+    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type) {
         super(source, config);
         this.source = source;
         this.versionTable = versionTable;
@@ -127,7 +127,7 @@ public class SqlUpdaterBuilder<T extends JdbcConfig<?>, U extends BaseSqlUpdater
     @CheckReturnValue
     public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) throws IOException {
         var version = "";
-        try (var versionFile = SqlUpdaterBuilder.class.getClassLoader().getResourceAsStream("database/version")) {
+        try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
             version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
         }
 

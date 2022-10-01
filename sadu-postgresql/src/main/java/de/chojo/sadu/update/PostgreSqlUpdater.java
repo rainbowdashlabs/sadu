@@ -8,7 +8,7 @@ package de.chojo.sadu.update;
 
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.PostgreSqlJdbc;
-import de.chojo.sadu.updater.SqlUpdaterBuilder;
+import de.chojo.sadu.updater.SqlUpdater;
 import de.chojo.sadu.updater.QueryReplacement;
 import de.chojo.sadu.updater.SqlVersion;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class PostgreSqlUpdater extends SqlUpdaterBuilder<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
+public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
     private static final Logger log = LoggerFactory.getLogger(PostgreSqlUpdater.class);
 

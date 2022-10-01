@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Class to build a {@link SqlUpdaterBuilder} with a builder pattern
+ * Class to build a {@link SqlUpdater} with a builder pattern
  *
  * @param <T> The type of the jdbc link defined by the {@link Database}
  */
@@ -87,7 +87,7 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      * @throws IOException  If the scripts can't be read.
      */
     public void execute() throws SQLException, IOException {
-        var sqlUpdater = new SqlUpdaterBuilder<>(source, config, versionTable, replacements, version, type);
+        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type);
         sqlUpdater.init();
     }
 
