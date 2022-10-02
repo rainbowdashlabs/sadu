@@ -10,6 +10,7 @@ import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.databases.exceptions.NotImplementedException;
 import de.chojo.sadu.databases.exceptions.NotSupportedException;
 import de.chojo.sadu.jdbc.JdbcConfig;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
 
@@ -174,5 +175,10 @@ public interface Database<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?
         return false;
     }
 
-     UpdaterBuilder<T, U> newSqlUpdaterBuilder();
+    /**
+     * Instantiates an implementation of {@link UpdaterBuilder}
+     * @return the instance
+     */
+    @ApiStatus.Internal
+    UpdaterBuilder<T, U> newSqlUpdaterBuilder();
 }
