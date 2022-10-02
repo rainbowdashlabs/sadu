@@ -153,15 +153,15 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     private void init() throws IOException, SQLException {
         forceDatabaseConsistency();
 
-        var versionInfo = getVersionInfo();
+        var sqlVersion = getSqlVersion();
 
-        if (versionInfo.version() == version.major() && versionInfo.patch() == version.patch()) {
+        if (sqlVersion.major() == version.major() && sqlVersion.patch() == version.patch()) {
             log.info(String.format("Database is up to date. No update is required! Version %s Patch %s",
-                    versionInfo.version(), versionInfo.patch()));
+                    sqlVersion.major(), sqlVersion.patch()));
             return;
         }
 
-        var patches = getPatchesFrom(versionInfo.version(), versionInfo.patch());
+        var patches = getPatchesFrom(sqlVersion.major(), sqlVersion.patch());
 
         log.info(String.format("Database is %s versions behind.", patches.size()));
 
@@ -279,12 +279,12 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         }
     }
 
-    private VersionInfo getVersionInfo() {
+    private SqlVersion getSqlVersion() {
         try (var conn = source.getConnection(); var statement = conn
                 .prepareStatement(type.versionQuery(versionTable))) {
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new VersionInfo(resultSet.getInt("major"), resultSet.getInt("patch"));
+                return new SqlVersion(resultSet.getInt("major"), resultSet.getInt("patch"));
             }
             throw new UpdateException("Could not retrieve database version!");
         } catch (SQLException e) {
