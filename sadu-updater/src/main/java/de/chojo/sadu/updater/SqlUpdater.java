@@ -10,6 +10,7 @@ import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,6 +152,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         return (U) builder;
     }
 
+    @ApiStatus.Internal
     public void init() throws IOException, SQLException {
         forceDatabaseConsistency();
 
