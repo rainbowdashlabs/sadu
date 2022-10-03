@@ -6,12 +6,14 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.MariaDbJdbc;
+import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 
 /**
  * Represents a MariaDb database.
  */
-public class MariaDb extends DefaultDatabase<MariaDbJdbc> {
+public class MariaDb extends DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuilder<MariaDbJdbc, ?>> {
 
     private static final MariaDb type = new MariaDb();
 
@@ -44,6 +46,11 @@ public class MariaDb extends DefaultDatabase<MariaDbJdbc> {
     @Override
     public String[] splitStatements(String queries) {
         return cleanStatements(queries.split(";"));
+    }
+
+    @Override
+    public UpdaterBuilder<MariaDbJdbc, BaseSqlUpdaterBuilder<MariaDbJdbc, ?>> newSqlUpdaterBuilder() {
+        return new BaseSqlUpdaterBuilder<>(this);
     }
 
 

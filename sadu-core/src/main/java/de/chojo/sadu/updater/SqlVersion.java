@@ -7,7 +7,7 @@
 package de.chojo.sadu.updater;
 
 /**
- * Class representing a version maintained by the {@link SqlUpdater}.
+ * Class representing a version maintained by the SqlUpdaterBuilder
  * <p>
  * A version id defined by a major and a patch version.
  */

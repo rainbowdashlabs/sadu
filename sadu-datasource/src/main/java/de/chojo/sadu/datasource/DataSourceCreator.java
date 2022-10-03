@@ -12,6 +12,7 @@ import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
 import de.chojo.sadu.jdbc.JdbcConfig;
+import de.chojo.sadu.updater.UpdaterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     private final T builder;
     private HikariConfig hikariConfig;
 
-    private DataSourceCreator(Database<T> type) {
+    private DataSourceCreator(Database<T, ?> type) {
         builder = type.jdbcBuilder();
     }
 
@@ -43,7 +44,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      * @return a DataSourceCreator in {@link JdbcStage}.
      */
     @CheckReturnValue
-    public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T> type) {
+    public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T, ?> type) {
         return new DataSourceCreator<>(type);
     }
 
