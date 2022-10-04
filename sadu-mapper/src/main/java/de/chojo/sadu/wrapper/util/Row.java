@@ -1317,7 +1317,7 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
-     * of this {@code Row} object as a {@code java.time.Localtime} object
+     * of this {@code Row} object as a {@code java.time.LocalTime} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
      * value for the time if the underlying database does not store
