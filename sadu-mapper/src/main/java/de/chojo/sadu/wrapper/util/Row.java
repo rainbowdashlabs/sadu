@@ -339,7 +339,11 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalTime getLocalTime(int columnIndex) throws SQLException {
-        return getTime(columnIndex).toLocalTime();
+        var time = getTime(columnIndex);
+        if (time != null) {
+            return time.toLocalTime();
+        }
+        return null;
     }
 
     /**
@@ -719,7 +723,11 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalTime getLocalTime(String columnLabel) throws SQLException {
-        return getTime(columnLabel).toLocalTime();
+        var time = getTime(columnLabel);
+        if (time != null) {
+            return time.toLocalTime();
+        }
+        return null;
     }
 
     /**
@@ -1288,7 +1296,11 @@ public class Row {
 
      */
     public LocalTime getLocalTime(int columnIndex, Calendar cal) throws SQLException {
-        return getTime(columnIndex, cal).toLocalTime();
+        var time = getTime(columnIndex, cal);
+        if (time != null) {
+            return time.toLocalTime();
+        }
+        return null;
     }
 
 
@@ -1335,7 +1347,11 @@ public class Row {
 
      */
     public LocalTime getLocalTime(String columnLabel, Calendar cal) throws SQLException {
-        return getTime(columnLabel, cal).toLocalTime();
+        var time = getTime(columnLabel, cal);
+        if (time != null) {
+            return time.toLocalTime();
+        }
+        return null;
     }
 
     /**
