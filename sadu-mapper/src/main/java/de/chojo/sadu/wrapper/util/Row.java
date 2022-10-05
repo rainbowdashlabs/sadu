@@ -340,10 +340,7 @@ public class Row {
      */
     public LocalTime getLocalTime(int columnIndex) throws SQLException {
         var time = getTime(columnIndex);
-        if (time != null) {
-            return time.toLocalTime();
-        }
-        return null;
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
@@ -724,10 +721,7 @@ public class Row {
      */
     public LocalTime getLocalTime(String columnLabel) throws SQLException {
         var time = getTime(columnLabel);
-        if (time != null) {
-            return time.toLocalTime();
-        }
-        return null;
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
@@ -1297,10 +1291,7 @@ public class Row {
      */
     public LocalTime getLocalTime(int columnIndex, Calendar cal) throws SQLException {
         var time = getTime(columnIndex, cal);
-        if (time != null) {
-            return time.toLocalTime();
-        }
-        return null;
+        return time != null ? time.toLocalTime() : null;
     }
 
 
@@ -1348,10 +1339,7 @@ public class Row {
      */
     public LocalTime getLocalTime(String columnLabel, Calendar cal) throws SQLException {
         var time = getTime(columnLabel, cal);
-        if (time != null) {
-            return time.toLocalTime();
-        }
-        return null;
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
