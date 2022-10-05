@@ -32,6 +32,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -306,7 +307,8 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalDate getLocalDate(int columnIndex) throws SQLException {
-        return getDate(columnIndex).toLocalDate();
+        var date = getDate(columnIndex);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
@@ -668,7 +670,8 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalDate getLocalDate(String columnLabel) throws SQLException {
-        return getDate(columnLabel).toLocalDate();
+        var date = getDate(columnLabel);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
@@ -1163,7 +1166,8 @@ public class Row {
 
      */
     public LocalDate getLocalDate(int columnIndex, Calendar cal) throws SQLException {
-        return getDate(columnIndex, cal).toLocalDate();
+        var date = getDate(columnIndex, cal);
+        return date == null ? null : date.toLocalDate();
     }
     /**
      * Retrieves the value of the designated column in the current row
@@ -1208,7 +1212,8 @@ public class Row {
 
      */
     public LocalDate getLocalDate(String columnLabel, Calendar cal) throws SQLException {
-        return getDate(columnLabel, cal).toLocalDate();
+        var date = getDate(columnLabel, cal);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
