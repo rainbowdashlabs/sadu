@@ -29,9 +29,11 @@ import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -306,7 +308,8 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalDate getLocalDate(int columnIndex) throws SQLException {
-        return getDate(columnIndex).toLocalDate();
+        var date = getDate(columnIndex);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
@@ -323,6 +326,23 @@ public class Row {
      */
     public Time getTime(int columnIndex) throws SQLException {
         return resultSet.getTime(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.LocalTime} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public LocalTime getLocalTime(int columnIndex) throws SQLException {
+        var time = getTime(columnIndex);
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
@@ -668,7 +688,8 @@ public class Row {
      *                      called on a closed result set
      */
     public LocalDate getLocalDate(String columnLabel) throws SQLException {
-        return getDate(columnLabel).toLocalDate();
+        var date = getDate(columnLabel);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
@@ -686,6 +707,24 @@ public class Row {
      */
     public Time getTime(String columnLabel) throws SQLException {
         return resultSet.getTime(columnAlias(columnLabel));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.LocalTime} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public LocalTime getLocalTime(String columnLabel) throws SQLException {
+        var time = getTime(columnLabel);
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
@@ -1163,7 +1202,8 @@ public class Row {
 
      */
     public LocalDate getLocalDate(int columnIndex, Calendar cal) throws SQLException {
-        return getDate(columnIndex, cal).toLocalDate();
+        var date = getDate(columnIndex, cal);
+        return date == null ? null : date.toLocalDate();
     }
     /**
      * Retrieves the value of the designated column in the current row
@@ -1208,7 +1248,8 @@ public class Row {
 
      */
     public LocalDate getLocalDate(String columnLabel, Calendar cal) throws SQLException {
-        return getDate(columnLabel, cal).toLocalDate();
+        var date = getDate(columnLabel, cal);
+        return date == null ? null : date.toLocalDate();
     }
 
     /**
@@ -1236,6 +1277,31 @@ public class Row {
 
     /**
      * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.LocalTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the time if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the time
+     * @return the column value as a {@code java.sql.Time} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public LocalTime getLocalTime(int columnIndex, Calendar cal) throws SQLException {
+        var time = getTime(columnIndex, cal);
+        return time != null ? time.toLocalTime() : null;
+    }
+
+
+    /**
+     * Retrieves the value of the designated column in the current row
      * of this {@code Row} object as a {@code java.sql.Time} object
      * in the Java programming language.
      * This method uses the given calendar to construct an appropriate millisecond
@@ -1255,6 +1321,30 @@ public class Row {
      */
     public Time getTime(String columnLabel, Calendar cal) throws SQLException {
         return resultSet.getTime(columnAlias(columnLabel), cal);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.LocalTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the time if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the time
+     * @return the column value as a {@code java.sql.Time} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public LocalTime getLocalTime(String columnLabel, Calendar cal) throws SQLException {
+        var time = getTime(columnLabel, cal);
+        return time != null ? time.toLocalTime() : null;
     }
 
     /**
