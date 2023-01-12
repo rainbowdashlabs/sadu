@@ -32,6 +32,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.UUID;
@@ -433,6 +434,24 @@ public class ParamBuilder {
     public ParamBuilder setTimestamp(Timestamp x) throws SQLException {
         if (x == null) return setNull(Types.TIMESTAMP);
         stmt.setTimestamp(index(), x);
+        return this;
+    }
+
+    /**
+     * Sets the designated parameter to the given {@code java.time.LocalDateTime} value.
+     * The driver
+     * converts this to an SQL {@code TIMESTAMP} value when it sends it to the
+     * database.
+     *
+     * @param x the parameter value
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public ParamBuilder setLocalDateTime(LocalDateTime x) throws SQLException {
+        if (x == null) return setNull(Types.TIMESTAMP);
+        stmt.setTimestamp(index(), Timestamp.valueOf(x));
         return this;
     }
 
