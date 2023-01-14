@@ -34,6 +34,8 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.UUID;
@@ -471,6 +473,42 @@ public class ParamBuilder {
     public ParamBuilder setZonedDateTime(ZonedDateTime x) throws SQLException {
         if (x == null) return setNull(Types.TIMESTAMP);
         stmt.setTimestamp(index(), Timestamp.valueOf(x.toLocalDateTime()));
+        return this;
+    }
+
+    /**
+     * Sets the designated parameter to the given {@code java.time.OffsetDateTime} value.
+     * The driver
+     * converts this to an SQL {@code TIMESTAMP} value when it sends it to the
+     * database.
+     *
+     * @param x the parameter value
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public ParamBuilder setOffsetDateTime(OffsetDateTime x) throws SQLException {
+        if (x == null) return setNull(Types.TIMESTAMP);
+        stmt.setTimestamp(index(), Timestamp.valueOf(x.toLocalDateTime()));
+        return this;
+    }
+
+    /**
+     * Sets the designated parameter to the given {@code java.time.OffsetTime} value.
+     * The driver
+     * converts this to an SQL {@code TIMESTAMP} value when it sends it to the
+     * database.
+     *
+     * @param x the parameter value
+     * @return ParamBuilder with values set.
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     *                      marker in the SQL statement; if a database access error occurs or
+     *                      this method is called on a closed {@code PreparedStatement}
+     */
+    public ParamBuilder setOffsetTime(OffsetTime x) throws SQLException {
+        if (x == null) return setNull(Types.TIME);
+        stmt.setTime(index(), Time.valueOf(x.toLocalTime()));
         return this;
     }
 
