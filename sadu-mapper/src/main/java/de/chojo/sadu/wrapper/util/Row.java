@@ -29,11 +29,14 @@ import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -359,6 +362,74 @@ public class Row {
      */
     public Timestamp getTimestamp(int columnIndex) throws SQLException {
         return resultSet.getTimestamp(columnIndex);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.LocalDateTime} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public LocalDateTime getLocalDateTime(int columnIndex) throws SQLException {
+        Timestamp timestamp = getTimestamp(columnIndex);
+        return timestamp == null ? null : timestamp.toLocalDateTime();
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.ZonedDateTime} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public ZonedDateTime getZonedDateTime(int columnIndex) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnIndex);
+        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.OffsetDateTime} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public OffsetDateTime getOffsetDateTime(int columnIndex) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnIndex);
+        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.OffsetTime} object in the Java programming language.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public OffsetTime getOffsetTime(int columnIndex) throws SQLException {
+        LocalTime localDateTime = getLocalTime(columnIndex);
+        return localDateTime == null ? null : OffsetTime.from(localDateTime);
     }
 
     /**
@@ -741,6 +812,74 @@ public class Row {
      */
     public Timestamp getTimestamp(String columnLabel) throws SQLException {
         return resultSet.getTimestamp(columnAlias(columnLabel));
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.LocalDateTime} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public LocalDateTime getLocalDateTime(String columnLabel) throws SQLException {
+        Timestamp timestamp = getTimestamp(columnLabel);
+        return timestamp == null ? null : timestamp.toLocalDateTime();
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.ZonedDateTime} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public ZonedDateTime getZonedDateTime(String columnLabel) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnLabel);
+        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.OffsetDateTime} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public OffsetDateTime getOffsetDateTime(String columnLabel) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnLabel);
+        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as
+     * a {@code java.time.OffsetTime} object in the Java programming language.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @return the column value; if the value is SQL {@code NULL}, the
+     * value returned is {@code null}
+     * @throws SQLException if the columnLabel is not valid;
+     *                      if a database access error occurs or this method is
+     *                      called on a closed result set
+     */
+    public OffsetTime getOffsetTime(String columnLabel) throws SQLException {
+        LocalTime localDateTime = getLocalTime(columnLabel);
+        return localDateTime == null ? null : OffsetTime.from(localDateTime);
     }
 
     /**
@@ -1391,6 +1530,200 @@ public class Row {
      */
     public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
         return resultSet.getTimestamp(columnAlias(columnLabel), cal);
+    }
+
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.LocalDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public LocalDateTime getLocalDateTime(int columnIndex, Calendar cal) throws SQLException {
+        Timestamp timestamp = getTimestamp(columnIndex, cal);
+        return timestamp == null ? null : timestamp.toLocalDateTime();
+    }
+
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.LocalDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the date
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnLabel is not valid or
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public LocalDateTime getLocalDateTime(String columnLabel, Calendar cal) throws SQLException {
+        Timestamp timestamp = getTimestamp(columnLabel, cal);
+        return timestamp == null ? null : timestamp.toLocalDateTime();
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.ZonedDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public ZonedDateTime getZonedDateTime(int columnIndex, Calendar cal) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
+        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.ZonedDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public ZonedDateTime getZonedDateTime(String columnLabel, Calendar cal) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
+        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.OffsetDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public OffsetDateTime getOffsetDateTime(int columnIndex, Calendar cal) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
+        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.OffsetDateTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public OffsetDateTime getOffsetDateTime(String columnLabel, Calendar cal) throws SQLException {
+        LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
+        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.OffsetTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnIndex the first column is 1, the second is 2, ...
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public OffsetTime getOffsetTime(int columnIndex, Calendar cal) throws SQLException {
+        LocalTime localDateTime = getLocalTime(columnIndex, cal);
+        return localDateTime == null ? null : OffsetTime.from(localDateTime);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object as a {@code java.time.OffsetTime} object
+     * in the Java programming language.
+     * This method uses the given calendar to construct an appropriate millisecond
+     * value for the timestamp if the underlying database does not store
+     * timezone information.
+     *
+     * @param columnLabel columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
+     * @param cal         the {@code java.util.Calendar} object
+     *                    to use in constructing the timestamp
+     * @return the column value as a {@code java.time.LocalDateTime} object;
+     * if the value is SQL {@code NULL},
+     * the value returned is {@code null} in the Java programming language
+     * @throws SQLException if the columnIndex is not valid;
+     *                      if a database access error occurs
+     *                      or this method is called on a closed result set
+
+     */
+    public OffsetTime getOffsetTime(String columnLabel, Calendar cal) throws SQLException {
+        LocalTime localDateTime = getLocalTime(columnLabel, cal);
+        return localDateTime == null ? null : OffsetTime.from(localDateTime);
     }
 
     /**
