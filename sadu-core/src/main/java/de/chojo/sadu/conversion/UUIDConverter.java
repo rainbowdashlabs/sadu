@@ -37,6 +37,8 @@ public final class UUIDConverter {
      * @return new uuid instance
      */
     public static UUID convert(byte[] bytes) {
+        if (bytes == null) return null;
+
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
