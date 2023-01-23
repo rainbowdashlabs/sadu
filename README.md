@@ -1,5 +1,5 @@
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/RainbowDashLabs/sadu/Verify%20state?style=for-the-badge&label=Build)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/RainbowDashLabs/sadu/Publish%20to%20Nexus?style=for-the-badge&label=Publish)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/publish_to_nexus.yml?style=for-the-badge&label=Publishing&branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/verify.yml?style=for-the-badge&label=Building&branch=main)
 [![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.chojo.sadu/sadu?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
 [![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo.sadu/sadu?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
