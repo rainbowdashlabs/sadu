@@ -56,7 +56,7 @@ allprojects {
     }
 
     publishData {
-        useEldoNexusRepos(true)
+        useEldoNexusRepos()
         publishComponent("java")
     }
 
