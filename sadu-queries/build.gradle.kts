@@ -6,5 +6,5 @@ dependencies {
     testImplementation(project(":sadu-datasource"))
     testImplementation(project(":sadu-sqlite"))
     testImplementation(project(":sadu-mapper"))
-    testImplementation("org.xerial", "sqlite-jdbc", "3.41.0.1")
+    testImplementation("org.xerial", "sqlite-jdbc", "3.41.2.0")
 }
