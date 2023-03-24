@@ -17,7 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
@@ -25,8 +28,8 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
 
     private final String[] schemas;
 
-    protected PostgreSqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas) {
-        super(source, config, versionTable, replacements, version, type);
+    protected PostgreSqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook) {
+        super(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook);
         this.schemas = schemas;
     }
 
