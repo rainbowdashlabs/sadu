@@ -44,18 +44,6 @@ public class SqlVersion {
         return patch;
     }
 
-    public SqlVersion ofPatch(int patch) {
-        return new SqlVersion(major, patch);
-    }
-
-    public SqlVersion increasePatch(int patch) {
-        return new SqlVersion(major, patch + 1);
-    }
-
-    public SqlVersion nextMajor() {
-        return new SqlVersion(major + 1, 0);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
