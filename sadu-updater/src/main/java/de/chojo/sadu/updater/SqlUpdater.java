@@ -191,9 +191,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         log.info("Applying patch " + patch.version());
         try (var conn = source.getConnection()) {
             conn.setAutoCommit(false);
-            if (preUpdateHook.containsKey(patch.version())) {
-                preUpdateHook.get(patch.version()).accept(conn);
-            }
+            var hook = preUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
 
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
@@ -201,9 +200,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                 }
             }
 
-            if (postUpdateHook.containsKey(patch.version())) {
-                postUpdateHook.get(patch.version()).accept(conn);
-            }
+            hook = postUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
             conn.commit();
         } catch (SQLException e) {
             log.warn("Database update failed", e);
