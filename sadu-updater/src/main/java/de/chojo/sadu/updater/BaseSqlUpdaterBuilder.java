@@ -14,7 +14,11 @@ import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Class to build a {@link SqlUpdater} with a builder pattern
@@ -24,6 +28,8 @@ import java.sql.SQLException;
 public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpdaterBuilder<T, ?>> implements UpdaterBuilder<T, S> {
     protected DataSource source;
     protected SqlVersion version;
+    protected Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
+    protected Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
     protected final Database<T, S> type;
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
@@ -80,6 +86,16 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
+    public S preUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
+        preUpdateHook.put(version, consumer);
+        return self();
+    }
+
+    public S postUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
+        postUpdateHook.put(version, consumer);
+        return self();
+    }
+
     /**
      * Build the updater and start the update process.
      *
@@ -87,7 +103,7 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      * @throws IOException  If the scripts can't be read.
      */
     public void execute() throws SQLException, IOException {
-        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type);
+        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook);
         sqlUpdater.init();
     }
 

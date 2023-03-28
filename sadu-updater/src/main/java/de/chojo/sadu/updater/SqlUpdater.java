@@ -18,10 +18,13 @@ import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -100,18 +103,22 @@ import java.util.stream.Collectors;
 public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> extends QueryFactory {
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
+    private final Map<SqlVersion, Consumer<Connection>> preUpdateHook;
+    private final Map<SqlVersion, Consumer<Connection>> postUpdateHook;
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T, U> type;
 
-    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type) {
+    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook) {
         super(source, config);
         this.source = source;
         this.versionTable = versionTable;
         this.replacements = replacements;
         this.type = type;
         this.version = version;
+        this.preUpdateHook = preUpdateHook;
+        this.postUpdateHook = postUpdateHook;
     }
 
     /**
@@ -181,13 +188,21 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private void performUpdate(Patch patch) throws SQLException {
-        log.info("Applying patch.");
+        log.info("Applying patch " + patch.version());
         try (var conn = source.getConnection()) {
+            conn.setAutoCommit(false);
+            var hook = preUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
+
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
                     statement.execute();
                 }
             }
+
+            hook = postUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
+            conn.commit();
         } catch (SQLException e) {
             log.warn("Database update failed", e);
             throw e;
