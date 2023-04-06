@@ -7,11 +7,13 @@
 package de.chojo.sadu.databases;
 
 import de.chojo.sadu.jdbc.PostgreSqlJdbc;
+import de.chojo.sadu.update.PostgreSqlUpdaterBuilder;
+import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 
 /**
  * Represents a PostgreSQL database.
  */
-public class PostgreSql extends DefaultDatabase<PostgreSqlJdbc> {
+public class PostgreSql extends DefaultDatabase<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
     private static final PostgreSql type = new PostgreSql();
 
@@ -69,5 +71,10 @@ public class PostgreSql extends DefaultDatabase<PostgreSqlJdbc> {
     @Override
     public String createSchema(String schema) {
         return String.format("CREATE SCHEMA IF NOT EXISTS %s;", schema);
+    }
+
+    @Override
+    public BaseSqlUpdaterBuilder<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> newSqlUpdaterBuilder() {
+        return new PostgreSqlUpdaterBuilder(this);
     }
 }

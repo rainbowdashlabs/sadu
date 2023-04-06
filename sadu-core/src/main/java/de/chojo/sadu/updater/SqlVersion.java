@@ -7,7 +7,7 @@
 package de.chojo.sadu.updater;
 
 /**
- * Class representing a version maintained by the {@link SqlUpdater}.
+ * Class representing a version maintained by the SqlUpdaterBuilder
  * <p>
  * A version id defined by a major and a patch version.
  */
@@ -42,5 +42,28 @@ public class SqlVersion {
      */
     public int patch() {
         return patch;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SqlVersion that = (SqlVersion) o;
+
+        if (major != that.major) return false;
+        return patch == that.patch;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = major;
+        result = 31 * result + patch;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "%s.%s".formatted(major, patch);
     }
 }

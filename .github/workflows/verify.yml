@@ -5,14 +5,15 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Gradle build
 
     steps:
-      - uses: actions/checkout@v3.0.2
-      - name: Set up JDK 18
+      - uses: actions/checkout@v3.5.0
+      - name: Set up JDK 15
         uses: actions/setup-java@v3
         with:
-          distribution: temurin
-          java-version: 18
+          distribution: adopt
+          java-version: 15
       - name: Build with Gradle
         run: ./gradlew --build-cache build
       - name: Test with Gradle

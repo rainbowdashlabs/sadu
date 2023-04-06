@@ -2,12 +2,12 @@ plugins {
     java
     `maven-publish`
     `java-library`
-    id("de.chojo.publishdata") version "1.0.8"
+    id("de.chojo.publishdata") version "1.2.4"
     id("org.cadixdev.licenser") version "0.6.1"
 }
 
 group = "de.chojo.sadu"
-version = "1.2.0"
+version = "1.3.0"
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -45,8 +45,8 @@ allprojects {
     }
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.1")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.1")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.2")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.2")
         testImplementation("org.mockito", "mockito-core", "3.+")
     }
 
@@ -56,7 +56,7 @@ allprojects {
     }
 
     publishData {
-        useEldoNexusRepos(true)
+        useEldoNexusRepos()
         publishComponent("java")
     }
 

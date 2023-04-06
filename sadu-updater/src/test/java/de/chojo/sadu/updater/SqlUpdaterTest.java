@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SqlUpdaterTest {
     DataSource dataSource;
     public void update() throws IOException, SQLException {

@@ -28,4 +28,8 @@ class Patch {
     public String query() {
         return query;
     }
+
+    public SqlVersion version(){
+        return new SqlVersion(major, patch);
+    }
 }

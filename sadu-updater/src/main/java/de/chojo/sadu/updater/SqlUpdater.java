@@ -10,6 +10,7 @@ import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
 import de.chojo.sadu.wrapper.QueryBuilderConfig;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +18,13 @@ import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -79,7 +83,7 @@ import java.util.stream.Collectors;
  *
  * <b>Setup Process</b>
  * <p>
- * During the update process the updater will look for a version table defined via {@link SqlUpdaterBuilder#setVersionTable(String)}.
+ * During the update process the updater will look for a version table defined via {@link BaseSqlUpdaterBuilder#setVersionTable(String)}.
  * <p>
  * If this table is not present it will be created and the highest setup script will be executed and all existing patches.
  *
@@ -96,27 +100,29 @@ import java.util.stream.Collectors;
  *      - 2/patch_1.sql
  *  </pre>
  */
-public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
+public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> extends QueryFactory {
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
+    private final Map<SqlVersion, Consumer<Connection>> preUpdateHook;
+    private final Map<SqlVersion, Consumer<Connection>> postUpdateHook;
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
-    private final Database<T> type;
-    private final String[] schemas;
+    private final Database<T, U> type;
 
-    private SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T> type, String[] schemas) {
+    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook) {
         super(source, config);
         this.source = source;
         this.versionTable = versionTable;
         this.replacements = replacements;
         this.type = type;
         this.version = version;
-        this.schemas = schemas;
+        this.preUpdateHook = preUpdateHook;
+        this.postUpdateHook = postUpdateHook;
     }
 
     /**
-     * Creates a new {@link SqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
+     * Creates a new {@link BaseSqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
      * <p>
      * This string requires the format {@code Major.Patch}. Patches are not supported.
      *
@@ -127,18 +133,18 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      * @throws IOException if the version file does not exist.
      */
     @CheckReturnValue
-    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder<T> builder(DataSource dataSource, Database<T> type) throws IOException {
+    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) throws IOException {
         var version = "";
         try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
             version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
         }
 
         var ver = version.split("\\.");
-        return new SqlUpdaterBuilder<>(dataSource, new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1])), type);
+        return builder(dataSource, new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1])), type);
     }
 
     /**
-     * Creates a new {@link SqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
+     * Creates a new {@link BaseSqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
      *
      * @param dataSource the data source to connect to the database
      * @param version    the version with {@code Major.Patch}
@@ -146,22 +152,26 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
      * @param <T>        type of the database defined by the {@link Database}
      * @return builder instance
      */
-    public static <T extends JdbcConfig<?>> SqlUpdaterBuilder<T> builder(DataSource dataSource, SqlVersion version, Database<T> type) {
-        return new SqlUpdaterBuilder<>(dataSource, version, type);
+    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, SqlVersion version, Database<T, U> type) {
+        var builder = type.newSqlUpdaterBuilder();
+        builder.setSource(dataSource);
+        builder.setVersion(version);
+        return (U) builder;
     }
 
-    private void init() throws IOException, SQLException {
+    @ApiStatus.Internal
+    public void init() throws IOException, SQLException {
         forceDatabaseConsistency();
 
-        var versionInfo = getVersionInfo();
+        var sqlVersion = getSqlVersion();
 
-        if (versionInfo.version() == version.major() && versionInfo.patch() == version.patch()) {
+        if (sqlVersion.major() == version.major() && sqlVersion.patch() == version.patch()) {
             log.info(String.format("Database is up to date. No update is required! Version %s Patch %s",
-                    versionInfo.version(), versionInfo.patch()));
+                    sqlVersion.major(), sqlVersion.patch()));
             return;
         }
 
-        var patches = getPatchesFrom(versionInfo.version(), versionInfo.patch());
+        var patches = getPatchesFrom(sqlVersion.major(), sqlVersion.patch());
 
         log.info(String.format("Database is %s versions behind.", patches.size()));
 
@@ -178,13 +188,21 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
     }
 
     private void performUpdate(Patch patch) throws SQLException {
-        log.info("Applying patch.");
+        log.info("Applying patch " + patch.version());
         try (var conn = source.getConnection()) {
+            conn.setAutoCommit(false);
+            var hook = preUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
+
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
                     statement.execute();
                 }
             }
+
+            hook = postUpdateHook.get(patch.version());
+            if (hook != null) hook.accept(conn);
+            conn.commit();
         } catch (SQLException e) {
             log.warn("Database update failed", e);
             throw e;
@@ -198,22 +216,8 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         }
     }
 
-    private void forceDatabaseConsistency() throws IOException, SQLException {
+    protected void forceDatabaseConsistency() throws IOException, SQLException {
         try (var conn = source.getConnection()) {
-            if (type.hasSchemas()) {
-
-                for (var schema : schemas) {
-                    if (!schemaExists(schema)) {
-                        try (var stmt = conn.prepareStatement(type.createSchema(schema))) {
-                            stmt.execute();
-                            log.info("Schema {} did not exist. Created.", schema);
-                        }
-                    } else {
-                        log.info("Schema {} does exist. Proceeding.", schema);
-                    }
-                }
-            }
-
             var isSetup = false;
             try (var stmt = conn.prepareStatement(type.createVersionTableQuery(versionTable))) {
                 stmt.execute();
@@ -238,19 +242,6 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
                 updateVersion(version.major(), 0);
             }
         }
-    }
-
-    private boolean schemaExists(String schema) {
-        try (var conn = source.getConnection(); var stmt = conn.prepareStatement(type.schemaExists())) {
-            stmt.setString(1, schema);
-            var row = stmt.executeQuery();
-            if (row.next()) {
-                return row.getBoolean(1);
-            }
-        } catch (SQLException e) {
-            log.error("Could not check if schema {} exists", schema, e);
-        }
-        return false;
     }
 
     /**
@@ -279,12 +270,12 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         }
     }
 
-    private VersionInfo getVersionInfo() {
+    private SqlVersion getSqlVersion() {
         try (var conn = source.getConnection(); var statement = conn
                 .prepareStatement(type.versionQuery(versionTable))) {
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new VersionInfo(resultSet.getInt("major"), resultSet.getInt("patch"));
+                return new SqlVersion(resultSet.getInt("major"), resultSet.getInt("patch"));
             }
             throw new UpdateException("Could not retrieve database version!");
         } catch (SQLException e) {
@@ -342,90 +333,8 @@ public class SqlUpdater<T extends JdbcConfig<?>> extends QueryFactory {
         return result;
     }
 
-    /**
-     * Class to build a {@link SqlUpdater} with a builder pattern
-     *
-     * @param <T> The type of the jdbc link defined by the {@link Database}
-     */
-    public static class SqlUpdaterBuilder<T extends JdbcConfig<?>> {
-        private final DataSource source;
-        private final SqlVersion version;
-        private final Database<T> type;
-        private String versionTable = "version";
-        private QueryReplacement[] replacements = new QueryReplacement[0];
-        private QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
-        private String[] schemas;
-
-        private SqlUpdaterBuilder(DataSource source, SqlVersion version, Database<T> type) {
-            this.source = source;
-            this.version = version;
-            this.type = type;
-        }
-
-        /**
-         * Set the schemas which should be created if they do not exist.
-         *
-         * @param schemas schemas
-         * @return builder instance
-         */
-        @CheckReturnValue
-        public SqlUpdaterBuilder<T> setSchemas(String... schemas) {
-            if (!type.hasSchemas()) {
-                throw new IllegalStateException("This sql type does not support schemas");
-            }
-            this.schemas = schemas;
-            return this;
-        }
-
-
-        /**
-         * The version table which contains major and patch version.
-         * <p>
-         * Changing this later might cause a loss of data.
-         *
-         * @param versionTable name of the version table
-         * @return builder instance
-         */
-        @CheckReturnValue
-        public SqlUpdaterBuilder<T> setVersionTable(String versionTable) {
-            this.versionTable = versionTable;
-            return this;
-        }
-
-        /**
-         * Replacements which should be applied to the executed scripts. Can be used to change schema names
-         * or other variables during deployment
-         *
-         * @param replacements replacements
-         * @return builder instance
-         */
-        @CheckReturnValue
-        public SqlUpdaterBuilder<T> setReplacements(QueryReplacement... replacements) {
-            this.replacements = replacements;
-            return this;
-        }
-
-        /**
-         * Set the {@link QueryBuilderConfig} for the underlying {@link QueryFactory}
-         *
-         * @param config config so apply
-         * @return builder instance
-         */
-        @CheckReturnValue
-        public SqlUpdaterBuilder<T> withConfig(QueryBuilderConfig config) {
-            this.config = config;
-            return this;
-        }
-
-        /**
-         * Build the updater and start the update process.
-         *
-         * @throws SQLException If execution of the scripts fails
-         * @throws IOException  If the scripts can't be read.
-         */
-        public void execute() throws SQLException, IOException {
-            var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, schemas);
-            sqlUpdater.init();
-        }
+    protected Database<T, U> type() {
+        return type;
     }
+
 }

@@ -6,12 +6,14 @@
 
 package de.chojo.sadu.datasource.stage;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.Consumer;
 
 /**
  * Configuration stage, which is used to configurate a {@link com.zaxxer.hikari.HikariConfig}.
@@ -156,6 +158,14 @@ public interface ConfigurationStage {
      */
     @CheckReturnValue
     ConfigurationStage withThreadFactory(ThreadFactory threadFactory);
+
+    /**
+     * Allows the direct mutation of the HikariConfig, should be used for config options, that are not represented by a delegate.
+     * @param configConsumer the config consumer
+     * @return Configuration Stage with value set
+     */
+    @CheckReturnValue
+    ConfigurationStage withHikariConfig(Consumer<HikariConfig> configConsumer);
 
     /**
      * Create a new hikari data source
