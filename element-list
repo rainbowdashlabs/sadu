@@ -11,6 +11,7 @@ de.chojo.sadu.mapper.exceptions
 de.chojo.sadu.mapper.rowmapper
 de.chojo.sadu.mapper.util
 de.chojo.sadu.types
+de.chojo.sadu.update
 de.chojo.sadu.updater
 de.chojo.sadu.wrapper
 de.chojo.sadu.wrapper.exception
