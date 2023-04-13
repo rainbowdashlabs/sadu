@@ -171,7 +171,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             return;
         }
 
-        if(sqlVersion.major() > version.major() || sqlVersion.patch() > version.patch()){
+        if (sqlVersion.isNewer(version)) {
             throw new UpdateException("Database version is ahead. Newest know version is " + version + " but got " + sqlVersion + ".");
         }
 
@@ -196,11 +196,11 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         try (var conn = source.getConnection()) {
             conn.setAutoCommit(false);
             var hook = preUpdateHook.get(patch.version());
-            if (hook != null){
+            if (hook != null) {
                 log.info("Running pre update hook");
                 hook.accept(conn);
-                            log.info("Pre update hook applied");
-}
+                log.info("Pre update hook applied");
+            }
 
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
@@ -315,7 +315,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private boolean patchExists(int major, int patch) {
-        return getClass().getClassLoader().getResource("database/" + type.name() + "/" + major + "/patch_" + patch + ".sql") != null;
+        return getClass().getClassLoader()
+                         .getResource("database/" + type.name() + "/" + major + "/patch_" + patch + ".sql") != null;
     }
 
     private String loadPatch(int major, int patch) throws IOException {
