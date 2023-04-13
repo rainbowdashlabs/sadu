@@ -171,6 +171,10 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             return;
         }
 
+        if(sqlVersion.major() > version.major() || sqlVersion.patch() > version.patch()){
+            throw new UpdateException("Database version is ahead. Newest know version is " + version + " but got " + sqlVersion + ".");
+        }
+
         var patches = getPatchesFrom(sqlVersion.major(), sqlVersion.patch());
 
         log.info(String.format("Database is %s versions behind.", patches.size()));
@@ -192,7 +196,11 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         try (var conn = source.getConnection()) {
             conn.setAutoCommit(false);
             var hook = preUpdateHook.get(patch.version());
-            if (hook != null) hook.accept(conn);
+            if (hook != null){
+                log.info("Running pre update hook");
+                hook.accept(conn);
+                            log.info("Pre update hook applied");
+}
 
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
@@ -201,7 +209,11 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             }
 
             hook = postUpdateHook.get(patch.version());
-            if (hook != null) hook.accept(conn);
+            if (hook != null) {
+                log.info("Running post update hook");
+                hook.accept(conn);
+                log.info("Post update hook applied");
+            }
             conn.commit();
         } catch (SQLException e) {
             log.warn("Database update failed", e);
@@ -313,6 +325,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     private String loadFromResource(Object... path) throws IOException {
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
         try (var patchFile = getClass().getClassLoader().getResourceAsStream("database/" + type.name() + "/" + patch)) {
+            log.info("Loading resource {}", "database/" + type.name() + "/" + patch);
             return new String(patchFile.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
