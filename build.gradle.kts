@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.chojo.sadu"
-version = "1.3.0"
+version = "1.3.1"
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -64,6 +64,7 @@ allprojects {
         publishing {
             publications.create<MavenPublication>("maven") {
                 publishData.configurePublication(this)
+
                 pom {
                     url.set("https://github.com/rainbowdashlabs/sadu")
                     developers {
