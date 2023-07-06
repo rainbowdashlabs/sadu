@@ -92,7 +92,7 @@ public final class DefaultMapper {
         var available = "error";
         try {
             available = getColumnTypes(meta).entrySet().stream()
-                    .map(e -> "%s %s".formatted(e.getKey(), e.getValue()))
+                    .map(e -> "%s : %s".formatted(e.getKey(), e.getValue()))
                     .collect(Collectors.joining(", "));
         } catch (SQLException e) {
             // ignore

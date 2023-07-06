@@ -28,15 +28,15 @@ public interface PostgreSqlTypes {
     /**
      * -32,768 and 32,767
      */
-    SqlType SMALLINT = ofName("SMALLINT");
+    SqlType SMALLINT = ofName("SMALLINT", "int8");
     /**
      * -2,147,483,648 and 2,147,483,647
      */
-    SqlType INTEGER = ofName("INTEGER");
+    SqlType INTEGER = ofName("INTEGER", "int16", "int32");
     /**
      * "Unlimited" size
      */
-    SqlType BIGINT = ofName("BIGINT");
+    SqlType BIGINT = ofName("BIGINT", "int32", "int64");
     /**
      * exact fixed point
      */
