@@ -43,7 +43,7 @@ allprojects {
         withJavadocJar()
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(15))
-        }""
+        }
     }
 
     dependencies {
