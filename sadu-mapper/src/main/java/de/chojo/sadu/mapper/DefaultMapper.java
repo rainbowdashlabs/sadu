@@ -1,7 +1,7 @@
 /*
- *     SPDX-License-Identifier: AGPL-3.0-only
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
  *
- *     Copyright (C) 2022 RainbowDashLabs and Contributor
+ *     Copyright (C) RainbowDashLabs and Contributor
  */
 
 package de.chojo.sadu.mapper;
@@ -92,7 +92,7 @@ public final class DefaultMapper {
         var available = "error";
         try {
             available = getColumnTypes(meta).entrySet().stream()
-                    .map(e -> "%s %s".formatted(e.getKey(), e.getValue()))
+                    .map(e -> "%s : %s".formatted(e.getKey(), e.getValue()))
                     .collect(Collectors.joining(", "));
         } catch (SQLException e) {
             // ignore

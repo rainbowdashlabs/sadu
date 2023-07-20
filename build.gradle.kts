@@ -1,13 +1,15 @@
+import com.diffplug.gradle.spotless.SpotlessPlugin
+
 plugins {
     java
     `maven-publish`
     `java-library`
     id("de.chojo.publishdata") version "1.2.4"
-    id("org.cadixdev.licenser") version "0.6.1"
+    alias(libs.plugins.spotless)
 }
 
 group = "de.chojo.sadu"
-version = "1.3.0"
+version = "1.3.1"
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -22,7 +24,7 @@ subprojects {
     apply {
         // We want to apply several plugins to subprojects
         plugin<JavaPlugin>()
-        plugin<org.cadixdev.gradle.licenser.Licenser>()
+        plugin<SpotlessPlugin>()
         plugin<de.chojo.PublishData>()
         plugin<JavaLibraryPlugin>()
         plugin<MavenPublishPlugin>()
@@ -45,14 +47,16 @@ allprojects {
     }
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.2")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.2")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.3")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.3")
         testImplementation("org.mockito", "mockito-core", "3.+")
     }
 
-    license {
-        header(rootProject.file("HEADER.txt"))
-        include("**/*.java")
+    spotless {
+        java {
+            licenseHeaderFile(rootProject.file("HEADER.txt"))
+            target("**/*.java")
+        }
     }
 
     publishData {
@@ -64,6 +68,7 @@ allprojects {
         publishing {
             publications.create<MavenPublication>("maven") {
                 publishData.configurePublication(this)
+
                 pom {
                     url.set("https://github.com/rainbowdashlabs/sadu")
                     developers {
@@ -100,11 +105,15 @@ allprojects {
     // We configure some general tasks for our modules
     tasks {
         test {
-            dependsOn(licenseCheck)
+            dependsOn(spotlessCheck)
             useJUnitPlatform()
             testLogging {
                 events("passed", "skipped", "failed")
             }
+        }
+
+        compileJava {
+            dependsOn(spotlessApply)
         }
 
         javadoc {
@@ -113,12 +122,12 @@ allprojects {
     }
 }
 
-fun applyJavaDocOptions(options: MinimalJavadocOptions){
+fun applyJavaDocOptions(options: MinimalJavadocOptions) {
     val javaDocOptions = options as StandardJavadocDocletOptions
     javaDocOptions.links(
-        "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
-        "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
-        "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
+            "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
+            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
     )
 }
 

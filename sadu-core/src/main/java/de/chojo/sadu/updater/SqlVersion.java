@@ -1,17 +1,19 @@
 /*
- *     SPDX-License-Identifier: AGPL-3.0-only
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
  *
- *     Copyright (C) 2022 RainbowDashLabs and Contributor
+ *     Copyright (C) RainbowDashLabs and Contributor
  */
 
 package de.chojo.sadu.updater;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class representing a version maintained by the SqlUpdaterBuilder
  * <p>
  * A version id defined by a major and a patch version.
  */
-public class SqlVersion {
+public class SqlVersion implements Comparable<SqlVersion> {
     private final int major;
     private final int patch;
 
@@ -65,5 +67,22 @@ public class SqlVersion {
     @Override
     public String toString() {
         return "%s.%s".formatted(major, patch);
+    }
+
+    public boolean isNewer(SqlVersion version) {
+        return compareTo(version) > 0;
+    }
+
+    public boolean isOlder(SqlVersion version) {
+        return compareTo(version) < 0;
+    }
+
+    @Override
+    public int compareTo(@NotNull SqlVersion o) {
+        int compare = Integer.compare(major, o.major);
+        if (compare != 0) {
+            return compare;
+        }
+        return Integer.compare(patch, o.patch);
     }
 }

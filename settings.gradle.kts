@@ -22,3 +22,19 @@ pluginManagement{
         }
     }
 }
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("0.6.0")
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+
+            // plugins
+            plugin("spotless", "com.diffplug.spotless").version("6.20.0")
+            plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
+
+        }
+    }
+}
