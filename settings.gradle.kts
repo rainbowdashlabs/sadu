@@ -32,7 +32,7 @@ dependencyResolutionManagement {
         create("libs") {
 
             // plugins
-            plugin("spotless", "com.diffplug.spotless").version("6.19.0")
+            plugin("spotless", "com.diffplug.spotless").version("6.20.0")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
 
         }
