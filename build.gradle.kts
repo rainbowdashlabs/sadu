@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.indra.core)
     alias(libs.plugins.indra.publishing)
+    alias(libs.plugins.indra.sonatype)
 }
 
 group = "de.chojo.sadu"
@@ -45,24 +46,19 @@ subprojects {
                 testWith(15)
             }
 
-
             github("rainbowdashlabs", "sadu") {
                 ci(true)
             }
+
             lgpl3OrLaterLicense()
             signWithKeyFromPrefixedProperties("rainbowdashlabs")
             configurePublications {
                 pom {
                     developers {
                         developer {
-                            id.set("themeinerlp")
-                            name.set("Phillipp Glanz")
-                            email.set("p.glanz@madfix.me")
-                        }
-                        developer {
-                            id.set("theEvilReaper")
-                            name.set("Steffen Wonning")
-                            email.set("steffenwx@gmail.com")
+                            id.set("rainbowdashlabs")
+                            name.set("Florian Fülling")
+                            email.set("mail@chojo.dev")
                         }
                     }
                 }
@@ -81,7 +77,12 @@ indra {
     github("rainbowdashlabs", "sadu") {
         ci(true)
     }
+
     lgpl3OrLaterLicense()
+}
+
+indraSonatype {
+    useAlternateSonatypeOSSHost("s01")
 }
 
 allprojects {
