@@ -29,7 +29,7 @@ implementation("de.chojo.sadu", "sadu", "version")
 
 SADU offers support for four different databases at the moment. To use them simply import:
 
-- `sadu-postgres`
+- `sadu-postgresql`
 - `sadu-mariadb`
 - `sadu-mysql`
 - `sadu-sqlite`
