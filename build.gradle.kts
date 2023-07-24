@@ -45,6 +45,7 @@ subprojects {
             plugin<IndraPublishingPlugin>()
             plugin<SigningPlugin>()
         }
+
         indra {
             javaVersions {
                 target(15)

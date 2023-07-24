@@ -30,6 +30,6 @@ jobs:
         run: ./gradlew publishMavenPublicationToSonatypeRepository -PforceSign=true
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePasswort: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_rainbowdashlabsSigningKey: ${{ secrets.RAINBOWDASHLABS_SIGN_KEY }}
           ORG_GRADLE_PROJECT_rainbowdashlabsSigningPassword: ${{ secrets.RAINBOWDASHLABS_GPG_PASSWORD }}
