@@ -89,6 +89,8 @@ indra {
 
     lgpl3OrLaterLicense()
 
+    signWithKeyFromPrefixedProperties("rainbowdashlabs")
+
     configurePublications {
         pom {
             developers {
