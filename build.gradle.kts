@@ -1,4 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessPlugin
+import net.kyori.indra.IndraPlugin
+import net.kyori.indra.IndraPublishingPlugin
 
 plugins {
     java
@@ -6,6 +8,8 @@ plugins {
     `java-library`
     id("de.chojo.publishdata") version "1.2.4"
     alias(libs.plugins.spotless)
+    alias(libs.plugins.indra.core)
+    alias(libs.plugins.indra.publishing)
 }
 
 group = "de.chojo.sadu"
@@ -27,7 +31,71 @@ subprojects {
         plugin<SpotlessPlugin>()
         plugin<de.chojo.PublishData>()
         plugin<JavaLibraryPlugin>()
-        plugin<MavenPublishPlugin>()
+    }
+    if (!project.name.contains("examples")) {
+        apply {
+            plugin<MavenPublishPlugin>()
+            plugin<IndraPlugin>()
+            plugin<IndraPublishingPlugin>()
+            plugin<SigningPlugin>()
+        }
+        indra {
+            javaVersions {
+                target(17)
+                testWith(17)
+            }
+
+            publishAllTo("github", "https://maven.pkg.github.com/OneLiteFeatherNET/Microtus")
+
+            github("OneLiteFeatherNET", "Microtus") {
+                ci(true)
+            }
+            license {
+                name("AGPL-3.0")
+                url("https://github.com/OneLiteFeatherNET/Microtus/blob/master/LICENSE")
+                spdx("AGPL-3.0-only")
+            }
+            signWithKeyFromPrefixedProperties("onelitefeather")
+            configurePublications {
+                pom {
+                    developers {
+                        developer {
+                            id.set("themeinerlp")
+                            name.set("Phillipp Glanz")
+                            email.set("p.glanz@madfix.me")
+                        }
+                        developer {
+                            id.set("theEvilReaper")
+                            name.set("Steffen Wonning")
+                            email.set("steffenwx@gmail.com")
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+indra {
+    javaVersions {
+        target(15)
+        testWith(15)
+    }
+
+    github("rainbowdashlabs", "sadu") {
+        ci(true)
+    }
+
+    license {
+        name("LGPL-3.0")
+        url("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
+        spdx("LGPL-3.0-or-later")
+    }
+
+    issues {
+        url("https://github.com/rainbowdashlabs/sadu/issues")
+        system("GitHub")
     }
 }
 
@@ -66,7 +134,7 @@ allprojects {
 
     if (!project.name.contains("examples")) {
         publishing {
-            publications.create<MavenPublication>("maven") {
+            publications.create<MavenPublication>("eldonexus") {
                 publishData.configurePublication(this)
 
                 pom {
@@ -100,6 +168,7 @@ allprojects {
                 }
             }
         }
+
     }
 
     // We configure some general tasks for our modules
