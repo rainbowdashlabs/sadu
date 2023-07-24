@@ -20,6 +20,7 @@ publishData {
 
 group = "de.chojo.sadu"
 version = publishData.getVersion()
+description = "The SADU library, containing everything you need and not need."
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -87,6 +88,19 @@ indra {
     }
 
     lgpl3OrLaterLicense()
+
+    configurePublications {
+        pom {
+            developers {
+                developer {
+                    id.set("rainbowdashlabs")
+                    name.set("Florian Fülling")
+                    email.set("mail@chojo.dev")
+                    url.set("https://github.com/rainbowdashlabs")
+                }
+            }
+        }
+    }
 }
 
 indraSonatype {

@@ -1,3 +1,4 @@
+description = "SADU module to send queries to a database."
 
 dependencies {
     api(project(":sadu-core"))

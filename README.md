@@ -1,7 +1,6 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/publish_to_nexus.yml?style=for-the-badge&label=Publishing&branch=main)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/verify.yml?style=for-the-badge&label=Building&branch=main)
 [![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.chojo.sadu/sadu?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
-[![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.chojo.sadu/sadu?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_dev]
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
 
 ### [Javadocs](https://rainbowdashlabs.github.io/sadu/)
@@ -20,8 +19,6 @@ you work with plain SQL like I do most of the time.
 If you want to use all projects simply import the whole thing.
 
 ```gradle
-maven("https://eldonexus.de/repository/maven-public")
-
 implementation("de.chojo.sadu", "sadu", "version")
 ```
 
