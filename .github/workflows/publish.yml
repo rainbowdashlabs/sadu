@@ -8,11 +8,11 @@ on:
       - dev*
       - feature/*
       - fix/*
+
 jobs:
   publish-central:
     environment: build
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
 
     steps:
       - uses: actions/checkout@v3
@@ -32,4 +32,3 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePasswort: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_rainbowdashlabsSigningKey: ${{ secrets.RAINBOWDASHLABS_SIGN_KEY }}
           ORG_GRADLE_PROJECT_rainbowdashlabsSigningPassword: ${{ secrets.RAINBOWDASHLABS_GPG_PASSWORD }}
-
