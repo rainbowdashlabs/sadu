@@ -41,21 +41,16 @@ subprojects {
         }
         indra {
             javaVersions {
-                target(17)
-                testWith(17)
+                target(15)
+                testWith(15)
             }
 
-            publishAllTo("github", "https://maven.pkg.github.com/OneLiteFeatherNET/Microtus")
 
-            github("OneLiteFeatherNET", "Microtus") {
+            github("rainbowdashlabs", "sadu") {
                 ci(true)
             }
-            license {
-                name("AGPL-3.0")
-                url("https://github.com/OneLiteFeatherNET/Microtus/blob/master/LICENSE")
-                spdx("AGPL-3.0-only")
-            }
-            signWithKeyFromPrefixedProperties("onelitefeather")
+            lgpl3OrLaterLicense()
+            signWithKeyFromPrefixedProperties("rainbowdashlabs")
             configurePublications {
                 pom {
                     developers {
@@ -86,17 +81,7 @@ indra {
     github("rainbowdashlabs", "sadu") {
         ci(true)
     }
-
-    license {
-        name("LGPL-3.0")
-        url("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
-        spdx("LGPL-3.0-or-later")
-    }
-
-    issues {
-        url("https://github.com/rainbowdashlabs/sadu/issues")
-        system("GitHub")
-    }
+    lgpl3OrLaterLicense()
 }
 
 allprojects {
@@ -104,14 +89,6 @@ allprojects {
         mavenCentral()
         maven("https://eldonexus.de/repository/maven-public/")
         maven("https://eldonexus.de/repository/maven-proxies/")
-    }
-
-    java {
-        withSourcesJar()
-        withJavadocJar()
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(15))
-        }
     }
 
     dependencies {
