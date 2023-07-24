@@ -24,7 +24,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.6.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.6.0")
 }
 
 dependencyResolutionManagement {
@@ -34,7 +34,8 @@ dependencyResolutionManagement {
             // plugins
             plugin("spotless", "com.diffplug.spotless").version("6.20.0")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
-                        version("indra", "3.1.2")
+
+            version("indra", "3.1.2")
             plugin("indra-core", "net.kyori.indra").versionRef("indra")
             plugin("indra-publishing", "net.kyori.indra.publishing").versionRef("indra")
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
