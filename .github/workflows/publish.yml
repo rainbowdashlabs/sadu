@@ -27,7 +27,7 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test
       - name: Publish to Maven Central
-        run: ./gradlew publish # -PforceSign=true
+        run: ./gradlew publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: "${{ secrets.SONATYPE_USERNAME }}"
           ORG_GRADLE_PROJECT_sonatypePassword: "${{ secrets.SONATYPE_PASSWORD }}"
