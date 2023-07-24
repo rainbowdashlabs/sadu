@@ -7,7 +7,3 @@ dependencies {
     compileOnly("org.mariadb.jdbc", "mariadb-java-client", "3.1.4")
     compileOnly("mysql", "mysql-connector-java", "8.0.33")
 }
-
-publishing {
-    publications.clear()
-}
