@@ -13,6 +13,7 @@ jobs:
   publish-central:
     environment: build
     runs-on: ubuntu-latest
+    name: Publish to Maven Central
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test
       - name: Publish to eldonexus
-        run: ./gradlew publishMavenPublicationToSonatypeRepository
+        run: ./gradlew publishMavenPublicationToSonatypeRepository -PforceSign=true
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePasswort: ${{ secrets.SONATYPE_PASSWORD }}
