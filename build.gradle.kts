@@ -6,15 +6,20 @@ plugins {
     java
     `maven-publish`
     `java-library`
-    id("de.chojo.publishdata") version "1.2.4"
+    id("de.chojo.publishdata") version "1.2.5"
     alias(libs.plugins.spotless)
     alias(libs.plugins.indra.core)
     alias(libs.plugins.indra.publishing)
     alias(libs.plugins.indra.sonatype)
 }
 
+publishData {
+    useEldoNexusRepos(false)
+    publishingVersion = "1.3.1"
+}
+
 group = "de.chojo.sadu"
-version = "1.3.1"
+version = publishData.getVersion()
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -51,7 +56,9 @@ subprojects {
             }
 
             lgpl3OrLaterLicense()
+
             signWithKeyFromPrefixedProperties("rainbowdashlabs")
+
             configurePublications {
                 pom {
                     developers {
@@ -59,6 +66,7 @@ subprojects {
                             id.set("rainbowdashlabs")
                             name.set("Florian Fülling")
                             email.set("mail@chojo.dev")
+                            url.set("https://github.com/rainbowdashlabs")
                         }
                     }
                 }
@@ -102,50 +110,6 @@ allprojects {
             licenseHeaderFile(rootProject.file("HEADER.txt"))
             target("**/*.java")
         }
-    }
-
-    publishData {
-        useEldoNexusRepos()
-        publishComponent("java")
-    }
-
-    if (!project.name.contains("examples")) {
-        publishing {
-            publications.create<MavenPublication>("eldonexus") {
-                publishData.configurePublication(this)
-
-                pom {
-                    url.set("https://github.com/rainbowdashlabs/sadu")
-                    developers {
-                        developer {
-                            name.set("Florian Fülling")
-                            url.set("https://github.com/rainbowdashlabs")
-                        }
-                    }
-                    licenses {
-                        license {
-                            name.set("GNU Affero General Public License v3.0")
-                            url.set("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
-                        }
-                    }
-                }
-            }
-
-            repositories {
-                maven {
-                    authentication {
-                        credentials(PasswordCredentials::class) {
-                            username = System.getenv("NEXUS_USERNAME")
-                            password = System.getenv("NEXUS_PASSWORD")
-                        }
-                    }
-
-                    setUrl(publishData.getRepository())
-                    name = "EldoNexus"
-                }
-            }
-        }
-
     }
 
     // We configure some general tasks for our modules

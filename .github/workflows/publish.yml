@@ -9,27 +9,6 @@ on:
       - feature/*
       - fix/*
 jobs:
-  publish-nexus:
-    environment: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 15
-        uses: actions/setup-java@v3
-        with:
-          distribution: adopt
-          java-version: 15
-      - name: Build with Gradle
-        run: ./gradlew --build-cache build
-      - name: Test with Gradle
-        run: ./gradlew test
-      - name: Publish to eldonexus
-        run: ./gradlew publishEldonexusPublicationToEldoNexusRepository
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
   publish-central:
     environment: build
     runs-on: ubuntu-latest
