@@ -1,7 +1,8 @@
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/publish_to_nexus.yml?style=for-the-badge&label=Publishing&branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/publish.yml?style=for-the-badge&label=Publishing&branch=main)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/verify.yml?style=for-the-badge&label=Building&branch=main)
-[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.chojo.sadu/sadu?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)][nexus_releases]
+
+[![Sonatype Nexus (Releases)](https://img.shields.io/maven-central/v/de.chojo.sadu/sadu?label=Release&logo=Release&style=for-the-badge)][nexus_releases]
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?server=https%3A%2F%2Fs01.oss.sonatype.org%2F&style=for-the-badge&label=Snapshot&color=orange)][nexus_snapshots]
 
 ### [Javadocs](https://rainbowdashlabs.github.io/sadu/)
 
@@ -109,6 +110,5 @@ to use it import: `sadu-updater`
 Learn how to use it [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Updater)
 
 
-[nexus_releases]: https://eldonexus.de/#browse/browse:maven-releases:de%2Fchojo%2Fsadu%2Fsadu
-[nexus_snapshots]: https://eldonexus.de/#browse/browse:maven-snapshots:de%2Fchojo%2Fsadu%2Fsadu
-[nexus_dev]: https://eldonexus.de/#browse/browse:maven-dev:de%2Fchojo%2Fsadu%2Fsadu
+[nexus_releases]: https://search.maven.org/search?q=de.chojo.sadu
+[nexus_snapshots]: https://s01.oss.sonatype.org/#nexus-search;quick~de.chojo.sadu
