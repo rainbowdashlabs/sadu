@@ -1,4 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessPlugin
+import net.kyori.indra.IndraPlugin
+import net.kyori.indra.IndraPublishingPlugin
 
 plugins {
     java
@@ -6,10 +8,19 @@ plugins {
     `java-library`
     id("de.chojo.publishdata") version "1.2.5"
     alias(libs.plugins.spotless)
+    alias(libs.plugins.indra.core)
+    alias(libs.plugins.indra.publishing)
+    alias(libs.plugins.indra.sonatype)
+}
+
+publishData {
+    useEldoNexusRepos(false)
+    publishingVersion = "1.3.1"
 }
 
 group = "de.chojo.sadu"
-version = "1.3.1"
+version = publishData.getVersion()
+description = "The SADU library, containing everything you need and not need."
 
 dependencies {
     api(project(":sadu-sqlite"))
@@ -27,8 +38,75 @@ subprojects {
         plugin<SpotlessPlugin>()
         plugin<de.chojo.PublishData>()
         plugin<JavaLibraryPlugin>()
-        plugin<MavenPublishPlugin>()
     }
+    if (!project.name.contains("examples")) {
+        apply {
+            plugin<MavenPublishPlugin>()
+            plugin<IndraPlugin>()
+            plugin<IndraPublishingPlugin>()
+            plugin<SigningPlugin>()
+        }
+
+        indra {
+            javaVersions {
+                target(15)
+                testWith(15)
+            }
+
+            github("rainbowdashlabs", "sadu") {
+                ci(true)
+            }
+
+            lgpl3OrLaterLicense()
+
+            signWithKeyFromPrefixedProperties("rainbowdashlabs")
+
+            configurePublications {
+                pom {
+                    developers {
+                        developer {
+                            id.set("rainbowdashlabs")
+                            name.set("Florian Fülling")
+                            email.set("mail@chojo.dev")
+                            url.set("https://github.com/rainbowdashlabs")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+indra {
+    javaVersions {
+        target(15)
+        testWith(15)
+    }
+
+    github("rainbowdashlabs", "sadu") {
+        ci(true)
+    }
+
+    lgpl3OrLaterLicense()
+
+    signWithKeyFromPrefixedProperties("rainbowdashlabs")
+
+    configurePublications {
+        pom {
+            developers {
+                developer {
+                    id.set("rainbowdashlabs")
+                    name.set("Florian Fülling")
+                    email.set("mail@chojo.dev")
+                    url.set("https://github.com/rainbowdashlabs")
+                }
+            }
+        }
+    }
+}
+
+indraSonatype {
+    useAlternateSonatypeOSSHost("s01")
 }
 
 allprojects {
@@ -36,14 +114,6 @@ allprojects {
         mavenCentral()
         maven("https://eldonexus.de/repository/maven-public/")
         maven("https://eldonexus.de/repository/maven-proxies/")
-    }
-
-    java {
-        withSourcesJar()
-        withJavadocJar()
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(15))
-        }
     }
 
     dependencies {
@@ -56,49 +126,6 @@ allprojects {
         java {
             licenseHeaderFile(rootProject.file("HEADER.txt"))
             target("**/*.java")
-        }
-    }
-
-    publishData {
-        useEldoNexusRepos()
-        publishComponent("java")
-    }
-
-    if (!project.name.contains("examples")) {
-        publishing {
-            publications.create<MavenPublication>("maven") {
-                publishData.configurePublication(this)
-
-                pom {
-                    url.set("https://github.com/rainbowdashlabs/sadu")
-                    developers {
-                        developer {
-                            name.set("Florian Fülling")
-                            url.set("https://github.com/rainbowdashlabs")
-                        }
-                    }
-                    licenses {
-                        license {
-                            name.set("GNU Affero General Public License v3.0")
-                            url.set("https://github.com/rainbowdashlabs/sadu/blob/main/LICENSE.md")
-                        }
-                    }
-                }
-            }
-
-            repositories {
-                maven {
-                    authentication {
-                        credentials(PasswordCredentials::class) {
-                            username = System.getenv("NEXUS_USERNAME")
-                            password = System.getenv("NEXUS_PASSWORD")
-                        }
-                    }
-
-                    setUrl(publishData.getRepository())
-                    name = "EldoNexus"
-                }
-            }
         }
     }
 

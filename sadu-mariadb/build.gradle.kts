@@ -1,3 +1,5 @@
+description = "SADU module for interaction with a MariaDB database"
+
 dependencies {
     api(project(":sadu-updater"))
 
