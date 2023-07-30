@@ -42,3 +42,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include("sadu-testing")
