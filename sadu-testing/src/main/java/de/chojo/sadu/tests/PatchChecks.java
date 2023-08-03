@@ -24,22 +24,50 @@ import java.util.stream.Collectors;
 
 import static de.chojo.sadu.tests.TestUtil.resourceContent;
 
+/**
+ * The PatchChecks class provides methods for checking the presence of patch files for the databases.
+ */
 public class PatchChecks {
 
     private PatchChecks() {
         throw new UnsupportedOperationException("This is a utility class.");
     }
 
+    /**
+     * Checks if files in the given databases match the specified base version.
+     * Compares the file content of each database against the base version and throws an IOException if any mismatch is found.
+     *
+     * @param baseVersion The lowest major version of the databases.
+     * @param databases   The databases to check.
+     * @throws IOException If there is a mismatch between the file content in any of the databases and the base version.
+     */
     public static void checkFiles(int baseVersion, Database<?, ?>... databases) throws IOException {
         var current = resourceContent("database/version");
         checkFiles(baseVersion, current, databases);
     }
 
+    /**
+     * Checks if the files for the given databases need to be updated based on the base version and current version.
+     *
+     * @param baseVersion    the base version of the databases
+     * @param currentVersion the current version of the databases
+     * @param databases      the databases to check
+     * @throws IOException if an I/O error occurs while checking the files
+     */
     @ApiStatus.Internal
     public static void checkFiles(int baseVersion, String currentVersion, Database<?, ?>... databases) throws IOException {
         checkFiles(baseVersion, currentVersion, Arrays.stream(databases).map(Database::name).toArray(String[]::new));
     }
 
+    /**
+     * Check the consistency of files in the given databases against a reference set of files.
+     *
+     * @param baseVersion    The base version of the database.
+     * @param currentVersion The current version of the database.
+     * @param databases      The names of the databases to check.
+     * @throws IOException          If an I/O error occurs while accessing the files.
+     * @throws AssertionFailedError If there are missing or unreachable files in the databases.
+     */
     @ApiStatus.Internal
     public static void checkFiles(int baseVersion, String currentVersion, String... databases) throws IOException {
         // Map for all files present for a single database

@@ -14,11 +14,11 @@ class DatabaseChecksTest {
 
     @Test
     void assertExistingDatabase() {
-        DatabaseChecks.assertDatabase(1, "postgresql");
+        DatabaseChecks.assertDatabase("postgresql");
     }
 
     @Test
     void assertInvalidgDatabase() {
-        Assertions.assertThrows(AssertionFailedError.class, () -> DatabaseChecks.assertDatabase(1, "invalidDb"));
+        Assertions.assertThrows(AssertionFailedError.class, () -> DatabaseChecks.assertDatabase("invalidDb"));
     }
 }
