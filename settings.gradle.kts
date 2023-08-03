@@ -10,6 +10,7 @@ include("sadu-queries")
 include("sadu-updater")
 include("sadu-mapper")
 include("sadu-examples")
+include("sadu-testing")
 
 pluginManagement {
     repositories {
