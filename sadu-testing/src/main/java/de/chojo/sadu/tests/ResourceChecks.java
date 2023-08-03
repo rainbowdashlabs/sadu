@@ -6,20 +6,26 @@
 
 package de.chojo.sadu.tests;
 
+import org.junit.jupiter.api.Assertions;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static de.chojo.sadu.tests.TestUtil.resourcePath;
+
 public class ResourceChecks {
-    public static boolean exists(String path) {
-        return resourcePath().resolve(path).toFile().exists();
+    private ResourceChecks() {
+        throw new UnsupportedOperationException("This is a utility class.");
     }
 
-    public static String resourceContent(String path) throws IOException {
-        return Files.readString(resourcePath().resolve(path));
+
+    public static void assertResource(String path) {
+        assertResource(path, "Missing file at \"%s\".".formatted(path));
     }
 
-    public static Path resourcePath() {
-        return Path.of("src/main/resources");
+    public static void assertResource(String path, String message) {
+        Assertions.assertTrue(resourcePath().resolve(path).toFile().exists(), message);
     }
+
 }

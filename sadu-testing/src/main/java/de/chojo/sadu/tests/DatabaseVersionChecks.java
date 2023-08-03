@@ -11,19 +11,21 @@ import org.junit.jupiter.api.Assertions;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static de.chojo.sadu.tests.TestUtil.resourceContent;
+
 public class DatabaseVersionChecks {
     public static void assertVersionExists() {
-        Assertions.assertTrue(ResourceChecks.exists("database/version"), "Version file in directory database is missing (database/version)");
+        ResourceChecks.assertResource("database/version", "Version file in directory database is missing (database/version)");
     }
 
     public static void assertVersionNotBlank() throws IOException {
-        String content = ResourceChecks.resourceContent("database/version");
+        String content = resourceContent("database/version");
         Assertions.assertFalse(content.isBlank());
     }
 
 
     public static void assertFormat() throws IOException {
-        assertFormat(ResourceChecks.resourceContent("database/version"));
+        assertFormat(resourceContent("database/version"));
     }
     public static void assertFormat(String version) throws IOException {
         String[] split = version.split("\\.");

@@ -16,7 +16,7 @@ public class DatabaseChecks {
 
     public static void assertDatabase(int major, String database) {
         String path = "database/%s/".formatted(database);
-        Assertions.assertTrue(ResourceChecks.exists(path), "Directory for database %s is missing. Checked for directory: %s".formatted(database, path));
+        ResourceChecks.assertResource(path, "Directory for database %s is missing. Checked for directory: %s".formatted(database, path));
     }
 
     public static void assertDatabase(int major, Database<?, ?>... databases) {
