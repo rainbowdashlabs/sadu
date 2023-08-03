@@ -8,10 +8,6 @@ package de.chojo.sadu.tests;
 
 import org.junit.jupiter.api.Assertions;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import static de.chojo.sadu.tests.TestUtil.resourcePath;
 
 /**
@@ -36,8 +32,8 @@ public class ResourceChecks {
     /**
      * Asserts the existence of a resource at the specified path.
      *
-     * @param path     the path of the resource to be verified
-     * @param message  the error message to be displayed if the resource does not exist
+     * @param path    the path of the resource to be verified
+     * @param message the error message to be displayed if the resource does not exist
      */
     public static void assertResource(String path, String message) {
         Assertions.assertTrue(resourcePath().resolve(path).toFile().exists(), message);

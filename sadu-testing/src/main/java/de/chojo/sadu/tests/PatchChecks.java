@@ -132,14 +132,14 @@ public class PatchChecks {
     private static class Version {
         final int major, patch;
 
-        static Version parse(String version) {
-            var split = version.split("\\.");
-            return new Version(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-        }
-
         Version(int major, int patch) {
             this.major = major;
             this.patch = patch;
+        }
+
+        static Version parse(String version) {
+            var split = version.split("\\.");
+            return new Version(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         }
     }
 }
