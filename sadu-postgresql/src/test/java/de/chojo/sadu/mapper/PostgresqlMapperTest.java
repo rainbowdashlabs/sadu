@@ -55,9 +55,9 @@ class PostgresqlMapperTest {
     static final BigDecimal bigDecimal = BigDecimal.valueOf(327674568765487845L, 5);
     static final String text = "text";
     static final String json = "{\"a\": \"b\"}";
-    static EmbeddedPostgres pg;
-    static DataSource dc;
-    static QueryFactory factory;
+    private static EmbeddedPostgres pg;
+    private static DataSource dc;
+    private static QueryFactory factory;
 
     @BeforeAll
     static void beforeAll() throws IOException {
