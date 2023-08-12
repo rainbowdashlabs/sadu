@@ -12,6 +12,7 @@ import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.mapper.util.Results;
 import de.chojo.sadu.wrapper.util.Row;
 
+import java.math.BigDecimal;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public final class DefaultMapper {
         throw new UnsupportedOperationException("This is a utility class.");
     }
 
+    public static RowMapper<Short> createShort(List<SqlType> types) {
+        return create(Short.class, Row::getShort, types);
+    }
     public static RowMapper<Integer> createInteger(List<SqlType> types) {
         return create(Integer.class, Row::getInt, types);
     }
@@ -42,6 +46,9 @@ public final class DefaultMapper {
 
     public static RowMapper<Double> createDouble(List<SqlType> types) {
         return create(Double.class, Row::getDouble, types);
+    }
+    public static RowMapper<BigDecimal> createBigDecimal(List<SqlType> types) {
+        return create(BigDecimal.class, Row::getBigDecimal, types);
     }
 
     public static RowMapper<String> createString(List<SqlType> types) {
