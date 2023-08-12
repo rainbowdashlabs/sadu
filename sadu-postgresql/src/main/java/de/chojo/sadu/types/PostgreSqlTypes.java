@@ -15,7 +15,7 @@ public interface PostgreSqlTypes {
     /**
      * Up to 1 GB
      */
-    SqlType CHAR = ofName("CHAR");
+    SqlType CHAR = ofName("CHAR", "bpchar");
     /**
      * A text with "unlimited" length
      */
@@ -28,7 +28,7 @@ public interface PostgreSqlTypes {
     /**
      * -32,768 and 32,767
      */
-    SqlType SMALLINT = ofName("SMALLINT", "int8");
+    SqlType SMALLINT = ofName("SMALLINT", "int2", "int4", "int8");
     /**
      * -2,147,483,648 and 2,147,483,647
      */
@@ -36,7 +36,7 @@ public interface PostgreSqlTypes {
     /**
      * "Unlimited" size
      */
-    SqlType BIGINT = ofName("BIGINT", "int32", "int64");
+    SqlType BIGINT = ofName("BIGINT", "int64");
     /**
      * exact fixed point
      */
@@ -46,9 +46,13 @@ public interface PostgreSqlTypes {
      */
     SqlType NUMERIC = ofName("NUMERIC");
     /**
+     * exact fixed point
+     */
+    SqlType REAL = ofName("REAL", "float4");
+    /**
      * double precision
      */
-    SqlType DOUBLE = ofName("DOUBLE");
+    SqlType DOUBLE = ofName("DOUBLE", "DOUBLE PRECISION", "float8");
     /**
      * Boolean
      */
@@ -57,6 +61,14 @@ public interface PostgreSqlTypes {
      * Byte array
      */
     SqlType BYTEA = ofName("BYTEA");
+    /**
+     * JSON
+     */
+    SqlType JSON = ofName("json");
+    /**
+     * JSONB
+     */
+    SqlType JSONB = ofName("jsonb");
     /**
      * Date
      */
