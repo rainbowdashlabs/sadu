@@ -42,7 +42,6 @@ dependencyResolutionManagement {
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
 
             create("testlibs") {
-                library("mockbuckit", "com.github.seeseemelk:MockBukkit-v1.19:2.29.0")
                 version("junit", "5.9.3")
                 library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
                 library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
