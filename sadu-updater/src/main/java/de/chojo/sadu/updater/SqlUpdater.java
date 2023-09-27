@@ -194,7 +194,6 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
     private void performUpdate(Patch patch) throws SQLException {
         log.info("Applying patch " + patch.version());
-        int statementsOfPatchExecuted = 0;
         try (var conn = source.getConnection()) {
             conn.setAutoCommit(false);
             var hook = preUpdateHook.get(patch.version());
@@ -205,9 +204,11 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             }
 
             for (var query : type.splitStatements(patch.query())) {
-                statementsOfPatchExecuted++;
                 try (var statement = conn.prepareStatement(adjust(query))) {
                     statement.execute();
+                } catch (SQLException e) {
+                    log.warn("Failed to execute statement: \n %s".formatted(query), e);
+                    throw e;
                 }
             }
 
@@ -219,9 +220,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             }
             conn.commit();
         } catch (SQLException e) {
-            String message = "Database update failed while executing the " + statementsOfPatchExecuted +
-                    ". statement of the patch " + patch.version() + "!";
-            log.warn(message, e);
+            log.warn("Database update failed", e);
             throw e;
         }
         log.info("Patch applied.");
