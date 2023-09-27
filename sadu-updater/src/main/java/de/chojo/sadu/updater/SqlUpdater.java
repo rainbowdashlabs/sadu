@@ -185,7 +185,6 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             try {
                 performUpdate(patch);
             } catch (SQLException e) {
-                String errorMessage = "Database update failed while applying patch " + patch.version().toString() + "!";
                 throw new UpdateException("Database update failed while applying patch %s!".formatted(patch.version()), e);
             }
         }
