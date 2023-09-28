@@ -185,7 +185,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             try {
                 performUpdate(patch);
             } catch (SQLException e) {
-                throw new UpdateException("Database update failed!", e);
+                throw new UpdateException("Database update failed while applying patch %s!".formatted(patch.version()), e);
             }
         }
         log.info("Database update was successful!");
@@ -205,6 +205,9 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             for (var query : type.splitStatements(patch.query())) {
                 try (var statement = conn.prepareStatement(adjust(query))) {
                     statement.execute();
+                } catch (SQLException e) {
+                    log.warn("Failed to execute statement:\n{}", query, e);
+                    throw e;
                 }
             }
 
