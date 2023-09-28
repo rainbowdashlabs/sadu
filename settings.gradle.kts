@@ -40,6 +40,13 @@ dependencyResolutionManagement {
             plugin("indra-core", "net.kyori.indra").versionRef("indra")
             plugin("indra-publishing", "net.kyori.indra.publishing").versionRef("indra")
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
+
+            create("testlibs") {
+                version("junit", "5.9.3")
+                library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
+                library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
+                bundle("junit", listOf("junit-jupiter", "junit-params"))
+            }
         }
     }
 }
