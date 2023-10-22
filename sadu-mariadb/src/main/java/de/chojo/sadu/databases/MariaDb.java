@@ -45,7 +45,7 @@ public class MariaDb extends DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuilder<
 
     @Override
     public String[] splitStatements(String queries) {
-        return cleanStatements(queries.split(";"));
+        return new StatementSplitter(queries).split();
     }
 
     @Override
