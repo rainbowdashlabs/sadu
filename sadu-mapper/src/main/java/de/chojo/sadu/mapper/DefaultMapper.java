@@ -7,11 +7,12 @@
 package de.chojo.sadu.mapper;
 
 import de.chojo.sadu.exceptions.ThrowingBiFunction;
-import de.chojo.sadu.types.SqlType;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.mapper.util.Results;
+import de.chojo.sadu.types.SqlType;
 import de.chojo.sadu.wrapper.util.Row;
 
+import java.math.BigDecimal;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,13 +20,16 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public final class DefaultMapper {
     private DefaultMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
+    }
+
+    public static RowMapper<Short> createShort(List<SqlType> types) {
+        return create(Short.class, Row::getShort, types);
     }
 
     public static RowMapper<Integer> createInteger(List<SqlType> types) {
@@ -44,6 +48,10 @@ public final class DefaultMapper {
         return create(Double.class, Row::getDouble, types);
     }
 
+    public static RowMapper<BigDecimal> createBigDecimal(List<SqlType> types) {
+        return create(BigDecimal.class, Row::getBigDecimal, types);
+    }
+
     public static RowMapper<String> createString(List<SqlType> types) {
         return create(String.class, Row::getString, types);
     }
@@ -58,37 +66,37 @@ public final class DefaultMapper {
 
     public static RowMapper<UUID> createUuid(List<SqlType> textTypes, List<SqlType> byteTypes) {
         return RowMapper.forClass(java.util.UUID.class)
-                        .mapper(row -> {
-                            var meta = row.getMetaData();
-                            var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, textTypes);
-                            if (columnIndexOfType.isPresent()) {
-                                return row.getUuidFromString(columnIndexOfType.get());
-                            }
-                            columnIndexOfType = Results.getFirstColumnIndexOfType(meta, byteTypes);
-                            var index = columnIndexOfType.orElseThrow(() -> {
-                                List<SqlType> sqlTypes = new ArrayList<>(textTypes);
-                                sqlTypes.addAll(byteTypes);
-                                return createException(sqlTypes, meta);
-                            });
-                            return row.getUuidFromBytes(index);
-                        })
-                        .build();
+                .mapper(row -> {
+                    var meta = row.getMetaData();
+                    var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, textTypes);
+                    if (columnIndexOfType.isPresent()) {
+                        return row.getUuidFromString(columnIndexOfType.get());
+                    }
+                    columnIndexOfType = Results.getFirstColumnIndexOfType(meta, byteTypes);
+                    var index = columnIndexOfType.orElseThrow(() -> {
+                        List<SqlType> sqlTypes = new ArrayList<>(textTypes);
+                        sqlTypes.addAll(byteTypes);
+                        return createException(sqlTypes, meta);
+                    });
+                    return row.getUuidFromBytes(index);
+                })
+                .build();
     }
 
     public static <T> RowMapper<T> create(Class<T> clazz, ThrowingBiFunction<Row, Integer, T, SQLException> mapper, List<SqlType> types) {
         return RowMapper.forClass(clazz)
-                        .mapper(row -> {
-                            var meta = row.getMetaData();
-                            var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
-                            var index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
-                            return mapper.apply(row, index);
-                        }).build();
+                .mapper(row -> {
+                    var meta = row.getMetaData();
+                    var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
+                    var index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
+                    return mapper.apply(row, index);
+                }).build();
     }
 
     private static SQLException createException(List<SqlType> types, ResultSetMetaData meta) {
         var type = types.stream()
-                        .map(SqlType::descr)
-                        .collect(Collectors.joining(", "));
+                .map(SqlType::descr)
+                .collect(Collectors.joining(", "));
         var available = "error";
         try {
             available = getColumnTypes(meta).entrySet().stream()
