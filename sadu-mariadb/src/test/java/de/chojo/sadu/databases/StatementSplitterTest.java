@@ -17,8 +17,7 @@ public class StatementSplitterTest {
 
         final String SQL = "SELECT * FROM table; SELECT * FROM table2;";
 
-        StatementSplitter splitter = new StatementSplitter(SQL);
-        String[] splitStatements = splitter.split();
+        String[] splitStatements = StatementSplitter.split(SQL);
 
         assertEquals(2, splitStatements.length);
         assertEquals("SELECT * FROM table;", splitStatements[0].trim());
@@ -31,8 +30,7 @@ public class StatementSplitterTest {
 
         final String SQL = "SELECT * FROM table; DELIMITER $$ SELECT * FROM table2 $$ DELIMITER ; SELECT * FROM table3;";
 
-        StatementSplitter splitter = new StatementSplitter(SQL);
-        String[] splitStatements = splitter.split();
+        String [] splitStatements = StatementSplitter.split(SQL);
 
         assertEquals(5, splitStatements.length);
         assertEquals("SELECT * FROM table;", splitStatements[0].trim());
@@ -49,8 +47,7 @@ public class StatementSplitterTest {
         final String SQL = "SELECT * FROM table;SELECT test FROM table;DELIMITER $$ SELECT * FROM table2 $$INSERT " +
                 "INTO table VALUES(x,y)$$DELIMITER ; SELECT * FROM table3;";
 
-        StatementSplitter splitter = new StatementSplitter(SQL);
-        String[] splitStatements = splitter.split();
+        String[] splitStatements = StatementSplitter.split(SQL);
 
         assertEquals(7, splitStatements.length);
         assertEquals("SELECT * FROM table;", splitStatements[0].trim());
@@ -95,8 +92,7 @@ public class StatementSplitterTest {
                 DELIMITER ;
                 """;
 
-        StatementSplitter splitter = new StatementSplitter(sql);
-        String[] splitStatements = splitter.split();
+        String[] splitStatements = StatementSplitter.split(sql);
 
         assertEquals(6, splitStatements.length);
         assertEquals("DELIMITER //", splitStatements[0].trim().replaceAll(" +", " "));

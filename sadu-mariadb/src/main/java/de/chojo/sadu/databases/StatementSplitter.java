@@ -12,125 +12,69 @@ import java.util.ArrayList;
  * Splits a string of SQL statements into an array of statements.
  * <p>
  *     This class is used to split a string of SQL statements into an array of statements.
- *     The splitting is done by a regex. The default regex is {@link StatementSplitter#DEFAULT_SPLIT_REGEX}.
- *     The regex can be changed by calling {@link #setStandardSplitRegex(String)}.
- *     The default delimiter is {@link StatementSplitter#DEFAULT_DELIMITER_KEYWORD}.
- *     The delimiter can be changed by calling {@link #setStandardDelimiter(String)}.
  *     The delimiter is not case insensitive.
  * </p>
  */
 public class StatementSplitter {
 
+    /**
+     * This is the default regex, which is regularly used to split statements.
+     * <p>
+     *     The default splitting regex is ";".
+     * </p>
+     * <p>
+     *     To change this use {@link #split(String, String)}.
+     * </p>
+     */
     public static final String DEFAULT_SPLIT_REGEX = ";";
+    /**
+     * This is the default delimiter keyword, which is regularly used to change the delimiter.
+     * <p>
+     *     The default delimiter keyword is "DELIMITER".
+     * </p>
+     * <p>
+     *     To change this use {@link #split(String, String, String)}.
+     * </p>
+     */
     public static final String DEFAULT_DELIMITER_KEYWORD = "DELIMITER";
 
-    private final String statements;
-
-    private String splitRegex = DEFAULT_SPLIT_REGEX;
-    private String delimiter = DEFAULT_DELIMITER_KEYWORD;
-
     /**
-     * Creates a new StatementSplitter.
+     * Splits a string of SQL statements into an array of statements.
      * <p>
-     *     Use {@link #split()} to split the statements.
-     * </p>
-     * <p>
-     *     The default regex is {@link StatementSplitter#DEFAULT_SPLIT_REGEX}.
-     *     The default delimiter is {@link StatementSplitter#DEFAULT_DELIMITER_KEYWORD}.
-     *     You can specify a custom standard regex by calling {@link #setStandardSplitRegex(String)}.
-     *     You can specify a custom standard delimiter by calling {@link #setStandardDelimiter(String)}.
+     *     This method is used to split a string of SQL statements into an array of statements.
+     *     The splitting is done by the regex, which is defined in the second argument of the method.
+     *     The delimiter is defined in the third argument of the method.
      * </p>
      * @param statements the statements to split
+     * @param splitRegex the regex used to split the statements
+     * @param delimiter the delimiter used to change the delimiter in the statements
+     * @return the array of statements
      */
-    public StatementSplitter(String statements) {
-        this.statements = statements.replace("\n", " ");
-    }
-
-    /**
-     * Returns the standard regex.
-     * <p>
-     *     The default regex is {@link StatementSplitter#DEFAULT_SPLIT_REGEX}.
-     *     You can specify a custom standard regex by calling {@link #setStandardSplitRegex(String)}.
-     * </p>
-     * @return the standard regex
-     */
-    public String getStandardSplitRegex() {
-        return splitRegex;
-    }
-
-    /**
-     * Sets the standard regex.
-     * <p>
-     *     The default regex is {@link StatementSplitter#DEFAULT_SPLIT_REGEX}.
-     * </p>
-     * <p>
-     *     The regex is used to split the statements.
-     * </p>
-     * @param splitRegex the standard regex to be used
-     */
-    public void setStandardSplitRegex(String splitRegex) {
-        this.splitRegex = splitRegex;
-    }
-
-    /**
-     * Returns the standard delimiter.
-     * <p>
-     *     The default delimiter is {@link StatementSplitter#DEFAULT_DELIMITER_KEYWORD}.
-     *     You can specify a custom standard delimiter by calling {@link #setStandardDelimiter(String)}.
-     * </p>
-     * @return the standard delimiter
-     */
-    public String getStandardDelimiter() {
-        return delimiter;
-    }
-
-    /**
-     * Sets the standard delimiter.
-     * <p>
-     *     The default delimiter is {@link StatementSplitter#DEFAULT_DELIMITER_KEYWORD}.
-     * </p>
-     * <p>
-     *     The delimiter is used to indicate a new regex.
-     * </p>
-     * @param delimiter the standard delimiter to be used
-     */
-    public void setStandardDelimiter(String delimiter) {
-        this.delimiter = delimiter;
-    }
-
-    /**
-     * Splits the statements.
-     * <p>
-     *     The splitting is done by a regex. The default regex is {@link StatementSplitter#DEFAULT_SPLIT_REGEX}.
-     *     The regex can be changed by calling {@link #setStandardSplitRegex(String)}.
-     * </p>
-     * @return the statements as an array
-     */
-    public String[] split() {
+    public static String[] split(String statements, String splitRegex, String delimiter) {
 
         int index = 0;
 
         ArrayList<String> result = new ArrayList<>();
 
-        while (index <= this.statements.length()) {
+        while (index <= statements.length()) {
 
-            int nextDelimiterIndex = indexOfIgnoreCase(this.statements.substring(index), this.delimiter);
-            int nextSplitRegexIndex = indexOfIgnoreCase(this.statements.substring(index), this.splitRegex);
+            int nextDelimiterIndex = indexOfIgnoreCase(statements.substring(index), delimiter);
+            int nextSplitRegexIndex = indexOfIgnoreCase(statements.substring(index), splitRegex);
 
             if (nextDelimiterIndex == -1 && nextSplitRegexIndex == -1) {
                 break;
             }
 
             if (nextSplitRegexIndex == -1) {
-                this.splitRegex = parseNewDelimiter(this.statements.substring(index + nextDelimiterIndex));
+                splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
             } else if (nextDelimiterIndex != -1 &&nextDelimiterIndex < nextSplitRegexIndex) {
-                this.splitRegex = parseNewDelimiter(this.statements.substring(index + nextDelimiterIndex));
+                splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
             }
 
-            int statementLength = indexOfIgnoreCase(this.statements.substring(index), this.splitRegex);
-            statementLength += this.splitRegex.length();
+            int statementLength = indexOfIgnoreCase(statements.substring(index), splitRegex);
+            statementLength += splitRegex.length();
 
-            result.add(this.statements.substring(index, index + statementLength));
+            result.add(statements.substring(index, index + statementLength));
 
             index += statementLength;
 
@@ -140,7 +84,36 @@ public class StatementSplitter {
 
     }
 
-    private String parseNewDelimiter(String string) {
+    /**
+     * Splits a string of SQL statements into an array of statements.
+     * <p>
+     *     The splitting is done by the regex, which is defined in the second argument of the method.
+     *     The default delimiter keyword is "DELIMITER" ({@link #DEFAULT_DELIMITER_KEYWORD}).
+     *     The delimiter is not case insensitive.
+     * </p>
+     * @param statements the statements to split
+     * @param splitRegex the regex used to split the statements
+     * @return the array of statements
+     */
+    public static String[] split(String statements, String splitRegex) {
+        return split(statements, splitRegex, DEFAULT_DELIMITER_KEYWORD);
+    }
+
+    /**
+     * Splits a string of SQL statements into an array of statements.
+     * <p>
+     *     The splitting is done by the regex, which default is ";" ({@link #DEFAULT_SPLIT_REGEX}).
+     *     The default delimiter keyword is "DELIMITER" ({@link #DEFAULT_DELIMITER_KEYWORD}).
+     *     The delimiter is not case insensitive.
+     * </p>
+     * @param statements the statements to split
+     * @return the array of statements
+     */
+    public static String[] split(String statements) {
+        return split(statements, DEFAULT_SPLIT_REGEX, DEFAULT_DELIMITER_KEYWORD);
+    }
+
+    private static String parseNewDelimiter(String string, String delimiter) {
 
         for (String currentString : string.split(" ")) {
             if (currentString.equalsIgnoreCase(delimiter)) {
@@ -155,7 +128,7 @@ public class StatementSplitter {
 
     }
 
-    private int indexOfIgnoreCase(String string, String substring) {
+    private static int indexOfIgnoreCase(String string, String substring) {
         return string.toLowerCase().indexOf(substring.toLowerCase());
     }
 
