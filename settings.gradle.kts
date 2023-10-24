@@ -33,7 +33,7 @@ dependencyResolutionManagement {
         create("libs") {
 
             // plugins
-            plugin("spotless", "com.diffplug.spotless").version("6.21.0")
+            plugin("spotless", "com.diffplug.spotless").version("6.22.0")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
 
             version("indra", "3.1.3")
