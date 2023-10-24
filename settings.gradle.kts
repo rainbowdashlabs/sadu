@@ -42,7 +42,7 @@ dependencyResolutionManagement {
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
 
             create("testlibs") {
-                version("junit", "5.9.3")
+                version("junit", "5.10.0")
                 library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
                 library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
                 bundle("junit", listOf("junit-jupiter", "junit-params"))
