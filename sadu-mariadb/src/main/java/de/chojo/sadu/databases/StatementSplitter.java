@@ -115,7 +115,7 @@ public class StatementSplitter {
 
     private static String parseNewDelimiter(String string, String delimiter) {
 
-        for (String currentString : string.split(" ")) {
+        for (String currentString : string.split("(?<=\\S)\\s")) {
             if (currentString.equalsIgnoreCase(delimiter)) {
                 continue;
             } else if (currentString.equalsIgnoreCase("")) {
