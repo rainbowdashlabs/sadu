@@ -68,7 +68,9 @@ public class StatementSplitter {
             if (nextSplitRegexIndex == -1) {
                 splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
             } else if (nextDelimiterIndex != -1 &&nextDelimiterIndex < nextSplitRegexIndex) {
-                splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                if (isWhitespaceOnly(statements.substring(index, index + nextDelimiterIndex))) {
+                    splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                }
             }
 
             int statementLength = indexOfIgnoreCase(statements.substring(index), splitRegex);
@@ -130,6 +132,10 @@ public class StatementSplitter {
 
     private static int indexOfIgnoreCase(String string, String substring) {
         return string.toLowerCase().indexOf(substring.toLowerCase());
+    }
+
+    private static boolean isWhitespaceOnly(String str) {
+        return str != null && str.matches("^\\s*$");
     }
 
 }

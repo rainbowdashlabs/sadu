@@ -94,10 +94,6 @@ public class StatementSplitterTest {
 
         String[] splitStatements = StatementSplitter.split(sql);
 
-        for (String s : splitStatements) {
-            System.out.println(s);
-        }
-
         assertEquals(6, splitStatements.length);
         assertEquals("DELIMITER //", splitStatements[0].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
@@ -119,6 +115,31 @@ public class StatementSplitterTest {
         assertEquals("DELIMITER ;", splitStatements[5].trim()
                 .replaceAll(" +", " ").replaceAll("\\s+", " "));
 
+    }
+
+    @Test
+    void testSplitWithDelimiterString() {
+        final String sql = """
+                SELECT * FROM delimiter;
+                DELIMITER //
+                SELECT delimiter FROM table2 //
+                DELIMITER ;
+                SELECT * FROM 'delimiter';
+                """;
+
+        String[] splitStatements = StatementSplitter.split(sql);
+
+        assertEquals(5, splitStatements.length);
+        assertEquals("SELECT * FROM delimiter;", splitStatements[0].trim().replaceAll(" +", " ")
+                .replaceAll("\\s+", " "));
+        assertEquals("DELIMITER //", splitStatements[1].trim().replaceAll(" +", " ")
+                .replaceAll("\\s+", " "));
+        assertEquals("SELECT delimiter FROM table2 //", splitStatements[2].trim().replaceAll(" +", " ")
+                .replaceAll("\\s+", " "));
+        assertEquals("DELIMITER ;", splitStatements[3].trim().replaceAll(" +", " ")
+                .replaceAll("\\s+", " "));
+        assertEquals("SELECT * FROM 'delimiter';", splitStatements[4].trim().replaceAll(" +", " ")
+                .replaceAll("\\s+", " "));
     }
 
 }
