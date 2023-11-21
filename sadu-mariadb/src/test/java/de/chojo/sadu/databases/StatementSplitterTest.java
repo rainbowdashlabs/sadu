@@ -32,12 +32,10 @@ public class StatementSplitterTest {
 
         String [] splitStatements = StatementSplitter.split(SQL);
 
-        assertEquals(5, splitStatements.length);
+        assertEquals(3, splitStatements.length);
         assertEquals("SELECT * FROM table;", splitStatements[0].trim());
-        assertEquals("DELIMITER $$", splitStatements[1].trim());
-        assertEquals("SELECT * FROM table2 $$", splitStatements[2].trim());
-        assertEquals("DELIMITER ;", splitStatements[3].trim());
-        assertEquals("SELECT * FROM table3;", splitStatements[4].trim());
+        assertEquals("DELIMITER $$ SELECT * FROM table2 $$ DELIMITER ;", splitStatements[1].replaceAll("\\s+", " "));
+        assertEquals("SELECT * FROM table3;", splitStatements[2].trim());
 
     }
 
@@ -94,26 +92,18 @@ public class StatementSplitterTest {
 
         String[] splitStatements = StatementSplitter.split(sql);
 
-        assertEquals(6, splitStatements.length);
-        assertEquals("DELIMITER //", splitStatements[0].trim().replaceAll(" +", " ")
-                .replaceAll("\\s+", " "));
-        assertEquals("CREATE FUNCTION IF NOT EXISTS is_prime (number INT) RETURNS BOOLEAN BEGIN DECLARE i" +
+        assertEquals(2, splitStatements.length);
+        assertEquals("DELIMITER // CREATE FUNCTION IF NOT EXISTS is_prime (number INT) RETURNS BOOLEAN BEGIN DECLARE i" +
                 " INT DEFAULT 2; find_prime: WHILE i < number DO IF number % i = 0 THEN RETURN FALSE; END IF; SET i" +
-                " = i + 1; END WHILE find_prime; RETURN TRUE; END //",
-                splitStatements[1].trim().replaceAll(" +", " ")
-                        .replaceAll("\\s+", " "));
-        assertEquals("DELIMITER ;", splitStatements[2].trim().replaceAll(" +", " ")
+                " = i + 1; END WHILE find_prime; RETURN TRUE; END // DELIMITER ;",
+                splitStatements[0].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
-        assertEquals("DELIMITER //", splitStatements[3].trim().replaceAll(" +", " ")
-                .replaceAll("\\s+", " "));
-        assertEquals("CREATE FUNCTION IF NOT EXISTS next_prime_number(number INT) RETURNS INT BEGIN DECLARE" +
+        assertEquals("DELIMITER // CREATE FUNCTION IF NOT EXISTS next_prime_number(number INT) RETURNS INT BEGIN DECLARE" +
                 " isPrime BOOLEAN DEFAULT FALSE; DECLARE currentNumber INT DEFAULT number; looping: WHILE isPrime =" +
                 " FALSE DO SET currentNumber = currentNumber + 1; IF is_prime(currentNumber) = TRUE THEN RETURN " +
-                "currentNumber; END IF; END WHILE looping; END //",
+                "currentNumber; END IF; END WHILE looping; END // DELIMITER ;",
                 splitStatements[4].trim().replaceAll(" +", " ")
                         .replaceAll("\\s+", " "));
-        assertEquals("DELIMITER ;", splitStatements[5].trim()
-                .replaceAll(" +", " ").replaceAll("\\s+", " "));
 
     }
 
@@ -122,24 +112,22 @@ public class StatementSplitterTest {
         final String sql = """
                 SELECT * FROM delimiter;
                 DELIMITER //
-                SELECT delimiter FROM table2 //
+                SELECT test FROM table2 //
+                SELECT test FROM table //
                 DELIMITER ;
                 SELECT * FROM 'delimiter';
                 """;
 
         String[] splitStatements = StatementSplitter.split(sql);
 
-        assertEquals(5, splitStatements.length);
+        assertEquals(4, splitStatements.length);
         assertEquals("SELECT * FROM delimiter;", splitStatements[0].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
-        assertEquals("DELIMITER //", splitStatements[1].trim().replaceAll(" +", " ")
+        assertEquals("DELIMITER // SELECT delimiter FROM table2 // DELIMITER ;", splitStatements[2].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
-        assertEquals("SELECT delimiter FROM table2 //", splitStatements[2].trim().replaceAll(" +", " ")
+        assertEquals("DELIMITER // SELECT test FROM table // DELIMITER ;", splitStatements[2].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
-        assertEquals("DELIMITER ;", splitStatements[3].trim().replaceAll(" +", " ")
-                .replaceAll("\\s+", " "));
-        assertEquals("SELECT * FROM 'delimiter';", splitStatements[4].trim().replaceAll(" +", " ")
+        assertEquals("SELECT * FROM 'delimiter';", splitStatements[3].trim().replaceAll(" +", " ")
                 .replaceAll("\\s+", " "));
     }
-
 }

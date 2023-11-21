@@ -56,27 +56,69 @@ public class StatementSplitter {
 
         ArrayList<String> result = new ArrayList<>();
 
+        String currentSplitRegex = splitRegex;
+
         while (index <= statements.length()) {
 
             int nextDelimiterIndex = indexOfIgnoreCase(statements.substring(index), delimiter);
+            int nextCurrentSplitRegexIndex = indexOfIgnoreCase(statements.substring(index), currentSplitRegex);
             int nextSplitRegexIndex = indexOfIgnoreCase(statements.substring(index), splitRegex);
 
             if (nextDelimiterIndex == -1 && nextSplitRegexIndex == -1) {
                 break;
             }
 
+            //as long as we have a different delimiter than the default one, we just add a delimiter statement to each statement
+            if (!currentSplitRegex.equals(splitRegex) &&
+                    nextCurrentSplitRegexIndex >= 0 &&
+                    nextCurrentSplitRegexIndex <= nextDelimiterIndex) {
+                int statementLength = indexOfIgnoreCase(statements.substring(index), currentSplitRegex);
+                statementLength += currentSplitRegex.length();
+
+                String currentStatement = statements.substring(index, index + statementLength);
+
+                currentStatement = delimiter + " " + currentSplitRegex + "\n" + currentStatement;
+                currentStatement += "\n" + delimiter + " " + splitRegex;
+
+                result.add(currentStatement);
+
+                index += statementLength;
+
+                continue;
+            }
+
             if (nextSplitRegexIndex == -1) {
-                splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                String newDelimiter = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                if (!newDelimiter.equals(splitRegex)) {
+                    currentSplitRegex = newDelimiter;
+                } else {
+                    currentSplitRegex = splitRegex;
+                }
+                int statementLength = indexOfIgnoreCase(statements.substring(index), currentSplitRegex);
+                statementLength += currentSplitRegex.length();
+                index += statementLength;
+                continue;
             } else if (nextDelimiterIndex != -1 &&nextDelimiterIndex < nextSplitRegexIndex) {
                 if (isWhitespaceOnly(statements.substring(index, index + nextDelimiterIndex))) {
-                    splitRegex = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                    String newDelimiter = parseNewDelimiter(statements.substring(index + nextDelimiterIndex), delimiter);
+                    if (!newDelimiter.equals(splitRegex)) {
+                        currentSplitRegex = newDelimiter;
+                    } else {
+                        currentSplitRegex = splitRegex;
+                    }
+                    int statementLength = indexOfIgnoreCase(statements.substring(index), currentSplitRegex);
+                    statementLength += currentSplitRegex.length();
+                    index += statementLength;
+                    continue;
                 }
             }
 
             int statementLength = indexOfIgnoreCase(statements.substring(index), splitRegex);
             statementLength += splitRegex.length();
 
-            result.add(statements.substring(index, index + statementLength));
+            String currentStatement = statements.substring(index, index + statementLength);
+
+            result.add(currentStatement);
 
             index += statementLength;
 
