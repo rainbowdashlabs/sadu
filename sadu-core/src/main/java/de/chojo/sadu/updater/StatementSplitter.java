@@ -88,7 +88,7 @@ public class StatementSplitter {
             remaining = split.length == 2 ? split[1] : "";
 
             // Store current frame with correct sql delimiter
-            statements.add(split[0] + ";");
+            if (!split[0].isBlank()) statements.add(split[0] + ";");
         }
 
         return statements.toArray(new String[0]);
