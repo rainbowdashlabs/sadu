@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.StatementSplitter;
 import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.MariaDbJdbc;
 import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;

@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.databases;
+package de.chojo.sadu.updater;
 
 import org.intellij.lang.annotations.RegExp;
 
