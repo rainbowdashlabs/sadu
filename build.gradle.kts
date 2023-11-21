@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "1.3.1"
+    publishingVersion = "1.4.0"
 }
 
 group = "de.chojo.sadu"
@@ -117,9 +117,9 @@ allprojects {
     }
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.3")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.3")
-        testImplementation("org.mockito", "mockito-core", "3.+")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
+        testImplementation("org.mockito", "mockito-core", "5.+")
     }
 
     spotless {
@@ -162,7 +162,7 @@ tasks {
     register<Javadoc>("alljavadoc") {
         applyJavaDocOptions(options)
 
-        setDestinationDir(file("${buildDir}/docs/javadoc"))
+        destinationDir = file("${buildDir}/docs/javadoc")
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })

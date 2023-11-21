@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.StatementSplitter;
 import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.MariaDbJdbc;
 import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
@@ -45,7 +46,7 @@ public class MariaDb extends DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuilder<
 
     @Override
     public String[] splitStatements(String queries) {
-        return cleanStatements(queries.split(";"));
+        return StatementSplitter.split(queries);
     }
 
     @Override

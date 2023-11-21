@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.databases;
 
+import de.chojo.sadu.updater.StatementSplitter;
 import de.chojo.sadu.updater.UpdaterBuilder;
 import de.chojo.sadu.jdbc.MySQLJdbc;
 import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
@@ -50,7 +51,7 @@ public class MySql extends DefaultDatabase<MySQLJdbc, BaseSqlUpdaterBuilder<MySQ
 
     @Override
     public String[] splitStatements(String queries) {
-        return cleanStatements(queries.split(";"));
+        return StatementSplitter.split(queries);
     }
 
     @Override
