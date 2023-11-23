@@ -6,14 +6,23 @@
 
 package de.chojo.sadu.jdbc;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import de.chojo.sadu.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.startupcheck.StartupCheckStrategy;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.containers.wait.strategy.WaitStrategy;
+import org.testcontainers.containers.wait.strategy.WaitStrategyTarget;
 import org.testcontainers.utility.DockerImageName;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 class PostgreSqlJdbcTest {
@@ -32,38 +41,40 @@ class PostgreSqlJdbcTest {
 
     @ParameterizedTest
     @MethodSource("createCredentials")
-    public void connectionTestWithDatasource(String username, String password) {
-        try (var container = createContainer(username, password)) {
+    public void connectionTestWithDatasource(String user, String pw) {
+        try (var container = createContainer(user, pw)) {
             DataSourceCreator.create(PostgreSql.get())
                     .configure(c -> c.host(container.getHost())
                             .port(container.getFirstMappedPort()))
                     .create()
-                    .usingUsername(username)
-                    .usingPassword(password)
+                    .usingUsername(user)
+                    .usingPassword(pw)
                     .build();
         }
     }
 
     @ParameterizedTest
     @MethodSource("createCredentials")
-    public void connectionTestWithConfig(String username, String password) {
-        try (var container = createContainer(username, password)) {
+    public void connectionTestWithConfig(String user, String pw) {
+        try (var container = createContainer(user, pw)) {
             DataSourceCreator.create(PostgreSql.get())
                     .configure(c -> c.host(container.getHost())
                             .port(container.getFirstMappedPort())
-                            .user(username)
-                            .password(password))
+                            .user(user)
+                            .password(pw))
                     .create()
                     .build();
         }
     }
 
-    private GenericContainer<?> createContainer(String username, String password) {
+    private GenericContainer<?> createContainer(String user, String pw) {
         GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("postgres:latest"))
                 .withExposedPorts(5432)
-                .withEnv("POSTGRES_USER", username)
-                .withEnv("POSTGRES_PASSWORD", password);
+                .withEnv("POSTGRES_USER", user)
+                .withEnv("POSTGRES_PASSWORD", pw)
+                .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 2));
         self.start();
         return self;
     }
+
 }
