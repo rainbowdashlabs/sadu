@@ -11,7 +11,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 public class PostgresDatabase {
-         public static GenericContainer<?> createContainer(String user, String pw) {
+    public static GenericContainer<?> createContainer(String user, String pw) {
         GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("postgres:latest"))
                 .withExposedPorts(5432)
                 .withEnv("POSTGRES_USER", user)

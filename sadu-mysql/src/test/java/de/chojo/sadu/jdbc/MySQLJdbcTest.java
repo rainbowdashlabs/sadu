@@ -18,8 +18,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MySQLJdbcTest {
     private static List<Arguments> createCredentials() {
         return List.of(
@@ -68,7 +66,7 @@ class MySQLJdbcTest {
         return self;
     }
 
-        private static List<Arguments> escapeTest() {
+    private static List<Arguments> escapeTest() {
         return List.of(
                 Arguments.arguments("root", "abc", "jdbc:mysql://localhost/?user=root&password=abc"), // letters
                 Arguments.arguments("root", "54871", "jdbc:mysql://localhost/?user=root&password=54871"), // numbers

@@ -32,6 +32,18 @@ class MariaDbJdbcTest {
         );
     }
 
+    private static List<Arguments> escapeTest() {
+        return List.of(
+                Arguments.arguments("root", "abc", "jdbc:mariadb://localhost/?user=root&password=abc"), // letters
+                Arguments.arguments("root", "54871", "jdbc:mariadb://localhost/?user=root&password=54871"), // numbers
+                Arguments.arguments("root", "x89jwWpE", "jdbc:mariadb://localhost/?user=root&password=x89jwWpE"), //alphanumeric
+                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mariadb://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
+                Arguments.arguments("root", "x89j!wW!pE", "jdbc:mariadb://localhost/?user=root&password=x89j%21wW%21pE"),
+                Arguments.arguments("root", "x89j=wW=pE", "jdbc:mariadb://localhost/?user=root&password=x89j%3DwW%3DpE"),
+                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mariadb://localhost/?user=root&password=x89j%24wW%24pE")
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("createCredentials")
     public void connectionTestWithDatasource(String user, String pw) {
@@ -65,18 +77,6 @@ class MariaDbJdbcTest {
                 .waitingFor(Wait.forLogMessage(".*mariadbd: ready for connections\\..*", 2));
         self.start();
         return self;
-    }
-
-        private static List<Arguments> escapeTest() {
-        return List.of(
-                Arguments.arguments("root", "abc", "jdbc:mariadb://localhost/?user=root&password=abc"), // letters
-                Arguments.arguments("root", "54871", "jdbc:mariadb://localhost/?user=root&password=54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE", "jdbc:mariadb://localhost/?user=root&password=x89jwWpE"), //alphanumeric
-                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mariadb://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
-                Arguments.arguments("root", "x89j!wW!pE", "jdbc:mariadb://localhost/?user=root&password=x89j%21wW%21pE"),
-                Arguments.arguments("root", "x89j=wW=pE", "jdbc:mariadb://localhost/?user=root&password=x89j%3DwW%3DpE"),
-                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mariadb://localhost/?user=root&password=x89j%24wW%24pE")
-        );
     }
 
     @ParameterizedTest

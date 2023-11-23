@@ -110,6 +110,11 @@ class PostgresqlMapperTest {
         );
     }
 
+    @AfterAll
+    static void afterAll() throws IOException {
+        pg.close();
+    }
+
     @ParameterizedTest
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String query, T expected) {
@@ -120,10 +125,5 @@ class PostgresqlMapperTest {
                 .firstSync();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
-    }
-
-    @AfterAll
-    static void afterAll() throws IOException {
-        pg.close();
     }
 }
