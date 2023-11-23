@@ -170,6 +170,6 @@ public class RowMapperRegistry {
         if (mapper.isPresent()) {
             return mapper.get();
         }
-        throw MappingException.create(meta);
+        throw MappingException.create(clazz, meta);
     }
 }

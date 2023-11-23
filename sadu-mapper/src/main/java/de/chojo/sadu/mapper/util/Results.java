@@ -70,4 +70,12 @@ public final class Results {
         }
         return Optional.empty();
     }
+
+    public static Set<String> columnTypes(ResultSetMetaData meta) throws SQLException {
+        Set<String> columns = new HashSet<>();
+        for (var i = 1; i <= meta.getColumnCount(); i++) {
+            columns.add("%s (%s)".formatted(meta.getColumnTypeName(i), meta.getColumnType(i)));
+        }
+        return columns;
+    }
 }

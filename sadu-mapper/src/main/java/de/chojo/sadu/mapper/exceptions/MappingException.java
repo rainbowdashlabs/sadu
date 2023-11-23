@@ -18,6 +18,17 @@ public class MappingException extends RuntimeException {
     }
 
     public static MappingException create(ResultSetMetaData meta) throws SQLException {
-        return new MappingException("No mapper present for " + String.join(", ", Results.columnNames(meta)));
+        return new MappingException("No mapper present for %s of types %s".formatted(
+                String.join(", ", Results.columnNames(meta)),
+                String.join(", ", Results.columnTypes(meta)))
+        );
+    }
+
+    public static <T> MappingException create(Class<T> clazz, ResultSetMetaData meta) throws SQLException {
+        return new MappingException("No mapper present for columns %s of types %s to %s".formatted(
+                String.join(", ", Results.columnNames(meta)),
+                String.join(", ", Results.columnTypes(meta)),
+                clazz.getName())
+        );
     }
 }
