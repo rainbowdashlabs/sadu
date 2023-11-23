@@ -6,6 +6,10 @@
 
 package de.chojo.sadu.jdbc;
 
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Optional;
+
 /**
  * A builder to create a MariaDB jdbc url.
  */
@@ -171,6 +175,11 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     @Override
     protected String defaultDriverClass() {
         return "org.mariadb.jdbc.Driver";
+    }
+
+    @Override
+    public Credentials userCredentials() {
+        return new Credentials(removeParameter("user"), removeParameter("password"));
     }
 
     /**
