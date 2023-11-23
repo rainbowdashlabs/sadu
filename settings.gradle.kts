@@ -53,12 +53,22 @@ dependencyResolutionManagement {
 
             version("testcontainers", "1.19.3")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
+            library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
+            library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
             library("testcontainers-core", "org.testcontainers", "testcontainers").versionRef("testcontainers")
             library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef("testcontainers")
-            library("sqlite", "org.xerial:sqlite-jdbc:3.42.0.0")
 
             version("slf4j", "2.0.9")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
+
+            library("driver-postgres", "org.postgresql:postgresql:42.7.0")
+            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.3.0")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.42.0.0")
+            library("driver-mysql", "com.mysql:mysql-connector-j:8.2.0")
+
+            bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
+            bundle("database-mariadb", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb"))
+            bundle("database-mysql", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mysql", "driver-mysql"))
         }
     }
 }

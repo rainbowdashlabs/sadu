@@ -5,8 +5,5 @@ dependencies {
     api(project(":sadu-core"))
 
     testImplementation(project(":sadu-sqlite"))
-    testImplementation(testlibs.sqlite)
-    testImplementation(testlibs.testcontainers.postgres)
-    testImplementation(testlibs.testcontainers.core)
-    testImplementation(testlibs.testcontainers.junit)
+    testImplementation(testlibs.driver.sqlite)
 }

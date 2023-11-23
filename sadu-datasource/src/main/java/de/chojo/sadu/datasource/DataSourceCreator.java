@@ -11,13 +11,15 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
+import de.chojo.sadu.jdbc.JdbProperty;
 import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.updater.UpdaterBuilder;
+import de.chojo.sadu.jdbc.RemoteJdbcConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
+import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
@@ -59,10 +61,16 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
     @CheckReturnValue
     public ConfigurationStage create() {
         loadDriverClass();
+        RemoteJdbcConfig.Credentials credentials = RemoteJdbcConfig.Credentials.EMPTY;
+        if (builder instanceof RemoteJdbcConfig) {
+            credentials = ((RemoteJdbcConfig)builder).userCredentials();
+        }
         var jdbcUrl = builder.jdbcUrl();
         log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
         hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcUrl);
+        credentials.user().ifPresent(u -> hikariConfig.setUsername(u.valueRaw()));
+        credentials.password().ifPresent(u -> hikariConfig.setPassword(u.valueRaw()));
         return this;
     }
 

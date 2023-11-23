@@ -46,6 +46,9 @@ public class JdbProperty<T> {
     public String value() {
         return URLEncoder.encode(String.valueOf(value), StandardCharsets.UTF_8);
     }
+    public String valueRaw() {
+        return String.valueOf(value);
+    }
 
     @Override
     public boolean equals(Object o) {
