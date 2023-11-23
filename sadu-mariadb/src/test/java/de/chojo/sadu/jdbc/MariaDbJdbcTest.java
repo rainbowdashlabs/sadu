@@ -12,11 +12,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
+
+import static de.chojo.sadu.MariaDbDatabase.createContainer;
 
 class MariaDbJdbcTest {
 
@@ -70,14 +69,6 @@ class MariaDbJdbcTest {
         }
     }
 
-    private GenericContainer<?> createContainer(String user/*ignored*/, String pw) {
-        GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("mariadb:latest"))
-                .withExposedPorts(3306)
-                .withEnv("MARIADB_ROOT_PASSWORD", pw)
-                .waitingFor(Wait.forLogMessage(".*mariadbd: ready for connections\\..*", 2));
-        self.start();
-        return self;
-    }
 
     @ParameterizedTest
     @MethodSource("escapeTest")
