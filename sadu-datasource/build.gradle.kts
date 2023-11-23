@@ -5,5 +5,8 @@ dependencies {
     api(project(":sadu-core"))
 
     testImplementation(project(":sadu-sqlite"))
-    testImplementation("org.xerial:sqlite-jdbc:3.42.0.0")
+    testImplementation(testlibs.sqlite)
+    testImplementation(testlibs.testcontainers.postgres)
+    testImplementation(testlibs.testcontainers.core)
+    testImplementation(testlibs.testcontainers.junit)
 }

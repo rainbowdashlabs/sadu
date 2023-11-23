@@ -41,12 +41,24 @@ dependencyResolutionManagement {
             plugin("indra-publishing", "net.kyori.indra.publishing").versionRef("indra")
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
 
-            create("testlibs") {
-                version("junit", "5.10.1")
-                library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
-                library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
-                bundle("junit", listOf("junit-jupiter", "junit-params"))
-            }
+            version("slf4j", "2.0.9")
+            library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
+        }
+
+        create("testlibs") {
+            version("junit", "5.10.1")
+            library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
+            library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
+            bundle("junit", listOf("junit-jupiter", "junit-params"))
+
+            version("testcontainers", "1.19.3")
+            library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
+            library("testcontainers-core", "org.testcontainers", "testcontainers").versionRef("testcontainers")
+            library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef("testcontainers")
+            library("sqlite", "org.xerial:sqlite-jdbc:3.42.0.0")
+
+            version("slf4j", "2.0.9")
+            library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
         }
     }
 }
