@@ -9,6 +9,7 @@ package de.chojo.sadu.queries.calls;
 import de.chojo.sadu.queries.call.Call;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * The calls class represents the calls of the same query.
@@ -17,19 +18,47 @@ import java.util.List;
  */
 public interface Calls {
 
-    static BatchCall batch(Call call) {
-        return new BatchCall(call);
+    /**
+     * Execute multiple calls
+     *
+     * @param calls calls to execute
+     * @return batch call
+     */
+    static BatchCall batch(Call... calls) {
+        return batch(List.of(calls));
     }
 
-    static BatchCall batch(Call... call) {
-        return batch(List.of(call));
-    }
-    static BatchCall batch(List<Call> call) {
-        return new BatchCall(call);
+
+    /**
+     * Execute multiple calls
+     *
+     * @param calls calls to execute
+     * @return batch call
+     */
+    static BatchCall batch(List<Call> calls) {
+        return new BatchCall(calls);
     }
 
-    static SingletonCall call(Call call) {
+    /**
+     * Execute a single call
+     *
+     * @param call call to execute
+     * @return singleton call
+     */
+    static SingletonCall single(Call call) {
         return new SingletonCall(call);
+    }
+
+    /**
+     * Execute a single call
+     *
+     * @param call call to execute
+     * @return singleton call
+     */
+    static SingletonCall single(Consumer<Call> call) {
+        Call nc = new Call();
+        call.accept(nc);
+        return new SingletonCall(nc);
     }
 
     List<Call> calls();

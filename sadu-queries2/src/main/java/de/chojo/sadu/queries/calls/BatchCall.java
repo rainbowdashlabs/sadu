@@ -13,9 +13,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class BatchCall implements Calls {
-    List<Call> calls = new ArrayList<>();
+    private final List<Call> calls;
 
     public BatchCall(Call call) {
+        this.calls = new ArrayList<>();
         calls.add(call);
     }
 
@@ -23,7 +24,7 @@ public class BatchCall implements Calls {
         this.calls = calls;
     }
 
-    public BatchCall add(Call call){
+    public BatchCall add(Call call) {
         calls.add(call);
         return this;
     }

@@ -22,4 +22,8 @@ public class SingletonCall implements Calls {
     public List<Call> calls() {
         return Collections.singletonList(call);
     }
+
+    public Call call() {
+        return call;
+    }
 }
