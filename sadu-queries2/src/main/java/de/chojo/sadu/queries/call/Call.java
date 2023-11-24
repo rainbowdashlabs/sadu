@@ -24,8 +24,8 @@ import java.util.List;
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
  */
 public class Call {
-    private int index = 1;
     private final List<BaseParam> tokens = new ArrayList<>();
+    private int index = 1;
 
     public static Call of() {
         return new Call();
@@ -91,6 +91,7 @@ public class Call {
     public Call bind(String token, double value) {
         return addToken(token, nullSave(value, (stmt, index) -> stmt.setDouble(index, value), Types.BIGINT));
     }
+
     public Call bind(float value) {
         return addToken(nullSave(value, (stmt, index) -> stmt.setFloat(index, value), Types.BIGINT));
     }

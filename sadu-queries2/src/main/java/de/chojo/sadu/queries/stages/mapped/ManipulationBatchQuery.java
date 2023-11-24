@@ -17,6 +17,7 @@ public class ManipulationBatchQuery {
 
     /**
      * List of results of all calls in the batch
+     *
      * @return list of results
      */
     public List<ManipulationQuery> results() {
