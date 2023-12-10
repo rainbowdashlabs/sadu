@@ -61,7 +61,7 @@ dependencyResolutionManagement {
             version("slf4j", "2.0.9")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
 
-            library("driver-postgres", "org.postgresql:postgresql:42.7.0")
+            library("driver-postgres", "org.postgresql:postgresql:42.7.1")
             library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.3.0")
             library("driver-sqlite", "org.xerial:sqlite-jdbc:3.44.0.0")
             library("driver-mysql", "com.mysql:mysql-connector-j:8.2.0")
