@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -113,11 +114,11 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
     protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
         super(source, config);
-        this.source = source;
+        this.source = Objects.requireNonNull(source);
         this.versionTable = versionTable;
         this.replacements = replacements;
-        this.type = type;
-        this.version = version;
+        this.type = Objects.requireNonNull(type);
+        this.version = Objects.requireNonNull(version);
         this.preUpdateHook = preUpdateHook;
         this.postUpdateHook = postUpdateHook;
         this.classLoader = classLoader;
