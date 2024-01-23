@@ -8,6 +8,9 @@ package de.chojo.sadu.updater;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Class representing a version maintained by the SqlUpdaterBuilder
  * <p>
@@ -84,5 +87,20 @@ public class SqlVersion implements Comparable<SqlVersion> {
             return compare;
         }
         return Integer.compare(patch, o.patch);
+    }
+
+    public static SqlVersion load() throws IOException {
+        return load(SqlVersion.class.getClassLoader());
+    }
+
+    public static SqlVersion load(ClassLoader classLoader) throws IOException {
+        var version = "";
+        try (var versionFile = classLoader.getResourceAsStream("database/version")) {
+            version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
+        }
+
+        var ver = version.split("\\.");
+        return new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1]));
+
     }
 }
