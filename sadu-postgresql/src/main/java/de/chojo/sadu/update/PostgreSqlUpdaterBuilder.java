@@ -9,6 +9,7 @@ package de.chojo.sadu.update;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.PostgreSqlJdbc;
 import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
+import de.chojo.sadu.updater.SqlVersion;
 
 import javax.annotation.CheckReturnValue;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class PostgreSqlUpdaterBuilder extends BaseSqlUpdaterBuilder<PostgreSqlJd
 
     @Override
     public void execute() throws SQLException, IOException {
+        if (version == null) version = SqlVersion.load(classLoader);
         var updater = new PostgreSqlUpdater(source, config, versionTable, replacements, version, type, schemas, preUpdateHook, postUpdateHook, classLoader);
         updater.init();
     }
