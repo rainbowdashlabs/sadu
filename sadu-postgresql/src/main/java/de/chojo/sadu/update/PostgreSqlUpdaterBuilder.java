@@ -39,7 +39,7 @@ public class PostgreSqlUpdaterBuilder extends BaseSqlUpdaterBuilder<PostgreSqlJd
 
     @Override
     public void execute() throws SQLException, IOException {
-        var updater = new PostgreSqlUpdater(source, config, versionTable, replacements, version, type, schemas, preUpdateHook, postUpdateHook);
+        var updater = new PostgreSqlUpdater(source, config, versionTable, replacements, version, type, schemas, preUpdateHook, postUpdateHook, classLoader);
         updater.init();
     }
 }

@@ -34,17 +34,20 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
     protected QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
+    protected ClassLoader classLoader = getClass().getClassLoader();
 
     public BaseSqlUpdaterBuilder(Database<T, S> type) {
         this.type = type;
     }
 
-    public void setSource(DataSource source) {
+    public S setSource(DataSource source) {
         this.source = source;
+        return self();
     }
 
-    public void setVersion(SqlVersion version) {
+    public S setVersion(SqlVersion version) {
         this.version = version;
+        return self();
     }
 
     /**
@@ -96,6 +99,13 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
+
+    @Override
+    public S withClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+        return self();
+    }
+
     /**
      * Build the updater and start the update process.
      *
@@ -103,7 +113,8 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      * @throws IOException  If the scripts can't be read.
      */
     public void execute() throws SQLException, IOException {
-        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook);
+        if (version == null) version = SqlVersion.load(classLoader);
+        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         sqlUpdater.init();
     }
 
