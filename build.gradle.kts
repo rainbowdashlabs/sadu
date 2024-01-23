@@ -6,7 +6,7 @@ plugins {
     java
     `maven-publish`
     `java-library`
-    id("de.chojo.publishdata") version "1.2.5"
+    id("de.chojo.publishdata") version "1.4.0"
     alias(libs.plugins.spotless)
     alias(libs.plugins.indra.core)
     alias(libs.plugins.indra.publishing)
