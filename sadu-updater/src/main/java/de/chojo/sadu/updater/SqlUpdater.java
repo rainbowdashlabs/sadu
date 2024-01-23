@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -109,16 +110,18 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T, U> type;
+    private final ClassLoader classLoader;
 
-    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook) {
+    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
         super(source, config);
-        this.source = source;
+        this.source = Objects.requireNonNull(source);
         this.versionTable = versionTable;
         this.replacements = replacements;
-        this.type = type;
-        this.version = version;
+        this.type = Objects.requireNonNull(type);
+        this.version = Objects.requireNonNull(version);
         this.preUpdateHook = preUpdateHook;
         this.postUpdateHook = postUpdateHook;
+        this.classLoader = classLoader;
     }
 
     /**
@@ -134,13 +137,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
      */
     @CheckReturnValue
     public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) throws IOException {
-        var version = "";
-        try (var versionFile = SqlUpdater.class.getClassLoader().getResourceAsStream("database/version")) {
-            version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
-        }
-
-        var ver = version.split("\\.");
-        return builder(dataSource, new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1])), type);
+        return (U) type.newSqlUpdaterBuilder().setSource(dataSource);
     }
 
     /**
@@ -151,7 +148,9 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
      * @param type       the sql type of the database
      * @param <T>        type of the database defined by the {@link Database}
      * @return builder instance
+     * @deprecated Use {{@link #builder(DataSource, Database)}} and use {@link UpdaterBuilder#setVersion(SqlVersion)}.
      */
+    @Deprecated(forRemoval = true)
     public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, SqlVersion version, Database<T, U> type) {
         var builder = type.newSqlUpdaterBuilder();
         builder.setSource(dataSource);
@@ -318,8 +317,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private boolean patchExists(int major, int patch) {
-        return getClass().getClassLoader()
-                         .getResource("database/" + type.name() + "/" + major + "/patch_" + patch + ".sql") != null;
+        return classLoader.getResource("database/" + type.name() + "/" + major + "/patch_" + patch + ".sql") != null;
     }
 
     private String loadPatch(int major, int patch) throws IOException {
@@ -328,7 +326,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
     private String loadFromResource(Object... path) throws IOException {
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
-        try (var patchFile = getClass().getClassLoader().getResourceAsStream("database/" + type.name() + "/" + patch)) {
+        try (var patchFile = classLoader.getResourceAsStream("database/" + type.name() + "/" + patch)) {
             log.info("Loading resource {}", "database/" + type.name() + "/" + patch);
             return new String(patchFile.readAllBytes(), StandardCharsets.UTF_8);
         }

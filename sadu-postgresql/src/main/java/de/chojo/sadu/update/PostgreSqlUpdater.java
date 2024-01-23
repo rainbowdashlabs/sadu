@@ -28,8 +28,8 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
 
     private final String[] schemas;
 
-    protected PostgreSqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook) {
-        super(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook);
+    protected PostgreSqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
+        super(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         this.schemas = schemas;
     }
 

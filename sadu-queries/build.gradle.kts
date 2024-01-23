@@ -5,7 +5,9 @@ dependencies {
     api(project(":sadu-mapper"))
 
     testImplementation(project(":sadu-datasource"))
-    testImplementation(project(":sadu-sqlite"))
+    testImplementation(project(":sadu-mariadb"))
     testImplementation(project(":sadu-mapper"))
-    testImplementation("org.xerial", "sqlite-jdbc", "3.42.0.0")
+    testImplementation(testlibs.bundles.database.mariadb)
+    testImplementation(testlibs.slf4j.noop)
+    testImplementation(testlibs.bundles.junit)
 }

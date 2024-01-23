@@ -6,6 +6,9 @@
 
 package de.chojo.sadu.jdbc;
 
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -184,5 +187,34 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
      */
     public T user(String user) {
         return addParameter("user", user);
+    }
+
+    /**
+     * Returns user credentials if the dataSourceCreator should set the credentials instead of jdbc url
+     *
+     * @return holding the credentials when they should be applied
+     */
+    @ApiStatus.Internal
+    public Credentials userCredentials() {
+        return Credentials.EMPTY;
+    }
+
+    public static class Credentials {
+        public static final Credentials EMPTY = new Credentials(null,null);
+        private final JdbProperty<?> user;
+        private final JdbProperty<?> password;
+
+        public Credentials(JdbProperty<?> user, JdbProperty<?> password) {
+            this.user = user;
+            this.password = password;
+        }
+
+        public Optional<JdbProperty<?>> user() {
+            return Optional.ofNullable(user);
+        }
+
+        public Optional<JdbProperty<?>> password() {
+            return Optional.ofNullable(password);
+        }
     }
 }

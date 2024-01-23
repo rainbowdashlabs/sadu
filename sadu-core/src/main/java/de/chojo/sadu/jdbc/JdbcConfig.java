@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.Driver;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -118,6 +119,22 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
         return "?" + parameter.stream()
                 .map(prop -> String.format("%s=%s", prop.key(), prop.value()))
                 .collect(Collectors.joining("&"));
+    }
+
+    /**
+     * Removes the parameter from the parameter list
+     *
+     * @param key parameter key that should be removed
+     * @return the value associated with the key or null
+     */
+    protected JdbProperty<?> removeParameter(String key) {
+        Optional<JdbProperty<?>> match = parameter.stream().filter(e -> e.key().equals(key)).findFirst();
+        match.ifPresent(v -> parameter.removeIf(e -> e.key().equals(key)));
+        return match.orElse(null);
+    }
+
+    protected Map<String, String> parameterRaw() {
+        return parameter.stream().collect(Collectors.toMap(JdbProperty::key, JdbProperty::value));
     }
 
     /**

@@ -6,7 +6,7 @@ plugins {
     java
     `maven-publish`
     `java-library`
-    id("de.chojo.publishdata") version "1.2.5"
+    id("de.chojo.publishdata") version "1.4.0"
     alias(libs.plugins.spotless)
     alias(libs.plugins.indra.core)
     alias(libs.plugins.indra.publishing)
@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "1.4.0"
+    publishingVersion = "1.4.1"
 }
 
 group = "de.chojo.sadu"
@@ -116,6 +116,11 @@ allprojects {
         maven("https://eldonexus.de/repository/maven-proxies/")
     }
 
+    publishData {
+        useEldoNexusRepos(false)
+    }
+
+
     dependencies {
         testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
         testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
@@ -162,7 +167,7 @@ tasks {
     register<Javadoc>("alljavadoc") {
         applyJavaDocOptions(options)
 
-        destinationDir = file("${buildDir}/docs/javadoc")
+        destinationDir = file("${layout.buildDirectory}/docs/javadoc")
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })
