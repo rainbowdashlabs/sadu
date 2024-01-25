@@ -6,46 +6,29 @@
 
 package de.chojo.sadu.queries.call.adapter;
 
-import de.chojo.sadu.conversion.UUIDConverter;
-import de.chojo.sadu.exceptions.ThrowingBiConsumer;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.UUID;
 
-public interface Adapter {
-    static Adapter asString(UUID uuid) {
-        return create(uuid, (stmt, index) -> stmt.setString(index, uuid.toString()), Types.VARCHAR);
+public interface Adapter<T> {
+    AdapterMapping<T> mapping();
+
+    int type();
+
+    default void apply(PreparedStatement stmt, int index, T object) throws SQLException {
+        mapping().apply(stmt, index, object);
     }
 
-    static Adapter asBytes(UUID uuid) {
-        return create(uuid, (stmt, index) -> stmt.setBytes(index, UUIDConverter.convert(uuid)), Types.BIT);
-    }
-
-    private static <T> Adapter create(T object, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply, int type) {
-        return new Adapter() {
+    static <T> Adapter<T> create(Class<T> clazz, AdapterMapping<T> mapping, int type) {
+        return new Adapter<T>() {
             @Override
-            public ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply() {
-                return apply;
+            public AdapterMapping<T> mapping() {
+                return mapping;
             }
 
             @Override
             public int type() {
                 return type;
             }
-
-            @Override
-            public Object object() {
-                return object;
-            }
         };
-
     }
-
-    ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply();
-
-    int type();
-
-    Object object();
 }

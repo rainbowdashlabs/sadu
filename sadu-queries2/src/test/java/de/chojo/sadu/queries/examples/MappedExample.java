@@ -13,9 +13,14 @@ import de.chojo.sadu.queries.stages.results.MultiResult;
 import de.chojo.sadu.queries.stages.results.SingleResult;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_BYTES;
+import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_STRING;
 
 public class MappedExample {
 
@@ -29,7 +34,7 @@ public class MappedExample {
 
         // Retrieve the first user object directly
         Optional<User> user = Query.query("SELECT * FROM table where uuid = :uuid")
-                .single(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+                .single(Calls.single(c -> c.bind("uuid", UUID.randomUUID(), AS_BYTES)))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .oneAndGet();
 
@@ -42,12 +47,12 @@ public class MappedExample {
 
         // Retrieve the first user and store them it to use it again later
         // From here on another query could be issued that uses the results of this query
-        SingleResult<User> userResult2 = Query.query("SELECT * FROM table where uuid = :uuid")
-                .single(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+        SingleResult<User> userResult2 = Query.query("INSERT INTO users(uuid, name) VALUES (:uuid, :name) RETURNING id, uuid, name")
+                .single(Calls.single(c -> c.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .storeOneAndAppend("user")
-                .query("SELECT * FROM another_table WHERE id = :id")
-                .single(storage -> Calls.single(r -> r.bind("uuid", storage.getAs("user", User.class).id)))
+                .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
+                .single(storage -> Calls.single(r -> r.bind("id", storage.getAs("user", User.class).id).bind("date", LocalDate.of(1990, 1,1))))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .one();
     }

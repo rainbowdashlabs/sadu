@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_BYTES;
+
 public class ParsedExample {
     @Test
     public void example() {
@@ -26,14 +28,14 @@ public class ParsedExample {
 
         // Map the result to some user object
         MappedQuery<User> parameter1 = Query.query("SELECT * FROM table where uuid = :uuid")
-                .single(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+                .single(Calls.single(c -> c.bind("uuid", UUID.randomUUID(), AS_BYTES)))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")));
 
         // Perform an insert
         ManipulationBatchQuery insert = Query.query("INSERT INTO table VALUES(?)")
                 .batch(Calls.batch(
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
+                        Call.of().bind(UUID.randomUUID(),AS_BYTES),
+                        Call.of().bind(UUID.randomUUID(),AS_BYTES)))
                 .insert();
     }
 

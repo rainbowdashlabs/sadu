@@ -16,10 +16,17 @@ import de.chojo.sadu.queries.params.TokenParam;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.BOOLEAN;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.DOUBLE;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.FLOAT;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.INTEGER;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.LOCAL_DATE;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.LONG;
+import static de.chojo.sadu.queries.call.adapter.impl.StandardAdapter.STRING;
 
 /**
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
@@ -47,74 +54,72 @@ public class Call {
     }
 
     private ThrowingBiConsumer<PreparedStatement, Integer, SQLException> nullSave(Object value, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply, int type) {
-        if (value == null) {
-            return (stmt, index) -> stmt.setNull(index, type);
-        }
+        if (value == null) return (stmt, index) -> stmt.setNull(index, type);
         return apply;
     }
 
     public Call bind(String value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setString(index, value), Types.VARCHAR));
+        return bind(value, STRING);
     }
 
     public Call bind(String token, String value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setString(index, value), Types.VARCHAR));
+        return bind(token, value, STRING);
     }
 
     public Call bind(int value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setInt(index, value), Types.INTEGER));
+        return bind(value, INTEGER);
     }
 
     public Call bind(String token, int value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setInt(index, value), Types.INTEGER));
+        return bind(token, value, INTEGER);
     }
 
     public Call bind(boolean value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setBoolean(index, value), Types.BOOLEAN));
+        return bind(value, BOOLEAN);
     }
 
     public Call bind(String token, boolean value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setBoolean(index, value), Types.BOOLEAN));
+        return bind(token, value, BOOLEAN);
     }
 
     public Call bind(long value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setLong(index, value), Types.BIGINT));
+        return bind(value, LONG);
     }
 
     public Call bind(String token, long value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setLong(index, value), Types.BIGINT));
+        return bind(token, value, LONG);
     }
 
     public Call bind(double value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setDouble(index, value), Types.BIGINT));
+        return bind(value, DOUBLE);
     }
 
     public Call bind(String token, double value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setDouble(index, value), Types.BIGINT));
+        return bind(token, value, DOUBLE);
     }
 
     public Call bind(float value) {
-        return addToken(nullSave(value, (stmt, index) -> stmt.setFloat(index, value), Types.BIGINT));
+        return bind(value, FLOAT);
     }
 
     public Call bind(String token, float value) {
-        return addToken(token, nullSave(value, (stmt, index) -> stmt.setFloat(index, value), Types.BIGINT));
+        return bind(token, value, FLOAT);
     }
 
-    public Call bind(Adapter value) {
-        return addToken(nullSave(value.object(), value.apply(), value.type()));
+    public Call bind(LocalDate value) {
+        return bind(value, LOCAL_DATE);
     }
 
-    public Call bind(String token, Adapter value) {
-        return addToken(token, nullSave(value.object(), value.apply(), value.type()));
+    public Call bind(String token, LocalDate value) {
+        return bind(token, value, LOCAL_DATE);
     }
 
-    public <T> Call bind(String token, T value, Function<T, Adapter> adapter) {
-        return bind(token, adapter.apply(value));
+    public <T> Call bind(String token, T value, Adapter<T> adapter) {
+        return addToken(token, nullSave(value, (stmt, index) -> adapter.apply(stmt, index, value), adapter.type()));
     }
 
-    public <T> Call bind(T value, Function<T, Adapter> adapter) {
-        return bind(adapter.apply(value));
+    public <T> Call bind(T value, Adapter<T> adapter) {
+        return addToken(nullSave(value, (stmt, index) -> adapter.apply(stmt, index, value), adapter.type()));
     }
 
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {

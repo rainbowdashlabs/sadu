@@ -16,30 +16,32 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
+import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_BYTES;
+
 public class ManipulationExample {
     @Test
     public void example() {
         // Check whether something changed
         boolean change = Query.query("INSERT INTO table VALUES(?)")
                 .batch(Calls.batch(
-                        Call.of().bind(UUID.randomUUID(), Adapter::asBytes),
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES),
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES)))
                 .insert()
                 .changed();
 
         // Check how many rows changed in total
         int totalRows = Query.query("INSERT INTO table VALUES(?)")
                 .batch(Calls.batch(
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES),
+                        Call.of().bind(UUID.randomUUID(),AS_BYTES)))
                 .insert()
                 .totalRows();
 
         // Check how many rows for each batch execution were changed
         List<ManipulationQuery> results = Query.query("INSERT INTO table VALUES(?)")
                 .batch(Calls.batch(
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES),
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES)))
                 .insert()
                 .results();
     }
