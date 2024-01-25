@@ -79,8 +79,8 @@ subprojects {
 
 indra {
     javaVersions {
-        target(15)
-        testWith(15)
+        target(17)
+        testWith(17)
     }
 
     github("rainbowdashlabs", "sadu") {

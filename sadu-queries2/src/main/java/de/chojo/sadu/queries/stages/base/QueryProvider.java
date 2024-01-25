@@ -1,3 +1,9 @@
+/*
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
+ *
+ *     Copyright (C) RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sadu.queries.stages.base;
 
 import de.chojo.sadu.base.DataSourceProvider;
@@ -11,12 +17,12 @@ public interface QueryProvider extends ConnectionProvider, DataSourceProvider {
     Query query();
 
     @Override
-    default DataSource source(){
+    default DataSource source() {
         return query().source();
     }
 
     @Override
-    default Connection connection() throws SQLException{
+    default Connection connection() throws SQLException {
         return query().connection();
     }
 }

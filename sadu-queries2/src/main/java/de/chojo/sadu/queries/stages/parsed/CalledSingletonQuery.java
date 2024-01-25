@@ -12,14 +12,11 @@ import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.stages.ParsedQuery;
 import de.chojo.sadu.queries.stages.Query;
-import de.chojo.sadu.queries.stages.base.ConnectionProvider;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.mapped.ManipulationQuery;
 import de.chojo.sadu.queries.stages.mapped.MappedQuery;
 import de.chojo.sadu.wrapper.util.Row;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class CalledSingletonQuery implements QueryProvider {

@@ -41,7 +41,7 @@ public class CalledBatchQuery implements QueryProvider {
                 // TODO: logging
             }
         }
-        return new ManipulationBatchQuery(this,changed);
+        return new ManipulationBatchQuery(this, changed);
     }
 
     public ManipulationBatchQuery delete() {

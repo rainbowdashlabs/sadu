@@ -20,8 +20,8 @@ import java.sql.SQLException;
 public class Query implements DataSourceProvider, ConnectionProvider, QueryProvider {
 
     private final DataSource dataSource;
-    private Connection connection;
     private final ResultStorage storage = new ResultStorage();
+    private Connection connection;
 
     private Query(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -52,11 +52,11 @@ public class Query implements DataSourceProvider, ConnectionProvider, QueryProvi
     }
 
     @Override
-    public Query query(){
+    public Query query() {
         return this;
     }
 
-    public ResultStorage storage(){
+    public ResultStorage storage() {
         return storage;
     }
 }

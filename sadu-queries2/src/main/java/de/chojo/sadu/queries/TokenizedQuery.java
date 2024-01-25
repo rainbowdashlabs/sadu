@@ -21,7 +21,7 @@ public class TokenizedQuery {
 
     public TokenizedQuery(String sql, Map<Integer, Integer> indexToken, Map<String, List<Integer>> namedToken) {
         this.sql = sql;
-        this.tokenizedSql = PARAM_TOKEN.matcher(sql).replaceAll("?");
+        tokenizedSql = PARAM_TOKEN.matcher(sql).replaceAll("?");
         this.indexToken = indexToken;
         this.namedToken = namedToken;
     }
