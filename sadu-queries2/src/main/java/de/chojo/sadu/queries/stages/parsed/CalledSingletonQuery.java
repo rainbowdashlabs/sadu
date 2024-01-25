@@ -11,7 +11,9 @@ import de.chojo.sadu.queries.TokenizedQuery;
 import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.stages.ParsedQuery;
+import de.chojo.sadu.queries.stages.Query;
 import de.chojo.sadu.queries.stages.base.ConnectionProvider;
+import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.mapped.ManipulationQuery;
 import de.chojo.sadu.queries.stages.mapped.MappedQuery;
 import de.chojo.sadu.wrapper.util.Row;
@@ -20,11 +22,11 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class CalledSingletonQuery implements ConnectionProvider {
-    private final ParsedQuery<?> query;
+public class CalledSingletonQuery implements QueryProvider {
+    private final ParsedQuery query;
     private final SingletonCall call;
 
-    public CalledSingletonQuery(ParsedQuery<?> query, SingletonCall call) {
+    public CalledSingletonQuery(ParsedQuery query, SingletonCall call) {
         this.query = query;
         this.call = call;
     }
@@ -35,25 +37,25 @@ public class CalledSingletonQuery implements ConnectionProvider {
 
     public ManipulationQuery insert() {
         var changed = 0;
-        try (var stmt = query.connection().prepareStatement(query.sql().tokenizedSql())) {
+        try (var stmt = query().connection().prepareStatement(query.sql().tokenizedSql())) {
             //TODO find way to return generated keys
             call.call().apply(query.sql(), stmt);
             changed = stmt.executeUpdate();
         } catch (SQLException ex) {
             // TODO: logging
         }
-        return new ManipulationQuery(changed);
+        return new ManipulationQuery(this, changed);
     }
 
     public ManipulationQuery update() {
         var changed = 0;
-        try (var stmt = query.connection().prepareStatement(query.sql().tokenizedSql())) {
+        try (var stmt = query().connection().prepareStatement(query.sql().tokenizedSql())) {
             call.call().apply(query.sql(), stmt);
             changed = stmt.executeUpdate();
         } catch (SQLException ex) {
             // TODO: logging
         }
-        return new ManipulationQuery(changed);
+        return new ManipulationQuery(this, changed);
     }
 
     public ManipulationQuery delete() {
@@ -61,17 +63,8 @@ public class CalledSingletonQuery implements ConnectionProvider {
     }
 
     @Override
-    public DataSource source() {
-        return query.source();
-    }
-
-    @Override
-    public Connection connection() throws SQLException {
-        return query.connection();
-    }
-
-    public ParsedQuery<?> query() {
-        return query;
+    public Query query() {
+        return query.query();
     }
 
     public TokenizedQuery sql() {

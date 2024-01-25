@@ -21,15 +21,15 @@ public class ManipulationExample {
     public void example() {
         // Check whether something changed
         boolean change = Query.query("INSERT INTO table VALUES(?)")
-                .parameter(Calls.batch(
-                        Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
+                .batch(Calls.batch(
+                        Call.of().bind(UUID.randomUUID(), Adapter::asBytes),
                         Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
                 .insert()
                 .changed();
 
         // Check how many rows changed in total
         int totalRows = Query.query("INSERT INTO table VALUES(?)")
-                .parameter(Calls.batch(
+                .batch(Calls.batch(
                         Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
                         Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
                 .insert()
@@ -37,7 +37,7 @@ public class ManipulationExample {
 
         // Check how many rows for each batch execution were changed
         List<ManipulationQuery> results = Query.query("INSERT INTO table VALUES(?)")
-                .parameter(Calls.batch(
+                .batch(Calls.batch(
                         Call.of().bind(Adapter.asBytes(UUID.randomUUID())),
                         Call.of().bind(Adapter.asBytes(UUID.randomUUID()))))
                 .insert()

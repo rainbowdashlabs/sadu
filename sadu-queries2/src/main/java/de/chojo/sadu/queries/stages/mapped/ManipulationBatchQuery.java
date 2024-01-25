@@ -6,12 +6,17 @@
 
 package de.chojo.sadu.queries.stages.mapped;
 
+import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.base.QueryProvider;
+
 import java.util.List;
 
-public class ManipulationBatchQuery {
+public class ManipulationBatchQuery implements QueryProvider {
+    private final QueryProvider query;
     private final List<ManipulationQuery> results;
 
-    public ManipulationBatchQuery(List<ManipulationQuery> results) {
+    public ManipulationBatchQuery(QueryProvider query, List<ManipulationQuery> results) {
+        this.query = query;
         this.results = results;
     }
 
@@ -40,5 +45,10 @@ public class ManipulationBatchQuery {
      */
     public boolean changed() {
         return results.stream().anyMatch(ManipulationQuery::changed);
+    }
+
+    @Override
+    public Query query() {
+        return query.query();
     }
 }

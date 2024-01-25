@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
@@ -106,6 +107,14 @@ public class Call {
 
     public Call bind(String token, Adapter value) {
         return addToken(token, nullSave(value.object(), value.apply(), value.type()));
+    }
+
+    public <T> Call bind(String token, T value, Function<T, Adapter> adapter) {
+        return bind(token, adapter.apply(value));
+    }
+
+    public <T> Call bind(T value, Function<T, Adapter> adapter) {
+        return bind(adapter.apply(value));
     }
 
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {

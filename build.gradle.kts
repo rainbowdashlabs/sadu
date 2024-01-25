@@ -49,8 +49,8 @@ subprojects {
 
         indra {
             javaVersions {
-                target(15)
-                testWith(15)
+                target(17)
+                testWith(17)
             }
 
             github("rainbowdashlabs", "sadu") {
@@ -167,7 +167,7 @@ tasks {
     register<Javadoc>("alljavadoc") {
         applyJavaDocOptions(options)
 
-        destinationDir = file("${layout.buildDirectory}/docs/javadoc")
+        setDestinationDir(file("${layout.buildDirectory}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })

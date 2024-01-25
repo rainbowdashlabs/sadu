@@ -23,27 +23,31 @@ public class MappedExample {
     public void example() {
         // Retrieve all matching users directly
         List<User> users = Query.query("SELECT * FROM table WHERE id = ?, name ILIKE :name)")
-                .parameter(Calls.single(c -> c.bind("some input").bind("name", "user")))
+                .single(Calls.single(c -> c.bind("some input").bind("name", "user")))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .allAndGet();
 
         // Retrieve the first user object directly
         Optional<User> user = Query.query("SELECT * FROM table where uuid = :uuid")
-                .parameter(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+                .single(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .oneAndGet();
 
         // Retrieve all matching users and store them to use them again later
         // From here on another query could be issued that uses the results of this query
         MultiResult<List<User>> usersResult = Query.query("SELECT * FROM table WHERE id = ?, name ILIKE :name)")
-                .parameter(Calls.single(c -> c.bind("some input").bind("name", "user")))
+                .single(Calls.single(c -> c.bind("some input").bind("name", "user")))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .all();
 
         // Retrieve the first user and store them it to use it again later
         // From here on another query could be issued that uses the results of this query
-        SingleResult<User> userResult = Query.query("SELECT * FROM table where uuid = :uuid")
-                .parameter(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+        SingleResult<User> userResult2 = Query.query("SELECT * FROM table where uuid = :uuid")
+                .single(Calls.single(c -> c.bind("uuid", Adapter.asBytes(UUID.randomUUID()))))
+                .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
+                .storeOneAndAppend("user")
+                .query("SELECT * FROM another_table WHERE id = :id")
+                .single(storage -> Calls.single(r -> r.bind("uuid", storage.getAs("user", User.class).id)))
                 .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
                 .one();
     }

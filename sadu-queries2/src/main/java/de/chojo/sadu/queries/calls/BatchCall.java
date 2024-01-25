@@ -16,8 +16,11 @@ public class BatchCall implements Calls {
     private final List<Call> calls;
 
     public BatchCall(Call call) {
-        this.calls = new ArrayList<>();
+        this();
         calls.add(call);
+    }
+    public BatchCall() {
+        this.calls = new ArrayList<>();
     }
 
     public BatchCall(List<Call> calls) {
@@ -26,6 +29,11 @@ public class BatchCall implements Calls {
 
     public BatchCall add(Call call) {
         calls.add(call);
+        return this;
+    }
+
+    public BatchCall combine(BatchCall call){
+        calls.addAll(call.calls());
         return this;
     }
 
