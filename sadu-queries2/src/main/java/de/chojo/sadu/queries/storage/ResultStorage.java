@@ -6,11 +6,14 @@
 
 package de.chojo.sadu.queries.storage;
 
-import de.chojo.sadu.queries.stages.results.reading.Result;
+import de.chojo.sadu.queries.api.results.reading.Result;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public class ResultStorage {
     private final Map<String, Result<?>> storage = new HashMap<>();
@@ -21,14 +24,20 @@ public class ResultStorage {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String key) {
-        return (T) storage.get(key).result();
+        return (T) retrieve(key).result();
     }
 
-    public <T> T getAs(String key, Class<T> clazz) {
-        return (T) storage.get(key).result();
+    public <T> Optional<T> getAs(String key, Class<T> clazz) {
+        return Optional.ofNullable((T) retrieve(key).result());
     }
 
     public <T> List<T> getList(String key, Class<T> clazz) {
-        return (List<T>) storage.get(key).result();
+        return Objects.requireNonNullElse((List<T>) retrieve(key).result(), Collections.emptyList());
+    }
+
+    private Result<?> retrieve(String key) {
+        Result<?> result = storage.get(key);
+        if (result == null) throw new IllegalArgumentException("Key %s is not set.".formatted(key));
+        return result;
     }
 }
