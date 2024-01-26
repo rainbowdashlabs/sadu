@@ -7,10 +7,12 @@
 package de.chojo.sadu.queries.stages.base;
 
 import de.chojo.sadu.base.DataSourceProvider;
+import de.chojo.sadu.exceptions.ThrowingFunction;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.Supplier;
 
 public interface ConnectionProvider extends DataSourceProvider {
-    Connection connection() throws SQLException;
+    <T> T callConnection(Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer);
 }
