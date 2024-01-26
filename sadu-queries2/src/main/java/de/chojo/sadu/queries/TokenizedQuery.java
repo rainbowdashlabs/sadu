@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class TokenizedQuery {
-    private static final Pattern PARAM_TOKEN = Pattern.compile("\\?|(:[a-zA-Z_]+)");
+    private static final Pattern PARAM_TOKEN = Pattern.compile("\\?|(?:([ \t,=(])(?<token>:[a-zA-Z_]+))");
     private final Map<Integer, Integer> indexToken;
     private final Map<String, List<Integer>> namedToken;
     private final String sql;
@@ -21,7 +21,7 @@ public class TokenizedQuery {
 
     public TokenizedQuery(String sql, Map<Integer, Integer> indexToken, Map<String, List<Integer>> namedToken) {
         this.sql = sql;
-        tokenizedSql = PARAM_TOKEN.matcher(sql).replaceAll("?");
+        tokenizedSql = PARAM_TOKEN.matcher(sql).replaceAll("$1?");
         this.indexToken = indexToken;
         this.namedToken = namedToken;
     }
@@ -38,7 +38,7 @@ public class TokenizedQuery {
             if ("?".equals(matcher.group())) {
                 indexToken.put(currIndexToken++, index++);
             } else {
-                namedToken.computeIfAbsent(matcher.group(), k -> new ArrayList<>()).add(index++);
+                namedToken.computeIfAbsent(matcher.group("token"), k -> new ArrayList<>()).add(index++);
             }
         }
         return new TokenizedQuery(sql, indexToken, namedToken);
