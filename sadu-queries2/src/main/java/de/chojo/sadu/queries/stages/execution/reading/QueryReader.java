@@ -34,12 +34,10 @@ public abstract class QueryReader<V> implements QueryProvider {
         this.query = query;
     }
 
-    // TODO: Mapping
     public SingleResult<V> one() {
         return mapOne();
     }
 
-    // TODO: Mapping
     public MultiResult<List<V>> all() {
         return mapAll();
     }
@@ -64,8 +62,7 @@ public abstract class QueryReader<V> implements QueryProvider {
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
                 call().apply(sql(), stmt);
                 ResultSet resultSet = stmt.executeQuery();
-                // TODO: Get mapper config in here.
-                var row = new Row(resultSet, MapperConfig.DEFAULT);
+                var row = new Row(resultSet, mapperConfig());
                 if (resultSet.next()) {
                     return new SingleResult<>(this, mapper(resultSet).map(row));
                 }
@@ -74,23 +71,25 @@ public abstract class QueryReader<V> implements QueryProvider {
         });
     }
 
+    @SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
     private MultiResult<List<V>> mapAll() {
         return query().callConnection(() -> new MultiResult<>(this, Collections.emptyList()), conn -> {
             var result = new ArrayList<V>();
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
                 call().apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
-                // TODO: Get mapper config in here.
-                var row = new Row(resultSet, MapperConfig.DEFAULT);
+                var row = new Row(resultSet, mapperConfig());
                 while (resultSet.next()) result.add(mapper(resultSet).map(row));
-            } catch (SQLException e) {
-                // TODO: logging
             }
             return new MultiResult<>(this, result);
         });
     }
 
     protected abstract RowMapping<V> mapper(ResultSet set) throws SQLException;
+
+    protected MapperConfig mapperConfig() {
+        return MapperConfig.DEFAULT;
+    }
 
     public Optional<V> oneAndGet() {
         return Optional.ofNullable(one().result());

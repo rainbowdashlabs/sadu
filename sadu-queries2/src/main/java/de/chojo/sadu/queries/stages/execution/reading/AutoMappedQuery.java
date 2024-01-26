@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 /**
  * Class that represents a query that will be mapped via a {@link RowMapperRegistry}
+ *
  * @param <V> Type of result object
  */
 public class AutoMappedQuery<V> extends QueryReader<V> {
@@ -28,7 +29,13 @@ public class AutoMappedQuery<V> extends QueryReader<V> {
         this.config = config;
     }
 
+    @Override
     protected RowMapping<V> mapper(ResultSet set) throws SQLException {
         return query().configuration().rowMapperRegistry().findOrWildcard(clazz, set, config);
+    }
+
+    @Override
+    protected MapperConfig mapperConfig() {
+        return config;
     }
 }
