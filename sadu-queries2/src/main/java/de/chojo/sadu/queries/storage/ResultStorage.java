@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.queries.storage;
 
-import de.chojo.sadu.queries.stages.results.Result;
+import de.chojo.sadu.queries.stages.results.reading.Result;
 
 import java.util.HashMap;
 import java.util.List;
