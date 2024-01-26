@@ -11,16 +11,20 @@ import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.calls.CallSupplier;
-import de.chojo.sadu.queries.stages.parsed.CalledBatchQuery;
-import de.chojo.sadu.queries.stages.parsed.CalledSingletonQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
 
 public class ParsedQuery implements QueryProvider {
     private final QueryProvider query;
     private final TokenizedQuery sql;
 
-    protected ParsedQuery(QueryProvider query, TokenizedQuery sql) {
+    private ParsedQuery(QueryProvider query, TokenizedQuery sql) {
         this.query = query;
         this.sql = sql;
+    }
+
+    static ParsedQuery create(QueryProvider query, String sql, Object... format) {
+        return new ParsedQuery(query, TokenizedQuery.create(sql.formatted(format)));
     }
 
     public CalledBatchQuery batch(BatchCall param) {
