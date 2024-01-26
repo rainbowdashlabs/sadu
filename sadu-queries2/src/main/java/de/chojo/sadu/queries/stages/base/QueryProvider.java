@@ -9,7 +9,7 @@ package de.chojo.sadu.queries.stages.base;
 import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.QueryImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.function.Supplier;
 
 public interface QueryProvider extends ConnectionProvider, DataSourceProvider {
-    Query query();
+    QueryImpl query();
 
     @Override
     default DataSource source() {

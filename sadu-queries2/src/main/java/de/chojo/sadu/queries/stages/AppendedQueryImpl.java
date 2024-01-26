@@ -6,23 +6,25 @@
 
 package de.chojo.sadu.queries.stages;
 
+import de.chojo.sadu.queries.api.AppendedQuery;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import org.intellij.lang.annotations.Language;
 
-public class AppendedQuery implements QueryProvider {
+public class AppendedQueryImpl implements QueryProvider, AppendedQuery {
     private final QueryProvider query;
 
-    public AppendedQuery(QueryProvider query) {
+    public AppendedQueryImpl(QueryProvider query) {
         this.query = query;
     }
 
 
-    public ParsedQuery query(@Language("sql") String sql, Object... format) {
-        return ParsedQuery.create(query, sql.formatted(format));
+    @Override
+    public ParsedQueryImpl query(@Language("sql") String sql, Object... format) {
+        return ParsedQueryImpl.create(query, sql.formatted(format));
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return query.query();
     }
 }

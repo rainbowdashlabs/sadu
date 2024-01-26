@@ -6,18 +6,19 @@
 
 package de.chojo.sadu.queries.stages.results.writing;
 
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
 
 /**
- * Result of a {@link CalledSingletonQuery}.
+ * Result of a {@link CalledSingletonQueryImpl}.
  */
-public class ManipulationQuery implements QueryProvider {
+public class ManipulationResultImpl implements QueryProvider, ManipulationResult {
     private final QueryProvider query;
     private final int rows;
 
-    public ManipulationQuery(QueryProvider query, int rows) {
+    public ManipulationResultImpl(QueryProvider query, int rows) {
         this.query = query;
         this.rows = rows;
     }
@@ -27,6 +28,7 @@ public class ManipulationQuery implements QueryProvider {
      *
      * @return rows
      */
+    @Override
     public int rows() {
         return rows;
     }
@@ -36,12 +38,13 @@ public class ManipulationQuery implements QueryProvider {
      *
      * @return true if at least one row was changed
      */
+    @Override
     public boolean changed() {
         return rows != 0;
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return query.query();
     }
 }

@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.results.reading;
+package de.chojo.sadu.queries.api.results.reading;
 
 import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
 

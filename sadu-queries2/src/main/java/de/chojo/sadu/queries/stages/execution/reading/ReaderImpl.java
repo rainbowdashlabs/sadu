@@ -9,13 +9,15 @@ package de.chojo.sadu.queries.stages.execution.reading;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
 import de.chojo.sadu.queries.TokenizedQuery;
+import de.chojo.sadu.queries.api.AppendedQuery;
+import de.chojo.sadu.queries.api.execution.reading.Reader;
+import de.chojo.sadu.queries.api.results.reading.Result;
 import de.chojo.sadu.queries.call.Call;
-import de.chojo.sadu.queries.stages.AppendedQuery;
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.AppendedQueryImpl;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.stages.results.reading.MultiResult;
-import de.chojo.sadu.queries.stages.results.reading.Result;
 import de.chojo.sadu.queries.stages.results.reading.SingleResult;
 import de.chojo.sadu.wrapper.util.Row;
 
@@ -27,29 +29,33 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class QueryReader<V> implements QueryProvider {
-    private final CalledSingletonQuery query;
+public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
+    private final CalledSingletonQueryImpl query;
 
-    public QueryReader(CalledSingletonQuery query) {
+    public ReaderImpl(CalledSingletonQueryImpl query) {
         this.query = query;
     }
 
-    public SingleResult<V> one() {
+    @Override
+    public Result<V> one() {
         return mapOne();
     }
 
-    public MultiResult<List<V>> all() {
+    @Override
+    public Result<List<V>> all() {
         return mapAll();
     }
 
+    @Override
     public AppendedQuery storeOneAndAppend(String key) {
         store(key, mapOne());
-        return new AppendedQuery(this);
+        return new AppendedQueryImpl(this);
     }
 
+    @Override
     public AppendedQuery storeAllAndAppend(String key) {
         store(key, mapAll());
-        return new AppendedQuery(this);
+        return new AppendedQueryImpl(this);
     }
 
     private <T extends Result<?>> void store(String key, T result) {
@@ -91,10 +97,12 @@ public abstract class QueryReader<V> implements QueryProvider {
         return MapperConfig.DEFAULT;
     }
 
+    @Override
     public Optional<V> oneAndGet() {
         return Optional.ofNullable(one().result());
     }
 
+    @Override
     public List<V> allAndGet() {
         return Objects.requireNonNullElse(all().result(), Collections.emptyList());
     }
@@ -108,7 +116,7 @@ public abstract class QueryReader<V> implements QueryProvider {
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return query.query();
     }
 }

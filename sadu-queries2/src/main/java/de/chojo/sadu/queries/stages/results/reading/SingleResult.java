@@ -6,7 +6,8 @@
 
 package de.chojo.sadu.queries.stages.results.reading;
 
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.api.results.reading.Result;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
 
@@ -30,7 +31,7 @@ public class SingleResult<T> implements Result<T>, QueryProvider {
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return query.query();
     }
 }

@@ -6,20 +6,22 @@
 
 package de.chojo.sadu.queries.stages.results.writing;
 
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
+import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
-import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQueryImpl;
 
 import java.util.List;
 
 /**
- * Result of a {@link CalledBatchQuery}
+ * Result of a {@link CalledBatchQueryImpl}
  */
-public class ManipulationBatchQuery implements QueryProvider {
+public class ManipulationBatchQuery implements QueryProvider, ManipulationBatchResult {
     private final QueryProvider query;
-    private final List<ManipulationQuery> results;
+    private final List<ManipulationResult> results;
 
-    public ManipulationBatchQuery(QueryProvider query, List<ManipulationQuery> results) {
+    public ManipulationBatchQuery(QueryProvider query, List<ManipulationResult> results) {
         this.query = query;
         this.results = results;
     }
@@ -29,7 +31,8 @@ public class ManipulationBatchQuery implements QueryProvider {
      *
      * @return list of results
      */
-    public List<ManipulationQuery> results() {
+    @Override
+    public List<ManipulationResult> results() {
         return results;
     }
 
@@ -38,8 +41,9 @@ public class ManipulationBatchQuery implements QueryProvider {
      *
      * @return total count
      */
-    public int totalRows() {
-        return results.stream().mapToInt(ManipulationQuery::rows).sum();
+    @Override
+    public int rows() {
+        return results.stream().mapToInt(ManipulationResult::rows).sum();
     }
 
     /**
@@ -47,12 +51,13 @@ public class ManipulationBatchQuery implements QueryProvider {
      *
      * @return true if one row or more were changed
      */
+    @Override
     public boolean changed() {
-        return results.stream().anyMatch(ManipulationQuery::changed);
+        return results.stream().anyMatch(ManipulationResult::changed);
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return query.query();
     }
 }

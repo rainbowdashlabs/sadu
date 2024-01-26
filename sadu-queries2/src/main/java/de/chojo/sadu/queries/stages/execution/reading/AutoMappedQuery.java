@@ -9,7 +9,7 @@ package de.chojo.sadu.queries.stages.execution.reading;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
+import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,11 +19,11 @@ import java.sql.SQLException;
  *
  * @param <V> Type of result object
  */
-public class AutoMappedQuery<V> extends QueryReader<V> {
+public class AutoMappedQuery<V> extends ReaderImpl<V> {
     private final Class<V> clazz;
     private final MapperConfig config;
 
-    public AutoMappedQuery(CalledSingletonQuery query, Class<V> clazz, MapperConfig config) {
+    public AutoMappedQuery(CalledSingletonQueryImpl query, Class<V> clazz, MapperConfig config) {
         super(query);
         this.clazz = clazz;
         this.config = config;

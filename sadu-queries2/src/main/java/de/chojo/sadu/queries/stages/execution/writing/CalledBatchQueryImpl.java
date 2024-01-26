@@ -6,39 +6,44 @@
 
 package de.chojo.sadu.queries.stages.execution.writing;
 
+import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
+import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
+import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
 import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.BatchCall;
-import de.chojo.sadu.queries.stages.ParsedQuery;
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.ParsedQueryImpl;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.results.writing.ManipulationBatchQuery;
-import de.chojo.sadu.queries.stages.results.writing.ManipulationQuery;
+import de.chojo.sadu.queries.stages.results.writing.ManipulationResultImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CalledBatchQuery implements QueryProvider {
-    private final ParsedQuery parsedQuery;
+public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
+    private final ParsedQueryImpl parsedQuery;
     private final BatchCall calls;
 
-    public CalledBatchQuery(ParsedQuery parsedQuery, BatchCall calls) {
+    public CalledBatchQueryImpl(ParsedQueryImpl parsedQuery, BatchCall calls) {
         this.parsedQuery = parsedQuery;
         this.calls = calls;
     }
 
-    public ManipulationBatchQuery insert() {
+    @Override
+    public ManipulationBatchResult insert() {
         return update();
     }
 
-    public ManipulationBatchQuery update() {
+    @Override
+    public ManipulationBatchResult update() {
         return query().callConnection(() -> new ManipulationBatchQuery(this, Collections.emptyList()), conn -> {
-            var changed = new ArrayList<ManipulationQuery>();
+            var changed = new ArrayList<ManipulationResult>();
             for (Call call : calls.calls()) {
                 try (var stmt = conn.prepareStatement(parsedQuery.sql().tokenizedSql())) {
                     //TODO find way to return generated keys
                     call.apply(parsedQuery.sql(), stmt);
-                    changed.add(new ManipulationQuery(this, stmt.executeUpdate()));
+                    changed.add(new ManipulationResultImpl(this, stmt.executeUpdate()));
                 } catch (SQLException ex) {
                     query().handleException(ex);
                 }
@@ -47,12 +52,13 @@ public class CalledBatchQuery implements QueryProvider {
         });
     }
 
-    public ManipulationBatchQuery delete() {
+    @Override
+    public ManipulationBatchResult delete() {
         return update();
     }
 
     @Override
-    public Query query() {
+    public QueryImpl query() {
         return parsedQuery.query();
     }
 }
