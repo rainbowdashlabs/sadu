@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TokenizedQueryTest {
-    private final String sql = "INSERT INTO persons VALUES(:name, ?, :age, ?, ?, :gender, :gender);";
+    private final String sql = "INSERT INTO persons VALUES(:name, ?,:age::integer, ?, ?,:gender,:gender);";
     private final TokenizedQuery tokenizedQuery = TokenizedQuery.create(sql);
 
     @Test
@@ -43,6 +43,6 @@ class TokenizedQueryTest {
 
     @Test
     void tokenizedSql() {
-        assertEquals("INSERT INTO persons VALUES(?, ?, ?, ?, ?, ?, ?);", tokenizedQuery.tokenizedSql());
+        assertEquals("INSERT INTO persons VALUES(?, ?,?::integer, ?, ?,?,?);", tokenizedQuery.tokenizedSql());
     }
 }
