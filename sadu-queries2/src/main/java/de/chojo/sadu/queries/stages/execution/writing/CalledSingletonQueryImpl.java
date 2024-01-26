@@ -70,7 +70,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
                 call.call().apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();
             } catch (SQLException ex) {
-                query().logException(ex);
+                query().handleException(ex);
             }
             return new ManipulationResultImpl(this, changed);
         });
