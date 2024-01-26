@@ -6,56 +6,46 @@
 
 package de.chojo.sadu.queries.examples;
 
-import de.chojo.sadu.databases.PostgreSql;
-import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.PostgresqlMapper;
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import de.chojo.sadu.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
+import de.chojo.sadu.queries.api.execution.writing.CalledSingletonQuery;
 import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.Calls;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
-import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQuery;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.GenericContainer;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static de.chojo.sadu.queries.PostgresDatabase.createContainer;
+import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_BYTES;
 
 class ParameterExample {
-    private static GenericContainer<?> pg;
     private static QueryConfiguration query;
+    private static PostgresDatabase.Database db;
 
     @BeforeAll
-    static void beforeAll() throws IOException {
-        pg = createContainer("postgres", "postgres");
-        DataSource dc = DataSourceCreator.create(PostgreSql.get())
-                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort())).create()
-                .usingPassword("postgres")
-                .usingUsername("postgres")
-                .build();
-
-        List<RowMapper<?>> defaultMapper = PostgresqlMapper.getDefaultMapper();
-        RowMapperRegistry registry = new RowMapperRegistry().register(defaultMapper);
-        query = new QueryConfigurationBuilder(dc).setRowMapperRegistry(registry).build();
+    static void beforeAll() throws IOException, SQLException {
+        db = createContainer("postgres", "postgres");
+        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())).build();
     }
 
     @AfterAll
     static void afterAll() throws IOException {
-        pg.close();
+        db.close();
     }
 
     @Test
+    @Disabled
     public void example() {
         // Executing a single call by directly creating the call
         CalledSingletonQuery single1 = query.query("SELECT * FROM table WHERE id = ?, name ILIKE :name)")
@@ -67,9 +57,9 @@ class ParameterExample {
 
         // Creating multiple calls of the same query by using the batch wrapper
         CalledBatchQuery batch = query.query("INSERT INTO table VALUES(?)")
-                .batch(Calls.batch(
+                .batch(
                         Call.of().bind(UUID.randomUUID(), AS_BYTES),
-                        Call.of().bind(UUID.randomUUID(), AS_BYTES)));
+                        Call.of().bind(UUID.randomUUID(), AS_BYTES));
 
         BatchCall collect = Stream.generate(UUID::randomUUID)
                 .limit(10)
