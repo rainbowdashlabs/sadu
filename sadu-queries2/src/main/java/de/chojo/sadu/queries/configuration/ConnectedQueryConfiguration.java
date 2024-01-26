@@ -15,7 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
-public class ConnectedQueryConfiguration extends QueryConfiguration {
+public class ConnectedQueryConfiguration extends QueryConfiguration implements AutoCloseable {
     private Connection connection = null;
 
     ConnectedQueryConfiguration(QueryImpl query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
@@ -32,7 +32,6 @@ public class ConnectedQueryConfiguration extends QueryConfiguration {
             if (connection != null && !connection.isClosed()) {
                 if (query.exceptions().isEmpty()) {
                     if (atomic()) {
-                        // TODO commit if atomic
                         connection.commit();
                     }
                 }

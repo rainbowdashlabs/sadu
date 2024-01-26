@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-public class QueryConfiguration implements AutoCloseable {
+public class QueryConfiguration {
     static final AtomicReference<QueryConfiguration> DEFAULT = new AtomicReference<>(null);
     protected final QueryImpl query;
     protected final DataSource dataSource;
@@ -57,25 +57,6 @@ public class QueryConfiguration implements AutoCloseable {
 
     public QueryConfiguration forQuery(QueryImpl query) {
         return new QueryConfiguration(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
-    }
-
-    @Override
-    public void close() {
-        try {
-            if (connection() != null && !connection().isClosed()) {
-                if (query.exceptions().isEmpty()) {
-                    if (atomic()) {
-                        // TODO commit if atomic
-                        connection().commit();
-                    }
-                }
-                if (!connection().isClosed()) {
-                    connection().close();
-                }
-            }
-        } catch (SQLException e) {
-            handleException(e);
-        }
     }
 
     public void handleException(SQLException e) {
