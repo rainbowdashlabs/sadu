@@ -33,7 +33,6 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
     protected final Database<T, S> type;
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
-    protected QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
     protected ClassLoader classLoader = getClass().getClassLoader();
 
     public BaseSqlUpdaterBuilder(Database<T, S> type) {
@@ -77,18 +76,6 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
-    /**
-     * Set the {@link QueryBuilderConfig} for the underlying {@link QueryFactory}
-     *
-     * @param config config so apply
-     * @return builder instance
-     */
-    @CheckReturnValue
-    public S withConfig(QueryBuilderConfig config) {
-        this.config = config;
-        return self();
-    }
-
     public S preUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
         preUpdateHook.put(version, consumer);
         return self();
@@ -114,7 +101,7 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      */
     public void execute() throws SQLException, IOException {
         if (version == null) version = SqlVersion.load(classLoader);
-        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
+        var sqlUpdater = new SqlUpdater<>(source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         sqlUpdater.init();
     }
 

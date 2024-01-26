@@ -1,5 +1,5 @@
 dependencies {
-    compileOnly(project(":"))
+    compileOnly(project(":sadu-queries"))
 
     // database driver
     compileOnly("org.xerial", "sqlite-jdbc", "3.45.0.0")
