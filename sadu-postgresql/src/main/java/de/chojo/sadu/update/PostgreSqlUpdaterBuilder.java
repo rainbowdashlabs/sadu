@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class PostgreSqlUpdaterBuilder extends BaseSqlUpdaterBuilder<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
-    private String[] schemas;
+    private String[] schemas = new String[0];
 
     public PostgreSqlUpdaterBuilder(Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type) {
         super(type);
