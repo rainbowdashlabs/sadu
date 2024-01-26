@@ -8,10 +8,9 @@ package de.chojo.sadu.update;
 
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.PostgreSqlJdbc;
-import de.chojo.sadu.updater.SqlUpdater;
 import de.chojo.sadu.updater.QueryReplacement;
+import de.chojo.sadu.updater.SqlUpdater;
 import de.chojo.sadu.updater.SqlVersion;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +27,8 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
 
     private final String[] schemas;
 
-    protected PostgreSqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
-        super(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
+    protected PostgreSqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
+        super(source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         this.schemas = schemas;
     }
 
