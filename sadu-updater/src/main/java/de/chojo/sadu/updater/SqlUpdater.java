@@ -345,6 +345,10 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         return result;
     }
 
+    public DataSource source() {
+        return source;
+    }
+
     protected Database<T, U> type() {
         return type;
     }

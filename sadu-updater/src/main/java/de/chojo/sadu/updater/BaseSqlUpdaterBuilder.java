@@ -6,10 +6,8 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
 
 import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
