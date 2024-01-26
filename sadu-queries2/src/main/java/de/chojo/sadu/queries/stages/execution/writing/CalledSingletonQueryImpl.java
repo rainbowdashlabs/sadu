@@ -23,6 +23,7 @@ import de.chojo.sadu.queries.stages.results.writing.ManipulationResultImpl;
 
 import java.sql.SQLException;
 
+@SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
 public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQuery {
     private final ParsedQueryImpl query;
     private final SingletonCall call;

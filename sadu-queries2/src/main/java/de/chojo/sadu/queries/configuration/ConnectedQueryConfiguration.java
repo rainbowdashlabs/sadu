@@ -7,7 +7,6 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import de.chojo.sadu.queries.stages.QueryImpl;
 
 import javax.sql.DataSource;
@@ -40,30 +39,6 @@ public class ConnectedQueryConfiguration extends QueryConfiguration implements A
         } catch (SQLException e) {
             handleException(e);
         }
-    }
-
-    public void handleException(SQLException e) {
-        exceptionHandler.accept(e);
-        query.logException(e);
-        if (throwExceptions) {
-            throw (WrappedQueryExecutionException) new WrappedQueryExecutionException(e.getMessage()).initCause(e);
-        }
-    }
-
-    public boolean atomic() {
-        return atomic;
-    }
-
-    public boolean throwExceptions() {
-        return throwExceptions;
-    }
-
-    public RowMapperRegistry rowMapperRegistry() {
-        return rowMapperRegistry;
-    }
-
-    public DataSource dataSource() {
-        return dataSource;
     }
 
     @Override

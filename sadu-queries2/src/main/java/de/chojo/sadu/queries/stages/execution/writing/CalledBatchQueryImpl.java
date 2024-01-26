@@ -9,7 +9,6 @@ package de.chojo.sadu.queries.stages.execution.writing;
 import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
 import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
-import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.stages.ParsedQueryImpl;
 import de.chojo.sadu.queries.stages.QueryImpl;
@@ -35,11 +34,12 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
         return update();
     }
 
+    @SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
     @Override
     public ManipulationBatchResult update() {
         return query().callConnection(() -> new ManipulationBatchQuery(this, Collections.emptyList()), conn -> {
             var changed = new ArrayList<ManipulationResult>();
-            for (Call call : calls.calls()) {
+            for (var call : calls.calls()) {
                 try (var stmt = conn.prepareStatement(parsedQuery.sql().tokenizedSql())) {
                     //TODO find way to return generated keys
                     call.apply(parsedQuery.sql(), stmt);

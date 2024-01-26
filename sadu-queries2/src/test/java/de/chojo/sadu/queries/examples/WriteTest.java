@@ -27,7 +27,8 @@ import java.util.stream.Stream;
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_STRING;
 
-public class ManipulationExampleTest {
+@SuppressWarnings({"unused", "RedundantExplicitVariableType"})
+public class WriteTest {
     private PostgresDatabase.Database db;
     private QueryConfiguration query;
 
@@ -38,7 +39,7 @@ public class ManipulationExampleTest {
     }
 
     @AfterEach
-    void afterAll() throws IOException {
+    void afterAll() {
         db.close();
     }
 
@@ -101,7 +102,7 @@ public class ManipulationExampleTest {
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new batch call
-                .batch(Stream.generate(UUID::randomUUID).limit(2).map(i -> Call.of().bind("uuid", i, AS_STRING).bind((String) null)))
+                .batch(Stream.generate(UUID::randomUUID).limit(2).map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
                 // Insert the data
                 .insert();
 

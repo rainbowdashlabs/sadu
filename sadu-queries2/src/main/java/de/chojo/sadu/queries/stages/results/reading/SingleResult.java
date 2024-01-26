@@ -12,7 +12,7 @@ import de.chojo.sadu.queries.stages.base.QueryProvider;
 import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
 
 /**
- * Result of a {@link MappedQuery#one()} call
+ * Result of a {@link MappedQuery#first()} call
  *
  * @param <T> Type of returned object
  */

@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.api;
 
 import org.intellij.lang.annotations.Language;
 
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface AppendedQuery {
     /**
      * Execute another query with the same chain.

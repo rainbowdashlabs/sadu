@@ -22,6 +22,7 @@ import java.util.stream.Collector;
  * <p>
  * A calls object can contain one or more calls on the same query.
  */
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface Calls {
 
     /**
@@ -55,6 +56,7 @@ public interface Calls {
         return new SingletonCall(call);
     }
 
+    @SuppressWarnings("SameReturnValue")
     static SingletonCall empty() {
         return SingletonCall.EMPTY;
     }
@@ -66,7 +68,7 @@ public interface Calls {
      * @return singleton call
      */
     static SingletonCall single(Consumer<Call> call) {
-        Call newCall = new Call();
+        var newCall = new Call();
         call.accept(newCall);
         return new SingletonCall(newCall);
     }
@@ -78,6 +80,7 @@ public interface Calls {
                 return BatchCall::new;
             }
 
+            @SuppressWarnings("ResultOfMethodCallIgnored")
             @Override
             public BiConsumer<BatchCall, Call> accumulator() {
                 return BatchCall::add;

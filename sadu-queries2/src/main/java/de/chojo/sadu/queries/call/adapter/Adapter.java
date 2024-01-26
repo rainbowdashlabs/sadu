@@ -19,7 +19,7 @@ public interface Adapter<T> {
     }
 
     static <T> Adapter<T> create(Class<T> clazz, AdapterMapping<T> mapping, int type) {
-        return new Adapter<T>() {
+        return new Adapter<>() {
             @Override
             public AdapterMapping<T> mapping() {
                 return mapping;

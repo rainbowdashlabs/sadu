@@ -11,6 +11,7 @@ import de.chojo.sadu.queries.TokenizedQuery;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface BaseParam {
     void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException;
 }

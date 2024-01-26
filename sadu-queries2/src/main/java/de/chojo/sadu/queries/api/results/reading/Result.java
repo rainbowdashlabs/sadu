@@ -13,6 +13,7 @@ import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
  *
  * @param <T> type of returned object
  */
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface Result<T> {
     /**
      * Get the result of the query

@@ -37,7 +37,7 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
     }
 
     @Override
-    public Result<V> one() {
+    public Result<V> first() {
         return mapOne();
     }
 
@@ -67,7 +67,7 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
         return query().callConnection(() -> new SingleResult<>(this, null), conn -> {
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
                 call().apply(sql(), stmt);
-                ResultSet resultSet = stmt.executeQuery();
+                var resultSet = stmt.executeQuery();
                 var row = new Row(resultSet, mapperConfig());
                 if (resultSet.next()) {
                     return new SingleResult<>(this, mapper(resultSet).map(row));
@@ -99,7 +99,7 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
 
     @Override
     public Optional<V> oneAndGet() {
-        return Optional.ofNullable(one().result());
+        return Optional.ofNullable(first().result());
     }
 
     @Override

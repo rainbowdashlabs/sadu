@@ -23,7 +23,7 @@ public interface Reader<V> {
      *
      * @return the result of the query
      */
-    Result<V> one();
+    Result<V> first();
 
     /**
      * Retrieves all the results of the query.

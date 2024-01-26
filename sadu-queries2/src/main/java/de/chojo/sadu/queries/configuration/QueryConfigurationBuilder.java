@@ -8,14 +8,14 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
 public class QueryConfigurationBuilder {
-    private @Nullable DataSource dataSource;
+    private final DataSource dataSource;
     private boolean atomic = true;
     private boolean throwExceptions;
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "CallToPrintStackTrace"})
@@ -25,13 +25,8 @@ public class QueryConfigurationBuilder {
     };
     private RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
 
-    public QueryConfigurationBuilder(DataSource dataSource) {
+    public QueryConfigurationBuilder(@NotNull DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    public QueryConfigurationBuilder setDataSource(@Nullable DataSource dataSource) {
-        this.dataSource = dataSource;
-        return this;
     }
 
     public QueryConfigurationBuilder setAtomic(boolean atomic) {

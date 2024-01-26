@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings("unchecked")
 public class ResultStorage {
     private final Map<String, Result<?>> storage = new HashMap<>();
 
@@ -36,7 +37,7 @@ public class ResultStorage {
     }
 
     private Result<?> retrieve(String key) {
-        Result<?> result = storage.get(key);
+        var result = storage.get(key);
         if (result == null) throw new IllegalArgumentException("Key %s is not set.".formatted(key));
         return result;
     }

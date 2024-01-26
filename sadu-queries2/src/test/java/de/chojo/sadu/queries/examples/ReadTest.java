@@ -31,7 +31,8 @@ import java.util.UUID;
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_STRING;
 
-public class MappedExample {
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
+public class ReadTest {
 
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
@@ -48,7 +49,7 @@ public class MappedExample {
     }
 
     @AfterEach
-    void after() throws IOException {
+    void after() {
         db.close();
     }
 
@@ -56,8 +57,8 @@ public class MappedExample {
     @Test
     public void retrieveAllDirectly() {
         List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
-                .single(Calls.single(c -> c.bind(1).bind("name", "lilly")))
-                .map(row -> new User(row.getInt("id"), row.getUuidFromString("uuid"), row.getString("name")))
+                .single(Calls.single(call -> call.bind(1).bind("name", "lilly")))
+                .map(User::map)
                 .allAndGet();
         Assertions.assertEquals(1, users.size());
     }
@@ -66,7 +67,7 @@ public class MappedExample {
     public void retrieveAllDirectlyNoFilter() {
         List<User> users = query.query("SELECT * FROM users")
                 .single(Calls.empty())
-                .map(row -> new User(row.getInt("id"), row.getUuidFromString("uuid"), row.getString("name")))
+                .map(User::map)
                 .allAndGet();
         Assertions.assertEquals(2, users.size());
     }
@@ -77,8 +78,8 @@ public class MappedExample {
     public void retrieveFirstDirectly() {
         // Retrieve the first user object directly
         Optional<User> user = query.query("SELECT * FROM users where id = :id")
-                .single(Calls.single(c -> c.bind("id", 1)))
-                .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
+                .single(Calls.single(call -> call.bind("id", 1)))
+                .map(User::map)
                 .oneAndGet();
     }
 
@@ -87,7 +88,7 @@ public class MappedExample {
         // Retrieve all matching users and store them to use them again later
         // From here on another query could be issued that uses the results of this query
         Result<List<User>> usersResult = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
-                .single(Calls.single(c -> c.bind(1).bind("name", "lilly")))
+                .single(Calls.single(call -> call.bind(1).bind("name", "lilly")))
                 .map(User::map)
                 .storeOneAndAppend("user")
                 .query("SELECT * FROM users WHERE uuid = :uuid::uuid")
@@ -102,8 +103,8 @@ public class MappedExample {
         // Retrieve the first user and store them it to use it again later
         // From here on another query could be issued that uses the results of this query
         ManipulationResult manipulation = query.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
-                .single(Calls.single(c -> c.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
-                .map(row -> new User(row.getInt("id"), row.getUuidFromBytes("uuid"), row.getString("name")))
+                .single(Calls.single(call -> call.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
+                .map(User::map)
                 .storeOneAndAppend("user")
                 .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
                 .single(storage -> Calls.single(r -> r.bind("id", storage.getAs("user", User.class).get().id()).bind("date", LocalDate.of(1990, 1, 1))))

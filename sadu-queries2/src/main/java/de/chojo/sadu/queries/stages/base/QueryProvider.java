@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
 
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface QueryProvider extends ConnectionProvider, DataSourceProvider {
     QueryImpl query();
 

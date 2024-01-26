@@ -38,7 +38,7 @@ public class TokenizedQuery {
             if ("?".equals(matcher.group())) {
                 indexToken.put(currIndexToken++, index++);
             } else {
-                namedToken.computeIfAbsent(matcher.group("token"), k -> new ArrayList<>()).add(index++);
+                namedToken.computeIfAbsent(matcher.group("token"), key -> new ArrayList<>()).add(index++);
             }
         }
         return new TokenizedQuery(sql, indexToken, namedToken);

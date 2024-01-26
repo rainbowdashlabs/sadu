@@ -55,7 +55,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
         if (!conf.hasConnection()) {
             try (var conn = conf.dataSource().getConnection()) {
                 conn.setAutoCommit(false);
-                T result = connectionConsumer.apply(conn);
+                var result = connectionConsumer.apply(conn);
                 conn.commit();
                 return result;
             } catch (SQLException e) {
