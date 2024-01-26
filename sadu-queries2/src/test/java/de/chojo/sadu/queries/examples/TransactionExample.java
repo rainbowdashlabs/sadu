@@ -45,10 +45,10 @@ public class TransactionExample {
     @Test
     public void example() {
         // atomic transaction
-        try (var q = query.withSingleTransaction()) {
+        try (var conn = query.withSingleTransaction()) {
             // Retrieve the first user and store them it to use it again later
             // From here on another query could be issued that uses the results of this query
-            ManipulationResult manipulation = q.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
+            ManipulationResult manipulation = conn.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
                     .single(Calls.single(c -> c.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
                     .map(User::map)
                     .storeOneAndAppend("user")

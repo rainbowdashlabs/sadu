@@ -95,7 +95,7 @@ public class QueryConfiguration {
         return Query.query(this, sql, format);
     }
 
-    public QueryConfiguration withSingleTransaction() {
+    public ConnectedQueryConfiguration withSingleTransaction() {
         return new ConnectedQueryConfiguration(query, dataSource, true, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 }
