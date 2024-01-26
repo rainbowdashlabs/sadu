@@ -55,6 +55,10 @@ public interface Calls {
         return new SingletonCall(call);
     }
 
+    static SingletonCall empty() {
+        return SingletonCall.EMPTY;
+    }
+
     /**
      * Execute a single call
      *

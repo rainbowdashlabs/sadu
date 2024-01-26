@@ -1,9 +1,16 @@
+/*
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
+ *
+ *     Copyright (C) RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.ParsedQuery;
+import de.chojo.sadu.queries.api.Query;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.queries.stages.ParsedQuery;
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.QueryImpl;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,8 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class QueryConfiguration implements AutoCloseable {
-    protected static final AtomicReference<QueryConfiguration> DEFAULT = new AtomicReference<>(null);
-    protected final Query query;
+    static final AtomicReference<QueryConfiguration> DEFAULT = new AtomicReference<>(null);
+    protected final QueryImpl query;
     protected final DataSource dataSource;
     protected final boolean atomic;
     protected final boolean throwExceptions;
@@ -31,7 +38,7 @@ public class QueryConfiguration implements AutoCloseable {
         this.rowMapperRegistry = rowMapperRegistry;
     }
 
-    QueryConfiguration(Query query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    QueryConfiguration(QueryImpl query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
         this.query = query;
         this.dataSource = dataSource;
         this.atomic = atomic;
@@ -40,12 +47,16 @@ public class QueryConfiguration implements AutoCloseable {
         this.rowMapperRegistry = rowMapperRegistry;
     }
 
-    public QueryConfiguration forQuery(Query query) {
-        return new QueryConfiguration(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
+    public static QueryConfiguration getDefault() {
+        return DEFAULT.get();
     }
 
-    public QueryConfiguration withAtomicConnection() {
-        return new ConnectedQueryConfiguration(query, dataSource, true, throwExceptions, exceptionHandler, rowMapperRegistry);
+    public static void setDefault(QueryConfiguration configuration) {
+        DEFAULT.set(configuration);
+    }
+
+    public QueryConfiguration forQuery(QueryImpl query) {
+        return new QueryConfiguration(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 
     @Override
@@ -101,5 +112,9 @@ public class QueryConfiguration implements AutoCloseable {
 
     public ParsedQuery query(@Language("sql") String sql, Object... format) {
         return Query.query(this, sql, format);
+    }
+
+    public QueryConfiguration withSingleTransaction() {
+        return new ConnectedQueryConfiguration(query, dataSource, true, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 }

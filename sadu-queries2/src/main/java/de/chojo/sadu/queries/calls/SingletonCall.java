@@ -11,19 +11,11 @@ import de.chojo.sadu.queries.call.Call;
 import java.util.Collections;
 import java.util.List;
 
-public class SingletonCall implements Calls {
-    private final Call call;
-
-    public SingletonCall(Call call) {
-        this.call = call;
-    }
+public record SingletonCall(Call call) implements Calls {
+    public static final SingletonCall EMPTY = new SingletonCall(Call.of());
 
     @Override
     public List<Call> calls() {
         return Collections.singletonList(call);
-    }
-
-    public Call call() {
-        return call;
     }
 }

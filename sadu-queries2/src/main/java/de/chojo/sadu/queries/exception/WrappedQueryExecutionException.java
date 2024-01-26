@@ -6,10 +6,12 @@
 
 package de.chojo.sadu.queries.exception;
 
+import de.chojo.sadu.queries.stages.QueryImpl;
+
 import java.sql.SQLException;
 
 /**
- * Exception to wrap {@link Exception} as {@link RuntimeException} thrown during queries executed by {@link de.chojo.sadu.queries.stages.Query}
+ * Exception to wrap {@link Exception} as {@link RuntimeException} thrown during queries executed by {@link QueryImpl}
  */
 public class WrappedQueryExecutionException extends RuntimeException {
     /**

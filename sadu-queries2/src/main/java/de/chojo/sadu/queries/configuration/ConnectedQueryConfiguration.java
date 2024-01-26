@@ -1,8 +1,14 @@
+/*
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
+ *
+ *     Copyright (C) RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.queries.stages.Query;
+import de.chojo.sadu.queries.stages.QueryImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,11 +18,11 @@ import java.util.function.Consumer;
 public class ConnectedQueryConfiguration extends QueryConfiguration {
     private Connection connection = null;
 
-    ConnectedQueryConfiguration(Query query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    ConnectedQueryConfiguration(QueryImpl query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
         super(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 
-    public ConnectedQueryConfiguration forQuery(Query query) {
+    public ConnectedQueryConfiguration forQuery(QueryImpl query) {
         return new ConnectedQueryConfiguration(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 

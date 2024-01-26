@@ -1,5 +1,12 @@
+/*
+ *     SPDX-License-Identifier: LGPL-3.0-or-later
+ *
+ *     Copyright (C) RainbowDashLabs and Contributor
+ */
+
 package de.chojo.sadu.queries.configuration;
 
+import de.chojo.sadu.exceptions.ExceptionTransformer;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,10 +16,14 @@ import java.util.function.Consumer;
 
 public class QueryConfigurationBuilder {
     private @Nullable DataSource dataSource;
-    private boolean atomic;
+    private boolean atomic = true;
     private boolean throwExceptions;
-    private Consumer<SQLException> exceptionHandler;
-    private RowMapperRegistry rowMapperRegistry;
+    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "CallToPrintStackTrace"})
+    private Consumer<SQLException> exceptionHandler = throwable -> {
+        System.err.println(ExceptionTransformer.prettyException(throwable));
+        throwable.printStackTrace();
+    };
+    private RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
 
     public QueryConfigurationBuilder(DataSource dataSource) {
         this.dataSource = dataSource;
