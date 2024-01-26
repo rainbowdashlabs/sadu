@@ -4,15 +4,18 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.results;
+package de.chojo.sadu.queries.stages.results.reading;
 
-import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.queries.stages.Query;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
+import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
 
-import javax.sql.DataSource;
-
-public class SingleResult<T> implements DataSourceProvider, Result<T>, QueryProvider {
+/**
+ * Result of a {@link MappedQuery#one()} call
+ *
+ * @param <T> Type of returned object
+ */
+public class SingleResult<T> implements Result<T>, QueryProvider {
     private final QueryProvider query;
     private final T result;
 
@@ -24,11 +27,6 @@ public class SingleResult<T> implements DataSourceProvider, Result<T>, QueryProv
     @Override
     public T result() {
         return result;
-    }
-
-    @Override
-    public DataSource source() {
-        return null;
     }
 
     @Override

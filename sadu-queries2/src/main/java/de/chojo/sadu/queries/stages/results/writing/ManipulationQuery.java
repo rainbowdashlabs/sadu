@@ -4,11 +4,15 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.mapped;
+package de.chojo.sadu.queries.stages.results.writing;
 
 import de.chojo.sadu.queries.stages.Query;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
+import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQuery;
 
+/**
+ * Result of a {@link CalledSingletonQuery}.
+ */
 public class ManipulationQuery implements QueryProvider {
     private final QueryProvider query;
     private final int rows;

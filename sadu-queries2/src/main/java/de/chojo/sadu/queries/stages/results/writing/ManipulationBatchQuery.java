@@ -4,13 +4,17 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.mapped;
+package de.chojo.sadu.queries.stages.results.writing;
 
 import de.chojo.sadu.queries.stages.Query;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
+import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQuery;
 
 import java.util.List;
 
+/**
+ * Result of a {@link CalledBatchQuery}
+ */
 public class ManipulationBatchQuery implements QueryProvider {
     private final QueryProvider query;
     private final List<ManipulationQuery> results;
