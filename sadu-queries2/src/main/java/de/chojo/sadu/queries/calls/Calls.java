@@ -62,9 +62,9 @@ public interface Calls {
      * @return singleton call
      */
     static SingletonCall single(Consumer<Call> call) {
-        Call nc = new Call();
-        call.accept(nc);
-        return new SingletonCall(nc);
+        Call newCall = new Call();
+        call.accept(newCall);
+        return new SingletonCall(newCall);
     }
 
     static Collector<Call, BatchCall, BatchCall> collect() {
