@@ -84,7 +84,7 @@ public class QueryConfiguration {
     }
 
     public Connection connection() {
-        return null;
+        throw new IllegalStateException("Query configuration doesnt hold a configuration.\nCall #withSingleTransaction for a connection to be created and use try with resources on the new configuration instance");
     }
 
     public boolean hasConnection() {
