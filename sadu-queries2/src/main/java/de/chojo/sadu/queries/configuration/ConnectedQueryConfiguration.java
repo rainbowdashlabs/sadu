@@ -7,6 +7,7 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import de.chojo.sadu.queries.stages.QueryImpl;
 
 import javax.sql.DataSource;
@@ -49,6 +50,7 @@ public class ConnectedQueryConfiguration extends QueryConfiguration implements A
                 connection.setAutoCommit(!atomic);
             } catch (SQLException e) {
                 handleException(e);
+                throw (WrappedQueryExecutionException) new WrappedQueryExecutionException(e.getMessage()).initCause(e);
             }
         }
         return connection;
