@@ -9,6 +9,11 @@ package de.chojo.sadu.queries.api.results.writing;
 import java.util.List;
 
 public interface ManipulationBatchResult extends ManipulationResult {
+    /**
+     * Returns a list of ManipulationResult representing the results of each indivudual manipulation operation.
+     *
+     * @return The list of ManipulationResults.
+     */
     List<? extends ManipulationResult> results();
 
     /**
