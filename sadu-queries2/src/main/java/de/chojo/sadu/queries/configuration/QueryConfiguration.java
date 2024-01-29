@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -53,7 +54,7 @@ public class QueryConfiguration {
      * @return the default QueryConfiguration
      */
     public static QueryConfiguration getDefault() {
-        return DEFAULT.get();
+        return Objects.requireNonNull(DEFAULT.get(), "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
     }
 
     /**
