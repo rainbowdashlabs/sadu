@@ -99,7 +99,7 @@ public interface ParsedQuery {
      * @return A called singleton query
      */
     default CalledSingletonQuery single(Call call) {
-        return single(Calls.single(call));
+        return single(call.asSingleCall());
     }
 
     /**

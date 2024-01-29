@@ -9,7 +9,9 @@ package de.chojo.sadu.queries.call;
 import de.chojo.sadu.exceptions.ThrowingBiConsumer;
 import de.chojo.sadu.queries.TokenizedQuery;
 import de.chojo.sadu.queries.call.adapter.Adapter;
+import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.Calls;
+import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.params.BaseParam;
 import de.chojo.sadu.queries.params.IndexParam;
 import de.chojo.sadu.queries.params.TokenParam;
@@ -36,6 +38,10 @@ public class Call {
     private int index = 1;
 
     public static Call of() {
+        return new Call();
+    }
+
+    public static Call call() {
         return new Call();
     }
 
@@ -126,5 +132,13 @@ public class Call {
         for (var token : tokens) {
             token.apply(query, stmt);
         }
+    }
+
+    public SingletonCall asSingleCall() {
+        return new SingletonCall(this);
+    }
+
+    public BatchCall asBatchCall() {
+        return new BatchCall(List.of(this));
     }
 }

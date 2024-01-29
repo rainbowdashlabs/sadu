@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
@@ -25,52 +24,9 @@ import java.util.stream.Collector;
 @SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface Calls {
 
-    /**
-     * Execute multiple calls
-     *
-     * @param calls calls to execute
-     * @return batch call
-     */
-    static BatchCall batch(Call... calls) {
-        return batch(List.of(calls));
-    }
-
-
-    /**
-     * Execute multiple calls
-     *
-     * @param calls calls to execute
-     * @return batch call
-     */
-    static BatchCall batch(List<Call> calls) {
-        return new BatchCall(calls);
-    }
-
-    /**
-     * Execute a single call
-     *
-     * @param call call to execute
-     * @return singleton call
-     */
-    static SingletonCall single(Call call) {
-        return new SingletonCall(call);
-    }
-
     @SuppressWarnings("SameReturnValue")
     static SingletonCall empty() {
         return SingletonCall.EMPTY;
-    }
-
-    /**
-     * Execute a single call
-     *
-     * @param call call to execute
-     * @return singleton call
-     */
-    static SingletonCall single(Consumer<Call> call) {
-        var newCall = new Call();
-        call.accept(newCall);
-        return new SingletonCall(newCall);
     }
 
     static Collector<Call, BatchCall, BatchCall> collect() {
