@@ -83,6 +83,15 @@ public interface ParsedQuery {
     CalledSingletonQuery single(SingletonCall call);
 
     /**
+     * Define a call without any parameter set.
+     *
+     * @return A called batch query
+     */
+    default CalledSingletonQuery single() {
+        return single(Calls.empty());
+    }
+
+    /**
      * Define a call for your query.
      * This will execute the query with your arguments.
      *
