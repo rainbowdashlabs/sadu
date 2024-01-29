@@ -42,7 +42,7 @@ public class Call {
     }
 
     public static Call call() {
-        return new Call();
+        return of();
     }
 
     private int nextIndex() {
@@ -134,10 +134,21 @@ public class Call {
         }
     }
 
+    /**
+     * Returns a SingletonCall object for the current Call instance.
+     * This allows executing the query with a single set of arguments.
+     *
+     * @return A SingletonCall object
+     */
     public SingletonCall asSingleCall() {
         return new SingletonCall(this);
     }
 
+    /**
+     * Converts the current Call object into a BatchCall object.
+     *
+     * @return a new instance of the BatchCall class with the current Call object added to it.
+     */
     public BatchCall asBatchCall() {
         return new BatchCall(List.of(this));
     }
