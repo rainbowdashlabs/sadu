@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
+import static de.chojo.sadu.queries.call.Call.call;
 import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_STRING;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
@@ -50,12 +51,12 @@ public class TransactionTest {
             // Retrieve the first user and store them it to use it again later
             // From here on another query could be issued that uses the results of this query
             ManipulationResult manipulation = conn.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
-                    .single(Calls.single(call -> call.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
+                    .single(call().bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly"))
                     .map(User.map())
                     .storeOneAndAppend("user")
                     .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
                     // produce error
-                    .single(storage -> Calls.single(r -> r.bind("id", storage.getAs("user", User.class).get().id()).bind("date", "")))
+                    .single(storage -> call().bind("id", storage.getAs("user", User.class).get().id()).bind("date", "").asSingleCall())
                     .insert();
         }
 
