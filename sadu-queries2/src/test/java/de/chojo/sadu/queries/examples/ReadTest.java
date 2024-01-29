@@ -58,7 +58,7 @@ public class ReadTest {
     public void retrieveAllDirectly() {
         List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
                 .single(Calls.single(call -> call.bind(1).bind("name", "lilly")))
-                .map(User::map)
+                .map(User.map())
                 .allAndGet();
         Assertions.assertEquals(1, users.size());
     }
@@ -67,7 +67,7 @@ public class ReadTest {
     public void retrieveAllDirectlyNoFilter() {
         List<User> users = query.query("SELECT * FROM users")
                 .single(Calls.empty())
-                .map(User::map)
+                .map(User.map())
                 .allAndGet();
         Assertions.assertEquals(2, users.size());
     }
@@ -79,7 +79,7 @@ public class ReadTest {
         // Retrieve the first user object directly
         Optional<User> user = query.query("SELECT * FROM users where id = :id")
                 .single(Calls.single(call -> call.bind("id", 1)))
-                .map(User::map)
+                .map(User.map())
                 .oneAndGet();
     }
 
@@ -89,11 +89,11 @@ public class ReadTest {
         // From here on another query could be issued that uses the results of this query
         Result<List<User>> usersResult = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
                 .single(Calls.single(call -> call.bind(1).bind("name", "lilly")))
-                .map(User::map)
+                .map(User.map())
                 .storeOneAndAppend("user")
                 .query("SELECT * FROM users WHERE uuid = :uuid::uuid")
                 .single(storage -> Calls.single(Call.of().bind("uuid", storage.getAs("user", User.class).get().uuid(), AS_STRING)))
-                .map(User::map)
+                .map(User.map())
                 .all();
         Assertions.assertEquals(1, usersResult.result().size());
     }
@@ -104,7 +104,7 @@ public class ReadTest {
         // From here on another query could be issued that uses the results of this query
         ManipulationResult manipulation = query.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
                 .single(Calls.single(call -> call.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
-                .map(User::map)
+                .map(User.map())
                 .storeOneAndAppend("user")
                 .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
                 .single(storage -> Calls.single(r -> r.bind("id", storage.getAs("user", User.class).get().id()).bind("date", LocalDate.of(1990, 1, 1))))

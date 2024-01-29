@@ -6,14 +6,12 @@
 
 package de.chojo.sadu.queries.examples.dao;
 
-import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.mapper.rowmapper.RowMapping;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 public record User(int id, UUID uuid, String name) {
-    public static User map(Row row) throws SQLException {
-        return new User(row.getInt("id"), row.getUuidFromString("uuid"), row.getString("name"));
+    public static RowMapping<User> map() {
+        return row -> new User(row.getInt("id"), row.getUuidFromString("uuid"), row.getString("name"));
     }
-
 }

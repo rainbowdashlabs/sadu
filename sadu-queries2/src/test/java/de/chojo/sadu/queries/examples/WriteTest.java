@@ -12,6 +12,7 @@ import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
 import de.chojo.sadu.queries.call.Call;
+import de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -115,5 +116,22 @@ public class WriteTest {
         for (ManipulationResult result : change.results()) {
             Assertions.assertEquals(result.rows(), 1);
         }
+    }
+
+    @Test
+    public void exampleSingle() {
+        // Insert multiple entries at the same time
+        ManipulationResult change = query
+                // Define the query
+                .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
+                // Create a new call
+                .single(Call.of().bind("uuid", UUID.randomUUID(), UUIDAdapter.AS_STRING).bind("someone"))
+                // Insert the data
+                .insert();
+
+        // Check that something changed
+        Assertions.assertTrue(change.changed());
+        // Check that two rows were added
+        Assertions.assertEquals(change.rows(), 1);
     }
 }

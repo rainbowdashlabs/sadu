@@ -51,7 +51,7 @@ public class TransactionTest {
             // From here on another query could be issued that uses the results of this query
             ManipulationResult manipulation = conn.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
                     .single(Calls.single(call -> call.bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly")))
-                    .map(User::map)
+                    .map(User.map())
                     .storeOneAndAppend("user")
                     .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
                     // produce error
@@ -61,7 +61,7 @@ public class TransactionTest {
 
         List<User> users = query.query("SELECT * FROM users")
                 .single(Calls.empty())
-                .map(User::map)
+                .map(User.map())
                 .allAndGet();
 
         // Make sure that the first insert was not commited
