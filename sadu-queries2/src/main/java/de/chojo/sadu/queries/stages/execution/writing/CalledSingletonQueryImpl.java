@@ -8,12 +8,13 @@ package de.chojo.sadu.queries.stages.execution.writing;
 
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
-import de.chojo.sadu.queries.TokenizedQuery;
+import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.execution.reading.Reader;
 import de.chojo.sadu.queries.api.execution.writing.CalledSingletonQuery;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
-import de.chojo.sadu.queries.call.Call;
+import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.SingletonCall;
+import de.chojo.sadu.queries.query.TokenizedQuery;
 import de.chojo.sadu.queries.stages.ParsedQueryImpl;
 import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
@@ -23,7 +24,6 @@ import de.chojo.sadu.queries.stages.results.writing.ManipulationResultImpl;
 
 import java.sql.SQLException;
 
-@SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
 public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQuery {
     private final ParsedQueryImpl query;
     private final SingletonCall call;
@@ -54,7 +54,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
             var changed = 0;
             try (var stmt = conn.prepareStatement(query.sql().tokenizedSql())) {
                 //TODO find way to return generated keys
-                call.call().apply(query.sql(), stmt);
+                ((CallImpl) call.call()).apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();
             } catch (SQLException ex) {
                 query().handleException(ex);
@@ -68,7 +68,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
         return query().callConnection(() -> new ManipulationResultImpl(this, 0), conn -> {
             var changed = 0;
             try (var stmt = conn.prepareStatement(query.sql().tokenizedSql())) {
-                call.call().apply(query.sql(), stmt);
+                ((CallImpl) call.call()).apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();
             } catch (SQLException ex) {
                 query().handleException(ex);

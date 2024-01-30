@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries;
+package de.chojo.sadu.queries.query;
 
 import java.util.ArrayList;
 import java.util.HashMap;

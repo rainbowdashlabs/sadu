@@ -19,6 +19,9 @@ import java.util.Optional;
 public class ResultStorage {
     private final Map<String, Result<?>> storage = new HashMap<>();
 
+    public ResultStorage() {
+    }
+
     public void store(String key, Result<?> value) {
         storage.put(key, value);
     }

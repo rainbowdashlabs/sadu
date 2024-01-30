@@ -8,11 +8,12 @@ package de.chojo.sadu.queries.stages.execution.reading;
 
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
-import de.chojo.sadu.queries.TokenizedQuery;
-import de.chojo.sadu.queries.api.AppendedQuery;
+import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.execution.reading.Reader;
+import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.api.results.reading.Result;
-import de.chojo.sadu.queries.call.Call;
+import de.chojo.sadu.queries.call.CallImpl;
+import de.chojo.sadu.queries.query.TokenizedQuery;
 import de.chojo.sadu.queries.stages.AppendedQueryImpl;
 import de.chojo.sadu.queries.stages.QueryImpl;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
@@ -66,7 +67,7 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
     private SingleResult<V> mapOne() {
         return query().callConnection(() -> new SingleResult<>(this, null), conn -> {
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
-                call().apply(sql(), stmt);
+                ((CallImpl) call()).apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
                 var row = new Row(resultSet, mapperConfig());
                 if (resultSet.next()) {
@@ -82,7 +83,7 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
         return query().callConnection(() -> new MultiResult<>(this, Collections.emptyList()), conn -> {
             var result = new ArrayList<V>();
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
-                call().apply(sql(), stmt);
+                ((CallImpl) call()).apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
                 var row = new Row(resultSet, mapperConfig());
                 while (resultSet.next()) result.add(mapper(resultSet).map(row));

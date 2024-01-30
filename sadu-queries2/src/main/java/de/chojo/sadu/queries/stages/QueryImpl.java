@@ -8,7 +8,7 @@ package de.chojo.sadu.queries.stages;
 
 import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.queries.api.Query;
+import de.chojo.sadu.queries.api.query.Query;
 import de.chojo.sadu.queries.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.stages.base.ConnectionProvider;

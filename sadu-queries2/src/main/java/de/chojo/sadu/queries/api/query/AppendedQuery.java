@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.api;
+package de.chojo.sadu.queries.api.query;
 
 import org.intellij.lang.annotations.Language;
 

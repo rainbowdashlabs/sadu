@@ -7,7 +7,7 @@
 package de.chojo.sadu.queries.params;
 
 import de.chojo.sadu.exceptions.ThrowingBiConsumer;
-import de.chojo.sadu.queries.TokenizedQuery;
+import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

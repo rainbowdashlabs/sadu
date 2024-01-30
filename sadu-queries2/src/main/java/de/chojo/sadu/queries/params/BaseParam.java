@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.queries.params;
 
-import de.chojo.sadu.queries.TokenizedQuery;
+import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

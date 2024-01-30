@@ -4,13 +4,13 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.api;
+package de.chojo.sadu.queries.api.query;
 
+import de.chojo.sadu.queries.api.call.Call;
+import de.chojo.sadu.queries.api.call.calls.Calls;
 import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
 import de.chojo.sadu.queries.api.execution.writing.CalledSingletonQuery;
-import de.chojo.sadu.queries.call.Call;
 import de.chojo.sadu.queries.calls.BatchCall;
-import de.chojo.sadu.queries.calls.Calls;
 import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.stages.calls.CallSupplier;
 

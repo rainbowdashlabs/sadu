@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.queries.api.execution.reading;
 
-import de.chojo.sadu.queries.api.AppendedQuery;
+import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.api.results.reading.Result;
 
 import java.util.List;

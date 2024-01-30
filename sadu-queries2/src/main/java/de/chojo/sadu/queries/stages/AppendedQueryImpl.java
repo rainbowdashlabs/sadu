@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.queries.stages;
 
-import de.chojo.sadu.queries.api.AppendedQuery;
+import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
 import org.intellij.lang.annotations.Language;
 

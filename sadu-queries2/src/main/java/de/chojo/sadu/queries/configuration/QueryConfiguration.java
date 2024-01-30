@@ -7,8 +7,8 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import de.chojo.sadu.queries.api.ParsedQuery;
-import de.chojo.sadu.queries.api.Query;
+import de.chojo.sadu.queries.api.query.ParsedQuery;
+import de.chojo.sadu.queries.api.query.Query;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import de.chojo.sadu.queries.stages.QueryImpl;
 import org.intellij.lang.annotations.Language;

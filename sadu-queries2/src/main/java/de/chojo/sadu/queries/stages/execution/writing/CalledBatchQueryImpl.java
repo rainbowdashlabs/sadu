@@ -9,6 +9,7 @@ package de.chojo.sadu.queries.stages.execution.writing;
 import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
 import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.stages.ParsedQueryImpl;
 import de.chojo.sadu.queries.stages.QueryImpl;
@@ -42,7 +43,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
             for (var call : calls.calls()) {
                 try (var stmt = conn.prepareStatement(parsedQuery.sql().tokenizedSql())) {
                     //TODO find way to return generated keys
-                    call.apply(parsedQuery.sql(), stmt);
+                    ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new ManipulationResultImpl(this, stmt.executeUpdate()));
                 } catch (SQLException ex) {
                     query().handleException(ex);
