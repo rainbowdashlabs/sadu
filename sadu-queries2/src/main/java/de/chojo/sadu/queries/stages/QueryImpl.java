@@ -9,6 +9,7 @@ package de.chojo.sadu.queries.stages;
 import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.queries.api.Query;
+import de.chojo.sadu.queries.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.stages.base.ConnectionProvider;
 import de.chojo.sadu.queries.stages.base.QueryProvider;
@@ -52,7 +53,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
 
     @Override
     public <T> T callConnection(Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
-        if (!conf.hasConnection()) {
+        if (!(conf instanceof ConnectedQueryConfiguration conn)) {
             try (var conn = conf.dataSource().getConnection()) {
                 conn.setAutoCommit(false);
                 var result = connectionConsumer.apply(conn);
@@ -63,7 +64,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
             }
         } else {
             try {
-                return connectionConsumer.apply(conf.connection());
+                return connectionConsumer.apply(conn.connection());
             } catch (SQLException e) {
                 conf.handleException(e);
             }

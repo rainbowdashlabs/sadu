@@ -42,7 +42,6 @@ public class ConnectedQueryConfiguration extends QueryConfiguration implements A
         }
     }
 
-    @Override
     public Connection connection() {
         if (connection == null) {
             try {
@@ -54,10 +53,5 @@ public class ConnectedQueryConfiguration extends QueryConfiguration implements A
             }
         }
         return connection;
-    }
-
-    @Override
-    public boolean hasConnection() {
-        return true;
     }
 }

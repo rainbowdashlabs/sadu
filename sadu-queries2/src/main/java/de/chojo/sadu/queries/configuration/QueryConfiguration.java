@@ -15,7 +15,6 @@ import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -134,26 +133,6 @@ public class QueryConfiguration {
      */
     public DataSource dataSource() {
         return dataSource;
-    }
-
-    /**
-     * Throws an IllegalStateException with a specific error message.
-     * This method is meant to be called when the QueryConfiguration doesn't hold a configuration.
-     * To create a connection, use the {@link #withSingleTransaction} method and make sure to use try-with-resources on the new configuration instance.
-     *
-     * @throws IllegalStateException if the QueryConfiguration doesn't hold a configuration
-     */
-    public Connection connection() {
-        throw new IllegalStateException("Query configuration doesnt hold a configuration.\nCall #withSingleTransaction for a connection to be created and use try with resources on the new configuration instance");
-    }
-
-    /**
-     * Checks if the current query configuration has an active connection.
-     *
-     * @return {@code true} if there is an active connection, {@code false} otherwise.
-     */
-    public boolean hasConnection() {
-        return false;
     }
 
     /**
