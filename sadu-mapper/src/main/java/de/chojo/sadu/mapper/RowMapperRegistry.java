@@ -27,6 +27,9 @@ import java.util.Optional;
 public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
 
+    public RowMapperRegistry() {
+    }
+
     /**
      * Registers a new mapper for a class.
      * <p>
