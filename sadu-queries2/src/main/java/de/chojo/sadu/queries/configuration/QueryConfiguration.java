@@ -10,7 +10,7 @@ import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.query.Query;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.queries.stages.QueryImpl;
+import de.chojo.sadu.queries.query.QueryImpl;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 

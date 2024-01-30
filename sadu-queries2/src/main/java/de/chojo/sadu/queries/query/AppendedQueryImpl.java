@@ -4,10 +4,10 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages;
+package de.chojo.sadu.queries.query;
 
+import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.query.AppendedQuery;
-import de.chojo.sadu.queries.stages.base.QueryProvider;
 import org.intellij.lang.annotations.Language;
 
 public class AppendedQueryImpl implements QueryProvider, AppendedQuery {

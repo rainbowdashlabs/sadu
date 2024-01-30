@@ -4,12 +4,12 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.base;
+package de.chojo.sadu.queries.api.base;
 
 import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
-import de.chojo.sadu.queries.stages.QueryImpl;
+import de.chojo.sadu.queries.query.QueryImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

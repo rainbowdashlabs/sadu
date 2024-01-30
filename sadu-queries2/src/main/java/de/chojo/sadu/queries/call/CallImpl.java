@@ -10,12 +10,12 @@ import de.chojo.sadu.exceptions.ThrowingBiConsumer;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
 import de.chojo.sadu.queries.api.call.calls.Calls;
+import de.chojo.sadu.queries.api.parameter.BaseParameter;
 import de.chojo.sadu.queries.call.adapter.StandardAdapter;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
-import de.chojo.sadu.queries.params.BaseParam;
-import de.chojo.sadu.queries.params.IndexParam;
-import de.chojo.sadu.queries.params.TokenParam;
+import de.chojo.sadu.queries.parameter.IndexParameter;
+import de.chojo.sadu.queries.parameter.TokenParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.math.BigDecimal;
@@ -67,7 +67,7 @@ import static de.chojo.sadu.queries.call.adapter.StandardAdapter.ZONED_DATE_TIME
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
  */
 public final class CallImpl implements Call {
-    private final List<BaseParam> tokens = new ArrayList<>();
+    private final List<BaseParameter> tokens = new ArrayList<>();
     private int index = 1;
 
     public CallImpl() {
@@ -78,12 +78,12 @@ public final class CallImpl implements Call {
     }
 
     private Call addToken(String token, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
-        tokens.add(new TokenParam(token, apply));
+        tokens.add(new TokenParameter(token, apply));
         return this;
     }
 
     private Call addToken(ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
-        tokens.add(new IndexParam(nextIndex(), apply));
+        tokens.add(new IndexParameter(nextIndex(), apply));
         return this;
     }
 

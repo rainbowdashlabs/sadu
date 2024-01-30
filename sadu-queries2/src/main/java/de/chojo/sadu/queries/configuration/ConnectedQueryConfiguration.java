@@ -8,7 +8,7 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.queries.stages.QueryImpl;
+import de.chojo.sadu.queries.query.QueryImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

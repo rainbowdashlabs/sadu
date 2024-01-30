@@ -4,19 +4,20 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.params;
+package de.chojo.sadu.queries.parameter;
 
 import de.chojo.sadu.exceptions.ThrowingBiConsumer;
+import de.chojo.sadu.queries.api.parameter.BaseParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class IndexParam implements BaseParam {
+public class IndexParameter implements BaseParameter {
     private final int index;
     private final ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply;
 
-    public IndexParam(int index, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
+    public IndexParameter(int index, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
         this.index = index;
         this.apply = apply;
     }

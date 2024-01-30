@@ -11,8 +11,8 @@ import de.chojo.sadu.queries.api.call.calls.Calls;
 import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
 import de.chojo.sadu.queries.api.execution.writing.CalledSingletonQuery;
 import de.chojo.sadu.queries.calls.BatchCall;
+import de.chojo.sadu.queries.calls.CallSupplier;
 import de.chojo.sadu.queries.calls.SingletonCall;
-import de.chojo.sadu.queries.stages.calls.CallSupplier;
 
 import java.util.Arrays;
 import java.util.List;

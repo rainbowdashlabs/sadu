@@ -4,16 +4,16 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages;
+package de.chojo.sadu.queries.query;
 
 import de.chojo.sadu.base.DataSourceProvider;
 import de.chojo.sadu.exceptions.ThrowingFunction;
+import de.chojo.sadu.queries.api.base.ConnectionProvider;
+import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.query.Query;
 import de.chojo.sadu.queries.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
-import de.chojo.sadu.queries.stages.base.ConnectionProvider;
-import de.chojo.sadu.queries.stages.base.QueryProvider;
-import de.chojo.sadu.queries.storage.ResultStorage;
+import de.chojo.sadu.queries.storage.ResultStorageImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryProvider, Query {
 
     private final QueryConfiguration conf;
-    private final ResultStorage storage = new ResultStorage();
+    private final ResultStorageImpl storage = new ResultStorageImpl();
     private final List<Exception> exceptions = new ArrayList<>();
 
     public QueryImpl(QueryConfiguration conf) {
@@ -43,7 +43,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
         return this;
     }
 
-    public ResultStorage storage() {
+    public ResultStorageImpl storage() {
         return storage;
     }
 

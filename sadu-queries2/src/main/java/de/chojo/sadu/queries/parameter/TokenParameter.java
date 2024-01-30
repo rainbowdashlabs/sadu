@@ -4,19 +4,20 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.params;
+package de.chojo.sadu.queries.parameter;
 
 import de.chojo.sadu.exceptions.ThrowingBiConsumer;
+import de.chojo.sadu.queries.api.parameter.BaseParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class TokenParam implements BaseParam {
+public class TokenParameter implements BaseParameter {
     private final String token;
     private final ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply;
 
-    public TokenParam(String token, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
+    public TokenParameter(String token, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
         if (!token.startsWith(":")) {
             this.token = ":" + token;
         } else {

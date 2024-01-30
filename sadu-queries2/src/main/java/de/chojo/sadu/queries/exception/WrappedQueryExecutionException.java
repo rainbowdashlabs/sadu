@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.queries.exception;
 
-import de.chojo.sadu.queries.stages.QueryImpl;
+import de.chojo.sadu.queries.query.QueryImpl;
 
 import java.sql.SQLException;
 

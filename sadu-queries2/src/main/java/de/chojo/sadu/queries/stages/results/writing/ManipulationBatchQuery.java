@@ -6,10 +6,10 @@
 
 package de.chojo.sadu.queries.stages.results.writing;
 
+import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
-import de.chojo.sadu.queries.stages.QueryImpl;
-import de.chojo.sadu.queries.stages.base.QueryProvider;
+import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQueryImpl;
 
 import java.util.List;
