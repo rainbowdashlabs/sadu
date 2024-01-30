@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.queries;
 
+import de.chojo.sadu.queries.query.TokenizedQuery;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

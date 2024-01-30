@@ -9,8 +9,8 @@ package de.chojo.sadu.queries.examples;
 import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.PostgresqlMapper;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.call.calls.Calls;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
-import de.chojo.sadu.queries.calls.Calls;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import de.chojo.sadu.queries.examples.dao.User;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.queries.call.Call.call;
-import static de.chojo.sadu.queries.call.adapter.impl.UUIDAdapter.AS_STRING;
+import static de.chojo.sadu.queries.api.call.Call.call;
+import static de.chojo.sadu.queries.call.adapter.UUIDAdapter.AS_STRING;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
 public class TransactionTest {
