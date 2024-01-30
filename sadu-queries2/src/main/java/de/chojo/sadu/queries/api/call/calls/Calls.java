@@ -4,9 +4,11 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.calls;
+package de.chojo.sadu.queries.api.call.calls;
 
-import de.chojo.sadu.queries.call.Call;
+import de.chojo.sadu.queries.api.call.Call;
+import de.chojo.sadu.queries.calls.BatchCall;
+import de.chojo.sadu.queries.calls.SingletonCall;
 
 import java.util.List;
 import java.util.Set;
@@ -24,11 +26,22 @@ import java.util.stream.Collector;
 @SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface Calls {
 
+    /**
+     * Returns an instance of the SingletonCall class that represents an empty call.
+     *
+     * @return An instance of SingletonCall representing an empty call.
+     */
     @SuppressWarnings("SameReturnValue")
     static SingletonCall empty() {
         return SingletonCall.EMPTY;
     }
 
+    /**
+     * Returns a collector that accumulates the input elements into a BatchCall object.
+     * The collector takes a stream of Call objects and produces a single BatchCall object.
+     *
+     * @return a collector for Call objects that produces a BatchCall object
+     */
     static Collector<Call, BatchCall, BatchCall> collect() {
         return new Collector<>() {
             @Override
@@ -59,5 +72,10 @@ public interface Calls {
         };
     }
 
+    /**
+     * Returns a list of Call objects representing the query calls.
+     *
+     * @return A list of Call objects.
+     */
     List<Call> calls();
 }
