@@ -10,6 +10,7 @@ import de.chojo.sadu.queries.api.call.adapter.Adapter;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
+import de.chojo.sadu.types.SqlType;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -26,7 +27,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 
+@SuppressWarnings("unused")
 public sealed interface Call permits CallImpl {
     /**
      * Creates a new instance of the Call class.
@@ -63,7 +66,6 @@ public sealed interface Call permits CallImpl {
     Call bind(long value);
 
     Call bind(String token, long value);
-
 
     Call bind(String token, int value);
 
@@ -146,6 +148,14 @@ public sealed interface Call permits CallImpl {
     Call bind(RowId value);
 
     Call bind(String token, RowId value);
+
+    Call bind(Collection<?> value, SqlType type);
+
+    Call bind(String token, Collection<?> value, SqlType type);
+
+    Call bind(Object[] value, SqlType type);
+
+    Call bind(String token, Object[] value, SqlType type);
 
     <T> Call bind(String token, T value, Adapter<T> adapter);
 

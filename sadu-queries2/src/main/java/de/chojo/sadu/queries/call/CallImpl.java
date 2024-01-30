@@ -17,6 +17,7 @@ import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.parameter.IndexParameter;
 import de.chojo.sadu.queries.parameter.TokenParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
+import de.chojo.sadu.types.SqlType;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -36,6 +37,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static de.chojo.sadu.queries.call.adapter.StandardAdapter.BIG_DECIMAL;
@@ -62,6 +64,8 @@ import static de.chojo.sadu.queries.call.adapter.StandardAdapter.STRING;
 import static de.chojo.sadu.queries.call.adapter.StandardAdapter.TIME;
 import static de.chojo.sadu.queries.call.adapter.StandardAdapter.TIMESTAMP;
 import static de.chojo.sadu.queries.call.adapter.StandardAdapter.ZONED_DATE_TIME;
+import static de.chojo.sadu.queries.call.adapter.StandardAdapter.forArray;
+import static de.chojo.sadu.queries.call.adapter.StandardAdapter.forCollection;
 
 /**
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
@@ -340,6 +344,26 @@ public final class CallImpl implements Call {
     @Override
     public Call bind(String token, RowId value) {
         return bind(token, value, ROW_ID);
+    }
+
+    @Override
+    public Call bind(Collection<?> value, SqlType type) {
+        return bind(value, forCollection(value, type));
+    }
+
+    @Override
+    public Call bind(String token, Collection<?> value, SqlType type) {
+        return bind(token, value, forCollection(value, type));
+    }
+
+    @Override
+    public Call bind(Object[] value, SqlType type) {
+        return bind(value, forArray(value, type));
+    }
+
+    @Override
+    public Call bind(String token, Object[] value, SqlType type) {
+        return bind(token, value, forArray(value, type));
     }
 
     @Override

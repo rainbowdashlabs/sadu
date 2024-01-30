@@ -70,7 +70,7 @@ public final class StandardAdapter {
         return Adapter.create((stmt, index, value) -> stmt.setArray(index, toSqlArray(stmt.getConnection(), type, list)), Types.ARRAY);
     }
 
-    public static Adapter<Collection<?>> forArray(Object[] array, SqlType type) {
+    public static Adapter<Object[]> forArray(Object[] array, SqlType type) {
         return Adapter.create((stmt, index, value) -> stmt.setArray(index, toSqlArray(stmt.getConnection(), type, array)), Types.ARRAY);
     }
 }
