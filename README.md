@@ -75,7 +75,7 @@ But using the query builder your code becomes this:
 class MyQueries {
     public Optional<Result> getResultNew(int id) {
         return Query.query("SELECT result FROM results WHERE id = ?")
-                .single(Call.of().setInt(id))
+                .single(Call.of().bind(id))
                 .map(row -> new Result(rs.getString("result")))
                 .first();
     }
