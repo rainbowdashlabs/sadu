@@ -6,11 +6,6 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
-import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.util.Row;
-
-import java.sql.SQLException;
-
 /**
  * Represents a partially configured {@link RowMapper}
  * @param <T> type of the mapper result.

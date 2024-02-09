@@ -8,18 +8,16 @@ package de.chojo.sadu.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.Database;
+import de.chojo.sadu.core.databases.Database;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
-import de.chojo.sadu.jdbc.JdbProperty;
-import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.jdbc.RemoteJdbcConfig;
+import de.chojo.sadu.core.jdbc.JdbcConfig;
+import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
+import org.jetbrains.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
-import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
@@ -45,7 +43,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      * @param <T>  database type defined by the {@link Database}
      * @return a DataSourceCreator in {@link JdbcStage}.
      */
-    @CheckReturnValue
+    @org.jetbrains.annotations.CheckReturnValue
     public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T, ?> type) {
         return new DataSourceCreator<>(type);
     }

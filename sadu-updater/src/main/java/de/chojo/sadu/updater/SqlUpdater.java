@@ -6,13 +6,15 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.databases.Database;
-import de.chojo.sadu.jdbc.JdbcConfig;
+import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.jdbc.JdbcConfig;
+import de.chojo.sadu.core.updater.SqlVersion;
+import de.chojo.sadu.core.updater.UpdaterBuilder;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -53,7 +55,6 @@ import java.util.stream.Collectors;
  * Every Major version which has a following major version requires a {@code migrate.sql} script.
  * <p>
  * This script should update the database to the same state as a clean installation via the new {@code setup.sql} would do.
- * <p>
  *
  * <pre>{@code
  * database

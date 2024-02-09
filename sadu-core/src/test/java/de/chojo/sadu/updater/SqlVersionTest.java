@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.updater;
 
+import de.chojo.sadu.core.updater.SqlVersion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

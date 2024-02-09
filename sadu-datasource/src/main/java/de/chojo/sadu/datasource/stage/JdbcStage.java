@@ -6,7 +6,8 @@
 
 package de.chojo.sadu.datasource.stage;
 
-import javax.annotation.CheckReturnValue;
+import org.jetbrains.annotations.CheckReturnValue;
+
 import java.util.function.Consumer;
 
 /**

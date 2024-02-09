@@ -6,10 +6,11 @@
 
 package de.chojo.sadu.mapper;
 
-import de.chojo.sadu.base.QueryFactory;
-import de.chojo.sadu.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
+import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
+import de.chojo.sadu.queries.api.query.Query;
+import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -60,7 +61,6 @@ class PostgresqlMapperTest {
     static final String text = "text";
     static final String json = "{\"a\": \"b\"}";
     private static GenericContainer<?> pg;
-    private static QueryFactory factory;
 
     @BeforeAll
     static void beforeAll() throws IOException {
@@ -70,10 +70,9 @@ class PostgresqlMapperTest {
                 .usingPassword("postgres")
                 .usingUsername("postgres")
                 .build();
-        var config = QueryBuilderConfig.builder()
-                .rowMappers(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
-                .build();
-        factory = new QueryFactory(dc, config);
+        QueryConfiguration.setDefault(QueryConfiguration.builder(dc)
+                .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
+                .build());
     }
 
     static Stream<Arguments> shortTestInput() {
@@ -118,11 +117,10 @@ class PostgresqlMapperTest {
     @ParameterizedTest
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String query, T expected) {
-        var val = factory.builder(clazz)
-                .query(query)
-                .emptyParams()
-                .map()
-                .firstSync();
+        var val = Query.query(query)
+                .single()
+                .mapAs(clazz)
+                .first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
     }

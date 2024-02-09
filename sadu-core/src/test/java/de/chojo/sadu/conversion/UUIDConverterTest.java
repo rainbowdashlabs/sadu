@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.conversion;
 
+import de.chojo.sadu.core.conversion.UUIDConverter;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

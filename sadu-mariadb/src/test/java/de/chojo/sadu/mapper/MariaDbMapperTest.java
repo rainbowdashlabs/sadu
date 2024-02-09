@@ -6,10 +6,11 @@
 
 package de.chojo.sadu.mapper;
 
-import de.chojo.sadu.base.QueryFactory;
-import de.chojo.sadu.databases.MariaDb;
 import de.chojo.sadu.datasource.DataSourceCreator;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
+import de.chojo.sadu.mariadb.databases.MariaDb;
+import de.chojo.sadu.mariadb.mapper.MariaDbMapper;
+import de.chojo.sadu.queries.api.query.Query;
+import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -94,7 +95,6 @@ class MariaDbMapperTest {
     static final BigDecimal bigDecimal = BigDecimal.valueOf(327674568765487845L, 5);
     static final String text = "text";
     private static GenericContainer<?> db;
-    private static QueryFactory factory;
 
     @BeforeAll
     static void beforeAll() throws IOException {
@@ -104,12 +104,11 @@ class MariaDbMapperTest {
                 .usingPassword("root")
                 .usingUsername("root")
                 .build();
-        var config = QueryBuilderConfig.builder()
-                .rowMappers(new RowMapperRegistry().register(MariaDbMapper.getDefaultMapper()))
-                .build();
-        factory = new QueryFactory(dc, config);
-        factory.builder().query(TEST_TABLE).emptyParams().insert().sendSync();
-        assert factory.builder().query(INSERTS).emptyParams().insert().sendSync().rows() > 0 : "Could not insert data.";
+        QueryConfiguration.setDefault(QueryConfiguration.builder(dc)
+                .setRowMapperRegistry(new RowMapperRegistry().register(MariaDbMapper.getDefaultMapper()))
+                .build());
+        Query.query(TEST_TABLE).single().insert();
+        assert Query.query(INSERTS).single().insert().rows() > 0 : "Could not insert data.";
     }
 
     static Stream<Arguments> shortTestInput() {
@@ -157,11 +156,10 @@ class MariaDbMapperTest {
     @ParameterizedTest
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String _col, T expected) {
-        var val = factory.builder(clazz)
-                .query("SELECT %s FROM test", _col)
-                .emptyParams()
-                .map()
-                .firstSync();
+        var val = Query.query("SELECT %s FROM test", _col)
+                .single()
+                .mapAs(clazz)
+                .first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
     }
