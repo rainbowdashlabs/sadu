@@ -6,10 +6,8 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.base.QueryFactory;
 import de.chojo.sadu.databases.Database;
 import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +99,7 @@ import java.util.stream.Collectors;
  *      - 2/patch_1.sql
  *  </pre>
  */
-public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> extends QueryFactory {
+public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> {
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
     private final Map<SqlVersion, Consumer<Connection>> preUpdateHook;
@@ -112,8 +110,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     private final Database<T, U> type;
     private final ClassLoader classLoader;
 
-    protected SqlUpdater(DataSource source, QueryBuilderConfig config, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
-        super(source, config);
+    protected SqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
         this.source = Objects.requireNonNull(source);
         this.versionTable = versionTable;
         this.replacements = replacements;
@@ -346,6 +343,10 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             result = replacement.apply(result);
         }
         return result;
+    }
+
+    public DataSource source() {
+        return source;
     }
 
     protected Database<T, U> type() {

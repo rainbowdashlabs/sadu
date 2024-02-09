@@ -2,6 +2,7 @@ description = "SADU module for interaction with a MariaDB database"
 
 dependencies {
     api(project(":sadu-updater"))
+    api(project(":sadu-mapper"))
 
     testImplementation(project(":sadu-queries"))
     testImplementation(project(":sadu-datasource"))

@@ -25,7 +25,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @param <T> type of returned object
  */
-public class RowMapper<T> {
+public class RowMapper<T> implements RowMapping<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
     private final ThrowingFunction<? extends T, Row, SQLException> mapper;
@@ -49,6 +49,7 @@ public class RowMapper<T> {
         return columns;
     }
 
+    @Override
     public T map(Row row) throws SQLException {
         return mapper.apply(row);
     }
