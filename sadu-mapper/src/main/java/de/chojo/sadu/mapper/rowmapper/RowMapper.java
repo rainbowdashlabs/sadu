@@ -7,7 +7,7 @@
 package de.chojo.sadu.mapper.rowmapper;
 
 import de.chojo.sadu.mapper.MapperConfig;
-import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.mapper.wrapper.Row;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;

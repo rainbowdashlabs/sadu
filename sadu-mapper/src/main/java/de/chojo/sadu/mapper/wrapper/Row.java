@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.wrapper.util;
+package de.chojo.sadu.mapper.wrapper;
 
 import de.chojo.sadu.core.conversion.ArrayConverter;
 import de.chojo.sadu.core.conversion.UUIDConverter;

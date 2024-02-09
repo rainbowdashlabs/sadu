@@ -7,7 +7,7 @@
 package de.chojo.sadu.mapper.rowmapper;
 
 import de.chojo.sadu.core.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.mapper.wrapper.Row;
 
 import java.sql.SQLException;
 

@@ -5,5 +5,5 @@ module sadu.sadu.mapper.main {
     exports de.chojo.sadu.mapper.exceptions;
     exports de.chojo.sadu.mapper.rowmapper;
     exports de.chojo.sadu.mapper.util;
-    exports de.chojo.sadu.wrapper.util;
+    exports de.chojo.sadu.mapper.wrapper;
 }
