@@ -9,6 +9,7 @@ package de.chojo.sadu.queries.examples;
 import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.PostgresqlMapper;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.call.calls.Calls;
 import de.chojo.sadu.queries.api.results.reading.Result;
@@ -42,7 +43,8 @@ public class ReadTest {
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())).build();
+        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
+                .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
         query.query("INSERT INTO users(uuid, name) VALUES (?::uuid,?)")
                 .batch(Call.of().bind(UUID.randomUUID(), AS_STRING).bind("Lilly"),
                         Call.of().bind(UUID.randomUUID(), AS_STRING).bind("Chojo"))
@@ -58,8 +60,17 @@ public class ReadTest {
     @Test
     public void retrieveAllDirectly() {
         List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
-                .single(Call.of().bind(1).bind("name", "lilly"))
+                .single(call().bind(1).bind("name", "lilly"))
                 .map(User.map())
+                .allAndGet();
+        Assertions.assertEquals(1, users.size());
+    }
+
+    @Test
+    public void mapViaRegistry() {
+        List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name")
+                .single(call().bind(1).bind("name", "lilly"))
+                .mapAs(User.class)
                 .allAndGet();
         Assertions.assertEquals(1, users.size());
     }

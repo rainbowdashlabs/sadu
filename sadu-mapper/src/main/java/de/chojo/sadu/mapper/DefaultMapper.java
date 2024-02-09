@@ -8,6 +8,7 @@ package de.chojo.sadu.mapper;
 
 import de.chojo.sadu.exceptions.ThrowingBiFunction;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.mapper.rowmapper.RowMapping;
 import de.chojo.sadu.mapper.util.Results;
 import de.chojo.sadu.types.SqlType;
 import de.chojo.sadu.wrapper.util.Row;

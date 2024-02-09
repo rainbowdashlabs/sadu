@@ -28,10 +28,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RowMapper<T> implements RowMapping<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
-    private final ThrowingFunction<? extends T, Row, SQLException> mapper;
+    private final RowMapping<T> mapper;
     private final Set<String> columns;
 
-    RowMapper(Class<T> clazz, ThrowingFunction<? extends T, Row, SQLException> mapper, Set<String> columns) {
+    RowMapper(Class<T> clazz, RowMapping<T> mapper, Set<String> columns) {
         this.clazz = clazz;
         this.mapper = mapper;
         this.columns = columns;
@@ -51,7 +51,7 @@ public class RowMapper<T> implements RowMapping<T> {
 
     @Override
     public T map(Row row) throws SQLException {
-        return mapper.apply(row);
+        return mapper.map(row);
     }
 
     public boolean isWildcard() {

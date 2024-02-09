@@ -22,5 +22,5 @@ public interface PartialRowMapper<T> {
      * @param mapper mapper
      * @return builder instance
      */
-    RowMapperBuilder<T> mapper(ThrowingFunction<? extends T, Row, SQLException> mapper);
+    RowMapperBuilder<T> mapper(RowMapping<T> mapper);
 }

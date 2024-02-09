@@ -21,14 +21,14 @@ import java.util.Set;
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
     private final Set<String> columns = new HashSet<>();
-    private ThrowingFunction<? extends T, Row, SQLException> mapper;
+    private RowMapping<T> mapper;
 
     RowMapperBuilder(Class<T> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public RowMapperBuilder<T> mapper(ThrowingFunction<? extends T, Row, SQLException> mapper) {
+    public RowMapperBuilder<T> mapper(RowMapping<T> mapper) {
         this.mapper = mapper;
         return this;
     }
