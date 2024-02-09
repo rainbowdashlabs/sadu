@@ -38,7 +38,7 @@ SADU offers a query builder to manage resources, error handling, result set read
 
 to use it import: `sadu-queries`
 
-Learn how to use the query builder [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries)
+Learn how to use the query builder [here](https://sadu.docs.chojo.dev/queries/)
 
 ### But why should I use it?
 
@@ -88,7 +88,7 @@ class MyQueries {
 Beautiful isnt it? The query builder will enforce try with resources, set parameters in the order defined by you,
 read the result set and additionally handle the exceptions for you.
 
-[How does it work?](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries#how-does-it-work)
+[How does it work?](https://sadu.docs.chojo.dev/queries/)
 
 ## Datasource Builder
 
@@ -98,7 +98,7 @@ to use it import: `sadu-datasource`
 
 Note that in order to use this, you need at least one of the listed databases from above.
 
-Learn how to use the datasource builder [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Datasource)
+Learn how to use the datasource builder [here](https://sadu.docs.chojo.dev/data_source/)
 
 ## Updater
 
@@ -106,7 +106,7 @@ SADU offers a simple sql updater which deploys upgrade and migration scripts to 
 
 to use it import: `sadu-updater`
 
-Learn how to use it [here](https://sadu.docs.chojo.dev/queries/)
+Learn how to use it [here](https://sadu.docs.chojo.dev/updater/)
 
 
 [nexus_releases]: https://search.maven.org/search?q=de.chojo.sadu
