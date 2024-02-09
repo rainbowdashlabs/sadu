@@ -64,6 +64,7 @@ public class RowMapperRegistry {
         }
         return this;
     }
+
     /**
      * Registers new mapper.
      * <p>
@@ -93,9 +94,9 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
         return mapper(clazz).stream()
-                            .filter(RowMapper::isWildcard)
-                            .findAny()
-                            .map(rowMapper -> (RowMapper<T>) rowMapper);
+                .filter(RowMapper::isWildcard)
+                .findAny()
+                .map(rowMapper -> (RowMapper<T>) rowMapper);
     }
 
     /**

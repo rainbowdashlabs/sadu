@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static de.chojo.sadu.testing.TestUtil.resourceContent;
-import static de.chojo.sadu.testing.TestUtil.resourceContent;
 
 
 /**

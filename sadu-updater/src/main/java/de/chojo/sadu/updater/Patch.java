@@ -31,7 +31,7 @@ class Patch {
         return query;
     }
 
-    public SqlVersion version(){
+    public SqlVersion version() {
         return new SqlVersion(major, patch);
     }
 }

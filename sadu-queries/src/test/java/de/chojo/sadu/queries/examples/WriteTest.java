@@ -7,8 +7,8 @@
 package de.chojo.sadu.queries.examples;
 
 import de.chojo.sadu.PostgresDatabase;
-import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;

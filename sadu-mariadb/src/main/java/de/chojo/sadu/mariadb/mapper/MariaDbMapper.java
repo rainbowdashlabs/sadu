@@ -25,10 +25,6 @@ import static de.chojo.sadu.mapper.DefaultMapper.createString;
 import static de.chojo.sadu.mapper.DefaultMapper.createUuid;
 
 public final class MariaDbMapper {
-    private MariaDbMapper() {
-        throw new UnsupportedOperationException("This is a utility class.");
-    }
-
     public static final RowMapper<Boolean> BOOLEAN_MAPPER = createBoolean(List.of(MariaDbTypes.BOOLEAN));
     public static final RowMapper<Short> SHORT_MAPPER = createShort(List.of(MariaDbTypes.TINYINT, MariaDbTypes.SMALLINT));
     public static final RowMapper<Integer> INTEGER_MAPPER = createInteger(List.of(MariaDbTypes.TINYINT, MariaDbTypes.SMALLINT, MariaDbTypes.MEDIUMINT, MariaDbTypes.INT));
@@ -40,8 +36,11 @@ public final class MariaDbMapper {
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(MariaDbTypes.TINYTEXT, MariaDbTypes.TEXT, MariaDbTypes.MEDIUMTEXT, MariaDbTypes.LONGTEXT, MariaDbTypes.VARCHAR));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(MariaDbTypes.TINYTEXT, MariaDbTypes.TEXT, MariaDbTypes.MEDIUMTEXT, MariaDbTypes.LONGTEXT, MariaDbTypes.VARCHAR),
             List.of(MariaDbTypes.TINYBLOB, MariaDbTypes.BLOB, MariaDbTypes.MEDIUMBLOB, MariaDbTypes.LONGBLOB, MariaDbTypes.VARBINARY));
+    private MariaDbMapper() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
 
-    public static List<RowMapper<?>> getDefaultMapper(){
+    public static List<RowMapper<?>> getDefaultMapper() {
         return List.of(BOOLEAN_MAPPER, SHORT_MAPPER, INTEGER_MAPPER, LONG_MAPPER, FLOAT_MAPPER, DOUBLE_MAPPER, BIG_DECIMAL_MAPPER, STRING_MAPPER, BYTES_MAPPER, UUID_MAPPER);
     }
 }

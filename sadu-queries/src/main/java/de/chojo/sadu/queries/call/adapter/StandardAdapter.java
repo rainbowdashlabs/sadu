@@ -6,8 +6,8 @@
 
 package de.chojo.sadu.queries.call.adapter;
 
-import de.chojo.sadu.queries.api.call.adapter.Adapter;
 import de.chojo.sadu.core.types.SqlType;
+import de.chojo.sadu.queries.api.call.adapter.Adapter;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -29,7 +29,6 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 
 import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;
-import static de.chojo.sadu.queries.api.call.adapter.Adapter.create;
 
 /**
  * The StandardAdapter class provides a set of static instances of Adapter, which map Java objects to specific SQL data types and provide the necessary conversions when binding the

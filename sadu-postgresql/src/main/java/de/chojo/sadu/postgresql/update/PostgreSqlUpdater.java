@@ -7,10 +7,10 @@
 package de.chojo.sadu.postgresql.update;
 
 import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.updater.SqlVersion;
 import de.chojo.sadu.postgresql.jdbc.PostgreSqlJdbc;
 import de.chojo.sadu.updater.QueryReplacement;
 import de.chojo.sadu.updater.SqlUpdater;
-import de.chojo.sadu.core.updater.SqlVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

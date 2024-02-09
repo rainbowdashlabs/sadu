@@ -25,10 +25,6 @@ import static de.chojo.sadu.mapper.DefaultMapper.createString;
 import static de.chojo.sadu.mapper.DefaultMapper.createUuid;
 
 public final class PostgresqlMapper {
-    private PostgresqlMapper() {
-        throw new UnsupportedOperationException("This is a utility class.");
-    }
-
     public static final RowMapper<Boolean> BOOLEAN_MAPPER = createBoolean(List.of(PostgreSqlTypes.BOOLEAN));
     public static final RowMapper<Short> SHORT_MAPPER = createShort(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER));
     public static final RowMapper<Integer> INTEGER_MAPPER = createInteger(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER));
@@ -39,6 +35,9 @@ public final class PostgresqlMapper {
     public static final RowMapper<String> STRING_MAPPER = createString(List.of(PostgreSqlTypes.TEXT, PostgreSqlTypes.VARCHAR, PostgreSqlTypes.CHAR, PostgreSqlTypes.JSON, PostgreSqlTypes.JSONB));
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(PostgreSqlTypes.BYTEA));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(PostgreSqlTypes.TEXT), List.of(PostgreSqlTypes.BYTEA));
+    private PostgresqlMapper() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
 
     public static List<RowMapper<?>> getDefaultMapper() {
         return List.of(BOOLEAN_MAPPER, SHORT_MAPPER, INTEGER_MAPPER, LONG_MAPPER, FLOAT_MAPPER, DOUBLE_MAPPER, BIG_DECIMAL_MAPPER, STRING_MAPPER, BYTES_MAPPER, UUID_MAPPER);

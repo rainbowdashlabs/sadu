@@ -6,8 +6,8 @@
 
 package de.chojo.sadu;
 
-import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.chojo.sadu.updater.SqlUpdater;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;

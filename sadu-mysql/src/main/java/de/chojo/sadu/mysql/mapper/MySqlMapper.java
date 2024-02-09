@@ -22,10 +22,6 @@ import static de.chojo.sadu.mapper.DefaultMapper.createString;
 import static de.chojo.sadu.mapper.DefaultMapper.createUuid;
 
 public final class MySqlMapper {
-    private MySqlMapper() {
-        throw new UnsupportedOperationException("This is a utility class.");
-    }
-
     public static final RowMapper<Boolean> BOOLEAN_MAPPER = createBoolean(List.of(MySqlTypes.BOOLEAN));
     public static final RowMapper<Integer> INTEGER_MAPPER = createInteger(List.of(MySqlTypes.TINYINT, MySqlTypes.SMALLINT, MySqlTypes.MEDIUMINT, MySqlTypes.INT));
     public static final RowMapper<Long> LONG_MAPPER = createLong(List.of(MySqlTypes.BIGINT, MySqlTypes.TINYINT, MySqlTypes.SMALLINT, MySqlTypes.MEDIUMINT, MySqlTypes.INT));
@@ -35,8 +31,11 @@ public final class MySqlMapper {
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(MySqlTypes.TINYTEXT, MySqlTypes.TEXT, MySqlTypes.MEDIUMTEXT, MySqlTypes.LONGTEXT, MySqlTypes.VARCHAR));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(MySqlTypes.TINYTEXT, MySqlTypes.TEXT, MySqlTypes.MEDIUMTEXT, MySqlTypes.LONGTEXT, MySqlTypes.VARCHAR),
             List.of(MySqlTypes.TINYBLOB, MySqlTypes.BLOB, MySqlTypes.MEDIUMBLOB, MySqlTypes.LONGBLOB, MySqlTypes.VARBINARY));
+    private MySqlMapper() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
 
-    public static List<RowMapper<?>> getDefaultMapper(){
+    public static List<RowMapper<?>> getDefaultMapper() {
         return List.of(BOOLEAN_MAPPER, INTEGER_MAPPER, LONG_MAPPER, FLOAT_MAPPER, DOUBLE_MAPPER, STRING_MAPPER, BYTES_MAPPER, UUID_MAPPER);
     }
 }

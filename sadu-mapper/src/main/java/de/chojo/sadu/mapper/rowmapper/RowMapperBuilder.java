@@ -12,6 +12,7 @@ import java.util.Set;
 
 /**
  * A builder to build a {@link RowMapper}.
+ *
  * @param <T> type of the mapper result.
  */
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {

@@ -12,9 +12,9 @@ import de.chojo.sadu.wrapper.util.Row;
 import java.sql.SQLException;
 
 public interface RowMapping<T> {
-    T map(Row row) throws SQLException;
-
-    static <V> RowMapping<V> create(ThrowingFunction<V, Row, SQLException> mapper){
+    static <V> RowMapping<V> create(ThrowingFunction<V, Row, SQLException> mapper) {
         return mapper::apply;
     }
+
+    T map(Row row) throws SQLException;
 }

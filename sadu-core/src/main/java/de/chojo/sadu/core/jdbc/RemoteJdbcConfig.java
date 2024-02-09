@@ -200,7 +200,7 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
     }
 
     public static class Credentials {
-        public static final Credentials EMPTY = new Credentials(null,null);
+        public static final Credentials EMPTY = new Credentials(null, null);
         private final JdbProperty<?> user;
         private final JdbProperty<?> password;
 

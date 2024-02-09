@@ -7,6 +7,7 @@
 package de.chojo.sadu.queries.call;
 
 import de.chojo.sadu.core.exceptions.ThrowingBiConsumer;
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
 import de.chojo.sadu.queries.api.call.calls.Calls;
@@ -17,7 +18,6 @@ import de.chojo.sadu.queries.calls.SingletonCall;
 import de.chojo.sadu.queries.parameter.IndexParameter;
 import de.chojo.sadu.queries.parameter.TokenParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
-import de.chojo.sadu.core.types.SqlType;
 
 import java.math.BigDecimal;
 import java.net.URL;

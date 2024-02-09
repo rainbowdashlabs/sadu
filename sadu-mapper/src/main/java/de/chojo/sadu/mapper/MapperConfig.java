@@ -53,6 +53,7 @@ public class MapperConfig implements Cloneable {
 
     /**
      * When true only mappers will be used, which have a mapping value for all columns or the wild card mapper if present and no matching mapper was found.
+     *
      * @return true when strict
      */
     public boolean isStrict() {

@@ -177,6 +177,7 @@ public interface Database<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?
 
     /**
      * Instantiates an implementation of {@link UpdaterBuilder}
+     *
      * @return the instance
      */
     @ApiStatus.Internal

@@ -1,9 +1,11 @@
 Hello and welcome new contributor.
 
 # Issues
+
 Please make sure to describe your issue as precisely as possible.
 
 # Pull Requests
+
 When you create a new pull request you have to take care of a few things.
 
 - Create a feature branch based on the development branch

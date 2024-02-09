@@ -26,11 +26,11 @@ import java.util.function.Consumer;
  * @param <T> The type of the jdbc link defined by the {@link Database}
  */
 public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpdaterBuilder<T, ?>> implements UpdaterBuilder<T, S> {
+    protected final Database<T, S> type;
     protected DataSource source;
     protected SqlVersion version;
     protected Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
     protected Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
-    protected final Database<T, S> type;
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
     protected ClassLoader classLoader = getClass().getClassLoader();

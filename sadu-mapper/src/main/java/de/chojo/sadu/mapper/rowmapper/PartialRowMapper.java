@@ -8,6 +8,7 @@ package de.chojo.sadu.mapper.rowmapper;
 
 /**
  * Represents a partially configured {@link RowMapper}
+ *
  * @param <T> type of the mapper result.
  */
 public interface PartialRowMapper<T> {

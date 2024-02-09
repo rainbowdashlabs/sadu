@@ -33,6 +33,7 @@ SADU offers support for four different databases at the moment. To use them simp
 - `sadu-sqlite`
 
 ## Querybuilder
+
 SADU offers a query builder to manage resources, error handling, result set reading and dispatching of queries.
 
 to use it import: `sadu-queries`
@@ -44,12 +45,13 @@ Learn how to use the query builder [here](https://github.com/RainbowDashLabs/sad
 Before I give you a long talk about how much nicer the syntax and code is let me simple show you a comparison.
 
 Without the query builder your code would ideally look like this:
+
 ```java
 class MyQueries {
-    
+
     DataSource dataSource;
-    
-    MyQueries(DataSource dataSource){
+
+    MyQueries(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -71,6 +73,7 @@ class MyQueries {
 ```
 
 But using the query builder your code becomes this:
+
 ```java
 class MyQueries {
     public Optional<Result> getResultNew(int id) {
@@ -88,6 +91,7 @@ read the result set and additionally handle the exceptions for you.
 [How does it work?](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Queries#how-does-it-work)
 
 ## Datasource Builder
+
 SADU offsers a data source builder to create data sources for the databases listed above.
 
 to use it import: `sadu-datasource`
@@ -106,4 +110,5 @@ Learn how to use it [here](https://sadu.docs.chojo.dev/queries/)
 
 
 [nexus_releases]: https://search.maven.org/search?q=de.chojo.sadu
+
 [nexus_snapshots]: https://s01.oss.sonatype.org/#nexus-search;quick~de.chojo.sadu

@@ -6,11 +6,11 @@
 
 package de.chojo.sadu.queries.api.call;
 
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
-import de.chojo.sadu.core.types.SqlType;
 
 import java.math.BigDecimal;
 import java.net.URL;

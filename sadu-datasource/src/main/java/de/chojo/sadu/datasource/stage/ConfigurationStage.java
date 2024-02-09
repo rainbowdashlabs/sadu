@@ -161,6 +161,7 @@ public interface ConfigurationStage {
 
     /**
      * Allows the direct mutation of the HikariConfig, should be used for config options, that are not represented by a delegate.
+     *
      * @param configConsumer the config consumer
      * @return Configuration Stage with value set
      */

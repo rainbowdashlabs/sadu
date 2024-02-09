@@ -10,6 +10,7 @@ import de.chojo.sadu.core.conversion.ArrayConverter;
 import de.chojo.sadu.core.conversion.UUIDConverter;
 import de.chojo.sadu.mapper.MapperConfig;
 import org.jetbrains.annotations.ApiStatus;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -101,7 +102,6 @@ public class Row {
      *                                  called on a closed result set
      * @throws IllegalArgumentException when the value could not be mapped
      * @throws NullPointerException     when the class is null
-     *
      * @since 1.2
      */
     public <T extends Enum<T>> T getEnum(int columnIndex, Class<T> clazz) throws SQLException {
@@ -1035,7 +1035,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
-
      */
     public Reader getCharacterStream(int columnIndex) throws SQLException {
         return resultSet.getCharacterStream(columnIndex);
@@ -1053,7 +1052,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
-
      */
     public Reader getCharacterStream(String columnLabel) throws SQLException {
         return resultSet.getCharacterStream(columnAlias(columnLabel));
@@ -1071,7 +1069,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
-
      */
     public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
         return resultSet.getBigDecimal(columnIndex);
@@ -1089,7 +1086,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
-
      */
     public BigDecimal getBigDecimal(String columnLabel) throws SQLException {
         return resultSet.getBigDecimal(columnAlias(columnLabel));
@@ -1115,7 +1111,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Object getObject(int columnIndex, Map<String, Class<?>> map) throws SQLException {
         return resultSet.getObject(columnIndex, map);
@@ -1134,7 +1129,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Ref getRef(int columnIndex) throws SQLException {
         return resultSet.getRef(columnIndex);
@@ -1153,7 +1147,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Blob getBlob(int columnIndex) throws SQLException {
         return resultSet.getBlob(columnIndex);
@@ -1172,7 +1165,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Clob getClob(int columnIndex) throws SQLException {
         return resultSet.getClob(columnIndex);
@@ -1191,7 +1183,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Array getArray(int columnIndex) throws SQLException {
         return resultSet.getArray(columnIndex);
@@ -1216,7 +1207,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Object getObject(String columnLabel, Map<String, Class<?>> map) throws SQLException {
         return resultSet.getObject(columnAlias(columnLabel), map);
@@ -1235,7 +1225,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Ref getRef(String columnLabel) throws SQLException {
         return resultSet.getRef(columnAlias(columnLabel));
@@ -1254,7 +1243,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Blob getBlob(String columnLabel) throws SQLException {
         return resultSet.getBlob(columnAlias(columnLabel));
@@ -1273,7 +1261,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Clob getClob(String columnLabel) throws SQLException {
         return resultSet.getClob(columnAlias(columnLabel));
@@ -1292,7 +1279,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Array getArray(String columnLabel) throws SQLException {
         return resultSet.getArray(columnAlias(columnLabel));
@@ -1315,7 +1301,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Date getDate(int columnIndex, Calendar cal) throws SQLException {
         return resultSet.getDate(columnIndex, cal);
@@ -1338,12 +1323,12 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalDate getLocalDate(int columnIndex, Calendar cal) throws SQLException {
         var date = getDate(columnIndex, cal);
         return date == null ? null : date.toLocalDate();
     }
+
     /**
      * Retrieves the value of the designated column in the current row
      * of this {@code Row} object as a {@code java.sql.Date} object
@@ -1361,7 +1346,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Date getDate(String columnLabel, Calendar cal) throws SQLException {
         return resultSet.getDate(columnAlias(columnLabel), cal);
@@ -1384,7 +1368,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalDate getLocalDate(String columnLabel, Calendar cal) throws SQLException {
         var date = getDate(columnLabel, cal);
@@ -1408,7 +1391,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Time getTime(int columnIndex, Calendar cal) throws SQLException {
         return resultSet.getTime(columnIndex, cal);
@@ -1431,7 +1413,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalTime getLocalTime(int columnIndex, Calendar cal) throws SQLException {
         var time = getTime(columnIndex, cal);
@@ -1456,7 +1437,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Time getTime(String columnLabel, Calendar cal) throws SQLException {
         return resultSet.getTime(columnAlias(columnLabel), cal);
@@ -1479,7 +1459,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalTime getLocalTime(String columnLabel, Calendar cal) throws SQLException {
         var time = getTime(columnLabel, cal);
@@ -1503,7 +1482,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
         return resultSet.getTimestamp(columnIndex, cal);
@@ -1526,7 +1504,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid or
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
         return resultSet.getTimestamp(columnAlias(columnLabel), cal);
@@ -1550,7 +1527,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalDateTime getLocalDateTime(int columnIndex, Calendar cal) throws SQLException {
         Timestamp timestamp = getTimestamp(columnIndex, cal);
@@ -1575,7 +1551,6 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid or
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public LocalDateTime getLocalDateTime(String columnLabel, Calendar cal) throws SQLException {
         Timestamp timestamp = getTimestamp(columnLabel, cal);
@@ -1599,7 +1574,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public ZonedDateTime getZonedDateTime(int columnIndex, Calendar cal) throws SQLException {
         LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
@@ -1623,7 +1597,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public ZonedDateTime getZonedDateTime(String columnLabel, Calendar cal) throws SQLException {
         LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
@@ -1647,7 +1620,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public OffsetDateTime getOffsetDateTime(int columnIndex, Calendar cal) throws SQLException {
         LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
@@ -1671,7 +1643,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public OffsetDateTime getOffsetDateTime(String columnLabel, Calendar cal) throws SQLException {
         LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
@@ -1695,7 +1666,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public OffsetTime getOffsetTime(int columnIndex, Calendar cal) throws SQLException {
         LocalTime localDateTime = getLocalTime(columnIndex, cal);
@@ -1719,7 +1689,6 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
-
      */
     public OffsetTime getOffsetTime(String columnLabel, Calendar cal) throws SQLException {
         LocalTime localDateTime = getLocalTime(columnLabel, cal);
@@ -1740,7 +1709,6 @@ public class Row {
      *                                         is called on a closed result set or if a URL is malformed
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public URL getURL(int columnIndex) throws SQLException {
         return resultSet.getURL(columnIndex);
@@ -1760,7 +1728,6 @@ public class Row {
      *                                         is called on a closed result set or if a URL is malformed
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public URL getURL(String columnLabel) throws SQLException {
         return resultSet.getURL(columnAlias(columnLabel));
@@ -1779,7 +1746,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public RowId getRowId(int columnIndex) throws SQLException {
         return resultSet.getRowId(columnIndex);
@@ -1798,7 +1764,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public RowId getRowId(String columnLabel) throws SQLException {
         return resultSet.getRowId(columnAlias(columnLabel));
@@ -1819,7 +1784,6 @@ public class Row {
      *                                         or if a database access error occurs
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public NClob getNClob(int columnIndex) throws SQLException {
         return resultSet.getNClob(columnIndex);
@@ -1840,7 +1804,6 @@ public class Row {
      *                                         or if a database access error occurs
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public NClob getNClob(String columnLabel) throws SQLException {
         return resultSet.getNClob(columnAlias(columnLabel));
@@ -1858,7 +1821,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public SQLXML getSQLXML(int columnIndex) throws SQLException {
         return resultSet.getSQLXML(columnIndex);
@@ -1876,7 +1838,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public SQLXML getSQLXML(String columnLabel) throws SQLException {
         return resultSet.getSQLXML(columnAlias(columnLabel));
@@ -1898,7 +1859,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public String getNString(int columnIndex) throws SQLException {
         return resultSet.getNString(columnIndex);
@@ -1920,7 +1880,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public String getNString(String columnLabel) throws SQLException {
         return resultSet.getNString(columnAlias(columnLabel));
@@ -1943,7 +1902,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Reader getNCharacterStream(int columnIndex) throws SQLException {
         return resultSet.getNCharacterStream(columnIndex);
@@ -1966,7 +1924,6 @@ public class Row {
      *                                         or this method is called on a closed result set
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public Reader getNCharacterStream(String columnLabel) throws SQLException {
         return resultSet.getNCharacterStream(columnAlias(columnLabel));
@@ -1996,7 +1953,6 @@ public class Row {
      *                                         a conversion error occurs
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
         return resultSet.getObject(columnIndex, type);
@@ -2028,7 +1984,6 @@ public class Row {
      *                                         a conversion error occurs
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support
      *                                         this method
-
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return resultSet.getObject(columnAlias(columnLabel), type);
