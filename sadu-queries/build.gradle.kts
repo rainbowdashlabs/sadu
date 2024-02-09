@@ -1,13 +1,11 @@
-description = "SADU module to send queries to a database."
-
 dependencies {
     api(project(":sadu-core"))
     api(project(":sadu-mapper"))
-
-    testImplementation(project(":sadu-datasource"))
-    testImplementation(project(":sadu-mariadb"))
-    testImplementation(project(":sadu-mapper"))
-    testImplementation(testlibs.bundles.database.mariadb)
-    testImplementation(testlibs.slf4j.noop)
+    testImplementation("org.postgresql", "postgresql", "42.7.1")
     testImplementation(testlibs.bundles.junit)
+    testImplementation(project(":sadu-datasource"))
+    testImplementation(project(":sadu-postgresql"))
+
+    testImplementation(testlibs.bundles.database.postgres)
+    testImplementation(testlibs.slf4j.noop)
 }

@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.databases.PostgreSql;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
 
 import javax.sql.DataSource;
 

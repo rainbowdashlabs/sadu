@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.mapper.util;
 
-import de.chojo.sadu.types.SqlType;
+import de.chojo.sadu.core.types.SqlType;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

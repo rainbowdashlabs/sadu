@@ -6,7 +6,7 @@
 
 package de.chojo.sadu.jdbc;
 
-import de.chojo.sadu.databases.PostgreSql;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

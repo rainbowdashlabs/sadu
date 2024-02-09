@@ -6,7 +6,6 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
-import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.wrapper.util.Row;
 import org.slf4j.Logger;

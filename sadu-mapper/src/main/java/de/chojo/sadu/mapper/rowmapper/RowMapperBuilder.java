@@ -6,10 +6,6 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
-import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.util.Row;
-
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

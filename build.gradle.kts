@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "1.5.0"
+    publishingVersion = "2.0.0"
 }
 
 group = "de.chojo.sadu"
@@ -157,7 +157,6 @@ allprojects {
 fun applyJavaDocOptions(options: MinimalJavadocOptions) {
     val javaDocOptions = options as StandardJavadocDocletOptions
     javaDocOptions.links(
-            "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
             "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
             "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
     )

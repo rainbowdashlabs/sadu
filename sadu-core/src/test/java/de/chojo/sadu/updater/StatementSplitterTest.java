@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.updater;
 
+import de.chojo.sadu.core.updater.StatementSplitter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

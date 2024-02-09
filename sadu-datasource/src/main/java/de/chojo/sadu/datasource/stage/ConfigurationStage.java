@@ -8,8 +8,8 @@ package de.chojo.sadu.datasource.stage;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;

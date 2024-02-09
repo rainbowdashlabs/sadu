@@ -6,10 +6,12 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.databases.Database;
-import de.chojo.sadu.jdbc.JdbcConfig;
+import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.jdbc.JdbcConfig;
+import de.chojo.sadu.core.updater.SqlVersion;
+import de.chojo.sadu.core.updater.UpdaterBuilder;
+import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;

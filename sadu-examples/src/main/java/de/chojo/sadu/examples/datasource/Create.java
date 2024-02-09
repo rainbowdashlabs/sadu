@@ -7,7 +7,7 @@
 package de.chojo.sadu.examples.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.PostgreSql;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import org.postgresql.Driver;
 

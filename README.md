@@ -72,16 +72,11 @@ class MyQueries {
 
 But using the query builder your code becomes this:
 ```java
-class MyQueries extends QueryFactory {
-    MyQueries(DataSource dataSource){
-        super(dataSource);
-    }
-
-    public CompletableFuture<Optional<Result>> getResultNew(int id) {
-        return builder(Result.class)
-                .query("SELECT result FROM results WHERE id = ?")
-                .parameters(stmt -> stmt.setInt(id))
-                .readRow(rs -> new Result(rs.getString("result")))
+class MyQueries {
+    public Optional<Result> getResultNew(int id) {
+        return Query.query("SELECT result FROM results WHERE id = ?")
+                .single(Call.of().setInt(id))
+                .map(row -> new Result(rs.getString("result")))
                 .first();
     }
 }
@@ -107,7 +102,7 @@ SADU offers a simple sql updater which deploys upgrade and migration scripts to 
 
 to use it import: `sadu-updater`
 
-Learn how to use it [here](https://github.com/RainbowDashLabs/sadu/wiki/SADU-Updater)
+Learn how to use it [here](https://sadu.docs.chojo.dev/queries/)
 
 
 [nexus_releases]: https://search.maven.org/search?q=de.chojo.sadu

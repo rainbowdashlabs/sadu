@@ -6,8 +6,9 @@
 
 package de.chojo.sadu.jdbc;
 
-import de.chojo.sadu.databases.MariaDb;
+import de.chojo.sadu.mariadb.databases.MariaDb;
 import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.mariadb.jdbc.MariaDbJdbc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

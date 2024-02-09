@@ -6,6 +6,8 @@
 
 package de.chojo.sadu.updater;
 
+import de.chojo.sadu.core.updater.SqlVersion;
+
 class Patch {
     private final int major;
     private final int patch;

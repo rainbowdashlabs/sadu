@@ -6,8 +6,8 @@
 
 package de.chojo.sadu.wrapper.util;
 
-import de.chojo.sadu.conversion.ArrayConverter;
-import de.chojo.sadu.conversion.UUIDConverter;
+import de.chojo.sadu.core.conversion.ArrayConverter;
+import de.chojo.sadu.core.conversion.UUIDConverter;
 import de.chojo.sadu.mapper.MapperConfig;
 import org.jetbrains.annotations.ApiStatus;
 import java.io.InputStream;
