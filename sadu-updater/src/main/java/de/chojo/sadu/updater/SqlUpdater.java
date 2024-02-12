@@ -100,6 +100,7 @@ import java.util.stream.Collectors;
  *      - 2/patch_1.sql
  *  </pre>
  */
+@SuppressWarnings("JDBCPrepareStatementWithNonConstantString")
 public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> {
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
@@ -131,29 +132,10 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
      * @param type       the sql type of the database
      * @param <T>        type of the database defined by the {@link Database}
      * @return new builder instance
-     * @throws IOException if the version file does not exist.
      */
     @CheckReturnValue
-    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) throws IOException {
-        return (U) type.newSqlUpdaterBuilder().setSource(dataSource);
-    }
-
-    /**
-     * Creates a new {@link BaseSqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
-     *
-     * @param dataSource the data source to connect to the database
-     * @param version    the version with {@code Major.Patch}
-     * @param type       the sql type of the database
-     * @param <T>        type of the database defined by the {@link Database}
-     * @return builder instance
-     * @deprecated Use {{@link #builder(DataSource, Database)}} and use {@link UpdaterBuilder#setVersion(SqlVersion)}.
-     */
-    @Deprecated(forRemoval = true)
-    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, SqlVersion version, Database<T, U> type) {
-        var builder = type.newSqlUpdaterBuilder();
-        builder.setSource(dataSource);
-        builder.setVersion(version);
-        return (U) builder;
+    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) {
+        return type.newSqlUpdaterBuilder().setSource(dataSource);
     }
 
     @ApiStatus.Internal
@@ -204,6 +186,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                     statement.execute();
                 } catch (SQLException e) {
                     log.warn("Failed to execute statement:\n{}", query, e);
+                    //noinspection ThrowCaughtLocally
                     throw e;
                 }
             }
@@ -326,7 +309,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
         try (var patchFile = classLoader.getResourceAsStream("database/" + type.name() + "/" + patch)) {
             log.info("Loading resource {}", "database/" + type.name() + "/" + patch);
-            return new String(patchFile.readAllBytes(), StandardCharsets.UTF_8);
+            return new String(Objects.requireNonNull(patchFile, "Patch file not found").readAllBytes(), StandardCharsets.UTF_8);
         }
     }
 

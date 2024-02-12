@@ -14,25 +14,25 @@ import de.chojo.sadu.core.updater.UpdaterBuilder;
  *
  * @param <T> database type defined by the {@link Database}
  */
-public abstract class DefaultDatabase<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> implements Database<T, U> {
+public interface DefaultDatabase<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> extends Database<T, U> {
 
     @Override
-    public String versionQuery(String table) {
+    default String versionQuery(String table) {
         return String.format("SELECT major, patch FROM %s LIMIT 1", table);
     }
 
     @Override
-    public String insertVersion(String table) {
+    default String insertVersion(String table) {
         return String.format("INSERT INTO %s VALUES (?, ?)", table);
     }
 
     @Override
-    public String deleteVersion(String table) {
+    default String deleteVersion(String table) {
         return String.format("DELETE FROM %s;", table);
     }
 
     @Override
-    public String createVersionTableQuery(String table) {
+    default String createVersionTableQuery(String table) {
         return String.format("CREATE TABLE IF NOT EXISTS %s(major INTEGER, patch INTEGER);", table);
     }
 }

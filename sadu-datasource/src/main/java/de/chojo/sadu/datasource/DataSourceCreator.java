@@ -43,7 +43,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      * @param <T>  database type defined by the {@link Database}
      * @return a DataSourceCreator in {@link JdbcStage}.
      */
-    @org.jetbrains.annotations.CheckReturnValue
+    @CheckReturnValue
     public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T, ?> type) {
         return new DataSourceCreator<>(type);
     }
@@ -61,7 +61,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
         loadDriverClass();
         RemoteJdbcConfig.Credentials credentials = RemoteJdbcConfig.Credentials.EMPTY;
         if (builder instanceof RemoteJdbcConfig) {
-            credentials = ((RemoteJdbcConfig) builder).userCredentials();
+            credentials = ((RemoteJdbcConfig<?>) builder).userCredentials();
         }
         var jdbcUrl = builder.jdbcUrl();
         log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));

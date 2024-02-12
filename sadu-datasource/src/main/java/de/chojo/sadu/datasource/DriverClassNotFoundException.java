@@ -6,11 +6,16 @@
 
 package de.chojo.sadu.datasource;
 
+import java.io.Serial;
+
 /**
  * Thrown when a driver class is not found.
  */
 
 public class DriverClassNotFoundException extends RuntimeException {
+
+    @Serial
+    private static final long serialVersionUID = 1;
 
     public DriverClassNotFoundException(String message, ClassNotFoundException e) {
         super(message, e);

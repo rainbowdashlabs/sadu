@@ -29,8 +29,8 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
     protected final Database<T, S> type;
     protected DataSource source;
     protected SqlVersion version;
-    protected Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
-    protected Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
+    protected final Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
+    protected final Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
     protected ClassLoader classLoader = getClass().getClassLoader();

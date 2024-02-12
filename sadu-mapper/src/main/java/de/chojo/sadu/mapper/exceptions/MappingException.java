@@ -8,10 +8,13 @@ package de.chojo.sadu.mapper.exceptions;
 
 import de.chojo.sadu.mapper.util.Results;
 
+import java.io.Serial;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class MappingException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1;
 
     public MappingException(String message) {
         super(message);

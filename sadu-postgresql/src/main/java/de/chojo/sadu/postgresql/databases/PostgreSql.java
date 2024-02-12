@@ -14,7 +14,7 @@ import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 /**
  * Represents a PostgreSQL database.
  */
-public class PostgreSql extends DefaultDatabase<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
+public class PostgreSql implements DefaultDatabase<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
     private static final PostgreSql type = new PostgreSql();
 

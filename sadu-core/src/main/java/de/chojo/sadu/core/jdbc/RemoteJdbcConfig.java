@@ -24,6 +24,9 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
     private String port;
     private String database;
 
+    public RemoteJdbcConfig() {
+    }
+
     /**
      * Sets the host explicit to local host.
      * <p>

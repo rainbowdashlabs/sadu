@@ -25,6 +25,9 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     private String driverClass;
 
+    public JdbcConfig() {
+    }
+
     /**
      * Set the driver class which should be used.
      * <p>
@@ -96,7 +99,7 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
      */
     public <V> T addParameter(String key, V value) {
         if (!parameter.add(new JdbProperty<>(key, value))) {
-            var property = parameter.stream().filter(e -> e.key().equals(key)).findFirst().get();
+            var property = parameter.stream().filter(e -> e.key().equals(key)).findFirst().orElseThrow();
             throw new IllegalArgumentException(String.format("Parameter '%s' is already set to '%s' and can not be set to '%s'.", key, property.value(), value));
         }
         return self();

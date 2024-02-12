@@ -34,6 +34,7 @@ public final class SqLiteMapper {
     public static final RowMapper<String> STRING_MAPPER = createString(List.of(TEXT));
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(BLOB));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(TEXT), List.of(BLOB));
+
     private SqLiteMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
     }

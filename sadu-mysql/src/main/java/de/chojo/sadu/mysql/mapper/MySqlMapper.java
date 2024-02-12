@@ -31,6 +31,7 @@ public final class MySqlMapper {
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(MySqlTypes.TINYTEXT, MySqlTypes.TEXT, MySqlTypes.MEDIUMTEXT, MySqlTypes.LONGTEXT, MySqlTypes.VARCHAR));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(MySqlTypes.TINYTEXT, MySqlTypes.TEXT, MySqlTypes.MEDIUMTEXT, MySqlTypes.LONGTEXT, MySqlTypes.VARCHAR),
             List.of(MySqlTypes.TINYBLOB, MySqlTypes.BLOB, MySqlTypes.MEDIUMBLOB, MySqlTypes.LONGBLOB, MySqlTypes.VARBINARY));
+
     private MySqlMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
     }

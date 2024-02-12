@@ -60,6 +60,7 @@ public class RowMapperRegistry {
      */
     public RowMapperRegistry register(RowMapper<?>... rowMapper) {
         for (var mapper : rowMapper) {
+            //noinspection ResultOfMethodCallIgnored
             register(mapper);
         }
         return this;
@@ -75,6 +76,7 @@ public class RowMapperRegistry {
      */
     public RowMapperRegistry register(List<RowMapper<?>> rowMapper) {
         for (var mapper : rowMapper) {
+            //noinspection ResultOfMethodCallIgnored
             register(mapper);
         }
         return this;

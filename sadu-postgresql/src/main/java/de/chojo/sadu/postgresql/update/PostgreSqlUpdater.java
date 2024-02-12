@@ -38,6 +38,7 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
             if (type().hasSchemas()) {
                 for (var schema : schemas) {
                     if (!schemaExists(schema)) {
+                        //noinspection JDBCPrepareStatementWithNonConstantString
                         try (var stmt = conn.prepareStatement(type().createSchema(schema))) {
                             stmt.execute();
                             log.info("Schema {} did not exist. Created.", schema);
@@ -53,6 +54,7 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
     }
 
     private boolean schemaExists(String schema) {
+        //noinspection JDBCPrepareStatementWithNonConstantString
         try (var conn = source().getConnection(); var stmt = conn.prepareStatement(type().schemaExists())) {
             stmt.setString(1, schema);
             var row = stmt.executeQuery();

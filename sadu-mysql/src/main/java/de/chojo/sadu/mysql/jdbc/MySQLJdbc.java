@@ -12,6 +12,9 @@ import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
  * A builder to create a MySQL jdbc url.
  */
 public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
+    public MySQLJdbc() {
+    }
+
     @Override
     public String driver() {
         return "mysql";

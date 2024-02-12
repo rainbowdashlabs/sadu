@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.stages.execution.reading;
 
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
+import de.chojo.sadu.mapper.wrapper.Row;
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.execution.reading.Reader;
@@ -20,7 +21,6 @@ import de.chojo.sadu.queries.query.TokenizedQuery;
 import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.stages.results.reading.MultiResult;
 import de.chojo.sadu.queries.stages.results.reading.SingleResult;
-import de.chojo.sadu.mapper.wrapper.Row;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -12,6 +12,9 @@ import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
  * A builder to create a MariaDB jdbc url.
  */
 public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
+    public MariaDbJdbc() {
+    }
+
     @Override
     public String driver() {
         return "mariadb";
@@ -183,6 +186,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     /**
      * Represents different SSL modes.
      */
+    @SuppressWarnings("NewClassNamingConvention")
     public enum SslMode {
         /**
          * Do not use SSL/TLS

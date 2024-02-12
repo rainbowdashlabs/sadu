@@ -23,7 +23,7 @@ public class TestUtil {
      *
      * @see Path
      */
-    public static Path resourcePath = Path.of("src/main/resources");
+    public static final Path resourcePath = Path.of("src/main/resources");
 
     private TestUtil() {
         throw new UnsupportedOperationException("This is a utility class.");

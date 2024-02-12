@@ -93,6 +93,7 @@ public class QueryConfiguration {
      */
     public void handleException(SQLException e) {
         exceptionHandler.accept(e);
+        //noinspection DataFlowIssue
         query.logException(e);
         if (throwExceptions) {
             throw (WrappedQueryExecutionException) new WrappedQueryExecutionException(e.getMessage()).initCause(e);
@@ -118,9 +119,9 @@ public class QueryConfiguration {
     }
 
     /**
-     * Retrieves the {@link RowMapperRegistry} object from the {@link QueryConfiguration}.
+     * Retrieves the {@link RowMapperRegistry} object from the QueryConfiguration.
      *
-     * @return The {@link RowMapperRegistry} object from the {@link QueryConfiguration}.
+     * @return The {@link RowMapperRegistry} object from the QueryConfiguration.
      */
     public RowMapperRegistry rowMapperRegistry() {
         return rowMapperRegistry;

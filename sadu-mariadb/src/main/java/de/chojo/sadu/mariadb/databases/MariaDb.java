@@ -15,7 +15,7 @@ import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 /**
  * Represents a MariaDb database.
  */
-public class MariaDb extends DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuilder<MariaDbJdbc, ?>> {
+public class MariaDb implements DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuilder<MariaDbJdbc, ?>> {
 
     private static final MariaDb type = new MariaDb();
 

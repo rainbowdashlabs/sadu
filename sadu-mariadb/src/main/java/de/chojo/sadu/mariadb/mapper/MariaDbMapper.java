@@ -36,6 +36,7 @@ public final class MariaDbMapper {
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(MariaDbTypes.TINYTEXT, MariaDbTypes.TEXT, MariaDbTypes.MEDIUMTEXT, MariaDbTypes.LONGTEXT, MariaDbTypes.VARCHAR));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(MariaDbTypes.TINYTEXT, MariaDbTypes.TEXT, MariaDbTypes.MEDIUMTEXT, MariaDbTypes.LONGTEXT, MariaDbTypes.VARCHAR),
             List.of(MariaDbTypes.TINYBLOB, MariaDbTypes.BLOB, MariaDbTypes.MEDIUMBLOB, MariaDbTypes.LONGBLOB, MariaDbTypes.VARBINARY));
+
     private MariaDbMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
     }
