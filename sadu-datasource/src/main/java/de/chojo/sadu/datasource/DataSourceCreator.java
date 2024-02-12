@@ -11,6 +11,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.core.databases.Database;
 import de.chojo.sadu.core.jdbc.JdbcConfig;
 import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
+import de.chojo.sadu.datasource.exceptions.DriverClassNotFoundException;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
 import org.jetbrains.annotations.CheckReturnValue;

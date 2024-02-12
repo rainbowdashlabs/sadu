@@ -6,5 +6,5 @@ module sadu.sadu.postgresql.main {
     exports de.chojo.sadu.postgresql.jdbc;
     exports de.chojo.sadu.postgresql.mapper;
     exports de.chojo.sadu.postgresql.types;
-    exports de.chojo.sadu.postgresql.update;
+    exports de.chojo.sadu.postgresql.updater;
 }

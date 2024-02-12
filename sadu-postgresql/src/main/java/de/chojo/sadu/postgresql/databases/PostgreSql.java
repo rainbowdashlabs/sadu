@@ -8,7 +8,7 @@ package de.chojo.sadu.postgresql.databases;
 
 import de.chojo.sadu.core.databases.DefaultDatabase;
 import de.chojo.sadu.postgresql.jdbc.PostgreSqlJdbc;
-import de.chojo.sadu.postgresql.update.PostgreSqlUpdaterBuilder;
+import de.chojo.sadu.postgresql.updater.PostgreSqlUpdaterBuilder;
 import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 
 /**

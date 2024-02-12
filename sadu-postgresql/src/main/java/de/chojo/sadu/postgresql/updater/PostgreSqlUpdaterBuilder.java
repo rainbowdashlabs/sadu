@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.postgresql.update;
+package de.chojo.sadu.postgresql.updater;
 
 import de.chojo.sadu.core.databases.Database;
 import de.chojo.sadu.core.updater.SqlVersion;

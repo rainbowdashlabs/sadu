@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.datasource;
+package de.chojo.sadu.datasource.exceptions;
 
 import java.io.Serial;
 
