@@ -135,25 +135,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
      */
     @CheckReturnValue
     public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) throws IOException {
-        return (U) type.newSqlUpdaterBuilder().setSource(dataSource);
-    }
-
-    /**
-     * Creates a new {@link BaseSqlUpdaterBuilder} with a version set to a string located in {@code resources/database/version}.
-     *
-     * @param dataSource the data source to connect to the database
-     * @param version    the version with {@code Major.Patch}
-     * @param type       the sql type of the database
-     * @param <T>        type of the database defined by the {@link Database}
-     * @return builder instance
-     * @deprecated Use {{@link #builder(DataSource, Database)}} and use {@link UpdaterBuilder#setVersion(SqlVersion)}.
-     */
-    @Deprecated(forRemoval = true)
-    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, SqlVersion version, Database<T, U> type) {
-        var builder = type.newSqlUpdaterBuilder();
-        builder.setSource(dataSource);
-        builder.setVersion(version);
-        return (U) builder;
+        return type.newSqlUpdaterBuilder().setSource(dataSource);
     }
 
     @ApiStatus.Internal

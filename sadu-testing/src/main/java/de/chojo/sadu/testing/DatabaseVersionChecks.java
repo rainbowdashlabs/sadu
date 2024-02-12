@@ -16,6 +16,10 @@ import static de.chojo.sadu.testing.TestUtil.resourceContent;
  * The DatabaseVersionChecks class provides methods for checking the content of the version file.
  */
 public class DatabaseVersionChecks {
+    private DatabaseVersionChecks() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
+
     /**
      * Checks if the version file exists in the "database" directory.
      * <p>

@@ -43,7 +43,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
      * @param <T>  database type defined by the {@link Database}
      * @return a DataSourceCreator in {@link JdbcStage}.
      */
-    @org.jetbrains.annotations.CheckReturnValue
+    @CheckReturnValue
     public static <T extends JdbcConfig<?>> JdbcStage<T> create(Database<T, ?> type) {
         return new DataSourceCreator<>(type);
     }

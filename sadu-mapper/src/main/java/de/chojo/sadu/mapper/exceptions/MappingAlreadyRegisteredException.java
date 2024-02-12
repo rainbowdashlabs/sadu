@@ -6,7 +6,12 @@
 
 package de.chojo.sadu.mapper.exceptions;
 
+import java.io.Serial;
+
 public class MappingAlreadyRegisteredException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1;
+
     public MappingAlreadyRegisteredException(String message) {
         super(message);
     }

@@ -10,7 +10,12 @@ import de.chojo.sadu.core.databases.Database;
 
 import java.io.IOException;
 
-public class SaduTests {
+public final class SaduTests {
+
+    private SaduTests() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
+
     /**
      * Executes all sadu related tests
      *

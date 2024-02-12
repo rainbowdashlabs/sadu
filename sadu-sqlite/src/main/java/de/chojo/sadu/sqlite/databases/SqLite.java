@@ -15,7 +15,7 @@ import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 /**
  * Represents a SqLite database.
  */
-public class SqLite extends DefaultDatabase<SqLiteJdbc, BaseSqlUpdaterBuilder<SqLiteJdbc, ?>> {
+public class SqLite implements DefaultDatabase<SqLiteJdbc, BaseSqlUpdaterBuilder<SqLiteJdbc, ?>> {
 
     private static final SqLite type = new SqLite();
 

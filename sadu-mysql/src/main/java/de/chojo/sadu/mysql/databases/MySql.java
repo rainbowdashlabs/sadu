@@ -15,7 +15,7 @@ import de.chojo.sadu.updater.BaseSqlUpdaterBuilder;
 /**
  * Represents a SqLite database.
  */
-public class MySql extends DefaultDatabase<MySQLJdbc, BaseSqlUpdaterBuilder<MySQLJdbc, ?>> {
+public class MySql implements DefaultDatabase<MySQLJdbc, BaseSqlUpdaterBuilder<MySQLJdbc, ?>> {
 
     private static final MySql type = new MySql();
 

@@ -25,6 +25,9 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     private String driverClass;
 
+    public JdbcConfig() {
+    }
+
     /**
      * Set the driver class which should be used.
      * <p>

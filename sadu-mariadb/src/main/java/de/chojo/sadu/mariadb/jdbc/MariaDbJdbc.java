@@ -12,6 +12,9 @@ import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
  * A builder to create a MariaDB jdbc url.
  */
 public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
+    public MariaDbJdbc() {
+    }
+
     @Override
     public String driver() {
         return "mariadb";

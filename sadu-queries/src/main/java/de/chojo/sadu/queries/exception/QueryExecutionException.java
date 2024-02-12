@@ -8,12 +8,15 @@ package de.chojo.sadu.queries.exception;
 
 import de.chojo.sadu.queries.query.QueryImpl;
 
+import java.io.Serial;
 import java.sql.SQLException;
 
 /**
  * Exception to wrap {@link Exception} as {@link Exception} thrown during queries executed by {@link QueryImpl}
  */
 public class QueryExecutionException extends SQLException {
+    @Serial
+    private static final long serialVersionUID = 1;
     /**
      * Cause of the exception
      */

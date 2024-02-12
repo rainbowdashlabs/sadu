@@ -35,6 +35,7 @@ public final class PostgresqlMapper {
     public static final RowMapper<String> STRING_MAPPER = createString(List.of(PostgreSqlTypes.TEXT, PostgreSqlTypes.VARCHAR, PostgreSqlTypes.CHAR, PostgreSqlTypes.JSON, PostgreSqlTypes.JSONB));
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(PostgreSqlTypes.BYTEA));
     public static final RowMapper<UUID> UUID_MAPPER = createUuid(List.of(PostgreSqlTypes.TEXT), List.of(PostgreSqlTypes.BYTEA));
+
     private PostgresqlMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
     }

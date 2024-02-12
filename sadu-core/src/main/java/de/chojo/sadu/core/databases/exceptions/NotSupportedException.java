@@ -6,10 +6,15 @@
 
 package de.chojo.sadu.core.databases.exceptions;
 
+import java.io.Serial;
+
 /**
  * Thrown when a method is called which is not supported by this type.
  */
 public class NotSupportedException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1;
+
     public NotSupportedException(String message) {
         super(message);
     }

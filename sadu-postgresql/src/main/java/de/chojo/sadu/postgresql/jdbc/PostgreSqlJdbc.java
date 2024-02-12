@@ -12,6 +12,10 @@ import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
  * A builder to create a PostgreSQL jdbc url.
  */
 public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
+
+    public PostgreSqlJdbc() {
+    }
+
     @Override
     public String driver() {
         return "postgresql";

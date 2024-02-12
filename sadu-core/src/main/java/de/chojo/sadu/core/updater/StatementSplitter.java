@@ -20,8 +20,7 @@ import java.util.regex.Pattern;
  * The delimiter is not case sensitive.
  * </p>
  */
-public class StatementSplitter {
-
+public final class StatementSplitter {
     /**
      * The default marker, which is regularly used to split statements.
      * <p>
@@ -32,7 +31,6 @@ public class StatementSplitter {
      * </p>
      */
     public static final String DEFAULT_SPLIT_MARKER = ";";
-
     /**
      * This is the default delimiter keyword, which is regularly used to change the delimiter.
      * <p>
@@ -43,10 +41,12 @@ public class StatementSplitter {
      * </p>
      */
     public static final String DEFAULT_DELIMITER_KEYWORD = "DELIMITER";
-
     private static final Pattern CLEANER = Pattern.compile("^([ \n\r]+)");
     @RegExp
     private static final String DELIMITER_FORMAT = "^%s (?<delimiter>[^ \n\r]+)";
+    private StatementSplitter() {
+        throw new UnsupportedOperationException("This is a utility class.");
+    }
 
     /**
      * Splits a string of SQL statements into an array of statements.
