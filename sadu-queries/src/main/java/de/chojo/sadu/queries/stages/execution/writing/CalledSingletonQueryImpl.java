@@ -52,6 +52,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
     public ManipulationResult insert() {
         return query.callConnection(() -> new ManipulationResultImpl(this, 0), conn -> {
             var changed = 0;
+            //noinspection JDBCPrepareStatementWithNonConstantString
             try (var stmt = conn.prepareStatement(query.sql().tokenizedSql())) {
                 //TODO find way to return generated keys
                 ((CallImpl) call.call()).apply(query.sql(), stmt);
@@ -67,6 +68,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
     public ManipulationResult update() {
         return query().callConnection(() -> new ManipulationResultImpl(this, 0), conn -> {
             var changed = 0;
+            //noinspection JDBCPrepareStatementWithNonConstantString
             try (var stmt = conn.prepareStatement(query.sql().tokenizedSql())) {
                 ((CallImpl) call.call()).apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();

@@ -50,7 +50,7 @@ public class BatchCall implements Calls {
      * Adds a {@link CallImpl} object to the list of calls.
      *
      * @param call The call to be added to the list.
-     * @return The updated {@link BatchCall} object.
+     * @return The updated object.
      */
     public BatchCall add(Call call) {
         calls.add(call);

@@ -30,6 +30,7 @@ public class ConnectedQueryConfiguration extends QueryConfiguration implements A
     public void close() {
         try {
             if (connection != null && !connection.isClosed()) {
+                //noinspection DataFlowIssue
                 if (query.exceptions().isEmpty()) {
                     if (atomic()) {
                         connection.commit();

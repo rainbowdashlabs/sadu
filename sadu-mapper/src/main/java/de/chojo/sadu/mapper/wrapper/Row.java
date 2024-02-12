@@ -43,7 +43,7 @@ import java.util.UUID;
 /**
  * Represents the row of a result set. Made to restrict actions on valid calls.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UseOfObsoleteDateTimeApi"})
 public class Row {
     private final ResultSet resultSet;
 

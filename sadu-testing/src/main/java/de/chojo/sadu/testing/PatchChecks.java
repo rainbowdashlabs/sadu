@@ -130,17 +130,11 @@ public class PatchChecks {
         Assertions.assertTrue(unreachable.isEmpty(), "There are unreachable files:%n%s".formatted(files));
     }
 
-    private static class Version {
-        final int major, patch;
-
-        Version(int major, int patch) {
-            this.major = major;
-            this.patch = patch;
-        }
+    private record Version(int major, int patch) {
 
         static Version parse(String version) {
-            var split = version.split("\\.");
-            return new Version(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+                var split = version.split("\\.");
+                return new Version(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            }
         }
-    }
 }

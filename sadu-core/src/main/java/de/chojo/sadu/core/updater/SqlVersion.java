@@ -16,19 +16,14 @@ import java.nio.charset.StandardCharsets;
  * <p>
  * A version id defined by a major and a patch version.
  */
-public class SqlVersion implements Comparable<SqlVersion> {
-    private final int major;
-    private final int patch;
-
+public record SqlVersion(int major, int patch) implements Comparable<SqlVersion> {
     /**
      * A new SqlVersion with a major and patch version
      *
      * @param major major
      * @param patch patch
      */
-    public SqlVersion(int major, int patch) {
-        this.major = major;
-        this.patch = patch;
+    public SqlVersion {
     }
 
     public static SqlVersion load() throws IOException {
@@ -51,6 +46,7 @@ public class SqlVersion implements Comparable<SqlVersion> {
      *
      * @return major
      */
+    @Override
     public int major() {
         return major;
     }
@@ -60,6 +56,7 @@ public class SqlVersion implements Comparable<SqlVersion> {
      *
      * @return patch
      */
+    @Override
     public int patch() {
         return patch;
     }
@@ -73,13 +70,6 @@ public class SqlVersion implements Comparable<SqlVersion> {
 
         if (major != that.major) return false;
         return patch == that.patch;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = major;
-        result = 31 * result + patch;
-        return result;
     }
 
     @Override

@@ -205,6 +205,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     /**
      * Represents different SSL modes.
      */
+    @SuppressWarnings("NewClassNamingConvention")
     public enum SslMode {
         /**
          * No validation

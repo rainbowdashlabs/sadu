@@ -61,7 +61,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
         loadDriverClass();
         RemoteJdbcConfig.Credentials credentials = RemoteJdbcConfig.Credentials.EMPTY;
         if (builder instanceof RemoteJdbcConfig) {
-            credentials = ((RemoteJdbcConfig) builder).userCredentials();
+            credentials = ((RemoteJdbcConfig<?>) builder).userCredentials();
         }
         var jdbcUrl = builder.jdbcUrl();
         log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));

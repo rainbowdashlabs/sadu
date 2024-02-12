@@ -54,9 +54,7 @@ public class JdbProperty<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof JdbProperty)) return false;
-
-        var prop = (JdbProperty<?>) o;
+        if (!(o instanceof JdbProperty<?> prop)) return false;
 
         return key.equals(prop.key);
     }

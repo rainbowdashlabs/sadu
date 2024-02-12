@@ -186,6 +186,7 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
     /**
      * Represents different SSL modes.
      */
+    @SuppressWarnings("NewClassNamingConvention")
     public enum SslMode {
         /**
          * Do not use SSL/TLS

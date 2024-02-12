@@ -11,6 +11,7 @@ import de.chojo.sadu.mapper.wrapper.Row;
 
 import java.sql.SQLException;
 
+@FunctionalInterface
 public interface RowMapping<T> {
     static <V> RowMapping<V> create(ThrowingFunction<V, Row, SQLException> mapper) {
         return mapper::apply;
