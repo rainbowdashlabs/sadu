@@ -10,6 +10,7 @@ import de.chojo.sadu.queries.api.results.BaseResult;
 import de.chojo.sadu.queries.execution.reading.MappedQuery;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Base of a result returned by a {@link MappedQuery}
@@ -25,7 +26,11 @@ public interface Result<T> extends BaseResult {
      */
     T result();
 
-    default Optional<T> ifPresent() {
+    default Optional<T> getIfPresent() {
         return Optional.ofNullable(result());
+    }
+
+    default <R> R map(Function<T, R> map) {
+        return map.apply(result());
     }
 }
