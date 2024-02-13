@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.api.results.reading;
 
 import de.chojo.sadu.queries.api.results.BaseResult;
 import de.chojo.sadu.queries.execution.reading.MappedQuery;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,10 +27,22 @@ public interface Result<T> extends BaseResult {
      */
     T result();
 
-    default Optional<T> getIfPresent() {
+    /**
+     * Retrieves the result of the query as an optional value.
+     *
+     * @return an {@code Optional} containing the result of the query, or an empty {@code Optional} if the result is null.
+     */
+    default Optional<T> get() {
         return Optional.ofNullable(result());
     }
 
+    /**
+     * Applies a map function to the result of a query.
+     *
+     * @param <R> the type of the mapped result
+     * @param map the function to apply to the result
+     * @return the mapped result
+     */
     default <R> R map(Function<T, R> map) {
         return map.apply(result());
     }
