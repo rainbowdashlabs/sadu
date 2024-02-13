@@ -13,8 +13,8 @@ import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.CallSupplier;
 import de.chojo.sadu.queries.calls.SingletonCall;
-import de.chojo.sadu.queries.stages.execution.writing.CalledBatchQueryImpl;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
+import de.chojo.sadu.queries.execution.writing.CalledBatchQueryImpl;
+import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 
 public class ParsedQueryImpl implements QueryProvider, ParsedQuery {
     private final QueryProvider query;

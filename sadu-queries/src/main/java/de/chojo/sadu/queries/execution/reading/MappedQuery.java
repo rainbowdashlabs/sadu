@@ -4,10 +4,10 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.execution.reading;
+package de.chojo.sadu.queries.execution.reading;
 
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
+import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 
 import java.sql.ResultSet;
 

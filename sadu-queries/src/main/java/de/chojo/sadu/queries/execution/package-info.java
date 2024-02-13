@@ -1,4 +1,4 @@
 /**
  * Implementation for executing queries.
  */
-package de.chojo.sadu.queries.stages.execution;
+package de.chojo.sadu.queries.execution;

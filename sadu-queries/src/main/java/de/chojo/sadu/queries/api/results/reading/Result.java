@@ -6,7 +6,8 @@
 
 package de.chojo.sadu.queries.api.results.reading;
 
-import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
+import de.chojo.sadu.queries.api.results.BaseResult;
+import de.chojo.sadu.queries.execution.reading.MappedQuery;
 
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
  * @param <T> type of returned object
  */
 @SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
-public interface Result<T> {
+public interface Result<T> extends BaseResult {
     /**
      * Get the result of the query
      *

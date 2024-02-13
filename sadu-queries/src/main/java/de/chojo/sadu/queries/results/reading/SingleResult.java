@@ -4,12 +4,14 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.results.reading;
+package de.chojo.sadu.queries.results.reading;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.results.reading.Result;
 import de.chojo.sadu.queries.query.QueryImpl;
-import de.chojo.sadu.queries.stages.execution.reading.MappedQuery;
+import de.chojo.sadu.queries.execution.reading.MappedQuery;
+
+import java.util.List;
 
 /**
  * Result of a {@link MappedQuery#firstResult()} call
@@ -33,5 +35,10 @@ public class SingleResult<T> implements Result<T>, QueryProvider {
     @Override
     public QueryImpl query() {
         return query.query();
+    }
+
+    @Override
+    public List<Exception> exceptions() {
+        return query().exceptions();
     }
 }

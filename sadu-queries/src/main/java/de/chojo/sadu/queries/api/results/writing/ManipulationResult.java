@@ -6,11 +6,13 @@
 
 package de.chojo.sadu.queries.api.results.writing;
 
+import de.chojo.sadu.queries.api.results.BaseResult;
+
 /**
  * The ManipulationResult interface represents the result of a manipulation operation,
  * such as an insert, update, or delete operation.
  */
-public interface ManipulationResult {
+public interface ManipulationResult extends BaseResult {
     /**
      * Returns the total number of changed rows resulting from a manipulation operation.
      *

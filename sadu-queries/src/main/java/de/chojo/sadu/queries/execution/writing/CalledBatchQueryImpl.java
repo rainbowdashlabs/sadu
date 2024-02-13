@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.execution.writing;
+package de.chojo.sadu.queries.execution.writing;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.execution.writing.CalledBatchQuery;
@@ -14,8 +14,8 @@ import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.query.ParsedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
-import de.chojo.sadu.queries.stages.results.writing.ManipulationBatchQuery;
-import de.chojo.sadu.queries.stages.results.writing.ManipulationResultImpl;
+import de.chojo.sadu.queries.results.writing.ManipulationBatchQuery;
+import de.chojo.sadu.queries.results.writing.ManipulationResultImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
