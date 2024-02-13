@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.execution.reading;
+package de.chojo.sadu.queries.execution.reading;
 
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
@@ -18,9 +18,9 @@ import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.query.AppendedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.query.TokenizedQuery;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
-import de.chojo.sadu.queries.stages.results.reading.MultiResult;
-import de.chojo.sadu.queries.stages.results.reading.SingleResult;
+import de.chojo.sadu.queries.results.reading.MultiResult;
+import de.chojo.sadu.queries.results.reading.SingleResult;
+import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

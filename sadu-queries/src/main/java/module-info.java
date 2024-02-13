@@ -27,10 +27,10 @@ module sadu.sadu.queries.main {
 
     exports de.chojo.sadu.queries.query;
 
-    exports de.chojo.sadu.queries.stages.execution.reading;
-    exports de.chojo.sadu.queries.stages.execution.writing;
-    exports de.chojo.sadu.queries.stages.results.reading;
-    exports de.chojo.sadu.queries.stages.results.writing;
+    exports de.chojo.sadu.queries.execution.reading;
+    exports de.chojo.sadu.queries.execution.writing;
+    exports de.chojo.sadu.queries.results.reading;
+    exports de.chojo.sadu.queries.results.writing;
 
     exports de.chojo.sadu.queries.storage;
 }

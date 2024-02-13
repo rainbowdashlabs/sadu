@@ -4,12 +4,14 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.stages.results.writing;
+package de.chojo.sadu.queries.results.writing;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
-import de.chojo.sadu.queries.stages.execution.writing.CalledSingletonQueryImpl;
+
+import java.util.List;
 
 /**
  * Result of a {@link CalledSingletonQueryImpl}.
@@ -23,21 +25,11 @@ public class ManipulationResultImpl implements QueryProvider, ManipulationResult
         this.rows = rows;
     }
 
-    /**
-     * Amount of changed rows
-     *
-     * @return rows
-     */
     @Override
     public int rows() {
         return rows;
     }
 
-    /**
-     * Checks whether at least one row was changed
-     *
-     * @return true if at least one row was changed
-     */
     @Override
     public boolean changed() {
         return rows != 0;
@@ -46,5 +38,10 @@ public class ManipulationResultImpl implements QueryProvider, ManipulationResult
     @Override
     public QueryImpl query() {
         return query.query();
+    }
+
+    @Override
+    public List<Exception> exceptions() {
+        return query().exceptions();
     }
 }
