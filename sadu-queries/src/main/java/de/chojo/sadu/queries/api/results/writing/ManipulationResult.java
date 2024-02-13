@@ -8,6 +8,8 @@ package de.chojo.sadu.queries.api.results.writing;
 
 import de.chojo.sadu.queries.api.results.BaseResult;
 
+import java.util.function.Consumer;
+
 /**
  * The ManipulationResult interface represents the result of a manipulation operation,
  * such as an insert, update, or delete operation.
@@ -26,4 +28,50 @@ public interface ManipulationResult extends BaseResult {
      * @return true if one row or more were changed
      */
     boolean changed();
+
+    /**
+     * Checks whether the manipulation operation was successful.
+     * <p>
+     * Success is determined by the absence of any exceptions and at least one row being changed.
+     *
+     * @return {@code true} if the operation was successful, {@code false} otherwise.
+     */
+    default boolean isSuccess() {
+        return !hasExceptions() && rows() > 0;
+    }
+
+    /**
+     * Executes the given consumer if at least one row was changed.
+     *
+     * @param consumer the consumer to execute if rows were changed
+     */
+    default void ifChanged(Consumer<Integer> consumer) {
+        if (changed()) {
+            consumer.accept(rows());
+        }
+    }
+
+    /**
+     * Executes the given Consumer if the ManipulationResult has no changes.
+     *
+     * @param notChanged the Consumer to execute
+     */
+    default void ifEmpty(Consumer<ManipulationResult> notChanged) {
+        if (!changed()) {
+            notChanged.accept(this);
+        }
+    }
+
+    /**
+     * Executes the provided consumers based on the result of a manipulation operation.
+     *
+     * @param changed    The consumer to be executed if at least one row was changed. Holds the changed rows count
+     * @param notChanged The consumer to be executed if no rows were changed. Holds the result itself.
+     * @see ManipulationResult#rows()
+     * @see ManipulationResult#changed()
+     */
+    default void ifChangedOrElse(Consumer<Integer> changed, Consumer<ManipulationResult> notChanged) {
+        ifChanged(changed);
+        ifEmpty(notChanged);
+    }
 }
