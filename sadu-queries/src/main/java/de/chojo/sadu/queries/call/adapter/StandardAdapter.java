@@ -6,7 +6,6 @@
 
 package de.chojo.sadu.queries.call.adapter;
 
-import de.chojo.sadu.core.conversion.Unboxing;
 import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
 
