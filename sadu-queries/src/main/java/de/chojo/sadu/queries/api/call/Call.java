@@ -57,41 +57,41 @@ public sealed interface Call permits CallImpl {
 
     Call bind(String token, Enum<?> value);
 
-    Call bind(short value);
+    Call bind(Short value);
 
-    Call bind(String token, short value);
+    Call bind(String token, Short value);
 
-    Call bind(int value);
+    Call bind(Integer value);
 
-    Call bind(long value);
+    Call bind(Long value);
 
-    Call bind(String token, long value);
+    Call bind(String token, Long value);
 
-    Call bind(String token, int value);
+    Call bind(String token, Integer value);
 
-    Call bind(float value);
+    Call bind(Float value);
 
-    Call bind(String token, float value);
+    Call bind(String token, Float value);
 
-    Call bind(double value);
+    Call bind(Double value);
 
-    Call bind(String token, double value);
+    Call bind(String token, Double value);
 
     Call bind(BigDecimal value);
 
     Call bind(String token, BigDecimal value);
 
-    Call bind(boolean value);
+    Call bind(Boolean value);
 
-    Call bind(String token, boolean value);
+    Call bind(String token, Boolean value);
 
-    Call bind(byte value);
+    Call bind(Byte value);
 
-    Call bind(String token, byte value);
+    Call bind(String token, Byte value);
 
-    Call bind(byte[] value);
+    Call bind(Byte[] value);
 
-    Call bind(String token, byte[] value);
+    Call bind(String token, Byte[] value);
 
     Call bind(Date value);
 

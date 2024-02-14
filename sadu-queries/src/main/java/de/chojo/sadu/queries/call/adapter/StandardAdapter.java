@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.queries.call.adapter;
 
+import de.chojo.sadu.core.conversion.Unboxing;
 import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
 
@@ -26,6 +27,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 
 import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;
@@ -45,7 +47,7 @@ public final class StandardAdapter {
     public static final Adapter<Long> LONG = Adapter.create(PreparedStatement::setLong, Types.BIGINT);
     public static final Adapter<Boolean> BOOLEAN = Adapter.create(PreparedStatement::setBoolean, Types.BOOLEAN);
     public static final Adapter<Byte> BYTE = Adapter.create(PreparedStatement::setByte, Types.BIT);
-    public static final Adapter<byte[]> BYTE_ARRAY = Adapter.create(PreparedStatement::setBytes, Types.BINARY);
+    public static final Adapter<Byte[]> BYTE_ARRAY = Adapter.create(PreparedStatement::setBytes, Types.BINARY, Unboxing::unbox);
     public static final Adapter<Date> DATE = Adapter.create(PreparedStatement::setDate, Types.DATE);
     public static final Adapter<LocalDate> LOCAL_DATE = Adapter.create(PreparedStatement::setDate, Types.DATE, Date::valueOf);
     public static final Adapter<Time> TIME = Adapter.create(PreparedStatement::setTime, Types.TIME);

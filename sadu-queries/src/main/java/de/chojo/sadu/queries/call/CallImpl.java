@@ -90,52 +90,52 @@ public final class CallImpl implements Call {
     }
 
     @Override
-    public Call bind(short value) {
+    public Call bind(Short value) {
         return bind(value, StandardAdapter.SHORT);
     }
 
     @Override
-    public Call bind(String token, short value) {
+    public Call bind(String token, Short value) {
         return bind(token, value, StandardAdapter.SHORT);
     }
 
     @Override
-    public Call bind(int value) {
+    public Call bind(Integer value) {
         return bind(value, StandardAdapter.INTEGER);
     }
 
     @Override
-    public Call bind(String token, int value) {
+    public Call bind(String token, Integer value) {
         return bind(token, value, StandardAdapter.INTEGER);
     }
 
     @Override
-    public Call bind(boolean value) {
+    public Call bind(Boolean value) {
         return bind(value, StandardAdapter.BOOLEAN);
     }
 
     @Override
-    public Call bind(String token, boolean value) {
+    public Call bind(String token, Boolean value) {
         return bind(token, value, StandardAdapter.BOOLEAN);
     }
 
     @Override
-    public Call bind(byte value) {
+    public Call bind(Byte value) {
         return bind(value, StandardAdapter.BYTE);
     }
 
     @Override
-    public Call bind(String token, byte value) {
+    public Call bind(String token, Byte value) {
         return bind(token, value, StandardAdapter.BYTE);
     }
 
     @Override
-    public Call bind(byte[] value) {
+    public Call bind(Byte[] value) {
         return bind(value, StandardAdapter.BYTE_ARRAY);
     }
 
     @Override
-    public Call bind(String token, byte[] value) {
+    public Call bind(String token, Byte[] value) {
         return bind(token, value, StandardAdapter.BYTE_ARRAY);
     }
 
@@ -150,22 +150,22 @@ public final class CallImpl implements Call {
     }
 
     @Override
-    public Call bind(long value) {
+    public Call bind(Long value) {
         return bind(value, StandardAdapter.LONG);
     }
 
     @Override
-    public Call bind(String token, long value) {
+    public Call bind(String token, Long value) {
         return bind(token, value, StandardAdapter.LONG);
     }
 
     @Override
-    public Call bind(double value) {
+    public Call bind(Double value) {
         return bind(value, StandardAdapter.DOUBLE);
     }
 
     @Override
-    public Call bind(String token, double value) {
+    public Call bind(String token, Double value) {
         return bind(token, value, StandardAdapter.DOUBLE);
     }
 
@@ -180,12 +180,12 @@ public final class CallImpl implements Call {
     }
 
     @Override
-    public Call bind(float value) {
+    public Call bind(Float value) {
         return bind(value, StandardAdapter.FLOAT);
     }
 
     @Override
-    public Call bind(String token, float value) {
+    public Call bind(String token, Float value) {
         return bind(token, value, StandardAdapter.FLOAT);
     }
 
