@@ -89,9 +89,9 @@ public sealed interface Call permits CallImpl {
 
     Call bind(String token, Byte value);
 
-    Call bind(Byte[] value);
+    Call bind(byte[] value);
 
-    Call bind(String token, Byte[] value);
+    Call bind(String token, byte[] value);
 
     Call bind(Date value);
 

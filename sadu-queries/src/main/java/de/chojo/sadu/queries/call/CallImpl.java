@@ -130,12 +130,12 @@ public final class CallImpl implements Call {
     }
 
     @Override
-    public Call bind(Byte[] value) {
+    public Call bind(byte[] value) {
         return bind(value, StandardAdapter.BYTE_ARRAY);
     }
 
     @Override
-    public Call bind(String token, Byte[] value) {
+    public Call bind(String token, byte[] value) {
         return bind(token, value, StandardAdapter.BYTE_ARRAY);
     }
 
