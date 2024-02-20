@@ -4,7 +4,7 @@ dependencies {
     api(project(":sadu-updater"))
     api(project(":sadu-mapper"))
 
-    testImplementation("org.postgresql", "postgresql", "42.7.1")
+    testImplementation("org.postgresql", "postgresql", "42.7.2")
     testImplementation(testlibs.bundles.junit)
     testImplementation(project(":sadu-queries"))
     testImplementation(project(":sadu-datasource"))
