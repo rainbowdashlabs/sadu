@@ -181,7 +181,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
 
     @Override
     @CheckReturnValue
-    public ConfigurationStage withHikariConfig(Consumer<HikariConfig> configConsumer) {
+    public ConfigurationStage editHikariConfig(Consumer<HikariConfig> configConsumer) {
         configConsumer.accept(hikariConfig);
         return this;
     }
