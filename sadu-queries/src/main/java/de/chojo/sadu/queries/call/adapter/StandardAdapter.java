@@ -26,7 +26,6 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Collection;
 
 import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;

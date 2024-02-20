@@ -69,9 +69,8 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
             try (var stmt = conn.prepareStatement(sql().tokenizedSql())) {
                 ((CallImpl) call()).apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
-                var row = new Row(resultSet, mapperConfig());
                 if (resultSet.next()) {
-                    return new SingleResult<>(this, mapper(resultSet).map(row));
+                    return new SingleResult<>(this, mapper(resultSet).map(new Row(resultSet, mapperConfig())));
                 }
             }
             return new SingleResult<>(this, null);

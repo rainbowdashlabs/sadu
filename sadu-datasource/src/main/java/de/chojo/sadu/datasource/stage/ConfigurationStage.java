@@ -169,6 +169,15 @@ public interface ConfigurationStage {
     ConfigurationStage withHikariConfig(Consumer<HikariConfig> configConsumer);
 
     /**
+     * Allows to override the currently set hikari config.
+     *
+     * @param config the new config value
+     * @return Configuration Stage with value set
+     */
+    @CheckReturnValue
+    ConfigurationStage withHikariConfig(HikariConfig config);
+
+    /**
      * Create a new hikari data source
      *
      * @return hikari data source instance
