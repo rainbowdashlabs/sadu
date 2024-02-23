@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.jdbc;
 
+import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

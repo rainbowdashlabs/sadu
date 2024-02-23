@@ -7,8 +7,8 @@
 package de.chojo.sadu.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.SqLite;
-import de.chojo.sadu.jdbc.SqLiteJdbc;
+import de.chojo.sadu.sqlite.databases.SqLite;
+import de.chojo.sadu.sqlite.jdbc.SqLiteJdbc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

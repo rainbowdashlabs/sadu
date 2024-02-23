@@ -6,10 +6,15 @@
 
 package de.chojo.sadu.updater;
 
+import java.io.Serial;
+
 /**
  * Represents an exception thrown while the database got updated.
  */
 public class UpdateException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1;
+
     /**
      * A new update exception
      *

@@ -6,11 +6,11 @@
 
 package de.chojo.sadu.mapper;
 
-import de.chojo.sadu.exceptions.ThrowingBiFunction;
+import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.mapper.util.Results;
-import de.chojo.sadu.types.SqlType;
-import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.mapper.wrapper.Row;
 
 import java.math.BigDecimal;
 import java.sql.ResultSetMetaData;

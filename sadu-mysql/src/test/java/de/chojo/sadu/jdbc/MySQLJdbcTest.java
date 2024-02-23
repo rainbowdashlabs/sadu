@@ -6,8 +6,9 @@
 
 package de.chojo.sadu.jdbc;
 
-import de.chojo.sadu.databases.MySql;
 import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.mysql.databases.MySql;
+import de.chojo.sadu.mysql.jdbc.MySQLJdbc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -28,6 +29,18 @@ class MySQLJdbcTest {
                 Arguments.arguments("root", "x89j!wW!pE"),
                 Arguments.arguments("root", "x89j=wW=pE"),
                 Arguments.arguments("root", "x89j$wW$pE")
+        );
+    }
+
+    private static List<Arguments> escapeTest() {
+        return List.of(
+                Arguments.arguments("root", "abc", "jdbc:mysql://localhost/?user=root&password=abc"), // letters
+                Arguments.arguments("root", "54871", "jdbc:mysql://localhost/?user=root&password=54871"), // numbers
+                Arguments.arguments("root", "x89jwWpE", "jdbc:mysql://localhost/?user=root&password=x89jwWpE"), //alphanumeric
+                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mysql://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
+                Arguments.arguments("root", "x89j!wW!pE", "jdbc:mysql://localhost/?user=root&password=x89j%21wW%21pE"),
+                Arguments.arguments("root", "x89j=wW=pE", "jdbc:mysql://localhost/?user=root&password=x89j%3DwW%3DpE"),
+                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mysql://localhost/?user=root&password=x89j%24wW%24pE")
         );
     }
 
@@ -64,18 +77,6 @@ class MySQLJdbcTest {
                 .waitingFor(Wait.forLogMessage(".*/usr/sbin/mysqld: ready for connections\\..*", 2));
         self.start();
         return self;
-    }
-
-    private static List<Arguments> escapeTest() {
-        return List.of(
-                Arguments.arguments("root", "abc", "jdbc:mysql://localhost/?user=root&password=abc"), // letters
-                Arguments.arguments("root", "54871", "jdbc:mysql://localhost/?user=root&password=54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE", "jdbc:mysql://localhost/?user=root&password=x89jwWpE"), //alphanumeric
-                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mysql://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
-                Arguments.arguments("root", "x89j!wW!pE", "jdbc:mysql://localhost/?user=root&password=x89j%21wW%21pE"),
-                Arguments.arguments("root", "x89j=wW=pE", "jdbc:mysql://localhost/?user=root&password=x89j%3DwW%3DpE"),
-                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mysql://localhost/?user=root&password=x89j%24wW%24pE")
-        );
     }
 
     @ParameterizedTest

@@ -8,8 +8,8 @@ package de.chojo.sadu.datasource.stage;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -161,11 +161,21 @@ public interface ConfigurationStage {
 
     /**
      * Allows the direct mutation of the HikariConfig, should be used for config options, that are not represented by a delegate.
+     *
      * @param configConsumer the config consumer
      * @return Configuration Stage with value set
      */
     @CheckReturnValue
-    ConfigurationStage withHikariConfig(Consumer<HikariConfig> configConsumer);
+    ConfigurationStage editHikariConfig(Consumer<HikariConfig> configConsumer);
+
+    /**
+     * Allows to override the currently set hikari config.
+     *
+     * @param config the new config value
+     * @return Configuration Stage with value set
+     */
+    @CheckReturnValue
+    ConfigurationStage withHikariConfig(HikariConfig config);
 
     /**
      * Create a new hikari data source

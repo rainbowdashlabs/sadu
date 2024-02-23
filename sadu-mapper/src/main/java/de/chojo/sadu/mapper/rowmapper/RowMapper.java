@@ -6,9 +6,8 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
-import de.chojo.sadu.exceptions.ThrowingFunction;
 import de.chojo.sadu.mapper.MapperConfig;
-import de.chojo.sadu.wrapper.util.Row;
+import de.chojo.sadu.mapper.wrapper.Row;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;
@@ -25,13 +24,13 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @param <T> type of returned object
  */
-public class RowMapper<T> {
+public class RowMapper<T> implements RowMapping<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
-    private final ThrowingFunction<? extends T, Row, SQLException> mapper;
+    private final RowMapping<T> mapper;
     private final Set<String> columns;
 
-    RowMapper(Class<T> clazz, ThrowingFunction<? extends T, Row, SQLException> mapper, Set<String> columns) {
+    RowMapper(Class<T> clazz, RowMapping<T> mapper, Set<String> columns) {
         this.clazz = clazz;
         this.mapper = mapper;
         this.columns = columns;
@@ -49,8 +48,9 @@ public class RowMapper<T> {
         return columns;
     }
 
+    @Override
     public T map(Row row) throws SQLException {
-        return mapper.apply(row);
+        return mapper.map(row);
     }
 
     public boolean isWildcard() {

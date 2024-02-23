@@ -27,6 +27,9 @@ import java.util.Optional;
 public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
 
+    public RowMapperRegistry() {
+    }
+
     /**
      * Registers a new mapper for a class.
      * <p>
@@ -57,10 +60,12 @@ public class RowMapperRegistry {
      */
     public RowMapperRegistry register(RowMapper<?>... rowMapper) {
         for (var mapper : rowMapper) {
+            //noinspection ResultOfMethodCallIgnored
             register(mapper);
         }
         return this;
     }
+
     /**
      * Registers new mapper.
      * <p>
@@ -71,6 +76,7 @@ public class RowMapperRegistry {
      */
     public RowMapperRegistry register(List<RowMapper<?>> rowMapper) {
         for (var mapper : rowMapper) {
+            //noinspection ResultOfMethodCallIgnored
             register(mapper);
         }
         return this;
@@ -90,9 +96,9 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
         return mapper(clazz).stream()
-                            .filter(RowMapper::isWildcard)
-                            .findAny()
-                            .map(rowMapper -> (RowMapper<T>) rowMapper);
+                .filter(RowMapper::isWildcard)
+                .findAny()
+                .map(rowMapper -> (RowMapper<T>) rowMapper);
     }
 
     /**

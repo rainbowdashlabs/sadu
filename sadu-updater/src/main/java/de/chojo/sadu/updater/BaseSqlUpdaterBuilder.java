@@ -6,12 +6,12 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.base.QueryFactory;
-import de.chojo.sadu.databases.Database;
-import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.wrapper.QueryBuilderConfig;
+import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.jdbc.JdbcConfig;
+import de.chojo.sadu.core.updater.SqlVersion;
+import de.chojo.sadu.core.updater.UpdaterBuilder;
+import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,14 +26,13 @@ import java.util.function.Consumer;
  * @param <T> The type of the jdbc link defined by the {@link Database}
  */
 public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpdaterBuilder<T, ?>> implements UpdaterBuilder<T, S> {
+    protected final Database<T, S> type;
     protected DataSource source;
     protected SqlVersion version;
-    protected Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
-    protected Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
-    protected final Database<T, S> type;
+    protected final Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
+    protected final Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
-    protected QueryBuilderConfig config = QueryBuilderConfig.builder().throwExceptions().build();
     protected ClassLoader classLoader = getClass().getClassLoader();
 
     public BaseSqlUpdaterBuilder(Database<T, S> type) {
@@ -77,18 +76,6 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
-    /**
-     * Set the {@link QueryBuilderConfig} for the underlying {@link QueryFactory}
-     *
-     * @param config config so apply
-     * @return builder instance
-     */
-    @CheckReturnValue
-    public S withConfig(QueryBuilderConfig config) {
-        this.config = config;
-        return self();
-    }
-
     public S preUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
         preUpdateHook.put(version, consumer);
         return self();
@@ -114,7 +101,7 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      */
     public void execute() throws SQLException, IOException {
         if (version == null) version = SqlVersion.load(classLoader);
-        var sqlUpdater = new SqlUpdater<>(source, config, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
+        var sqlUpdater = new SqlUpdater<>(source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         sqlUpdater.init();
     }
 

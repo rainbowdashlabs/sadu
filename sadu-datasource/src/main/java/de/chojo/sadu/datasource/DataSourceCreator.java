@@ -8,18 +8,17 @@ package de.chojo.sadu.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.chojo.sadu.databases.Database;
+import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.jdbc.JdbcConfig;
+import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
+import de.chojo.sadu.datasource.exceptions.DriverClassNotFoundException;
 import de.chojo.sadu.datasource.stage.ConfigurationStage;
 import de.chojo.sadu.datasource.stage.JdbcStage;
-import de.chojo.sadu.jdbc.JdbProperty;
-import de.chojo.sadu.jdbc.JdbcConfig;
-import de.chojo.sadu.jdbc.RemoteJdbcConfig;
+import org.jetbrains.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.CheckReturnValue;
 import javax.sql.DataSource;
-import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
@@ -63,7 +62,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
         loadDriverClass();
         RemoteJdbcConfig.Credentials credentials = RemoteJdbcConfig.Credentials.EMPTY;
         if (builder instanceof RemoteJdbcConfig) {
-            credentials = ((RemoteJdbcConfig)builder).userCredentials();
+            credentials = ((RemoteJdbcConfig<?>) builder).userCredentials();
         }
         var jdbcUrl = builder.jdbcUrl();
         log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
@@ -182,8 +181,15 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
 
     @Override
     @CheckReturnValue
-    public ConfigurationStage withHikariConfig(Consumer<HikariConfig> configConsumer) {
+    public ConfigurationStage editHikariConfig(Consumer<HikariConfig> configConsumer) {
         configConsumer.accept(hikariConfig);
+        return this;
+    }
+
+    @Override
+    @CheckReturnValue
+    public ConfigurationStage withHikariConfig(HikariConfig config) {
+        hikariConfig = config;
         return this;
     }
 

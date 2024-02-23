@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "1.4.1"
+    publishingVersion = "2.0.0"
 }
 
 group = "de.chojo.sadu"
@@ -49,8 +49,8 @@ subprojects {
 
         indra {
             javaVersions {
-                target(15)
-                testWith(15)
+                target(17)
+                testWith(17)
             }
 
             github("rainbowdashlabs", "sadu") {
@@ -79,8 +79,8 @@ subprojects {
 
 indra {
     javaVersions {
-        target(15)
-        testWith(15)
+        target(17)
+        testWith(17)
     }
 
     github("rainbowdashlabs", "sadu") {
@@ -122,8 +122,8 @@ allprojects {
 
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.10.2")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.10.2")
         testImplementation("org.mockito", "mockito-core", "5.+")
     }
 
@@ -157,7 +157,6 @@ allprojects {
 fun applyJavaDocOptions(options: MinimalJavadocOptions) {
     val javaDocOptions = options as StandardJavadocDocletOptions
     javaDocOptions.links(
-            "https://javadoc.io/doc/com.google.code.findbugs/jsr305/latest/",
             "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
             "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
     )
@@ -167,7 +166,7 @@ tasks {
     register<Javadoc>("alljavadoc") {
         applyJavaDocOptions(options)
 
-        destinationDir = file("${layout.buildDirectory}/docs/javadoc")
+        setDestinationDir(file("${layout.buildDirectory}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
         setSource(projects.map { p -> p.sourceSets.main.get().allJava })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })

@@ -11,7 +11,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 public class MariaDbDatabase {
-        public static GenericContainer<?> createContainer(String user/*ignored*/, String pw) {
+    public static GenericContainer<?> createContainer(String user/*ignored*/, String pw) {
         GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("mariadb:latest"))
                 .withExposedPorts(3306)
                 .withEnv("MARIADB_ROOT_PASSWORD", pw)

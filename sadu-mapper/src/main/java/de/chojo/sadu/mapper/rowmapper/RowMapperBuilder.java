@@ -6,29 +6,26 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
-import de.chojo.sadu.exceptions.ThrowingFunction;
-import de.chojo.sadu.wrapper.util.Row;
-
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
  * A builder to build a {@link RowMapper}.
+ *
  * @param <T> type of the mapper result.
  */
 public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
     private final Set<String> columns = new HashSet<>();
-    private ThrowingFunction<? extends T, Row, SQLException> mapper;
+    private RowMapping<T> mapper;
 
     RowMapperBuilder(Class<T> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public RowMapperBuilder<T> mapper(ThrowingFunction<? extends T, Row, SQLException> mapper) {
+    public RowMapperBuilder<T> mapper(RowMapping<T> mapper) {
         this.mapper = mapper;
         return this;
     }

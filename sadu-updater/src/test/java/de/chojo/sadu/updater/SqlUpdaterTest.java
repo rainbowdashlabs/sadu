@@ -6,15 +6,15 @@
 
 package de.chojo.sadu.updater;
 
-import de.chojo.sadu.databases.PostgreSql;
+import de.chojo.sadu.postgresql.databases.PostgreSql;
 
 import javax.sql.DataSource;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
 class SqlUpdaterTest {
     DataSource dataSource;
+
     public void update() throws IOException, SQLException {
         SqlUpdater.builder(dataSource, PostgreSql.get())
                 .setReplacements(new QueryReplacement("dev_schema", "live_schema"))
