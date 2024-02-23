@@ -168,7 +168,7 @@ tasks {
 
         setDestinationDir(file("${layout.buildDirectory}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
-        setSource(projects.map { p -> p.sourceSets.main.get().allJava })
+        setSource(projects.map { p -> p.sourceSets.main.get().allJava.filter{ p -> p.name != "module-info.java"} })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })
     }
 }
