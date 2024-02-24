@@ -19,7 +19,7 @@ public interface CalledBatchQuery {
     /**
      * Inserts the specified values into the table.
      *
-     * @return The {@link ManipulationBatchResult} that represents the results of the insert operations.
+     * @return The {@link InsertionBatchResult} that represents the results of the insert operations.
      */
     InsertionBatchResult<InsertionResult> insert();
 
@@ -28,7 +28,7 @@ public interface CalledBatchQuery {
      * <p>
      * Additionally, generated keys will be retrieved.
      *
-     * @return The {@link ManipulationBatchResult} that represents the results of the insert operations.
+     * @return The {@link InsertionBatchResult} that represents the results of the insert operations.
      */
     InsertionBatchResult<InsertionResult> insertAndGetKeys();
 
