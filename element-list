@@ -1,4 +1,5 @@
 de.chojo.sadu.core.base
+de.chojo.sadu.core.configuration
 de.chojo.sadu.core.conversion
 de.chojo.sadu.core.databases
 de.chojo.sadu.core.databases.exceptions
@@ -7,6 +8,7 @@ de.chojo.sadu.core.jdbc
 de.chojo.sadu.core.types
 de.chojo.sadu.core.updater
 de.chojo.sadu.datasource
+de.chojo.sadu.datasource.configuration
 de.chojo.sadu.datasource.exceptions
 de.chojo.sadu.datasource.stage
 de.chojo.sadu.mapper
@@ -37,7 +39,8 @@ de.chojo.sadu.queries.api.parameter
 de.chojo.sadu.queries.api.query
 de.chojo.sadu.queries.api.results
 de.chojo.sadu.queries.api.results.reading
-de.chojo.sadu.queries.api.results.writing
+de.chojo.sadu.queries.api.results.writing.insertion
+de.chojo.sadu.queries.api.results.writing.manipulation
 de.chojo.sadu.queries.api.storage
 de.chojo.sadu.queries.call
 de.chojo.sadu.queries.call.adapter
@@ -49,7 +52,8 @@ de.chojo.sadu.queries.execution.writing
 de.chojo.sadu.queries.parameter
 de.chojo.sadu.queries.query
 de.chojo.sadu.queries.results.reading
-de.chojo.sadu.queries.results.writing
+de.chojo.sadu.queries.results.writing.insertion
+de.chojo.sadu.queries.results.writing.manipulation
 de.chojo.sadu.queries.storage
 de.chojo.sadu.sqlite.databases
 de.chojo.sadu.sqlite.jdbc
