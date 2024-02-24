@@ -4,6 +4,18 @@ import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationBatchR
 
 import java.util.List;
 
-public interface InsertionBatchResult<T extends InsertionResult> extends ManipulationBatchResult<T> {
+/**
+ * The InsertionBatchResult interface represents the result of a batch insertion operation.
+ * It extends the ManipulationBatchResult interface and adds the ability to retrieve the keys of the inserted rows.
+ *
+ * @param <T> the type of InsertionResult
+ */
+public interface InsertionBatchResult<T extends InsertionResult> extends ManipulationBatchResult<T>, InsertionResult {
+    /**
+     * Retrieves the keys of the inserted rows of all executed statements.
+     *
+     * @return a List of Long representing the keys of the inserted rows
+     */
+    @Override
     List<Long> keys();
 }
