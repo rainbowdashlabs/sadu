@@ -76,7 +76,6 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
             var changed = new ArrayList<ManipulationResult>();
             for (var call : calls.calls()) {
                 try (var stmt = conn.prepareStatement(parsedQuery.sql().tokenizedSql())) {
-                    //TODO find way to return generated keys
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new ManipulationResultImpl(this, stmt.executeUpdate()));
                 } catch (SQLException ex) {
