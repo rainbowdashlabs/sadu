@@ -11,6 +11,8 @@ import de.chojo.sadu.core.types.SqlType;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -77,5 +79,12 @@ public final class Results {
             columns.add("%s (%s)".formatted(meta.getColumnTypeName(i), meta.getColumnType(i)));
         }
         return columns;
+    }
+
+    public static List<Long> generatedKeys(Statement stmt) throws SQLException {
+        var keys = new ArrayList<Long>();
+        var generatedKeys = stmt.getGeneratedKeys();
+        while (generatedKeys.next()) keys.add(generatedKeys.getLong(1));
+        return keys;
     }
 }

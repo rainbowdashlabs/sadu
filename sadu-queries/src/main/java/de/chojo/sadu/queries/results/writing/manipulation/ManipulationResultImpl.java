@@ -4,10 +4,10 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.results.writing;
+package de.chojo.sadu.queries.results.writing.manipulation;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
-import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
 
@@ -19,6 +19,10 @@ import java.util.List;
 public class ManipulationResultImpl implements QueryProvider, ManipulationResult {
     private final QueryProvider query;
     private final int rows;
+
+    public static ManipulationResultImpl empty(QueryProvider query) {
+        return new ManipulationResultImpl(query, 0);
+    }
 
     public ManipulationResultImpl(QueryProvider query, int rows) {
         this.query = query;

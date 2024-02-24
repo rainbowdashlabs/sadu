@@ -9,7 +9,8 @@ package de.chojo.sadu.queries.api.execution.writing;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
 import de.chojo.sadu.queries.api.execution.reading.Reader;
-import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
+import de.chojo.sadu.queries.api.results.writing.insertion.InsertionResult;
+import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 
 /**
  * Represents a query that can be executed as a singleton call.
@@ -48,9 +49,17 @@ public interface CalledSingletonQuery {
      * Inserts a row into the database table represented by the initial symbol of the containing class,
      * and returns the result of the manipulation operation.
      *
-     * @return The result of the manipulation operation as a {@link ManipulationResult} object.
+     * @return The result of the manipulation operation as a {@link InsertionResult} object.
      */
-    ManipulationResult insert();
+    InsertionResult insertAndGetKeys();
+
+    /**
+     * Inserts a row into the database table represented by the initial symbol of the containing class,
+     * and returns the result of the manipulation operation.
+     *
+     * @return The result of the manipulation operation as a {@link InsertionResult} object.
+     */
+    InsertionResult insert();
 
     /**
      * Updates the data in the database based on the provided query.
