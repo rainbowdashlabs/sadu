@@ -10,7 +10,8 @@ import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
-import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationBatchResult;
+import de.chojo.sadu.queries.api.results.writing.insertion.InsertionBatchResult;
+import de.chojo.sadu.queries.api.results.writing.insertion.InsertionResult;
 import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 import de.chojo.sadu.queries.call.adapter.UUIDAdapter;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
@@ -47,7 +48,7 @@ public class WriteTest {
     @Test
     public void exampleIndex() {
         // Insert multiple entries at the same time
-        ManipulationBatchResult change = query
+        InsertionBatchResult<InsertionResult> change = query
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(?::uuid,?)")
                 // Create a new batch call
@@ -65,7 +66,7 @@ public class WriteTest {
         Assertions.assertEquals(2, change.rows());
 
         // Check how many rows for each batch execution were changed
-        for (ManipulationResult result : change.results()) {
+        for (InsertionResult result : change.results()) {
             Assertions.assertEquals(1, result.rows());
         }
     }
@@ -73,7 +74,7 @@ public class WriteTest {
     @Test
     public void exampleTokenized() {
         // Insert multiple entries at the same time
-        ManipulationBatchResult change = query
+        InsertionBatchResult<InsertionResult> change = query
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new batch call
@@ -99,7 +100,7 @@ public class WriteTest {
     @Test
     public void exampleStream() {
         // Insert multiple entries at the same time
-        ManipulationBatchResult change = query
+        InsertionBatchResult<InsertionResult> change = query
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new batch call
@@ -113,8 +114,35 @@ public class WriteTest {
         Assertions.assertEquals(change.rows(), 2);
 
         // Check how many rows for each batch execution were changed
-        for (ManipulationResult result : change.results()) {
+        for (InsertionResult result : change.results()) {
             Assertions.assertEquals(result.rows(), 1);
+        }
+    }
+
+    @Test
+    public void exampleGetKeys() {
+        // Insert multiple entries at the same time
+        InsertionBatchResult<InsertionResult> change = query
+                // Define the query
+                .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
+                // Create a new batch call
+                .batch(Stream.generate(UUID::randomUUID).limit(2).map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
+                // Insert the data
+                .insertAndGetKeys();
+
+        // Check that something changed
+        Assertions.assertTrue(change.changed());
+        // Check that two rows were added
+        Assertions.assertEquals(change.rows(), 2);
+
+        // Check how many rows for each batch execution were changed
+        for (InsertionResult result : change.results()) {
+            Assertions.assertEquals(result.rows(), 1);
+        }
+
+        // Check that we got one key back
+        for (InsertionResult result : change.results()) {
+            Assertions.assertEquals(result.keys().size(), 1);
         }
     }
 
