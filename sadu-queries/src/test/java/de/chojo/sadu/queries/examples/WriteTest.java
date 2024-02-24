@@ -149,7 +149,7 @@ public class WriteTest {
     @Test
     public void exampleSingle() {
         // Insert multiple entries at the same time
-        ManipulationResult change = query
+        InsertionResult change = query
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new call
