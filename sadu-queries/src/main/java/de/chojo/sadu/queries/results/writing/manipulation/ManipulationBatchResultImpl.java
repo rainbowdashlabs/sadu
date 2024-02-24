@@ -4,30 +4,30 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.results.writing;
+package de.chojo.sadu.queries.results.writing.manipulation;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
-import de.chojo.sadu.queries.api.results.writing.ManipulationBatchResult;
-import de.chojo.sadu.queries.api.results.writing.ManipulationResult;
-import de.chojo.sadu.queries.query.QueryImpl;
+import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationBatchResult;
+import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 import de.chojo.sadu.queries.execution.writing.CalledBatchQueryImpl;
+import de.chojo.sadu.queries.query.QueryImpl;
 
 import java.util.List;
 
 /**
  * Result of a {@link CalledBatchQueryImpl}
  */
-public class ManipulationBatchQuery implements QueryProvider, ManipulationBatchResult {
+public class ManipulationBatchResultImpl<T extends ManipulationResult> implements QueryProvider, ManipulationBatchResult<T> {
     private final QueryProvider query;
-    private final List<ManipulationResult> results;
+    private final List<T> results;
 
-    public ManipulationBatchQuery(QueryProvider query, List<ManipulationResult> results) {
+    public ManipulationBatchResultImpl(QueryProvider query, List<T> results) {
         this.query = query;
         this.results = results;
     }
 
     @Override
-    public List<ManipulationResult> results() {
+    public List<T> results() {
         return results;
     }
 

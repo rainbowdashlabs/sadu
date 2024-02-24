@@ -4,7 +4,7 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.api.results.writing;
+package de.chojo.sadu.queries.api.results.writing.manipulation;
 
 import de.chojo.sadu.queries.api.results.BaseResult;
 

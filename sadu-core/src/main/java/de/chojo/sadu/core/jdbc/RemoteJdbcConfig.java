@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.core.jdbc;
 
+import de.chojo.sadu.core.configuration.DatabaseConfig;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Optional;
@@ -25,6 +26,23 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
     private String database;
 
     public RemoteJdbcConfig() {
+    }
+
+    /**
+     * Apply the given {@link DatabaseConfig} to configure the connection settings.
+     *
+     * @param config the database configuration
+     * @return the builder instance with the applied configuration
+     * @throws IllegalArgumentException when an invalid port or database name is provided
+     * @throws IllegalArgumentException when the host, port, user, password, or database are empty or null
+     */
+    public T withConfig(DatabaseConfig config) {
+        host(config.host())
+                .port(config.port())
+                .user(config.user())
+                .password(config.password())
+                .database(config.database());
+        return self();
     }
 
     /**
