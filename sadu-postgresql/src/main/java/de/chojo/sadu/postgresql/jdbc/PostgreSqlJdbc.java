@@ -6,6 +6,8 @@
 
 package de.chojo.sadu.postgresql.jdbc;
 
+import de.chojo.sadu.core.configuration.DatabaseConfig;
+import de.chojo.sadu.core.configuration.SchemaProvider;
 import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
 
 /**
@@ -19,6 +21,14 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
     @Override
     public String driver() {
         return "postgresql";
+    }
+
+    @Override
+    public PostgreSqlJdbc withConfig(DatabaseConfig config) {
+        if (config instanceof SchemaProvider s) {
+            currentSchema(s.schema());
+        }
+        return super.withConfig(config);
     }
 
     /**

@@ -4,6 +4,7 @@ module sadu.sadu.core.main {
     requires transitive org.slf4j;
 
     exports de.chojo.sadu.core.base;
+    exports de.chojo.sadu.core.configuration;
     exports de.chojo.sadu.core.conversion;
     exports de.chojo.sadu.core.databases;
     exports de.chojo.sadu.core.databases.exceptions;

@@ -5,4 +5,5 @@ module sadu.sadu.datasource.main {
     exports de.chojo.sadu.datasource.stage;
     exports de.chojo.sadu.datasource;
     exports de.chojo.sadu.datasource.exceptions;
+    exports de.chojo.sadu.datasource.configuration;
 }
