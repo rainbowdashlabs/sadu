@@ -41,7 +41,7 @@ dependencyResolutionManagement {
             plugin("indra-publishing", "net.kyori.indra.publishing").versionRef("indra")
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
 
-            version("slf4j", "2.0.12")
+            version("slf4j", "2.0.13")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
         }
 
@@ -58,7 +58,7 @@ dependencyResolutionManagement {
             library("testcontainers-core", "org.testcontainers", "testcontainers").versionRef("testcontainers")
             library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef("testcontainers")
 
-            version("slf4j", "2.0.12")
+            version("slf4j", "2.0.13")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.3")
