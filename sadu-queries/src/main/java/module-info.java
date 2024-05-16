@@ -10,6 +10,7 @@ module sadu.sadu.queries.main {
     exports de.chojo.sadu.queries.api.execution.writing;
     exports de.chojo.sadu.queries.api.parameter;
     exports de.chojo.sadu.queries.api.query;
+    exports de.chojo.sadu.queries.api.results;
     exports de.chojo.sadu.queries.api.results.reading;
     exports de.chojo.sadu.queries.api.results.writing.manipulation;
     exports de.chojo.sadu.queries.api.results.writing.insertion;
