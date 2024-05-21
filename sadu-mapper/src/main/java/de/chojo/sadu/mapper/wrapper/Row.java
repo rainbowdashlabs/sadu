@@ -127,7 +127,11 @@ public class Row {
      *                                  described in {@link #toString}
      */
     public UUID getUuidFromString(int columnIndex) throws SQLException {
-        return UUID.fromString(resultSet.getString(columnIndex));
+        var value = resultSet.getString(columnIndex);
+        if (value == null) {
+            return null;
+        }
+        return UUID.fromString(value);
     }
 
     /**
@@ -542,7 +546,11 @@ public class Row {
      *                      called on a closed result set
      */
     public UUID getUuidFromString(String columnLabel) throws SQLException {
-        return UUID.fromString(resultSet.getString(columnAlias(columnLabel)));
+        var value = resultSet.getString(columnAlias(columnLabel));
+        if (value == null) {
+            return null;
+        }
+        return UUID.fromString(value);
     }
 
     /**
