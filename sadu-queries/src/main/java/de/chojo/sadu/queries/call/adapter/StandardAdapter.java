@@ -59,7 +59,7 @@ public final class StandardAdapter {
     /**
      * Stores an instant as a timestamp
      */
-    public static final Adapter<Instant> INSTANT = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, Timestamp::from);
+    public static final Adapter<Instant> INSTANT_AS_TIMESTAMP = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, Timestamp::from);
     /**
      * Stores an instant as epoch millis
      */

@@ -14,3 +14,10 @@ create table birthdays
             primary key,
     birth_date date    not null
 );
+
+CREATE TABLE instant_test
+(
+    as_epoch_seconds BIGINT,
+    as_epoch_millis  BIGINT,
+    as_timestamp     TIMESTAMP
+);

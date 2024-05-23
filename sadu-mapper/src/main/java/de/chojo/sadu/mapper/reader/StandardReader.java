@@ -6,13 +6,13 @@
 
 package de.chojo.sadu.mapper.reader;
 
-import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
 import de.chojo.sadu.mapper.wrapper.Row;
 
-import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.function.Function;
 
-public class StandardReader {
-    public ValueReader<Long, Instant> INSTANT_FROM_MILLIS = ValueReader.create(Instant::ofEpochMilli, Row::getLong, Row::getLong);
+public final class StandardReader {
+    public static final ValueReader<Long, Instant> INSTANT_FROM_MILLIS = ValueReader.create(Instant::ofEpochMilli, Row::getLong, Row::getLong);
+    public static final ValueReader<Long, Instant> INSTANT_FROM_SECONDS = ValueReader.create(Instant::ofEpochSecond, Row::getLong, Row::getLong);
+    public static final ValueReader<Timestamp, Instant> INSTANT_FROM_TIMESTAMP = ValueReader.create(Timestamp::toInstant, Row::getTimestamp, Row::getTimestamp);
 }
