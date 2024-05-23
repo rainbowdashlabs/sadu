@@ -8,12 +8,18 @@ package de.chojo.sadu.mapper.reader;
 
 import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
 import de.chojo.sadu.mapper.wrapper.Row;
+import org.jetbrains.annotations.NotNull;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Definition of a ValueReader to read columns from a {@link Row} and parse it to a java type.
+ *
+ * @param <V>
+ * @param <T>
+ * @see StandardReader
+ */
 public interface ValueReader<V, T> {
     T parse(V value);
 
@@ -26,8 +32,7 @@ public interface ValueReader<V, T> {
                                            ThrowingBiFunction<Row, Integer, V, SQLException> indexReader) {
         return new ValueReader<>() {
             @Override
-            public T parse(V value) {
-                if (value == null) return null;
+            public T parse(@NotNull V value) {
                 return parser.apply(value);
             }
 

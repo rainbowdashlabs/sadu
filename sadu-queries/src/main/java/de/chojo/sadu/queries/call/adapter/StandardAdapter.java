@@ -53,8 +53,14 @@ public final class StandardAdapter {
     public static final Adapter<LocalTime> LOCAL_TIME = Adapter.create(PreparedStatement::setTime, Types.TIME, Time::valueOf);
     public static final Adapter<Timestamp> TIMESTAMP = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP);
     public static final Adapter<LocalDateTime> LOCAL_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, Timestamp::valueOf);
-    public static final Adapter<ZonedDateTime> ZONED_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.valueOf(v.toLocalDateTime()));
-    public static final Adapter<OffsetDateTime> OFFSET_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.valueOf(v.toLocalDateTime()));
+    /**
+     * Writes a zoned date time after converting it to an {@link Instant} storing it in UTC
+     */
+    public static final Adapter<ZonedDateTime> ZONED_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
+    /**
+     * Writes an offset date time after converting it to an {@link Instant} storing it in UTC
+     */
+    public static final Adapter<OffsetDateTime> OFFSET_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
     public static final Adapter<OffsetTime> OFFSET_TIME = Adapter.create(PreparedStatement::setTime, Types.TIME, v -> Time.valueOf(v.toLocalTime()));
     /**
      * Stores an instant as a timestamp
