@@ -121,11 +121,7 @@ public class Row {
      * @since 1.2
      */
     public <T extends Enum<T>> T getEnum(int columnIndex, Class<T> clazz) throws SQLException {
-        var value = getString(columnIndex);
-        if (value == null) {
-            return null;
-        }
-        return Enum.valueOf(clazz, value);
+        return get(columnIndex, StandardReader.forEnum(clazz));
     }
 
     /**
