@@ -21,7 +21,7 @@ import java.util.function.Function;
  * @see StandardReader
  */
 public interface ValueReader<V, T> {
-    T parse(V value);
+    Function<@NotNull V,T> parser();
 
     ThrowingBiFunction<Row, String, V, SQLException> namedReader();
 
@@ -32,8 +32,8 @@ public interface ValueReader<V, T> {
                                            ThrowingBiFunction<Row, Integer, V, SQLException> indexReader) {
         return new ValueReader<>() {
             @Override
-            public T parse(@NotNull V value) {
-                return parser.apply(value);
+            public Function<@NotNull V,T> parser() {
+                return parser;
             }
 
             @Override

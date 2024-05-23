@@ -2072,7 +2072,7 @@ public class Row {
     public <V, T> T get(String columnLabel, ValueReader<V, T> reader) throws SQLException {
         V value = reader.namedReader().apply(this, columnAlias(columnLabel));
         if (value == null) return null;
-        return reader.parse(value);
+        return reader.parser().apply(value);
     }
 
     /**
@@ -2089,7 +2089,7 @@ public class Row {
      */
     public <V, T> T get(int index, ValueReader<V, T> reader) throws SQLException {
         V value = reader.indexedReader().apply(this, index);
-        return reader.parse(value);
+        return reader.parser().apply(value);
     }
 
     private String columnAlias(String columnLabel) {

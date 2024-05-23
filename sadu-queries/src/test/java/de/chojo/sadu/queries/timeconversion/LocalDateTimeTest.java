@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.timeconversion;
 
 import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.reader.StandardReader;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
@@ -24,9 +25,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+import java.util.UUID;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_DATE_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_BYTES;
 
 public class LocalDateTimeTest {
     private QueryConfiguration query;
@@ -67,6 +71,25 @@ public class LocalDateTimeTest {
                 .first()
                 .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
+    }
+
+    public void test(){
+        Optional<UUID> first = query.query("SELECT uuid FROM users")
+                                    .single()
+                                    .map(row -> row.get("uuid", UUID_FROM_BYTES))
+                                    .first();
+
+        Optional<UUID> first = query.query("SELECT uuid FROM users")
+                                    .single()
+                                    .map(row -> row.getUuidFromBytes("uuid"))
+                                    .first();
+
+        Optional<Status> first = query.query("SELECT status FROM users")
+                                    .single()
+                                    .map(row -> row.get("status", StandardReader.forEnum(Status.class)))
+                                    .first();
+
+
     }
 
     @AfterEach
