@@ -22,37 +22,35 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_DATE;
 import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_TIME;
 
 public class LocalTimeTest {
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
+    @Test
+    public void withoutTimezone() {
+        var now = LocalTime.of(0, 0);
+        query.query("INSERT INTO time_test(as_time) VALUES (?)")
+             .single(Call.of().bind(now, StandardAdapter.LOCAL_TIME))
+             .insert();
+
+        var res = query.query("SELECT as_time FROM time_test")
+                       .single()
+                       .map(row -> row.get(1, LOCAL_TIME))
+                       .first()
+                       .get();
+        Assertions.assertEquals(now, res);
+    }
+
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
         query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
-    }
-
-    @Test
-    public void withoutTimezone() {
-        var now = LocalTime.of( 0, 0);
-        query.query("INSERT INTO time_test(as_time) VALUES (?)")
-                .single(Call.of().bind(now, StandardAdapter.LOCAL_TIME))
-                .insert();
-
-        var res = query.query("SELECT as_time FROM time_test")
-                .single()
-                .map(row -> row.get(1, LOCAL_TIME))
-                .first()
-                .get();
-        Assertions.assertEquals(now, res);
+                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
     }
 
     @AfterEach

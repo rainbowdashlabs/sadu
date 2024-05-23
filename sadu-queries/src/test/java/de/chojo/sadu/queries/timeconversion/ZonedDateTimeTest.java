@@ -32,25 +32,18 @@ public class ZonedDateTimeTest {
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
-    @BeforeEach
-    void before() throws IOException, SQLException {
-        db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
-    }
-
     @Test
     public void withoutTimezone() {
         var now = ZonedDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-                .single(Call.of().bind(now, StandardAdapter.ZONED_DATE_TIME))
-                .insert();
+             .single(Call.of().bind(now, StandardAdapter.ZONED_DATE_TIME))
+             .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")
-                .single()
-                .map(row -> row.get(1, ZONED_DATE_TIME))
-                .first()
-                .get();
+                       .single()
+                       .map(row -> row.get(1, ZONED_DATE_TIME))
+                       .first()
+                       .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
     }
 
@@ -58,15 +51,22 @@ public class ZonedDateTimeTest {
     public void withTimezone() {
         var now = ZonedDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp_tz) VALUES (?)")
-                .single(Call.of().bind(now, StandardAdapter.ZONED_DATE_TIME))
-                .insert();
+             .single(Call.of().bind(now, StandardAdapter.ZONED_DATE_TIME))
+             .insert();
 
         var res = query.query("SELECT as_timestamp_tz FROM time_test")
-                .single()
-                .map(row -> row.get(1, ZONED_DATE_TIME))
-                .first()
-                .get();
+                       .single()
+                       .map(row -> row.get(1, ZONED_DATE_TIME))
+                       .first()
+                       .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
+    }
+
+    @BeforeEach
+    void before() throws IOException, SQLException {
+        db = createContainer("postgres", "postgres");
+        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
+                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
     }
 
     @AfterEach

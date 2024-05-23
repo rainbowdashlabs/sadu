@@ -32,13 +32,6 @@ public class OffsetTimeTest {
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
-    @BeforeEach
-    void before() throws IOException, SQLException {
-        db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
-    }
-
     @Test
     public void withoutTimezone() {
         var now = OffsetTime.now();
@@ -52,6 +45,13 @@ public class OffsetTimeTest {
                        .first()
                        .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
+    }
+
+    @BeforeEach
+    void before() throws IOException, SQLException {
+        db = createContainer("postgres", "postgres");
+        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
+                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
     }
 
     @AfterEach

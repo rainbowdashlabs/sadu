@@ -31,26 +31,26 @@ public class LocalDateTest {
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
-    @BeforeEach
-    void before() throws IOException, SQLException {
-        db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
-    }
-
     @Test
     public void withoutTimezone() {
         var now = LocalDateTime.of(2000, 1, 1, 0, 0).toLocalDate();
         query.query("INSERT INTO time_test(as_date) VALUES (?)")
-                .single(Call.of().bind(now, StandardAdapter.LOCAL_DATE))
-                .insert();
+             .single(Call.of().bind(now, StandardAdapter.LOCAL_DATE))
+             .insert();
 
         var res = query.query("SELECT as_date FROM time_test")
-                .single()
-                .map(row -> row.get(1, LOCAL_DATE))
-                .first()
-                .get();
+                       .single()
+                       .map(row -> row.get(1, LOCAL_DATE))
+                       .first()
+                       .get();
         Assertions.assertEquals(now, res);
+    }
+
+    @BeforeEach
+    void before() throws IOException, SQLException {
+        db = createContainer("postgres", "postgres");
+        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
+                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
     }
 
     @AfterEach

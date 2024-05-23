@@ -21,18 +21,12 @@ import java.util.function.Function;
  * @see StandardReader
  */
 public interface ValueReader<V, T> {
-    Function<@NotNull V,T> parser();
-
-    ThrowingBiFunction<Row, String, V, SQLException> namedReader();
-
-    ThrowingBiFunction<Row, Integer, V, SQLException> indexedReader();
-
     static <V, T> ValueReader<V, T> create(Function<V, T> parser,
                                            ThrowingBiFunction<Row, String, V, SQLException> nameReader,
                                            ThrowingBiFunction<Row, Integer, V, SQLException> indexReader) {
         return new ValueReader<>() {
             @Override
-            public Function<@NotNull V,T> parser() {
+            public Function<@NotNull V, T> parser() {
                 return parser;
             }
 
@@ -47,4 +41,10 @@ public interface ValueReader<V, T> {
             }
         };
     }
+
+    Function<@NotNull V, T> parser();
+
+    ThrowingBiFunction<Row, String, V, SQLException> namedReader();
+
+    ThrowingBiFunction<Row, Integer, V, SQLException> indexedReader();
 }
