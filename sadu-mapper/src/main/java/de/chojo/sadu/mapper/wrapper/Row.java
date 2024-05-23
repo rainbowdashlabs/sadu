@@ -9,6 +9,7 @@ package de.chojo.sadu.mapper.wrapper;
 import de.chojo.sadu.core.conversion.ArrayConverter;
 import de.chojo.sadu.core.conversion.UUIDConverter;
 import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.reader.ValueReader;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.InputStream;
@@ -1995,6 +1996,13 @@ public class Row {
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return resultSet.getObject(columnAlias(columnLabel), type);
+    }
+
+    public <V, T> T get(String columnLabel, ValueReader<V, T> reader) throws SQLException {
+        return reader.parse(reader.namedReader().apply(this, columnAlias(columnLabel)));
+    }
+    public <V, T> T get(int columnLabel, ValueReader<V, T> reader) throws SQLException {
+        return reader.parse(reader.indexedReader().apply(this, columnLabel));
     }
 
     private String columnAlias(String columnLabel) {

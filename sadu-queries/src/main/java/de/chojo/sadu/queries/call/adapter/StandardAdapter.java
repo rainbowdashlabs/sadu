@@ -20,6 +20,7 @@ import java.sql.RowId;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -55,6 +56,18 @@ public final class StandardAdapter {
     public static final Adapter<ZonedDateTime> ZONED_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.valueOf(v.toLocalDateTime()));
     public static final Adapter<OffsetDateTime> OFFSET_DATE_TIME = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, v -> Timestamp.valueOf(v.toLocalDateTime()));
     public static final Adapter<OffsetTime> OFFSET_TIME = Adapter.create(PreparedStatement::setTime, Types.TIME, v -> Time.valueOf(v.toLocalTime()));
+    /**
+     * Stores an instant as a timestamp
+     */
+    public static final Adapter<Instant> INSTANT = Adapter.create(PreparedStatement::setTimestamp, Types.TIMESTAMP, Timestamp::from);
+    /**
+     * Stores an instant as epoch millis
+     */
+    public static final Adapter<Instant> INSTANT_AS_MILLIS = Adapter.create(PreparedStatement::setLong, Types.BIGINT, Instant::toEpochMilli);
+    /**
+     * Stores an instant as epoch seconds
+     */
+    public static final Adapter<Instant> INSTANT_AS_SECONDS = Adapter.create(PreparedStatement::setLong, Types.BIGINT, Instant::getEpochSecond);
     public static final Adapter<Ref> REF = Adapter.create(PreparedStatement::setRef, Types.REF);
     public static final Adapter<Blob> BLOB = Adapter.create(PreparedStatement::setBlob, Types.BLOB);
     public static final Adapter<Clob> CLOB = Adapter.create(PreparedStatement::setClob, Types.CLOB);
