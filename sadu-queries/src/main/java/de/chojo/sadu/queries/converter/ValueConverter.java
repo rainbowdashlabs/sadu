@@ -19,8 +19,6 @@ import java.util.function.Function;
 public interface ValueConverter<T, V> extends Adapter<T>, ValueReader<T, V> {
     static <T, V> ValueConverter<T, V> create(Adapter<T> mapper, ValueReader<T, V> reader) {
         return new ValueConverter<>() {
-
-
             @Override
             public Function<@NotNull V, T> reader() {
                 return reader.reader();

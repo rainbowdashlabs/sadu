@@ -8,6 +8,9 @@ package de.chojo.sadu.queries.call.adapter;
 
 import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.queries.api.call.adapter.Adapter;
+import de.chojo.sadu.queries.converter.StandardValueConverter;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -35,6 +38,8 @@ import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;
 /**
  * The StandardAdapter class provides a set of static instances of Adapter, which map Java objects to specific SQL data types and provide the necessary conversions when binding the
  * objects to a PreparedStatement.
+ *
+ * @see StandardValueConverter
  */
 public final class StandardAdapter {
     public static final Adapter<String> STRING = Adapter.create(PreparedStatement::setString, Types.VARCHAR);
@@ -85,35 +90,43 @@ public final class StandardAdapter {
         throw new UnsupportedOperationException("This is a utility class.");
     }
 
-    public static Adapter<Collection<?>> forCollection(Collection<?> list, SqlType type) {
+    @Contract(value = "_, _ -> new", pure = true)
+    public static @NotNull Adapter<Collection<?>> forCollection(Collection<?> list, SqlType type) {
         return Adapter.create((stmt, index, value) -> stmt.setArray(index, toSqlArray(stmt.getConnection(), type, list)), Types.ARRAY);
     }
 
-    public static Adapter<Object[]> forArray(Object[] array, SqlType type) {
+    @Contract(value = "_, _ -> new", pure = true)
+    public static @NotNull Adapter<Object[]> forArray(Object[] array, SqlType type) {
         return Adapter.create((stmt, index, value) -> stmt.setArray(index, toSqlArray(stmt.getConnection(), type, array)), Types.ARRAY);
     }
 
-    public static Adapter<LocalDate> localDate(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<LocalDate> localDate(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setDate(index, value, calendar), Types.DATE, Date::valueOf);
     }
 
-    public static Adapter<LocalTime> localTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<LocalTime> localTime(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setTime(index, value, calendar), Types.TIME, Time::valueOf);
     }
 
-    public static Adapter<OffsetTime> offsetTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<OffsetTime> offsetTime(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setTime(index, value, calendar), Types.TIME, v -> Time.valueOf(v.toLocalTime()));
     }
 
-    public static Adapter<LocalDateTime> localDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<LocalDateTime> localDateTime(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, Timestamp::valueOf);
     }
 
-    public static Adapter<OffsetDateTime> offsetDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<OffsetDateTime> offsetDateTime(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
     }
 
-    public static Adapter<ZonedDateTime> zonedDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Adapter<ZonedDateTime> zonedDateTime(Calendar calendar) {
         return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
     }
 }

@@ -42,9 +42,25 @@ public interface ValueReader<T, V> {
         };
     }
 
+    /**
+     * A reader that takes the sql type and converts it into a java type.
+     * The passed sql type instance is never null.
+     *
+     * @return a converted java instance of the sql object
+     */
     Function<@NotNull V, T> reader();
 
+    /**
+     * Function that provides access to a reader that returns the column value via column name
+     *
+     * @return function
+     */
     ThrowingBiFunction<Row, String, V, SQLException> namedReader();
 
+    /**
+     * Function that provides access to a reader that returns the column value via column index
+     *
+     * @return function
+     */
     ThrowingBiFunction<Row, Integer, V, SQLException> indexedReader();
 }

@@ -8,6 +8,8 @@ package de.chojo.sadu.mapper.reader;
 
 import de.chojo.sadu.core.conversion.UUIDConverter;
 import de.chojo.sadu.mapper.wrapper.Row;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -39,31 +41,38 @@ public final class StandardReader {
     public static final ValueReader<UUID, String> UUID_FROM_STRING = ValueReader.create(UUID::fromString, Row::getString, Row::getString);
     public static final ValueReader<UUID, byte[]> UUID_FROM_BYTES = ValueReader.create(UUIDConverter::convert, Row::getBytes, Row::getBytes);
 
-    public static ValueReader<LocalDate, Date> localDate(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<LocalDate, Date> localDate(Calendar calendar) {
         return ValueReader.create(Date::toLocalDate, (row, name) -> row.getDate(name, calendar), (row, integer) -> row.getDate(integer, calendar));
     }
 
-    public static ValueReader<LocalTime, Time> localTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<LocalTime, Time> localTime(Calendar calendar) {
         return ValueReader.create(Time::toLocalTime, (row, name) -> row.getTime(name, calendar), (row, integer) -> row.getTime(integer, calendar));
     }
 
-    public static ValueReader<OffsetTime, Time> offsetTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<OffsetTime, Time> offsetTime(Calendar calendar) {
         return ValueReader.create(t -> t.toLocalTime().atOffset(OffsetTime.now().getOffset()), (row, name) -> row.getTime(name, calendar), (row, integer) -> row.getTime(integer, calendar));
     }
 
-    public static ValueReader<LocalDateTime, Timestamp> localDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<LocalDateTime, Timestamp> localDateTime(Calendar calendar) {
         return ValueReader.create(Timestamp::toLocalDateTime, (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
-    public static ValueReader<OffsetDateTime, Timestamp> offsetDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<OffsetDateTime, Timestamp> offsetDateTime(Calendar calendar) {
         return ValueReader.create(t -> OffsetDateTime.ofInstant(t.toInstant(), ZoneId.systemDefault()), (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
-    public static ValueReader<ZonedDateTime, Timestamp> zonedDateTime(Calendar calendar) {
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull ValueReader<ZonedDateTime, Timestamp> zonedDateTime(Calendar calendar) {
         return ValueReader.create(t -> t.toInstant().atZone(ZoneId.systemDefault()), (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
-    public static <T extends Enum<T>> ValueReader<T, String> forEnum(Class<T> clazz) {
+    @Contract(value = "_ -> new", pure = true)
+    public static <T extends Enum<T>> @NotNull ValueReader<T, String> forEnum(Class<T> clazz) {
         return ValueReader.create(v -> Enum.valueOf(clazz, v), Row::getString, Row::getString);
     }
 }
