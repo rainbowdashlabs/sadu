@@ -11,9 +11,9 @@ import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
-import de.chojo.sadu.queries.call.adapter.StandardAdapter;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
+import de.chojo.sadu.queries.converter.StandardValueConverter;
 import de.chojo.sadu.queries.examples.dao.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_DATE_TIME;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.LOCAL_DATE_TIME;
 
 public class LocalDateTimeTest {
     private QueryConfiguration query;
@@ -36,7 +36,7 @@ public class LocalDateTimeTest {
     public void withoutTimezone() {
         var now = LocalDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-             .single(Call.of().bind(now, StandardAdapter.LOCAL_DATE_TIME))
+             .single(Call.of().bind(now, LOCAL_DATE_TIME))
              .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")
@@ -51,7 +51,7 @@ public class LocalDateTimeTest {
     public void withTimezone() {
         var now = LocalDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp_tz) VALUES (?)")
-             .single(Call.of().bind(now, StandardAdapter.LOCAL_DATE_TIME))
+             .single(Call.of().bind(now, LOCAL_DATE_TIME))
              .insert();
 
         var res = query.query("SELECT as_timestamp_tz FROM time_test")

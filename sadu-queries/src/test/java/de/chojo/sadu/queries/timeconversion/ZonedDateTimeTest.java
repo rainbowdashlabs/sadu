@@ -26,7 +26,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.mapper.reader.StandardReader.ZONED_DATE_TIME;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.ZONED_DATE_TIME;
 
 public class ZonedDateTimeTest {
     private QueryConfiguration query;
@@ -36,7 +36,7 @@ public class ZonedDateTimeTest {
     public void withoutTimezone() {
         var now = ZonedDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-             .single(Call.of().bind(now, StandardAdapter.ZONED_DATE_TIME))
+             .single(Call.of().bind(now, ZONED_DATE_TIME))
              .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")

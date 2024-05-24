@@ -11,7 +11,6 @@ import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
-import de.chojo.sadu.queries.call.adapter.StandardAdapter;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import de.chojo.sadu.queries.examples.dao.User;
@@ -25,7 +24,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_TIME;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.LOCAL_TIME;
 
 public class LocalTimeTest {
     private QueryConfiguration query;
@@ -35,7 +34,7 @@ public class LocalTimeTest {
     public void withoutTimezone() {
         var now = LocalTime.of(0, 0);
         query.query("INSERT INTO time_test(as_time) VALUES (?)")
-             .single(Call.of().bind(now, StandardAdapter.LOCAL_TIME))
+             .single(Call.of().bind(now, LOCAL_TIME))
              .insert();
 
         var res = query.query("SELECT as_time FROM time_test")

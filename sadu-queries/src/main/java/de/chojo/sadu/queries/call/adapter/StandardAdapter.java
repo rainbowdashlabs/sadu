@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Collection;
 
 import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;
@@ -90,5 +91,29 @@ public final class StandardAdapter {
 
     public static Adapter<Object[]> forArray(Object[] array, SqlType type) {
         return Adapter.create((stmt, index, value) -> stmt.setArray(index, toSqlArray(stmt.getConnection(), type, array)), Types.ARRAY);
+    }
+
+    public static Adapter<LocalDate> localDate(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setDate(index, value, calendar), Types.DATE, Date::valueOf);
+    }
+
+    public static Adapter<LocalTime> localTime(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setTime(index, value, calendar), Types.TIME, Time::valueOf);
+    }
+
+    public static Adapter<OffsetTime> offsetTime(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setTime(index, value, calendar), Types.TIME, v -> Time.valueOf(v.toLocalTime()));
+    }
+
+    public static Adapter<LocalDateTime> localDateTime(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, Timestamp::valueOf);
+    }
+
+    public static Adapter<OffsetDateTime> offsetDateTime(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
+    }
+
+    public static Adapter<ZonedDateTime> zonedDateTime(Calendar calendar) {
+        return Adapter.create((stmt, index, value) -> stmt.setTimestamp(index, value, calendar), Types.TIMESTAMP, v -> Timestamp.from(v.toInstant()));
     }
 }

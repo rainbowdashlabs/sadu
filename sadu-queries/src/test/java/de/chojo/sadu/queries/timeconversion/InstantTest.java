@@ -24,12 +24,9 @@ import java.sql.SQLException;
 import java.time.Instant;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
-import static de.chojo.sadu.mapper.reader.StandardReader.INSTANT_FROM_MILLIS;
-import static de.chojo.sadu.mapper.reader.StandardReader.INSTANT_FROM_SECONDS;
-import static de.chojo.sadu.mapper.reader.StandardReader.INSTANT_FROM_TIMESTAMP;
-import static de.chojo.sadu.queries.call.adapter.StandardAdapter.INSTANT_AS_MILLIS;
-import static de.chojo.sadu.queries.call.adapter.StandardAdapter.INSTANT_AS_SECONDS;
-import static de.chojo.sadu.queries.call.adapter.StandardAdapter.INSTANT_AS_TIMESTAMP;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_MILLIS;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_SECONDS;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_TIMESTAMP;
 
 public class InstantTest {
     private QueryConfiguration query;
@@ -39,12 +36,12 @@ public class InstantTest {
     public void asSeconds() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_epoch_seconds) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_AS_SECONDS))
+             .single(Call.of().bind(now, INSTANT_SECONDS))
              .insert();
 
         var res = query.query("SELECT as_epoch_seconds FROM time_test")
                        .single()
-                       .map(row -> row.get(1, INSTANT_FROM_SECONDS))
+                       .map(row -> row.get(1, INSTANT_SECONDS))
                        .first()
                        .get();
         Assertions.assertEquals(now.getEpochSecond(), res.getEpochSecond());
@@ -54,12 +51,12 @@ public class InstantTest {
     public void asMillis() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_epoch_millis) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_AS_MILLIS))
+             .single(Call.of().bind(now, INSTANT_MILLIS))
              .insert();
 
         var res = query.query("SELECT as_epoch_millis FROM time_test")
                        .single()
-                       .map(row -> row.get(1, INSTANT_FROM_MILLIS))
+                       .map(row -> row.get(1, INSTANT_MILLIS))
                        .first()
                        .get();
         Assertions.assertEquals(now.toEpochMilli(), res.toEpochMilli());
@@ -69,12 +66,12 @@ public class InstantTest {
     public void asTimestamp() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_AS_TIMESTAMP))
+             .single(Call.of().bind(now, INSTANT_TIMESTAMP))
              .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")
                        .single()
-                       .map(row -> row.get(1, INSTANT_FROM_TIMESTAMP))
+                       .map(row -> row.get(1, INSTANT_TIMESTAMP))
                        .first()
                        .get();
         Assertions.assertEquals(now.toEpochMilli(), res.toEpochMilli());

@@ -2040,10 +2040,10 @@ public class Row {
      * @return An object of the requested type or null if the object is null
      * @throws SQLException if the value can not be converted
      */
-    public <V, T> T get(String columnLabel, ValueReader<V, T> reader) throws SQLException {
+    public <V, T> T get(String columnLabel, ValueReader<T, V> reader) throws SQLException {
         V value = reader.namedReader().apply(this, columnAlias(columnLabel));
         if (value == null) return null;
-        return reader.parser().apply(value);
+        return reader.reader().apply(value);
     }
 
     /**
@@ -2058,10 +2058,10 @@ public class Row {
      * @return An object of the requested type or null if the object is null
      * @throws SQLException if the value can not be converted
      */
-    public <V, T> T get(int index, ValueReader<V, T> reader) throws SQLException {
+    public <V, T> T get(int index, ValueReader<T, V> reader) throws SQLException {
         V value = reader.indexedReader().apply(this, index);
         if (value == null) return null;
-        return reader.parser().apply(value);
+        return reader.reader().apply(value);
     }
 
     private String columnAlias(String columnLabel) {

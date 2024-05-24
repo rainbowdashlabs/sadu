@@ -8,7 +8,6 @@ package de.chojo.sadu.queries.timeconversion;
 
 import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import de.chojo.sadu.mapper.reader.StandardReader;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
@@ -27,6 +26,7 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
+import static de.chojo.sadu.queries.converter.StandardValueConverter.OFFSET_DATE_TIME;
 
 public class OffsetDateTimeTest {
     private QueryConfiguration query;
@@ -41,7 +41,7 @@ public class OffsetDateTimeTest {
 
         var res = query.query("SELECT as_timestamp FROM time_test")
                        .single()
-                       .map(row -> row.get(1, StandardReader.OFFSET_DATE_TIME))
+                       .map(row -> row.get(1, OFFSET_DATE_TIME))
                        .first()
                        .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
@@ -56,7 +56,7 @@ public class OffsetDateTimeTest {
 
         var res = query.query("SELECT as_timestamp_tz FROM time_test")
                        .single()
-                       .map(row -> row.get(1, StandardReader.OFFSET_DATE_TIME))
+                       .map(row -> row.get(1, OFFSET_DATE_TIME))
                        .first()
                        .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
