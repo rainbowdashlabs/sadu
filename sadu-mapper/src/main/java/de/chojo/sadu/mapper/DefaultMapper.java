@@ -66,8 +66,8 @@ public final class DefaultMapper {
         return create(Boolean.class, Row::getBoolean, types);
     }
 
-    public static RowMapper<Instant> createTimestamp(List<SqlType> types) {
-        return create(Instant.class, (row, integer) -> row.get(integer, INSTANT_FROM_TIMESTAMP), types);
+    public static RowMapper<Timestamp> createTimestamp(List<SqlType> types) {
+        return create(Timestamp.class, Row::getTimestamp, types);
     }
 
     public static RowMapper<Byte[]> createBytes(List<SqlType> types) {

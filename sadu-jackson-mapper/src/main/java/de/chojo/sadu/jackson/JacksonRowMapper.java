@@ -17,6 +17,9 @@ import de.chojo.sadu.mapper.wrapper.Row;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +45,11 @@ public class JacksonRowMapper<T> implements IRowMapper<T> {
             var type = meta.getColumnTypeName(index);
             var forType = registry.findForType(type);
             var mapper = forType.orElseThrow(() -> new UnknownTypeException(type));
-            map.put(meta.getColumnName(index), mapper.map(row, index));
+            Object mapped = mapper.map(row, index);
+            if (mapped instanceof Timestamp timestamp) {
+                mapped = DateTimeFormatter.ISO_INSTANT.format(timestamp.toInstant());
+            }
+            map.put(meta.getColumnName(index), mapped);
         }
 
         return objectMapper.convertValue(map, clazz);

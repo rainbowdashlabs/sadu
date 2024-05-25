@@ -40,9 +40,11 @@ public class PostgresDatabase {
         SqlUpdater.builder(dc, PostgreSql.get())
                 .execute();
 
+        // Create a Registry for mapping the types of a database to java objects.
         RowMapperRegistry registry = new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper());
+        // Wrap the database registry into a jackson registry
         JacksonRowMapperRegistry jacksonRegistry = new JacksonRowMapperRegistry(new ObjectMapper().findAndRegisterModules(), registry);
-
+        // Register the jackson registry at the query configuration
         QueryConfiguration.setDefault(QueryConfiguration.builder(dc)
                 .setRowMapperRegistry(jacksonRegistry)
                 .build());
