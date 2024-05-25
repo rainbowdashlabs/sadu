@@ -28,7 +28,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @param <T> type of returned object
  */
-public class RowMapper<T> implements RowMapping<T> {
+public class RowMapper<T> implements IRowMapper<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
     private final RowMapping<T> mapper;
@@ -61,12 +61,14 @@ public class RowMapper<T> implements RowMapping<T> {
         return mapper.map(row);
     }
 
+    @Override
     public T map(Row row, int index) throws SQLException {
         if(indexMapper == null) throw new UnsupportedOperationException("IndexMapper not set");
         return indexMapper.apply(row, index);
     }
 
 
+    @Override
     public boolean isWildcard() {
         return columns.isEmpty();
     }
@@ -77,6 +79,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param resultSet result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSet resultSet) throws SQLException {
         return applicable(resultSet, MapperConfig.DEFAULT);
     }
@@ -87,6 +90,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param resultSet result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSet resultSet, MapperConfig config) throws SQLException {
         return applicable(resultSet.getMetaData(), config);
     }
@@ -97,6 +101,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param meta meta of a result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSetMetaData meta) {
         return applicable(meta, MapperConfig.DEFAULT);
     }
@@ -108,6 +113,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param config mapper config
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSetMetaData meta, MapperConfig config) {
         Set<String> names;
         try {
@@ -145,6 +151,7 @@ public class RowMapper<T> implements RowMapping<T> {
         return overlap.size();
     }
 
+    @Override
     public List<SqlType> types() {
         return Collections.unmodifiableList(types);
     }
