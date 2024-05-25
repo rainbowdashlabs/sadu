@@ -38,7 +38,7 @@ public class PostgresDatabase {
         return new Database(self, dc);
     }
 
-    public static record Database(GenericContainer<?> container, DataSource dataSource) {
+    public record Database(GenericContainer<?> container, DataSource dataSource) {
         public void close() {
             container.close();
         }

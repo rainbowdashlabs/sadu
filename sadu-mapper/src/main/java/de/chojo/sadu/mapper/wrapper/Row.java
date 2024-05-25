@@ -7,8 +7,9 @@
 package de.chojo.sadu.mapper.wrapper;
 
 import de.chojo.sadu.core.conversion.ArrayConverter;
-import de.chojo.sadu.core.conversion.UUIDConverter;
 import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.reader.StandardReader;
+import de.chojo.sadu.mapper.reader.ValueReader;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.InputStream;
@@ -39,6 +40,21 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_DATE;
+import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_DATE_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.LOCAL_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.OFFSET_DATE_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.OFFSET_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_BYTES;
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_STRING;
+import static de.chojo.sadu.mapper.reader.StandardReader.ZONED_DATE_TIME;
+import static de.chojo.sadu.mapper.reader.StandardReader.localDate;
+import static de.chojo.sadu.mapper.reader.StandardReader.localDateTime;
+import static de.chojo.sadu.mapper.reader.StandardReader.localTime;
+import static de.chojo.sadu.mapper.reader.StandardReader.offsetDateTime;
+import static de.chojo.sadu.mapper.reader.StandardReader.offsetTime;
+import static de.chojo.sadu.mapper.reader.StandardReader.zonedDateTime;
 
 /**
  * Represents the row of a result set. Made to restrict actions on valid calls.
@@ -105,11 +121,7 @@ public class Row {
      * @since 1.2
      */
     public <T extends Enum<T>> T getEnum(int columnIndex, Class<T> clazz) throws SQLException {
-        var value = getString(columnIndex);
-        if (value == null) {
-            return null;
-        }
-        return Enum.valueOf(clazz, value);
+        return get(columnIndex, StandardReader.forEnum(clazz));
     }
 
     /**
@@ -125,13 +137,11 @@ public class Row {
      *                                  called on a closed result set
      * @throws IllegalArgumentException If value does not conform to the string representation as
      *                                  described in {@link #toString}
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public UUID getUuidFromString(int columnIndex) throws SQLException {
-        var value = resultSet.getString(columnIndex);
-        if (value == null) {
-            return null;
-        }
-        return UUID.fromString(value);
+        return get(columnIndex, StandardReader.UUID_FROM_STRING);
     }
 
     /**
@@ -281,9 +291,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public UUID getUuidFromBytes(int columnIndex) throws SQLException {
-        return UUIDConverter.convert(resultSet.getBytes(columnIndex));
+        return get(columnIndex, UUID_FROM_BYTES);
     }
 
     /**
@@ -313,10 +325,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDate getLocalDate(int columnIndex) throws SQLException {
-        var date = getDate(columnIndex);
-        return date == null ? null : date.toLocalDate();
+        return get(columnIndex, LOCAL_DATE);
     }
 
     /**
@@ -346,10 +359,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalTime getLocalTime(int columnIndex) throws SQLException {
-        var time = getTime(columnIndex);
-        return time != null ? time.toLocalTime() : null;
+        return get(columnIndex, LOCAL_TIME);
     }
 
     /**
@@ -379,10 +393,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDateTime getLocalDateTime(int columnIndex) throws SQLException {
-        Timestamp timestamp = getTimestamp(columnIndex);
-        return timestamp == null ? null : timestamp.toLocalDateTime();
+        return get(columnIndex, LOCAL_DATE_TIME);
     }
 
     /**
@@ -396,10 +411,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public ZonedDateTime getZonedDateTime(int columnIndex) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnIndex);
-        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+        return get(columnIndex, ZONED_DATE_TIME);
     }
 
     /**
@@ -413,10 +429,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetDateTime getOffsetDateTime(int columnIndex) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnIndex);
-        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+        return get(columnIndex, OFFSET_DATE_TIME);
     }
 
     /**
@@ -430,10 +447,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetTime getOffsetTime(int columnIndex) throws SQLException {
-        LocalTime localDateTime = getLocalTime(columnIndex);
-        return localDateTime == null ? null : OffsetTime.from(localDateTime);
+        return get(columnIndex, OFFSET_TIME);
     }
 
     /**
@@ -526,11 +544,7 @@ public class Row {
      * @since 1.2
      */
     public <T extends Enum<T>> T getEnum(String columnLabel, Class<T> clazz) throws SQLException {
-        var value = getString(columnLabel);
-        if (value == null) {
-            return null;
-        }
-        return Enum.valueOf(clazz, value);
+        return get(columnLabel, StandardReader.forEnum(clazz));
     }
 
     /**
@@ -544,13 +558,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public UUID getUuidFromString(String columnLabel) throws SQLException {
-        var value = resultSet.getString(columnAlias(columnLabel));
-        if (value == null) {
-            return null;
-        }
-        return UUID.fromString(value);
+        return get(columnLabel, UUID_FROM_STRING);
     }
 
     /**
@@ -700,9 +712,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public UUID getUuidFromBytes(String columnLabel) throws SQLException {
-        return UUIDConverter.convert(resultSet.getBytes(columnAlias(columnLabel)));
+        return get(columnLabel, UUID_FROM_BYTES);
     }
 
     /**
@@ -765,10 +779,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDate getLocalDate(String columnLabel) throws SQLException {
-        var date = getDate(columnLabel);
-        return date == null ? null : date.toLocalDate();
+        return get(columnLabel, LOCAL_DATE);
     }
 
     /**
@@ -800,10 +815,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalTime getLocalTime(String columnLabel) throws SQLException {
-        var time = getTime(columnLabel);
-        return time != null ? time.toLocalTime() : null;
+        return get(columnLabel, LOCAL_TIME);
     }
 
     /**
@@ -833,10 +849,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDateTime getLocalDateTime(String columnLabel) throws SQLException {
-        Timestamp timestamp = getTimestamp(columnLabel);
-        return timestamp == null ? null : timestamp.toLocalDateTime();
+        return get(columnLabel, LOCAL_DATE_TIME);
     }
 
     /**
@@ -850,10 +867,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public ZonedDateTime getZonedDateTime(String columnLabel) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnLabel);
-        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+        return get(columnLabel, ZONED_DATE_TIME);
     }
 
     /**
@@ -867,10 +885,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetDateTime getOffsetDateTime(String columnLabel) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnLabel);
-        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+        return get(columnLabel, OFFSET_DATE_TIME);
     }
 
     /**
@@ -884,10 +903,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs or this method is
      *                      called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetTime getOffsetTime(String columnLabel) throws SQLException {
-        LocalTime localDateTime = getLocalTime(columnLabel);
-        return localDateTime == null ? null : OffsetTime.from(localDateTime);
+        return get(columnLabel, OFFSET_TIME);
     }
 
     /**
@@ -1331,10 +1351,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDate getLocalDate(int columnIndex, Calendar cal) throws SQLException {
-        var date = getDate(columnIndex, cal);
-        return date == null ? null : date.toLocalDate();
+        return get(columnIndex, localDate(cal));
     }
 
     /**
@@ -1376,10 +1397,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDate getLocalDate(String columnLabel, Calendar cal) throws SQLException {
-        var date = getDate(columnLabel, cal);
-        return date == null ? null : date.toLocalDate();
+        return get(columnLabel, localDate(cal));
     }
 
     /**
@@ -1421,10 +1443,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalTime getLocalTime(int columnIndex, Calendar cal) throws SQLException {
-        var time = getTime(columnIndex, cal);
-        return time != null ? time.toLocalTime() : null;
+        return get(columnIndex, localTime(cal));
     }
 
 
@@ -1467,10 +1490,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalTime getLocalTime(String columnLabel, Calendar cal) throws SQLException {
-        var time = getTime(columnLabel, cal);
-        return time != null ? time.toLocalTime() : null;
+        return get(columnLabel, localTime(cal));
     }
 
     /**
@@ -1535,10 +1559,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDateTime getLocalDateTime(int columnIndex, Calendar cal) throws SQLException {
-        Timestamp timestamp = getTimestamp(columnIndex, cal);
-        return timestamp == null ? null : timestamp.toLocalDateTime();
+        return get(columnIndex, localDateTime(cal));
     }
 
 
@@ -1559,10 +1584,11 @@ public class Row {
      * @throws SQLException if the columnLabel is not valid or
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public LocalDateTime getLocalDateTime(String columnLabel, Calendar cal) throws SQLException {
-        Timestamp timestamp = getTimestamp(columnLabel, cal);
-        return timestamp == null ? null : timestamp.toLocalDateTime();
+        return get(columnLabel, localDateTime(cal));
     }
 
     /**
@@ -1582,10 +1608,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public ZonedDateTime getZonedDateTime(int columnIndex, Calendar cal) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
-        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+        return get(columnIndex, zonedDateTime(cal));
     }
 
     /**
@@ -1605,10 +1632,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public ZonedDateTime getZonedDateTime(String columnLabel, Calendar cal) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
-        return localDateTime == null ? null : ZonedDateTime.from(localDateTime);
+        return get(columnLabel, zonedDateTime(cal));
     }
 
     /**
@@ -1629,9 +1657,9 @@ public class Row {
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
      */
+    @Deprecated
     public OffsetDateTime getOffsetDateTime(int columnIndex, Calendar cal) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnIndex, cal);
-        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+        return get(columnIndex, offsetDateTime(cal));
     }
 
     /**
@@ -1651,10 +1679,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetDateTime getOffsetDateTime(String columnLabel, Calendar cal) throws SQLException {
-        LocalDateTime localDateTime = getLocalDateTime(columnLabel, cal);
-        return localDateTime == null ? null : OffsetDateTime.from(localDateTime);
+        return get(columnLabel, offsetDateTime(cal));
     }
 
     /**
@@ -1674,10 +1703,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetTime getOffsetTime(int columnIndex, Calendar cal) throws SQLException {
-        LocalTime localDateTime = getLocalTime(columnIndex, cal);
-        return localDateTime == null ? null : OffsetTime.from(localDateTime);
+        return get(columnIndex, offsetTime(cal));
     }
 
     /**
@@ -1697,10 +1727,11 @@ public class Row {
      * @throws SQLException if the columnIndex is not valid;
      *                      if a database access error occurs
      *                      or this method is called on a closed result set
+     * @deprecated Use {@link #get(String, ValueReader)} with one of the {@link StandardReader}
      */
+    @Deprecated
     public OffsetTime getOffsetTime(String columnLabel, Calendar cal) throws SQLException {
-        LocalTime localDateTime = getLocalTime(columnLabel, cal);
-        return localDateTime == null ? null : OffsetTime.from(localDateTime);
+        return get(columnLabel, offsetTime(cal));
     }
 
     /**
@@ -1995,6 +2026,42 @@ public class Row {
      */
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return resultSet.getObject(columnAlias(columnLabel), type);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object and will convert from the
+     * SQL type of the column to the java type using the provided {@link ValueReader}
+     *
+     * @param columnLabel label of the column
+     * @param reader      Reader instance
+     * @param <V>         The sql type that is read from the result set
+     * @param <T>         The java type the reader returns after parsing
+     * @return An object of the requested type or null if the object is null
+     * @throws SQLException if the value can not be converted
+     */
+    public <V, T> T get(String columnLabel, ValueReader<T, V> reader) throws SQLException {
+        V value = reader.namedReader().apply(this, columnAlias(columnLabel));
+        if (value == null) return reader.defaultValue();
+        return reader.reader().apply(value);
+    }
+
+    /**
+     * Retrieves the value of the designated column in the current row
+     * of this {@code Row} object and will convert from the
+     * SQL type of the column to the java type using the provided {@link ValueReader}
+     *
+     * @param index  index of the column
+     * @param reader Reader instance
+     * @param <V>    The sql type that is read from the result set
+     * @param <T>    The java type the reader returns after parsing
+     * @return An object of the requested type or null if the object is null
+     * @throws SQLException if the value can not be converted
+     */
+    public <V, T> T get(int index, ValueReader<T, V> reader) throws SQLException {
+        V value = reader.indexedReader().apply(this, index);
+        if (value == null) return reader.defaultValue();
+        return reader.reader().apply(value);
     }
 
     private String columnAlias(String columnLabel) {

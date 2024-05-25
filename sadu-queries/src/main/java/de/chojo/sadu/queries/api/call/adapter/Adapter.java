@@ -14,6 +14,7 @@ import java.util.function.Function;
  * The Adapter interface provides a way to map Java objects to a specific SQL data type and perform the necessary conversions when binding the objects to a PreparedStatement.
  *
  * @param <T> the type of object to be adapted
+ * @see de.chojo.sadu.queries.call.adapter.StandardAdapter
  */
 public interface Adapter<T> {
     /**

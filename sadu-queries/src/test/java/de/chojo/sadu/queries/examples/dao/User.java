@@ -10,8 +10,10 @@ import de.chojo.sadu.mapper.rowmapper.RowMapping;
 
 import java.util.UUID;
 
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_STRING;
+
 public record User(int id, UUID uuid, String name) {
     public static RowMapping<User> map() {
-        return row -> new User(row.getInt("id"), row.getUuidFromString("uuid"), row.getString("name"));
+        return row -> new User(row.getInt("id"), row.get("uuid", UUID_FROM_STRING), row.getString("name"));
     }
 }
