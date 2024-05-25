@@ -6,6 +6,8 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
+import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.wrapper.Row;
 import org.slf4j.Logger;
@@ -13,7 +15,9 @@ import org.slf4j.Logger;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static de.chojo.sadu.mapper.util.Results.columnNames;
@@ -29,11 +33,15 @@ public class RowMapper<T> implements RowMapping<T> {
     private final Class<T> clazz;
     private final RowMapping<T> mapper;
     private final Set<String> columns;
+    private final List<SqlType> types;
+    private final ThrowingBiFunction<Row, Integer, T, SQLException> indexMapper;
 
-    RowMapper(Class<T> clazz, RowMapping<T> mapper, Set<String> columns) {
+    RowMapper(Class<T> clazz, RowMapping<T> mapper, ThrowingBiFunction<Row, Integer, T, SQLException> indexMapper, Set<String> columns, List<SqlType> types) {
         this.clazz = clazz;
         this.mapper = mapper;
         this.columns = columns;
+        this.types = types;
+        this.indexMapper = indexMapper;
     }
 
     public static <T> PartialRowMapper<T> forClass(Class<T> clazz) {
@@ -52,6 +60,12 @@ public class RowMapper<T> implements RowMapping<T> {
     public T map(Row row) throws SQLException {
         return mapper.map(row);
     }
+
+    public T map(Row row, int index) throws SQLException {
+        if(indexMapper == null) throw new UnsupportedOperationException("IndexMapper not set");
+        return indexMapper.apply(row, index);
+    }
+
 
     public boolean isWildcard() {
         return columns.isEmpty();
@@ -131,6 +145,9 @@ public class RowMapper<T> implements RowMapping<T> {
         return overlap.size();
     }
 
+    public List<SqlType> types() {
+        return Collections.unmodifiableList(types);
+    }
 
     @Override
     public String toString() {

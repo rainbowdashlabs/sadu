@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.mapper;
 
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.mapper.exceptions.MappingAlreadyRegisteredException;
 import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
@@ -26,6 +27,7 @@ import java.util.Optional;
  */
 public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
+    private final Map<String, List<RowMapper<?>>> types = new HashMap<>();
 
     public RowMapperRegistry() {
     }
@@ -47,7 +49,20 @@ public class RowMapperRegistry {
         }
 
         rowMappers.add(rowMapper);
+        if (rowMapper.isWildcard()) {
+            for (SqlType type : rowMapper.types()) {
+                registerType(type.name(), rowMapper);
+                for (String alias : type.alias()) {
+                    registerType(alias, rowMapper);
+                }
+            }
+        }
+
         return this;
+    }
+
+    private void registerType(String name, RowMapper<?> rowMapper) {
+        types.computeIfAbsent(name, key -> new ArrayList<>()).add(rowMapper);
     }
 
     /**
@@ -177,5 +192,9 @@ public class RowMapperRegistry {
             return mapper.get();
         }
         throw MappingException.create(clazz, meta);
+    }
+
+    public Optional<RowMapper<?>> findForType(String name) {
+        return Optional.ofNullable(types.get(name).get(0));
     }
 }

@@ -72,3 +72,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include("sadu-jackson-mapper")

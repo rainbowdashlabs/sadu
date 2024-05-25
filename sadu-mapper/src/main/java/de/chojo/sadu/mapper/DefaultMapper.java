@@ -93,7 +93,10 @@ public final class DefaultMapper {
                     var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
                     var index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
                     return mapper.apply(row, index);
-                }).build();
+                })
+                .indexMapper(mapper)
+                .types(types)
+                .build();
     }
 
     private static SQLException createException(List<SqlType> types, ResultSetMetaData meta) {

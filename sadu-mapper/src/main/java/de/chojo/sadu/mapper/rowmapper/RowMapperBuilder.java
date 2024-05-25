@@ -6,6 +6,11 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
+import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
+import de.chojo.sadu.core.types.SqlType;
+import de.chojo.sadu.mapper.wrapper.Row;
+
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +24,8 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
     private final Class<T> clazz;
     private final Set<String> columns = new HashSet<>();
     private RowMapping<T> mapper;
+    private List<SqlType> types;
+    private ThrowingBiFunction<Row, Integer, T, SQLException> indexMapper;
 
     RowMapperBuilder(Class<T> clazz) {
         this.clazz = clazz;
@@ -58,6 +65,16 @@ public class RowMapperBuilder<T> implements PartialRowMapper<T> {
      * @return new RowMapper instance
      */
     public RowMapper<T> build() {
-        return new RowMapper<>(clazz, mapper, columns);
+        return new RowMapper<>(clazz, mapper, indexMapper, columns, types);
+    }
+
+    public RowMapperBuilder<T> types(List<SqlType> types) {
+        this.types = types;
+        return this;
+    }
+
+    public RowMapperBuilder<T> indexMapper(ThrowingBiFunction<Row, Integer, T, SQLException> mapper) {
+        this.indexMapper = mapper;
+        return this;
     }
 }
