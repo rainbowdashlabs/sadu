@@ -67,7 +67,7 @@ public class RowMapperRegistry implements IRowMapperRegistry {
     }
 
     private void registerType(String name, RowMapper<?> rowMapper) {
-        types.computeIfAbsent(name, key -> new ArrayList<>()).add(rowMapper);
+        types.computeIfAbsent(name.toLowerCase(), key -> new ArrayList<>()).add(rowMapper);
     }
 
     /**
@@ -202,6 +202,6 @@ public class RowMapperRegistry implements IRowMapperRegistry {
 
     @Override
     public Optional<RowMapper<?>> findForType(String name) {
-        return Optional.ofNullable(types.get(name).get(0));
+        return Optional.ofNullable(types.get(name.toLowerCase())).map(l -> l.get(0));
     }
 }

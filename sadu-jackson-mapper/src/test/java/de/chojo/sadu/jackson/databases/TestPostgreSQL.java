@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 import static de.chojo.sadu.jackson.setup.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.api.call.Call.call;
 import static de.chojo.sadu.queries.api.query.Query.query;
-import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_MILLIS;
 import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_TIMESTAMP;
 import static de.chojo.sadu.queries.converter.StandardValueConverter.UUID_STRING;
 
@@ -42,7 +41,7 @@ public class TestPostgreSQL {
                 .single(call().bind(obj.first()).bind(obj.second()).bind(obj.third()).bind(obj.fourth(), INSTANT_TIMESTAMP).bind(obj.fifth(), UUID_STRING))
                 .insert();
 
-        var result = query("SELECT * FROM test")
+        var result = query("SELECT first, second, third, fourth, fifth::UUID FROM test")
                 .single()
                 .mapAs(TestObj.class)
                 .first()

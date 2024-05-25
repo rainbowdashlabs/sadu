@@ -63,7 +63,7 @@ public class RowMapper<T> implements IRowMapper<T> {
 
     @Override
     public T map(Row row, int index) throws SQLException {
-        if(indexMapper == null) throw new UnsupportedOperationException("IndexMapper not set");
+        if(indexMapper == null) throw new UnsupportedOperationException("IndexMapper not set for %s".formatted(clazz));
         return indexMapper.apply(row, index);
     }
 
