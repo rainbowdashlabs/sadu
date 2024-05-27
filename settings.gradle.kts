@@ -41,7 +41,7 @@ dependencyResolutionManagement {
             plugin("indra-publishing", "net.kyori.indra.publishing").versionRef("indra")
             plugin("indra-sonatype", "net.kyori.indra.publishing.sonatype").versionRef("indra")
 
-            version("slf4j", "2.0.12")
+            version("slf4j", "2.0.13")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
         }
 
@@ -51,20 +51,20 @@ dependencyResolutionManagement {
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params"))
 
-            version("testcontainers", "1.19.6")
+            version("testcontainers", "1.19.8")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
             library("testcontainers-core", "org.testcontainers", "testcontainers").versionRef("testcontainers")
             library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef("testcontainers")
 
-            version("slf4j", "2.0.12")
+            version("slf4j", "2.0.13")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
 
-            library("driver-postgres", "org.postgresql:postgresql:42.7.2")
-            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.3.3")
-            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.45.1.0")
-            library("driver-mysql", "com.mysql:mysql-connector-j:8.3.0")
+            library("driver-postgres", "org.postgresql:postgresql:42.7.3")
+            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.4.0")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.45.3.0")
+            library("driver-mysql", "com.mysql:mysql-connector-j:8.4.0")
 
             bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
             bundle("database-mariadb", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb"))

@@ -23,6 +23,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_BYTES;
+import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_STRING;
+
 public final class DefaultMapper {
     private DefaultMapper() {
         throw new UnsupportedOperationException("This is a utility class.");
@@ -70,7 +73,7 @@ public final class DefaultMapper {
                     var meta = row.getMetaData();
                     var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, textTypes);
                     if (columnIndexOfType.isPresent()) {
-                        return row.getUuidFromString(columnIndexOfType.get());
+                        return row.get(columnIndexOfType.get(), UUID_FROM_STRING);
                     }
                     columnIndexOfType = Results.getFirstColumnIndexOfType(meta, byteTypes);
                     var index = columnIndexOfType.orElseThrow(() -> {
@@ -78,7 +81,7 @@ public final class DefaultMapper {
                         sqlTypes.addAll(byteTypes);
                         return createException(sqlTypes, meta);
                     });
-                    return row.getUuidFromBytes(index);
+                    return row.get(index, UUID_FROM_BYTES);
                 })
                 .build();
     }
