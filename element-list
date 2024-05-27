@@ -13,6 +13,7 @@ de.chojo.sadu.datasource.exceptions
 de.chojo.sadu.datasource.stage
 de.chojo.sadu.mapper
 de.chojo.sadu.mapper.exceptions
+de.chojo.sadu.mapper.reader
 de.chojo.sadu.mapper.rowmapper
 de.chojo.sadu.mapper.util
 de.chojo.sadu.mapper.wrapper
@@ -46,6 +47,7 @@ de.chojo.sadu.queries.call
 de.chojo.sadu.queries.call.adapter
 de.chojo.sadu.queries.calls
 de.chojo.sadu.queries.configuration
+de.chojo.sadu.queries.converter
 de.chojo.sadu.queries.exception
 de.chojo.sadu.queries.execution.reading
 de.chojo.sadu.queries.execution.writing
