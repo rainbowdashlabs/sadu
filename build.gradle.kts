@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "2.1.1"
+    publishingVersion = "2.2.0"
 }
 
 group = "de.chojo.sadu"
