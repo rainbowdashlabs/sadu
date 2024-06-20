@@ -188,12 +188,22 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
      * Specify the schema or several schema to be set in the search-path. This schema will be used to resolve
      * unqualified object names used in statements over this connection.
      *
-     * @param schema  the default schema
-     * @param schemas additionally used schemas
+     * @param schemas default schemas
      * @return builder instance
      */
-    public PostgreSqlJdbc currentSchema(String schema, String... schemas) {
-        return addParameter("currentSchema", String.join(",", schema, String.join(",")));
+    public PostgreSqlJdbc currentSchema(String... schemas) {
+        return addParameter("currentSchema", String.join(",", schemas));
+    }
+
+    /**
+     * Specify the schema or several schema to be set in the search-path. This schema will be used to resolve
+     * unqualified object names used in statements over this connection.
+     *
+     * @param schema the default schema
+     * @return builder instance
+     */
+    public PostgreSqlJdbc currentSchema(String schema) {
+        return currentSchema(new String[]{schema});
     }
 
     /**

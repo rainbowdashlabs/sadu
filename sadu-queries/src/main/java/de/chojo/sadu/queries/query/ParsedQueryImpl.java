@@ -26,7 +26,10 @@ public class ParsedQueryImpl implements QueryProvider, ParsedQuery {
     }
 
     public static ParsedQueryImpl create(QueryProvider query, String sql, Object... format) {
-        return new ParsedQueryImpl(query, TokenizedQuery.create(sql.formatted(format)));
+        if (format.length != 0) {
+            return new ParsedQueryImpl(query, TokenizedQuery.create(sql.formatted(format)));
+        }
+        return new ParsedQueryImpl(query, TokenizedQuery.create(sql));
     }
 
     @Override
