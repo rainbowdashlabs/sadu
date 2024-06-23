@@ -6,6 +6,8 @@
 
 package de.chojo.sadu.mapper.rowmapper;
 
+import de.chojo.sadu.core.exceptions.ThrowingBiFunction;
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.mapper.MapperConfig;
 import de.chojo.sadu.mapper.wrapper.Row;
 import org.slf4j.Logger;
@@ -13,7 +15,9 @@ import org.slf4j.Logger;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static de.chojo.sadu.mapper.util.Results.columnNames;
@@ -24,16 +28,20 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @param <T> type of returned object
  */
-public class RowMapper<T> implements RowMapping<T> {
+public class RowMapper<T> implements IRowMapper<T> {
     private static final Logger log = getLogger(RowMapper.class);
     private final Class<T> clazz;
     private final RowMapping<T> mapper;
     private final Set<String> columns;
+    private final List<SqlType> types;
+    private final ThrowingBiFunction<Row, Integer, T, SQLException> indexMapper;
 
-    RowMapper(Class<T> clazz, RowMapping<T> mapper, Set<String> columns) {
+    RowMapper(Class<T> clazz, RowMapping<T> mapper, ThrowingBiFunction<Row, Integer, T, SQLException> indexMapper, Set<String> columns, List<SqlType> types) {
         this.clazz = clazz;
         this.mapper = mapper;
         this.columns = columns;
+        this.types = types;
+        this.indexMapper = indexMapper;
     }
 
     public static <T> PartialRowMapper<T> forClass(Class<T> clazz) {
@@ -53,6 +61,14 @@ public class RowMapper<T> implements RowMapping<T> {
         return mapper.map(row);
     }
 
+    @Override
+    public T map(Row row, int index) throws SQLException {
+        if(indexMapper == null) throw new UnsupportedOperationException("IndexMapper not set for %s".formatted(clazz));
+        return indexMapper.apply(row, index);
+    }
+
+
+    @Override
     public boolean isWildcard() {
         return columns.isEmpty();
     }
@@ -63,6 +79,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param resultSet result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSet resultSet) throws SQLException {
         return applicable(resultSet, MapperConfig.DEFAULT);
     }
@@ -73,6 +90,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param resultSet result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSet resultSet, MapperConfig config) throws SQLException {
         return applicable(resultSet.getMetaData(), config);
     }
@@ -83,6 +101,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param meta meta of a result set
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSetMetaData meta) {
         return applicable(meta, MapperConfig.DEFAULT);
     }
@@ -94,6 +113,7 @@ public class RowMapper<T> implements RowMapping<T> {
      * @param config mapper config
      * @return If the result set is not applicable 0 will be returned. Otherwise, the count of applicable rows will be returned.
      */
+    @Override
     public int applicable(ResultSetMetaData meta, MapperConfig config) {
         Set<String> names;
         try {
@@ -131,6 +151,10 @@ public class RowMapper<T> implements RowMapping<T> {
         return overlap.size();
     }
 
+    @Override
+    public List<SqlType> types() {
+        return Collections.unmodifiableList(types);
+    }
 
     @Override
     public String toString() {

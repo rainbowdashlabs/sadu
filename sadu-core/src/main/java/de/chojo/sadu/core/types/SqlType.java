@@ -53,4 +53,11 @@ public interface SqlType {
         return "%s (%s)".formatted(name(), String.join(", ", alias()));
     }
 
+    default boolean match(String columnTypeName) {
+        if (name().equalsIgnoreCase(columnTypeName)) return true;
+        for (String alias : alias()) {
+            if (alias.equalsIgnoreCase(columnTypeName)) return true;
+        }
+        return false;
+    }
 }

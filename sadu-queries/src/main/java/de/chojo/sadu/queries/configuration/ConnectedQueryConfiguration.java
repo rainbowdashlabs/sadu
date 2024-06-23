@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.queries.configuration;
 
+import de.chojo.sadu.mapper.IRowMapperRegistry;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import de.chojo.sadu.queries.query.QueryImpl;
@@ -18,7 +19,7 @@ import java.util.function.Consumer;
 public class ConnectedQueryConfiguration extends QueryConfiguration implements AutoCloseable {
     private Connection connection = null;
 
-    ConnectedQueryConfiguration(QueryImpl query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    ConnectedQueryConfiguration(QueryImpl query, DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, IRowMapperRegistry rowMapperRegistry) {
         super(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 

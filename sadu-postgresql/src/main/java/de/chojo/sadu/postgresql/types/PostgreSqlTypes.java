@@ -30,15 +30,15 @@ public interface PostgreSqlTypes {
     /**
      * -32,768 and 32,767
      */
-    SqlType SMALLINT = ofName("SMALLINT", "int2", "int4", "int8");
+    SqlType SMALLINT = ofName("SMALLINT", "int2");
     /**
      * -2,147,483,648 and 2,147,483,647
      */
-    SqlType INTEGER = ofName("INTEGER", "int16", "int32");
+    SqlType INTEGER = ofName("INTEGER", "int4");
     /**
      * "Unlimited" size
      */
-    SqlType BIGINT = ofName("BIGINT", "int64");
+    SqlType BIGINT = ofName("BIGINT", "int8");
     /**
      * exact fixed point
      */
@@ -63,6 +63,10 @@ public interface PostgreSqlTypes {
      * Byte array
      */
     SqlType BYTEA = ofName("BYTEA");
+    /**
+     * UUID
+     */
+    SqlType UUID = ofName("UUID");
     /**
      * JSON
      */
