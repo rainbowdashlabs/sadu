@@ -8,7 +8,7 @@ package de.chojo.sadu.queries.api.base;
 
 import de.chojo.sadu.core.base.DataSourceProvider;
 import de.chojo.sadu.core.exceptions.ThrowingFunction;
-import de.chojo.sadu.queries.configuration.QueryConfiguration;
+import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.query.QueryImpl;
 
 import javax.sql.DataSource;

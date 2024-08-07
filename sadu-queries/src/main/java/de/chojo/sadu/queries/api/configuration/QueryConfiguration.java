@@ -4,29 +4,30 @@
  *     Copyright (C) RainbowDashLabs and Contributor
  */
 
-package de.chojo.sadu.queries.configuration;
+package de.chojo.sadu.queries.api.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
-import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
+import de.chojo.sadu.queries.configuration.ConnectedQueryConfigurationImpl;
+import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Replaced by equal interface at {@link de.chojo.sadu.queries.api.configuration.QueryConfiguration}
- */
-@Deprecated(forRemoval = true)
-public interface QueryConfiguration {
+@SuppressWarnings("removal")
+public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.QueryConfiguration{
+    AtomicReference<QueryConfiguration> DEFAULT = new AtomicReference<>(null);
+
     /**
      * Retrieves the default QueryConfiguration.
      *
      * @return the default QueryConfiguration
      */
-    static de.chojo.sadu.queries.api.configuration.QueryConfiguration getDefault() {
-        return Objects.requireNonNull(de.chojo.sadu.queries.api.configuration.QueryConfiguration.DEFAULT.get(), "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
+    static QueryConfiguration getDefault() {
+        return Objects.requireNonNull(DEFAULT.get(), "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
     }
 
     /**
@@ -34,8 +35,8 @@ public interface QueryConfiguration {
      *
      * @param configuration the query configuration to set as default
      */
-    static void setDefault(de.chojo.sadu.queries.api.configuration.QueryConfiguration configuration) {
-        de.chojo.sadu.queries.api.configuration.QueryConfiguration.DEFAULT.set(configuration);
+    static void setDefault(QueryConfiguration configuration) {
+        DEFAULT.set(configuration);
     }
 
     /**
