@@ -32,7 +32,7 @@ public interface Query {
     /**
      * Create a new query using the default query configuration.
      * <p>
-     * {@link QueryConfigurationImpl#setDefault(QueryConfiguration)} has to be used before to configure it.
+     * {@link QueryConfiguration#setDefault(QueryConfiguration)} has to be used before to configure it.
      *
      * @param sql    the query you want to execute
      * @param format will work like calling {@link String#formatted(Object...)}.
