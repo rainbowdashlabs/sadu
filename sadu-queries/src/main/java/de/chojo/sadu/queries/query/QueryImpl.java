@@ -12,6 +12,7 @@ import de.chojo.sadu.queries.api.base.ConnectionProvider;
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.query.Query;
 import de.chojo.sadu.queries.configuration.ConnectedQueryConfiguration;
+import de.chojo.sadu.queries.configuration.ConnectedQueryConfigurationImpl;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.storage.ResultStorageImpl;
 
@@ -53,18 +54,18 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
 
     @Override
     public <T> T callConnection(Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
-        if (!(conf instanceof ConnectedQueryConfiguration conn)) {
+        if (conf instanceof ConnectedQueryConfiguration conn) {
+            try {
+                return connectionConsumer.apply(conn.connection());
+            } catch (SQLException e) {
+                conf.handleException(e);
+            }
+        } else {
             try (var conn = conf.dataSource().getConnection()) {
                 conn.setAutoCommit(false);
                 var result = connectionConsumer.apply(conn);
                 conn.commit();
                 return result;
-            } catch (SQLException e) {
-                conf.handleException(e);
-            }
-        } else {
-            try {
-                return connectionConsumer.apply(conn.connection());
             } catch (SQLException e) {
                 conf.handleException(e);
             }

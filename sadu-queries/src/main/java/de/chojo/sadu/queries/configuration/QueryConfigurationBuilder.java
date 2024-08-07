@@ -71,7 +71,7 @@ public class QueryConfigurationBuilder {
     }
 
     /**
-     * Sets the {@link RowMapperRegistry} for the {@link QueryConfiguration}.
+     * Sets the {@link RowMapperRegistry} for the {@link QueryConfigurationImpl}.
      *
      * @param rowMapperRegistry the RowMapperRegistry to set
      * @return the QueryConfigurationBuilder instance
@@ -82,11 +82,11 @@ public class QueryConfigurationBuilder {
     }
 
     /**
-     * Returns a new {@link QueryConfiguration} object based on the current configuration settings.
+     * Returns a new {@link QueryConfigurationImpl} object based on the current configuration settings.
      *
-     * @return a new {@link QueryConfiguration} object
+     * @return a new {@link QueryConfigurationImpl} object
      */
     public QueryConfiguration build() {
-        return new QueryConfiguration(dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
+        return new QueryConfigurationImpl(dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 }
