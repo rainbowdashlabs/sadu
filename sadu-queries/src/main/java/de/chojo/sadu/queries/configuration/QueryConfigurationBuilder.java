@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.core.exceptions.ExceptionTransformer;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;

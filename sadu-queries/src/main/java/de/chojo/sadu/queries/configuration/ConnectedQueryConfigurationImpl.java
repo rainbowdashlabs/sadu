@@ -7,8 +7,9 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
+import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
-import de.chojo.sadu.queries.query.QueryImpl;
 import org.jetbrains.annotations.Nullable;
 
 import javax.sql.DataSource;
@@ -16,24 +17,25 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
-public class ConnectedQueryConfigurationImpl extends QueryConfigurationImpl implements ConnectedQueryConfiguration {
+public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImpl implements ConnectedQueryConfiguration {
     private Connection connection;
 
-    ConnectedQueryConfigurationImpl(QueryImpl query, DataSource dataSource, @Nullable Connection connection, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
-        super(query, dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
+    ConnectedQueryConfigurationImpl(QueryContext context, DataSource dataSource, @Nullable Connection connection, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+        super(dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry, context);
         this.connection = connection;
     }
 
-    public ConnectedQueryQueryConfigurationDelegate forQuery(QueryImpl query) {
-        return new ConnectedQueryQueryConfigurationDelegate(query, this);
+    @Override
+    public ConnectedQueryQueryConfigurationDelegate forQuery(QueryContext context) {
+        // TODO: Maybe store the different query instances from the context in the future.
+        return new ConnectedQueryQueryConfigurationDelegate(this);
     }
 
     @Override
     public void close() {
         if (connection == null) return;
         try (var conn = connection) {
-            //noinspection DataFlowIssue
-            if (query.exceptions().isEmpty()) {
+            if (context.exceptions().isEmpty()) {
                 if (atomic()) {
                     conn.commit();
                 }

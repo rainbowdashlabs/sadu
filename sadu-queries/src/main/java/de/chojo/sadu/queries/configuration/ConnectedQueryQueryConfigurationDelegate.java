@@ -7,8 +7,9 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
-import de.chojo.sadu.queries.query.QueryImpl;
+import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,10 +17,8 @@ import java.sql.SQLException;
 
 public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryConfiguration {
     private final ConnectedQueryConfigurationImpl configuration;
-    private final QueryImpl query;
 
-    ConnectedQueryQueryConfigurationDelegate(QueryImpl query, ConnectedQueryConfigurationImpl configuration) {
-        this.query= query;
+    ConnectedQueryQueryConfigurationDelegate(ConnectedQueryConfigurationImpl configuration) {
         this.configuration = configuration;
     }
 
@@ -34,12 +33,8 @@ public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryC
     }
 
     @Override
-    public ConnectedQueryQueryConfigurationDelegate forQuery(QueryImpl query) {
-        return configuration.forQuery(query);
-    }
-
-    public QueryImpl getQuery() {
-        return query;
+    public ConnectedQueryQueryConfigurationDelegate forQuery(QueryContext exceptionHolder) {
+        return configuration.forQuery(exceptionHolder);
     }
 
     @Override
@@ -70,6 +65,11 @@ public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryC
     @Override
     public void handleException(SQLException e) {
         configuration.handleException(e);
+    }
+
+    @Override
+    public QueryContext context() {
+        return configuration.context();
     }
 
     @Override
