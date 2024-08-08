@@ -34,6 +34,9 @@ de.chojo.sadu.queries.api.base
 de.chojo.sadu.queries.api.call
 de.chojo.sadu.queries.api.call.adapter
 de.chojo.sadu.queries.api.call.calls
+de.chojo.sadu.queries.api.configuration
+de.chojo.sadu.queries.api.configuration.context
+de.chojo.sadu.queries.api.exception
 de.chojo.sadu.queries.api.execution.reading
 de.chojo.sadu.queries.api.execution.writing
 de.chojo.sadu.queries.api.parameter
@@ -47,6 +50,7 @@ de.chojo.sadu.queries.call
 de.chojo.sadu.queries.call.adapter
 de.chojo.sadu.queries.calls
 de.chojo.sadu.queries.configuration
+de.chojo.sadu.queries.configuration.context
 de.chojo.sadu.queries.converter
 de.chojo.sadu.queries.exception
 de.chojo.sadu.queries.execution.reading
