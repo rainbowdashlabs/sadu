@@ -6,8 +6,10 @@
 
 package de.chojo.sadu.mapper;
 
+import de.chojo.sadu.core.types.SqlType;
 import de.chojo.sadu.mapper.exceptions.MappingAlreadyRegisteredException;
 import de.chojo.sadu.mapper.exceptions.MappingException;
+import de.chojo.sadu.mapper.rowmapper.IRowMapper;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 
 import java.sql.ResultSet;
@@ -24,10 +26,15 @@ import java.util.Optional;
 /**
  * Class to register {@link RowMapper} to map rows to objects.
  */
-public class RowMapperRegistry {
+public class RowMapperRegistry implements IRowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
+    private final Map<String, List<RowMapper<?>>> types = new HashMap<>();
 
     public RowMapperRegistry() {
+    }
+
+    public List<? extends RowMapper<?>> mapper(Class<?> clazz) {
+        return mapper.getOrDefault(clazz, Collections.emptyList());
     }
 
     /**
@@ -47,7 +54,20 @@ public class RowMapperRegistry {
         }
 
         rowMappers.add(rowMapper);
+        if (rowMapper.isWildcard()) {
+            for (SqlType type : rowMapper.types()) {
+                registerType(type.name(), rowMapper);
+                for (String alias : type.alias()) {
+                    registerType(alias, rowMapper);
+                }
+            }
+        }
+
         return this;
+    }
+
+    private void registerType(String name, RowMapper<?> rowMapper) {
+        types.computeIfAbsent(name.toLowerCase(), key -> new ArrayList<>()).add(rowMapper);
     }
 
     /**
@@ -82,10 +102,6 @@ public class RowMapperRegistry {
         return this;
     }
 
-    private List<RowMapper<?>> mapper(Class<?> clazz) {
-        return mapper.getOrDefault(clazz, Collections.emptyList());
-    }
-
     /**
      * Gets the wild card mapper if registered.
      *
@@ -93,6 +109,7 @@ public class RowMapperRegistry {
      * @param <T>   type of mapper
      * @return mapper if exists
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
         return mapper(clazz).stream()
@@ -113,6 +130,7 @@ public class RowMapperRegistry {
      * @param <T>   return type of mapper
      * @return mapper when found
      */
+    @Override
     public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSet set, MapperConfig config) throws SQLException {
         return find(clazz, set.getMetaData(), config);
     }
@@ -129,6 +147,7 @@ public class RowMapperRegistry {
      * @param <T>   return type of mapper
      * @return mapper when found
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) {
         return mapper(clazz)
@@ -155,7 +174,8 @@ public class RowMapperRegistry {
      * @return mapper when found
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, MapperConfig config) throws MappingException, SQLException {
+    @Override
+    public <T, V extends IRowMapper<T>> V findOrWildcard(Class<T> clazz, ResultSet set, MapperConfig config) throws MappingException, SQLException {
         return findOrWildcard(clazz, set.getMetaData(), config);
     }
 
@@ -170,12 +190,18 @@ public class RowMapperRegistry {
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      * @throws SQLException     if a database access error occurs
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) throws MappingException, SQLException {
+    @Override
+    public <T, V extends IRowMapper<T>> V findOrWildcard(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) throws MappingException, SQLException {
         Optional<? extends RowMapper<T>> mapper = find(clazz, meta, config)
                 .or(() -> wildcard(clazz));
         if (mapper.isPresent()) {
-            return mapper.get();
+            return (V) mapper.get();
         }
         throw MappingException.create(clazz, meta);
+    }
+
+    @Override
+    public Optional<RowMapper<?>> findForType(String name) {
+        return Optional.ofNullable(types.get(name.toLowerCase())).map(l -> l.get(0));
     }
 }

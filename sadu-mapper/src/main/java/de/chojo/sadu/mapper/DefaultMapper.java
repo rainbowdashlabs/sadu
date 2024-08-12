@@ -15,6 +15,8 @@ import de.chojo.sadu.mapper.wrapper.Row;
 import java.math.BigDecimal;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static de.chojo.sadu.mapper.reader.StandardReader.INSTANT_FROM_TIMESTAMP;
 import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_BYTES;
 import static de.chojo.sadu.mapper.reader.StandardReader.UUID_FROM_STRING;
 
@@ -63,11 +66,17 @@ public final class DefaultMapper {
         return create(Boolean.class, Row::getBoolean, types);
     }
 
+    public static RowMapper<Timestamp> createTimestamp(List<SqlType> types) {
+        return create(Timestamp.class, Row::getTimestamp, types);
+    }
+
     public static RowMapper<Byte[]> createBytes(List<SqlType> types) {
         return create(Byte[].class, (row, columnIndex) -> convertByteArray(row.getBytes(columnIndex)), types);
     }
 
     public static RowMapper<UUID> createUuid(List<SqlType> textTypes, List<SqlType> byteTypes) {
+        List<SqlType> types = new ArrayList<>(textTypes);
+        types.addAll(byteTypes);
         return RowMapper.forClass(java.util.UUID.class)
                 .mapper(row -> {
                     var meta = row.getMetaData();
@@ -83,6 +92,15 @@ public final class DefaultMapper {
                     });
                     return row.get(index, UUID_FROM_BYTES);
                 })
+                .types(types)
+                .indexMapper((row, index) -> {
+                    var meta = row.getMetaData();
+                    String columnTypeName = meta.getColumnTypeName(index);
+                    if (textTypes.stream().anyMatch(type -> type.match(columnTypeName))) {
+                        return row.get(index, UUID_FROM_STRING);
+                    }
+                    return row.get(index, UUID_FROM_BYTES);
+                })
                 .build();
     }
 
@@ -93,7 +111,10 @@ public final class DefaultMapper {
                     var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
                     var index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
                     return mapper.apply(row, index);
-                }).build();
+                })
+                .indexMapper(mapper)
+                .types(types)
+                .build();
     }
 
     private static SQLException createException(List<SqlType> types, ResultSetMetaData meta) {

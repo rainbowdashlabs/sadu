@@ -7,6 +7,7 @@
 package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.core.exceptions.ExceptionTransformer;
+import de.chojo.sadu.mapper.IRowMapperRegistry;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +24,7 @@ public class QueryConfigurationBuilder {
         System.err.println(ExceptionTransformer.prettyException(throwable));
         throwable.printStackTrace();
     };
-    private RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
+    private IRowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
 
     /**
      * QueryConfigurationBuilder is a builder class used to create an instance of QueryConfiguration.
@@ -76,7 +77,7 @@ public class QueryConfigurationBuilder {
      * @param rowMapperRegistry the RowMapperRegistry to set
      * @return the QueryConfigurationBuilder instance
      */
-    public QueryConfigurationBuilder setRowMapperRegistry(RowMapperRegistry rowMapperRegistry) {
+    public QueryConfigurationBuilder setRowMapperRegistry(IRowMapperRegistry rowMapperRegistry) {
         this.rowMapperRegistry = rowMapperRegistry;
         return this;
     }

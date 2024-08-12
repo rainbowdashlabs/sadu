@@ -6,6 +6,7 @@
 
 package de.chojo.sadu.queries.configuration;
 
+import de.chojo.sadu.mapper.IRowMapperRegistry;
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.query.Query;
@@ -27,9 +28,9 @@ public class QueryConfiguration {
     protected final boolean atomic;
     protected final boolean throwExceptions;
     protected final Consumer<SQLException> exceptionHandler;
-    protected final RowMapperRegistry rowMapperRegistry;
+    protected final IRowMapperRegistry rowMapperRegistry;
 
-    QueryConfiguration(@NotNull DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    QueryConfiguration(@NotNull DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, IRowMapperRegistry rowMapperRegistry) {
         query = null;
         this.dataSource = dataSource;
         this.atomic = atomic;
@@ -38,7 +39,7 @@ public class QueryConfiguration {
         this.rowMapperRegistry = rowMapperRegistry;
     }
 
-    QueryConfiguration(QueryImpl query, @NotNull DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    QueryConfiguration(QueryImpl query, @NotNull DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, IRowMapperRegistry rowMapperRegistry) {
         this.query = query;
         this.dataSource = dataSource;
         this.atomic = atomic;
@@ -123,7 +124,7 @@ public class QueryConfiguration {
      *
      * @return The {@link RowMapperRegistry} object from the QueryConfiguration.
      */
-    public RowMapperRegistry rowMapperRegistry() {
+    public IRowMapperRegistry rowMapperRegistry() {
         return rowMapperRegistry;
     }
 

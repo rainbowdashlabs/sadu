@@ -43,6 +43,10 @@ dependencyResolutionManagement {
 
             version("slf4j", "2.0.13")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
+
+            version("jackson", "2.17.1")
+            library("jackson-jsr310","com.fasterxml.jackson.datatype","jackson-datatype-jsr310").versionRef("jackson")
+            library("jackson-databind","com.fasterxml.jackson.core", "jackson-databind").versionRef("jackson")
         }
 
         create("testlibs") {
@@ -72,3 +76,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include("sadu-jackson-mapper")
