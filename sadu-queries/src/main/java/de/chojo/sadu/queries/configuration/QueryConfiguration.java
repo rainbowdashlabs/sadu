@@ -8,8 +8,8 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
-import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.configuration.context.QueryContext;
+import de.chojo.sadu.queries.api.query.ParsedQuery;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;

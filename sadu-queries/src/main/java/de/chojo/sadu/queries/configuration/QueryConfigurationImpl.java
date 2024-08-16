@@ -61,6 +61,11 @@ public class QueryConfigurationImpl implements QueryConfiguration {
     }
 
     @Override
+    public Consumer<SQLException> exceptionHandler() {
+        return exceptionHandler;
+    }
+
+    @Override
     public ParsedQuery query(@Language("sql") String sql, Object... format) {
         return Query.query(this, sql, format);
     }
