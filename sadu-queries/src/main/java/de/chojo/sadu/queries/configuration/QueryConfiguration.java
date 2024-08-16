@@ -13,9 +13,7 @@ import de.chojo.sadu.queries.api.query.ParsedQuery;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * Replaced by equal interface at {@link de.chojo.sadu.queries.api.configuration.QueryConfiguration}
