@@ -8,12 +8,14 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
-import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.configuration.context.QueryContext;
+import de.chojo.sadu.queries.api.query.ParsedQuery;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * Replaced by equal interface at {@link de.chojo.sadu.queries.api.configuration.QueryConfiguration}

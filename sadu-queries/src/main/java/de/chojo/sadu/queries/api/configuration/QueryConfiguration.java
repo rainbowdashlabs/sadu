@@ -7,18 +7,20 @@
 package de.chojo.sadu.queries.api.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.configuration.ConnectedQueryConfigurationImpl;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
-import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 @SuppressWarnings("removal")
-public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.QueryConfiguration{
+public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.QueryConfiguration {
     AtomicReference<QueryConfiguration> DEFAULT = new AtomicReference<>(null);
 
     /**
@@ -37,6 +39,18 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
      */
     static void setDefault(QueryConfiguration configuration) {
         DEFAULT.set(configuration);
+    }
+
+    default QueryConfigurationBuilder edit(DataSource source) {
+        return builder(source)
+                .setAtomic(atomic())
+                .setExceptionHandler(exceptionHandler())
+                .setRowMapperRegistry(rowMapperRegistry())
+                .setThrowExceptions(throwExceptions());
+    }
+
+    default QueryConfigurationBuilder edit() {
+        return edit(dataSource());
     }
 
     /**
@@ -84,6 +98,13 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
      * @return the DataSource object
      */
     DataSource dataSource();
+
+    /**
+     * Retrieves the exception handler
+     *
+     * @return exception handler
+     */
+    Consumer<SQLException> exceptionHandler();
 
     /**
      * Executes a SQL query with the given SQL statement and format arguments.
