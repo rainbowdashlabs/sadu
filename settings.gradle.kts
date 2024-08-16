@@ -46,12 +46,12 @@ dependencyResolutionManagement {
         }
 
         create("testlibs") {
-            version("junit", "5.10.2")
+            version("junit", "5.10.3")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params"))
 
-            version("testcontainers", "1.19.8")
+            version("testcontainers", "1.20.1")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
@@ -63,8 +63,8 @@ dependencyResolutionManagement {
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.3")
             library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.4.0")
-            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.46.0.0")
-            library("driver-mysql", "com.mysql:mysql-connector-j:8.4.0")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.46.0.1")
+            library("driver-mysql", "com.mysql:mysql-connector-j:9.0.0")
 
             bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
             bundle("database-mariadb", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb"))
