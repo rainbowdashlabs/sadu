@@ -41,6 +41,12 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
         DEFAULT.set(configuration);
     }
 
+    /**
+     * Returns a builder with the defaults being the settings of this config
+     *
+     * @param source Overrides the current data source
+     * @return new builder instance
+     */
     default QueryConfigurationBuilder edit(DataSource source) {
         return builder(source)
                 .setAtomic(atomic())
@@ -49,6 +55,11 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
                 .setThrowExceptions(throwExceptions());
     }
 
+    /**
+     * Returns a builder with the defaults being the settings of this config
+     *
+     * @return new builder instance
+     */
     default QueryConfigurationBuilder edit() {
         return edit(dataSource());
     }
