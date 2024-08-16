@@ -14,6 +14,7 @@ import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.Consumer;
 
 public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryConfiguration {
     private final ConnectedQueryConfigurationImpl configuration;
@@ -45,6 +46,11 @@ public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryC
     @Override
     public DataSource dataSource() {
         return configuration.dataSource();
+    }
+
+    @Override
+    public Consumer<SQLException> exceptionHandler() {
+        return configuration.exceptionHandler();
     }
 
     @Override
