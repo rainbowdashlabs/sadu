@@ -5,6 +5,7 @@ module sadu.sadu.core.main {
 
     exports de.chojo.sadu.core.base;
     exports de.chojo.sadu.core.configuration;
+    exports de.chojo.sadu.core.connection;
     exports de.chojo.sadu.core.conversion;
     exports de.chojo.sadu.core.databases;
     exports de.chojo.sadu.core.databases.exceptions;
