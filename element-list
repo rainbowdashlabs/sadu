@@ -1,5 +1,6 @@
 de.chojo.sadu.core.base
 de.chojo.sadu.core.configuration
+de.chojo.sadu.core.connection
 de.chojo.sadu.core.conversion
 de.chojo.sadu.core.databases
 de.chojo.sadu.core.databases.exceptions
