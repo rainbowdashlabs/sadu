@@ -82,4 +82,9 @@ public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryC
     public ConnectedQueryConfigurationImpl withSingleTransaction() {
         return configuration.withSingleTransaction();
     }
+
+    @Override
+    public ConnectedQueryConfiguration withConnection(Connection connection) {
+        return configuration.withConnection(connection);
+    }
 }

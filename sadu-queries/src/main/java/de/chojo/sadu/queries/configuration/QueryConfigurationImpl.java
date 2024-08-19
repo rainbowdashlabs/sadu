@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
+import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.query.Query;
@@ -17,6 +18,7 @@ import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
@@ -73,5 +75,10 @@ public class QueryConfigurationImpl implements QueryConfiguration {
     @Override
     public ConnectedQueryConfigurationImpl withSingleTransaction() {
         return new ConnectedQueryConfigurationImpl(new SimpleQueryContext(null), dataSource, null, true, throwExceptions, exceptionHandler, rowMapperRegistry);
+    }
+
+    @Override
+    public ConnectedQueryConfiguration withConnection(Connection connection) {
+        return new ConnectedQueryConfigurationImpl(new SimpleQueryContext(null), dataSource, connection, true, throwExceptions, exceptionHandler, rowMapperRegistry);
     }
 }

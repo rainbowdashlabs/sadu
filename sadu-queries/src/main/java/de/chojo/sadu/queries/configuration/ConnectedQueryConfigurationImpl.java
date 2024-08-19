@@ -32,6 +32,13 @@ public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImp
     }
 
     @Override
+    public ConnectedQueryConfiguration withConnection(Connection connection) {
+        close();
+        this.connection = connection;
+        return this;
+    }
+
+    @Override
     public void close() {
         if (connection == null) return;
         try (var conn = connection) {
