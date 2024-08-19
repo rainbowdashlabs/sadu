@@ -156,7 +156,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
         var patches = getPatchesFrom(sqlVersion.major(), sqlVersion.patch());
 
-        log.info(String.format("Database is %s versions behind.", patches.size()));
+        log.info("Database is {} versions behind.", patches.size());
 
         log.info("Performing update.");
 
@@ -171,7 +171,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private void performUpdate(Patch patch) throws SQLException {
-        log.info("Applying patch " + patch.version());
+        log.info("Applying patch {}", patch.version());
         try (var conn = source.getConnection()) {
             conn.setAutoCommit(false);
             var hook = preUpdateHook.get(patch.version());
@@ -198,16 +198,16 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                 log.info("Post update hook applied");
             }
             conn.commit();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             log.warn("Database update failed", e);
             throw e;
         }
         log.info("Patch applied.");
         updateVersion(patch.major(), patch.patch());
         if (patch.patch() != 0) {
-            log.info(String.format("Deployed patch %s.%s to database.", patch.major(), patch.patch()));
+            log.info("Deployed patch {}.{} to database.", patch.major(), patch.patch());
         } else {
-            log.info(String.format("Migrated database to version %s.", patch.major()));
+            log.info("Migrated database to version {}.", patch.major());
         }
     }
 
@@ -221,7 +221,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             try (var stmt = conn.prepareStatement(type.versionQuery(versionTable))) {
                 var resultSet = stmt.executeQuery();
                 if (!resultSet.next()) {
-                    log.info("Version table " + versionTable + " is empty. Attempting database setup.");
+                    log.info("Version table {} is empty. Attempting database setup.", versionTable);
                     isSetup = true;
                 }
             }

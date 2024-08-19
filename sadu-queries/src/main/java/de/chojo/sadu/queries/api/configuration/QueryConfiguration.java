@@ -14,6 +14,7 @@ import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import org.intellij.lang.annotations.Language;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -133,4 +134,11 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
      * @return A new instance of the ConnectedQueryConfiguration class with the "single transaction" configuration applied.
      */
     ConnectedQueryConfigurationImpl withSingleTransaction();
+
+    /**
+     * Inject a connection into this configuration
+     * @param connection the connection to inject
+     * @return new connected query configuration
+     */
+    ConnectedQueryConfiguration withConnection(Connection connection);
 }
