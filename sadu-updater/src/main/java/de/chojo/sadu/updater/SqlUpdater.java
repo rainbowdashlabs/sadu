@@ -7,6 +7,7 @@
 package de.chojo.sadu.updater;
 
 import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.exceptions.ThrowingConsumer;
 import de.chojo.sadu.core.jdbc.JdbcConfig;
 import de.chojo.sadu.core.updater.SqlVersion;
 import de.chojo.sadu.core.updater.UpdaterBuilder;
@@ -104,15 +105,15 @@ import java.util.stream.Collectors;
 public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder<T, ?>> {
     private static final Logger log = LoggerFactory.getLogger(SqlUpdater.class);
     private final SqlVersion version;
-    private final Map<SqlVersion, Consumer<Connection>> preUpdateHook;
-    private final Map<SqlVersion, Consumer<Connection>> postUpdateHook;
+    private final Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook;
+    private final Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook;
     private final DataSource source;
     private final String versionTable;
     private final QueryReplacement[] replacements;
     private final Database<T, U> type;
     private final ClassLoader classLoader;
 
-    protected SqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, Consumer<Connection>> preUpdateHook, Map<SqlVersion, Consumer<Connection>> postUpdateHook, ClassLoader classLoader) {
+    protected SqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook, ClassLoader classLoader) {
         this.source = Objects.requireNonNull(source);
         this.versionTable = versionTable;
         this.replacements = replacements;
@@ -177,7 +178,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             var hook = preUpdateHook.get(patch.version());
             if (hook != null) {
                 log.info("Running pre update hook");
-                hook.accept(conn);
+                hook.accept(new LockedConnectionDelegate(conn));
                 log.info("Pre update hook applied");
             }
 
@@ -194,7 +195,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             hook = postUpdateHook.get(patch.version());
             if (hook != null) {
                 log.info("Running post update hook");
-                hook.accept(conn);
+                hook.accept(new LockedConnectionDelegate(conn));
                 log.info("Post update hook applied");
             }
             conn.commit();

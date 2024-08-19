@@ -7,6 +7,7 @@
 package de.chojo.sadu.updater;
 
 import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.exceptions.ThrowingConsumer;
 import de.chojo.sadu.core.jdbc.JdbcConfig;
 import de.chojo.sadu.core.updater.SqlVersion;
 import de.chojo.sadu.core.updater.UpdaterBuilder;
@@ -29,8 +30,8 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
     protected final Database<T, S> type;
     protected DataSource source;
     protected SqlVersion version;
-    protected final Map<SqlVersion, Consumer<Connection>> preUpdateHook = new HashMap<>();
-    protected final Map<SqlVersion, Consumer<Connection>> postUpdateHook = new HashMap<>();
+    protected final Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook = new HashMap<>();
+    protected final Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook = new HashMap<>();
     protected String versionTable = "version";
     protected QueryReplacement[] replacements = new QueryReplacement[0];
     protected ClassLoader classLoader = getClass().getClassLoader();
@@ -76,12 +77,12 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
-    public S preUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
+    public S preUpdateHook(SqlVersion version, ThrowingConsumer<Connection, SQLException> consumer) {
         preUpdateHook.put(version, consumer);
         return self();
     }
 
-    public S postUpdateHook(SqlVersion version, Consumer<Connection> consumer) {
+    public S postUpdateHook(SqlVersion version, ThrowingConsumer<Connection, SQLException> consumer) {
         postUpdateHook.put(version, consumer);
         return self();
     }
