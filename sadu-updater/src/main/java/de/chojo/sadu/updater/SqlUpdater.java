@@ -178,7 +178,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             var hook = preUpdateHook.get(patch.version());
             if (hook != null) {
                 log.info("Running pre update hook");
-                hook.accept(conn);
+                hook.accept(new LockedConnectionDelegate(conn));
                 log.info("Pre update hook applied");
             }
 
@@ -195,7 +195,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             hook = postUpdateHook.get(patch.version());
             if (hook != null) {
                 log.info("Running post update hook");
-                hook.accept(conn);
+                hook.accept(new LockedConnectionDelegate(conn));
                 log.info("Post update hook applied");
             }
             conn.commit();
