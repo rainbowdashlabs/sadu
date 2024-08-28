@@ -6,14 +6,24 @@
 
 package de.chojo.sadu.mapper;
 
+import de.chojo.sadu.mapper.annotation.MappingProvider;
+import de.chojo.sadu.mapper.exceptions.InvalidMappingException;
 import de.chojo.sadu.mapper.exceptions.MappingAlreadyRegisteredException;
 import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.mapper.rowmapper.RowMapping;
+import de.chojo.sadu.mapper.wrapper.Row;
+import org.slf4j.Logger;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,11 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Class to register {@link RowMapper} to map rows to objects.
  */
 public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
+    private static final Logger log = getLogger(RowMapperRegistry.class);
 
     public RowMapperRegistry() {
     }
@@ -176,6 +189,67 @@ public class RowMapperRegistry {
         if (mapper.isPresent()) {
             return mapper.get();
         }
+
+        // Autodetect mapper if available
+        if (register(clazz)) {
+            return findOrWildcard(clazz, meta, config);
+        }
+
         throw MappingException.create(clazz, meta);
+    }
+
+    public <V> boolean register(Class<V> clazz) {
+        boolean method = discoverMethodMapping(clazz);
+        boolean constructor = discoverConstructorMapping(clazz);
+        if (method || constructor) return true;
+        throw new InvalidMappingException("No mapping was detected for class %s".formatted(clazz.getName()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <V> boolean discoverMethodMapping(Class<V> clazz) {
+        List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(MappingProvider.class) && Modifier.isStatic(method.getModifiers()))
+                .toList();
+
+        for (Method method : methods) {
+            MappingProvider provider = method.getAnnotation(MappingProvider.class);
+            RowMapping<V> mapper;
+            try {
+                mapper = (RowMapping<V>) method.invoke(null);
+            } catch (IllegalAccessException | InvocationTargetException | ClassCastException e) {
+                throw new InvalidMappingException("Could not retrieve mapping. Method has to return %s<%s> and take no arguments".formatted(RowMapping.class.getName(), clazz.getName()), e);
+            }
+            register(RowMapper.forClass(clazz).mapper(mapper).addColumns(provider.value()).build());
+            log.info("Registered method auto mapping for {} with rows {}", clazz.getName(), provider.value());
+
+        }
+        return !methods.isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private <V> boolean discoverConstructorMapping(Class<V> clazz) {
+        List<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredConstructors())
+                .filter(constr -> constr.isAnnotationPresent(MappingProvider.class))
+                .toList();
+
+        for (Constructor<?> constructor : constructors) {
+            MappingProvider provider = constructor.getAnnotation(MappingProvider.class);
+            if (constructor.getParameterCount() != 1) {
+                throw new InvalidMappingException("Signature of a constructor with MappingProvider should be Constructor(Row)");
+            }
+            if (constructor.getParameterTypes()[0] != Row.class) {
+                throw new InvalidMappingException("Signature of a constructor with MappingProvider should be Constructor(Row), but was Constructor(%s)".formatted(constructor.getParameterTypes()[0].getName()));
+            }
+
+            register(RowMapper.forClass(clazz).mapper(row -> {
+                try {
+                    return (V) constructor.newInstance(row);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    throw new InvalidMappingException("Failed to create instance from RowMapping via constructor");
+                }
+            }).addColumns(provider.value()).build());
+            log.info("Registered constructor auto mapping for {} with rows {}", clazz.getName(), provider.value());
+        }
+        return !constructors.isEmpty();
     }
 }
