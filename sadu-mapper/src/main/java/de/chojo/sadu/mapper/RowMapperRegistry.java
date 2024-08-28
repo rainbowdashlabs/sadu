@@ -191,18 +191,29 @@ public class RowMapperRegistry {
         }
 
         // Autodetect mapper if available
-        if (register(clazz)) {
+        if (registerInternal(clazz)) {
             return findOrWildcard(clazz, meta, config);
         }
 
         throw MappingException.create(clazz, meta);
     }
 
-    public <V> boolean register(Class<V> clazz) {
+    /**
+     * Registers row mapper of a class if they contain a constructor or static method annotated with {@link MappingProvider}
+     *
+     * @param clazz clazz to be registered
+     * @param <V>   type of class to be registered
+     * @throws InvalidMappingException when no mapping was found.
+     */
+    public <V> void register(Class<V> clazz) {
+        if (registerInternal(clazz)) return;
+        throw new InvalidMappingException("No mapping was detected for class %s".formatted(clazz.getName()));
+    }
+
+    private <V> boolean registerInternal(Class<V> clazz) {
         boolean method = discoverMethodMapping(clazz);
         boolean constructor = discoverConstructorMapping(clazz);
-        if (method || constructor) return true;
-        throw new InvalidMappingException("No mapping was detected for class %s".formatted(clazz.getName()));
+        return method || constructor;
     }
 
     @SuppressWarnings("unchecked")
