@@ -15,6 +15,7 @@ import de.chojo.sadu.queries.api.execution.reading.Reader;
 import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.api.results.reading.Result;
 import de.chojo.sadu.queries.call.CallImpl;
+import de.chojo.sadu.queries.exception.Check;
 import de.chojo.sadu.queries.query.AppendedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.query.TokenizedQuery;
@@ -70,7 +71,9 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
                 ((CallImpl) call()).apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
                 if (resultSet.next()) {
-                    return new SingleResult<>(this, mapper(resultSet).map(new Row(resultSet, mapperConfig())));
+                    V mapped = mapper(resultSet).map(new Row(resultSet, mapperConfig()));
+                    Check.assertQueryResult(mapped);
+                    return new SingleResult<>(this, mapped);
                 }
             }
             return new SingleResult<>(this, null);
@@ -85,7 +88,11 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
                 ((CallImpl) call()).apply(sql(), stmt);
                 var resultSet = stmt.executeQuery();
                 var row = new Row(resultSet, mapperConfig());
-                while (resultSet.next()) result.add(mapper(resultSet).map(row));
+                while (resultSet.next()) {
+                    V mapped = mapper(resultSet).map(row);
+                    Check.assertQueryResult(mapped);
+                    result.add(mapped);
+                }
             }
             return new MultiResult<>(this, result);
         });
