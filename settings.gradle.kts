@@ -49,7 +49,7 @@ dependencyResolutionManagement {
             version("junit", "5.11.0")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
-            bundle("junit", listOf("junit-jupiter", "junit-params"))
+            bundle("junit", listOf("junit-jupiter", "junit-params", "slf4j-simple"))
 
             version("testcontainers", "1.20.1")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
@@ -60,6 +60,7 @@ dependencyResolutionManagement {
 
             version("slf4j", "2.0.16")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
+            library("slf4j-simple", "org.slf4j", "slf4j-simple").versionRef("slf4j")
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.4")
             library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.4.1")
