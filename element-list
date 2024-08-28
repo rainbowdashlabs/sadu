@@ -13,6 +13,7 @@ de.chojo.sadu.datasource.configuration
 de.chojo.sadu.datasource.exceptions
 de.chojo.sadu.datasource.stage
 de.chojo.sadu.mapper
+de.chojo.sadu.mapper.annotation
 de.chojo.sadu.mapper.exceptions
 de.chojo.sadu.mapper.reader
 de.chojo.sadu.mapper.rowmapper
