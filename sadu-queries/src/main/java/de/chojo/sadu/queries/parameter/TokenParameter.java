@@ -13,6 +13,9 @@ import de.chojo.sadu.queries.query.TokenizedQuery;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static de.chojo.sadu.queries.query.TokenizedQuery.ALLOWED_TOKEN_CHARACTER;
+import static de.chojo.sadu.queries.query.TokenizedQuery.TOKEN_PATTERN;
+
 public class TokenParameter implements BaseParameter {
     private final String token;
     private final ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply;
@@ -22,6 +25,9 @@ public class TokenParameter implements BaseParameter {
             this.token = ":" + token;
         } else {
             this.token = token;
+        }
+        if (!TOKEN_PATTERN.matcher(this.token).matches()) {
+            throw new IllegalArgumentException("Illegal token \"" + this.token.substring(1) + "\". Tokens may only contain characters which match the expression: \"" + ALLOWED_TOKEN_CHARACTER + "\"");
         }
         this.apply = apply;
     }
