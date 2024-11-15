@@ -7,11 +7,9 @@
 package de.chojo.sadu.core.updater;
 
 import de.chojo.sadu.core.jdbc.JdbcConfig;
-import org.jetbrains.annotations.ApiStatus;
 
 import javax.sql.DataSource;
 
-@ApiStatus.Internal
 public interface UpdaterBuilder<T extends JdbcConfig<?>, S extends UpdaterBuilder<T, ?>> {
     /**
      * Set the datasource that should be used
