@@ -51,7 +51,7 @@ dependencyResolutionManagement {
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params", "slf4j-simple"))
 
-            version("testcontainers", "1.20.1")
+            version("testcontainers", "1.20.3")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
