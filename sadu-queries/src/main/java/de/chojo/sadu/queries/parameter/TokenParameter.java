@@ -43,4 +43,8 @@ public class TokenParameter implements BaseParameter {
             apply.accept(stmt, index);
         }
     }
+
+    public String token() {
+        return token;
+    }
 }
