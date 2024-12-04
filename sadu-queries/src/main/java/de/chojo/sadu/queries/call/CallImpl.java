@@ -15,6 +15,7 @@ import de.chojo.sadu.queries.api.parameter.BaseParameter;
 import de.chojo.sadu.queries.call.adapter.StandardAdapter;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
+import de.chojo.sadu.queries.exception.Check;
 import de.chojo.sadu.queries.parameter.IndexParameter;
 import de.chojo.sadu.queries.parameter.TokenParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
@@ -350,9 +351,12 @@ public final class CallImpl implements Call {
     }
 
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {
+        int count = 0;
         for (var token : tokens) {
             token.apply(query, stmt);
+            if (token instanceof IndexParameter) count++;
         }
+        Check.assertIndexFilled(count, query);
     }
 
     /**

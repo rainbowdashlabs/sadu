@@ -15,6 +15,7 @@ import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationBatchR
 import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.BatchCall;
+import de.chojo.sadu.queries.exception.QueryException;
 import de.chojo.sadu.queries.query.ParsedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.results.writing.insertion.InsertionBatchResultImpl;
@@ -46,7 +47,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     var changes = stmt.executeUpdate();
                     changed.add(new InsertionResultImpl(this, changes, Results.generatedKeys(stmt)));
                 } catch (SQLException ex) {
-                    query().handleException(ex);
+                    query().handleException(new QueryException(parsedQuery, ex));
                 }
             }
             return new InsertionBatchResultImpl(this, changed);
@@ -62,7 +63,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new InsertionResultImpl(this, stmt.executeUpdate(), Collections.emptyList()));
                 } catch (SQLException ex) {
-                    query().handleException(ex);
+                    query().handleException(new QueryException(parsedQuery, ex));
                 }
             }
             return new InsertionBatchResultImpl(this, changed);
@@ -79,7 +80,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new ManipulationResultImpl(this, stmt.executeUpdate()));
                 } catch (SQLException ex) {
-                    query().handleException(ex);
+                    query().handleException(new QueryException(parsedQuery, ex));
                 }
             }
             return new ManipulationBatchResultImpl<>(this, changed);

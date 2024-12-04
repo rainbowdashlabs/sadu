@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.parameter;
 
 import de.chojo.sadu.core.exceptions.ThrowingBiConsumer;
 import de.chojo.sadu.queries.api.parameter.BaseParameter;
+import de.chojo.sadu.queries.exception.Check;
 import de.chojo.sadu.queries.query.TokenizedQuery;
 
 import java.sql.PreparedStatement;
@@ -24,6 +25,7 @@ public class IndexParameter implements BaseParameter {
 
     @Override
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {
+        Check.assertIndexRange(index, query);
         apply.accept(stmt, query.getIndexTokenIndex(index));
     }
 }

@@ -54,6 +54,10 @@ public class TokenizedQuery {
         return indexToken.get(index);
     }
 
+    public int indexSize(){
+        return indexToken.size();
+    }
+
     public String sql() {
         return sql;
     }
