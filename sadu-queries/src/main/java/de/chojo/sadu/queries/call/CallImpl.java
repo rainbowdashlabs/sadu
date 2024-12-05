@@ -15,6 +15,7 @@ import de.chojo.sadu.queries.api.parameter.BaseParameter;
 import de.chojo.sadu.queries.call.adapter.StandardAdapter;
 import de.chojo.sadu.queries.calls.BatchCall;
 import de.chojo.sadu.queries.calls.SingletonCall;
+import de.chojo.sadu.queries.exception.Check;
 import de.chojo.sadu.queries.parameter.IndexParameter;
 import de.chojo.sadu.queries.parameter.TokenParameter;
 import de.chojo.sadu.queries.query.TokenizedQuery;
@@ -44,7 +45,7 @@ import java.util.List;
  * A call is a subelement of a {@link Calls}. It represents a single query call of any kind.
  */
 public final class CallImpl implements Call {
-    private final List<BaseParameter> tokens = new ArrayList<>();
+    private final List<BaseParameter> parameter = new ArrayList<>();
     private int index = 1;
 
     public CallImpl() {
@@ -55,12 +56,12 @@ public final class CallImpl implements Call {
     }
 
     private Call addToken(String token, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
-        tokens.add(new TokenParameter(token, apply));
+        parameter.add(new TokenParameter(token, apply));
         return this;
     }
 
     private Call addToken(ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply) {
-        tokens.add(new IndexParameter(nextIndex(), apply));
+        parameter.add(new IndexParameter(nextIndex(), apply));
         return this;
     }
 
@@ -350,9 +351,15 @@ public final class CallImpl implements Call {
     }
 
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {
-        for (var token : tokens) {
-            token.apply(query, stmt);
+        int indexCount = 0;
+        var tokens = query.getNamedTokens();
+        for (var param : parameter) {
+            param.apply(query, stmt);
+            if (param instanceof IndexParameter) indexCount++;
+            if (param instanceof TokenParameter token) tokens.remove(token.token());
         }
+        Check.assertIndexFilled(indexCount, query);
+        Check.missingToken(tokens, query);
     }
 
     /**

@@ -7,9 +7,12 @@
 package de.chojo.sadu.queries.query;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class TokenizedQuery {
@@ -47,11 +50,19 @@ public class TokenizedQuery {
     }
 
     public List<Integer> getNamedTokenIndex(String token) {
-        return namedToken.get(token);
+        return namedToken.getOrDefault(token, Collections.emptyList());
+    }
+
+    public Set<String> getNamedTokens() {
+        return new HashSet<>(namedToken.keySet());
     }
 
     public int getIndexTokenIndex(int index) {
         return indexToken.get(index);
+    }
+
+    public int indexSize() {
+        return indexToken.size();
     }
 
     public String sql() {

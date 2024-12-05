@@ -13,6 +13,7 @@ import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import de.chojo.sadu.queries.examples.dao.User;
+import de.chojo.sadu.queries.exception.IllegalQueryParameterException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +51,46 @@ public class BindTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name1")
                                     .single(call().bind(1).bind("name1", "lilly"))
+                                    .map(User.map())
+                                    .all();
+        });
+    }
+
+    // Retrieve all matching users directly
+    @Test
+    public void failOnTooFewParameters() {
+        Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
+            List<User> users = query.query("SELECT * FROM users WHERE id = ?")
+                                    .single(call())
+                                    .map(User.map())
+                                    .all();
+        });
+    }
+
+    @Test
+    public void failOnTooManyParameters() {
+        Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
+            List<User> users = query.query("SELECT * FROM users WHERE id = ?")
+                                    .single(call().bind(1).bind(1))
+                                    .map(User.map())
+                                    .all();
+        });
+    }
+
+    @Test
+    public void failOnMissingNamedToken() {
+        Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
+            List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name = :name")
+                                    .single(call().bind(1))
+                                    .map(User.map())
+                                    .all();
+        });
+    }
+    @Test
+    public void failOnUnknownNamedToken() {
+        Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
+            List<User> users = query.query("SELECT * FROM users WHERE id = ?")
+                                    .single(call().bind(1).bind("name", "name"))
                                     .map(User.map())
                                     .all();
         });

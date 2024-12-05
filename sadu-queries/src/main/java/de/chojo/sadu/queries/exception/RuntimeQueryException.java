@@ -6,8 +6,8 @@
 
 package de.chojo.sadu.queries.exception;
 
-public class IllegalQueryReturnTypeException extends RuntimeQueryException{
-    public IllegalQueryReturnTypeException(String message) {
+public class RuntimeQueryException extends RuntimeException{
+    public RuntimeQueryException(String message) {
         super(message);
     }
 }
