@@ -17,6 +17,7 @@ import de.chojo.sadu.queries.api.results.writing.insertion.InsertionResult;
 import de.chojo.sadu.queries.api.results.writing.manipulation.ManipulationResult;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.calls.SingletonCall;
+import de.chojo.sadu.queries.exception.QueryException;
 import de.chojo.sadu.queries.execution.reading.AutoMappedQuery;
 import de.chojo.sadu.queries.execution.reading.MappedQuery;
 import de.chojo.sadu.queries.query.ParsedQueryImpl;
@@ -62,7 +63,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
                 ((CallImpl) call.call()).apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();
             } catch (SQLException ex) {
-                query().handleException(ex);
+                query().handleException(new QueryException(query, ex));
             }
             return new InsertionResultImpl(this, changed, Collections.emptyList());
         });
@@ -78,7 +79,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
                 changed = stmt.executeUpdate();
                 return new InsertionResultImpl(this, changed, Results.generatedKeys(stmt));
             } catch (SQLException ex) {
-                query().handleException(ex);
+                query().handleException(new QueryException(query, ex));
             }
             return InsertionResultImpl.empty(this);
         });
@@ -93,7 +94,7 @@ public class CalledSingletonQueryImpl implements QueryProvider, CalledSingletonQ
                 ((CallImpl) call.call()).apply(query.sql(), stmt);
                 changed = stmt.executeUpdate();
             } catch (SQLException ex) {
-                query().handleException(ex);
+                query().handleException(new QueryException(query, ex));
             }
             return new ManipulationResultImpl(this, changed);
         });

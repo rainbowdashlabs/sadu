@@ -25,7 +25,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.8.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.9.0")
 }
 
 dependencyResolutionManagement {
@@ -46,12 +46,12 @@ dependencyResolutionManagement {
         }
 
         create("testlibs") {
-            version("junit", "5.11.0")
+            version("junit", "5.11.3")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params", "slf4j-simple"))
 
-            version("testcontainers", "1.20.1")
+            version("testcontainers", "1.20.4")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
@@ -63,9 +63,9 @@ dependencyResolutionManagement {
             library("slf4j-simple", "org.slf4j", "slf4j-simple").versionRef("slf4j")
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.4")
-            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.4.1")
-            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.46.1.0")
-            library("driver-mysql", "com.mysql:mysql-connector-j:9.0.0")
+            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.5.1")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.47.1.0")
+            library("driver-mysql", "com.mysql:mysql-connector-j:9.1.0")
 
             bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
             bundle("database-mariadb", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb"))
