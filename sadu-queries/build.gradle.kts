@@ -1,3 +1,5 @@
+description = "SADU module for executing and handling queries"
+
 dependencies {
     api(project(":sadu-core"))
     api(project(":sadu-mapper"))
