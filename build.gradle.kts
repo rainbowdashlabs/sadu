@@ -15,7 +15,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "2.3.1"
+    publishingVersion = "2.3.2"
 }
 
 group = "de.chojo.sadu"
@@ -122,8 +122,8 @@ allprojects {
 
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.11.3")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.11.3")
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
         testImplementation("org.mockito", "mockito-core", "5.+")
     }
 

@@ -7,6 +7,7 @@
 package de.chojo.sadu.testing;
 
 import de.chojo.sadu.core.databases.Database;
+import de.chojo.sadu.core.updater.SqlVersion;
 import org.jetbrains.annotations.ApiStatus;
 import org.junit.jupiter.api.Assertions;
 import org.opentest4j.AssertionFailedError;
@@ -98,19 +99,19 @@ public class PatchChecks {
         }
 
         // Check the ref files if there are all files that are expected to be there based on the current version.
-        var current = Version.parse(currentVersion);
+        var current = SqlVersion.parse(currentVersion);
         var unreachable = new HashSet<>(refFiles);
-        for (var major = baseVersion; major <= current.major; major++) {
+        for (var major = baseVersion; major <= current.major(); major++) {
             // check for setup file
             var setup = Path.of("%d/setup.sql".formatted(major));
             Assertions.assertTrue(unreachable.remove(setup), "Setup file missing at %s".formatted(setup));
-            if (major != current.major) {
+            if (major != current.major()) {
                 // Check for migration file if there is a higher version
                 Path migrate = Path.of("%d/migrate.sql".formatted(major));
                 Assertions.assertTrue(unreachable.remove(migrate), "Migration file for migration from %d to %d missing at %s".formatted(major, major + 1, migrate));
             }
-            if (major == current.major) {
-                for (var patch = 1; patch <= current.patch; patch++) {
+            if (major == current.major()) {
+                for (var patch = 1; patch <= current.patch(); patch++) {
                     // Remove every patch until the current is reached
                     var patchFile = Path.of("%d/patch_%d.sql".formatted(major, patch));
                     Assertions.assertTrue(unreachable.remove(patchFile), "Patch file %s is missing".formatted(patchFile));
@@ -129,12 +130,4 @@ public class PatchChecks {
         var files = unreachable.stream().map(Path::toString).collect(Collectors.joining("\n"));
         Assertions.assertTrue(unreachable.isEmpty(), "There are unreachable files:%n%s".formatted(files));
     }
-
-    private record Version(int major, int patch) {
-
-        static Version parse(String version) {
-                var split = version.split("\\.");
-                return new Version(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            }
-        }
 }

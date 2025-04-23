@@ -26,19 +26,38 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
     public SqlVersion {
     }
 
+    /**
+     * Parses the sql version stored in database/version inside the current classloader
+     * @return sql version
+     * @throws IOException when the resource could not get read
+     */
     public static SqlVersion load() throws IOException {
         return load(SqlVersion.class.getClassLoader());
     }
 
+    /**
+     * Parses the sql version stored in database/version inside the resources of the provided classloader
+     * @param classLoader classloader to load the resource
+     * @return sql version
+     * @throws IOException when the resource could not get read
+     */
     public static SqlVersion load(ClassLoader classLoader) throws IOException {
         var version = "";
         try (var versionFile = classLoader.getResourceAsStream("database/version")) {
-            version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8).trim();
+            version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8);
         }
 
-        var ver = version.split("\\.");
-        return new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1]));
+        return parse(version);
+    }
 
+    /**
+     * Parses the sql version in the provided string
+     * @param version version string
+     * @return sql version
+     */
+    public static SqlVersion parse(String version) {
+        var ver = version.trim().split("\\.");
+        return new SqlVersion(Integer.parseInt(ver[0]), Integer.parseInt(ver[1]));
     }
 
     /**
