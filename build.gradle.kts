@@ -33,7 +33,7 @@ dependencies {
 
 
 allprojects {
-    apply{
+    apply {
         plugin<PublishData>()
         plugin<JavaPlugin>()
         plugin<SpotlessPlugin>()
@@ -63,7 +63,7 @@ allprojects {
         }
     }
 
-    java{
+    java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
@@ -95,52 +95,56 @@ subprojects {
         plugin<de.chojo.PublishData>()
         plugin<JavaLibraryPlugin>()
     }
-    if (!project.name.contains("examples")) {
-        apply {
-            plugin<SigningPlugin>()
-            plugin<MavenPublishPlugin>()
-        }
-
-        mavenPublishing {
-            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-            signAllPublications()
-
-            coordinates(groupId = "de.chojo.sadu", artifactId = project.name, version = publishData.getVersion())
-
-            pom {
-                name.set("Sadu")
-                description.set(project.description)
-                inceptionYear.set("2025")
-                url.set("https://github.com/rainbowdashlabs/sadu")
-                licenses {
-                    license {
-                        name.set("LGPL-3.0")
-                        url.set("https://opensource.org/license/lgpl-3-0")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("rainbowdashlabs")
-                        name.set("Lilly Fülling")
-                        email.set("mail@chojo.dev")
-                        url.set("https://github.com/rainbowdashlabs")
-                    }
-                }
-
-                scm {
-                    url.set("https://github.com/rainbowdashlabs/sadu")
-                    connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
-                    developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
-                }
+    afterEvaluate {
+        if (!project.name.contains("examples")) {
+            logger.info("Configuring maven central publishing for de.chojo.sadu:${project.name}:${publishData.getVersion()}\nDescription: ${project.description}")
+            apply {
+                plugin<SigningPlugin>()
+                plugin<MavenPublishPlugin>()
             }
 
-            configure(
-                JavaLibrary(
-                    javadocJar = JavadocJar.Javadoc(),
-                    sourcesJar = true
+            mavenPublishing {
+                publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+                signAllPublications()
+
+
+                coordinates(groupId = "de.chojo.sadu", artifactId = project.name, version = publishData.getVersion())
+
+                pom {
+                    name.set("Sadu")
+                    description.set(project.description)
+                    inceptionYear.set("2025")
+                    url.set("https://github.com/rainbowdashlabs/sadu")
+                    licenses {
+                        license {
+                            name.set("LGPL-3.0")
+                            url.set("https://opensource.org/license/lgpl-3-0")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("rainbowdashlabs")
+                            name.set("Lilly Fülling")
+                            email.set("mail@chojo.dev")
+                            url.set("https://github.com/rainbowdashlabs")
+                        }
+                    }
+
+                    scm {
+                        url.set("https://github.com/rainbowdashlabs/sadu")
+                        connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
+                        developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
+                    }
+                }
+
+                configure(
+                    JavaLibrary(
+                        javadocJar = JavadocJar.Javadoc(),
+                        sourcesJar = true
+                    )
                 )
-            )
+            }
         }
     }
 }
