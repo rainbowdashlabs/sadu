@@ -1,16 +1,15 @@
 import com.diffplug.gradle.spotless.SpotlessPlugin
-import net.kyori.indra.IndraPlugin
-import net.kyori.indra.IndraPublishingPlugin
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.MavenPublishPlugin
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     java
-    `maven-publish`
     `java-library`
     id("de.chojo.publishdata") version "1.4.0"
+    id("com.vanniktech.maven.publish") version "0.30.0"
     alias(libs.plugins.spotless)
-    alias(libs.plugins.indra.core)
-    alias(libs.plugins.indra.publishing)
-    alias(libs.plugins.indra.sonatype)
 }
 
 publishData {
@@ -41,72 +40,52 @@ subprojects {
     }
     if (!project.name.contains("examples")) {
         apply {
-            plugin<MavenPublishPlugin>()
-            plugin<IndraPlugin>()
-            plugin<IndraPublishingPlugin>()
             plugin<SigningPlugin>()
+            plugin<MavenPublishPlugin>()
         }
 
-        indra {
-            javaVersions {
-                target(17)
-                testWith(17)
-            }
+        mavenPublishing {
+            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+            signAllPublications()
 
-            github("rainbowdashlabs", "sadu") {
-                ci(true)
-            }
+            coordinates(groupId = "de.chojo.sadu", artifactId = project.name, version = publishData.getVersion())
 
-            lgpl3OrLaterLicense()
-
-            signWithKeyFromPrefixedProperties("rainbowdashlabs")
-
-            configurePublications {
-                pom {
-                    developers {
-                        developer {
-                            id.set("rainbowdashlabs")
-                            name.set("Florian Fülling")
-                            email.set("mail@chojo.dev")
-                            url.set("https://github.com/rainbowdashlabs")
-                        }
+            pom {
+                name.set("Sadu")
+                description.set(project.description)
+                inceptionYear.set("2025")
+                url.set("https://github.com/rainbowdashlabs/sadu")
+                licenses {
+                    license {
+                        name.set("LGPL-3.0")
+                        url.set("https://opensource.org/license/lgpl-3-0")
                     }
                 }
-            }
-        }
-    }
-}
 
-indra {
-    javaVersions {
-        target(17)
-        testWith(17)
-    }
+                developers {
+                    developer {
+                        id.set("rainbowdashlabs")
+                        name.set("Lilly Fülling")
+                        email.set("mail@chojo.dev")
+                        url.set("https://github.com/rainbowdashlabs")
+                    }
+                }
 
-    github("rainbowdashlabs", "sadu") {
-        ci(true)
-    }
-
-    lgpl3OrLaterLicense()
-
-    signWithKeyFromPrefixedProperties("rainbowdashlabs")
-
-    configurePublications {
-        pom {
-            developers {
-                developer {
-                    id.set("rainbowdashlabs")
-                    name.set("Florian Fülling")
-                    email.set("mail@chojo.dev")
-                    url.set("https://github.com/rainbowdashlabs")
+                scm {
+                    url.set("https://github.com/rainbowdashlabs/sadu")
+                    connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
+                    developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
                 }
             }
+
+            configure(
+                JavaLibrary(
+                    javadocJar = JavadocJar.Javadoc(),
+                    sourcesJar = true
+                )
+            )
         }
     }
-}
-
-indraSonatype {
-    useAlternateSonatypeOSSHost("s01")
 }
 
 allprojects {
@@ -157,8 +136,8 @@ allprojects {
 fun applyJavaDocOptions(options: MinimalJavadocOptions) {
     val javaDocOptions = options as StandardJavadocDocletOptions
     javaDocOptions.links(
-            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
-            "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
+        "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+        "https://docs.oracle.com/en/java/javase/${java.toolchain.languageVersion.get().asInt()}/docs/api/"
     )
 }
 
@@ -168,7 +147,7 @@ tasks {
 
         setDestinationDir(file("${layout.buildDirectory.get()}/docs/javadoc"))
         val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
-        setSource(projects.map { p -> p.sourceSets.main.get().allJava.filter{ p -> p.name != "module-info.java"} })
+        setSource(projects.map { p -> p.sourceSets.main.get().allJava.filter { p -> p.name != "module-info.java" } })
         classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })
     }
 }
