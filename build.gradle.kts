@@ -63,6 +63,12 @@ allprojects {
         }
     }
 
+    java{
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+    }
+
     // We configure some general tasks for our modules
     tasks {
         test {
