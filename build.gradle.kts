@@ -3,6 +3,7 @@ import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.MavenPublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
+import de.chojo.PublishData
 
 plugins {
     java
@@ -30,11 +31,61 @@ dependencies {
     api(project(":sadu-datasource"))
 }
 
+
+allprojects {
+    apply{
+        plugin<PublishData>()
+        plugin<JavaPlugin>()
+        plugin<SpotlessPlugin>()
+    }
+
+    repositories {
+        mavenCentral()
+        maven("https://eldonexus.de/repository/maven-public/")
+        maven("https://eldonexus.de/repository/maven-proxies/")
+    }
+
+    publishData {
+        useEldoNexusRepos(false)
+    }
+
+
+    dependencies {
+        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
+        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
+        testImplementation("org.mockito", "mockito-core", "5.+")
+    }
+
+    spotless {
+        java {
+            licenseHeaderFile(rootProject.file("HEADER.txt"))
+            target("**/*.java")
+        }
+    }
+
+    // We configure some general tasks for our modules
+    tasks {
+        test {
+            dependsOn(spotlessCheck)
+            useJUnitPlatform()
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
+
+        compileJava {
+            dependsOn(spotlessApply)
+        }
+
+        javadoc {
+            applyJavaDocOptions(options)
+        }
+    }
+}
+
 subprojects {
     apply {
         // We want to apply several plugins to subprojects
-        plugin<JavaPlugin>()
-        plugin<SpotlessPlugin>()
         plugin<de.chojo.PublishData>()
         plugin<JavaLibraryPlugin>()
     }
@@ -84,51 +135,6 @@ subprojects {
                     sourcesJar = true
                 )
             )
-        }
-    }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        maven("https://eldonexus.de/repository/maven-public/")
-        maven("https://eldonexus.de/repository/maven-proxies/")
-    }
-
-    publishData {
-        useEldoNexusRepos(false)
-    }
-
-
-    dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
-        testImplementation("org.mockito", "mockito-core", "5.+")
-    }
-
-    spotless {
-        java {
-            licenseHeaderFile(rootProject.file("HEADER.txt"))
-            target("**/*.java")
-        }
-    }
-
-    // We configure some general tasks for our modules
-    tasks {
-        test {
-            dependsOn(spotlessCheck)
-            useJUnitPlatform()
-            testLogging {
-                events("passed", "skipped", "failed")
-            }
-        }
-
-        compileJava {
-            dependsOn(spotlessApply)
-        }
-
-        javadoc {
-            applyJavaDocOptions(options)
         }
     }
 }
