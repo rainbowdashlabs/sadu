@@ -7,4 +7,5 @@ module sadu.sadu.mapper.main {
     exports de.chojo.sadu.mapper.rowmapper;
     exports de.chojo.sadu.mapper.util;
     exports de.chojo.sadu.mapper.wrapper;
+    exports de.chojo.sadu.mapper.annotation;
 }
