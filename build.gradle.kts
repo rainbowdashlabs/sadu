@@ -6,6 +6,9 @@ import com.vanniktech.maven.publish.SonatypeHost
 import de.chojo.PublishData
 
 plugins {
+    // don't change order!
+    id("io.freefair.aggregate-javadoc") version("8.12.2.1")
+
     java
     `java-library`
     id("de.chojo.publishdata") version "1.4.0"
@@ -29,6 +32,13 @@ dependencies {
     api(project(":sadu-mysql"))
     api(project(":sadu-updater"))
     api(project(":sadu-datasource"))
+
+    javadoc(project(":sadu-sqlite"))
+    javadoc(project(":sadu-postgresql"))
+    javadoc(project(":sadu-mariadb"))
+    javadoc(project(":sadu-mysql"))
+    javadoc(project(":sadu-updater"))
+    javadoc(project(":sadu-datasource"))
 }
 
 
@@ -198,13 +208,6 @@ fun applyJavaDocOptions(options: MinimalJavadocOptions) {
     )
 }
 
-tasks {
-    register<Javadoc>("alljavadoc") {
-        applyJavaDocOptions(options)
-
-        setDestinationDir(file("${layout.buildDirectory.get()}/docs/javadoc"))
-        val projects = project.rootProject.allprojects.filter { p -> !p.name.contains("example") }
-        setSource(projects.map { p -> p.sourceSets.main.get().allJava.filter { x -> x.name != "module-info.java" } })
-        classpath = files(projects.map { p -> p.sourceSets.main.get().compileClasspath })
-    }
+tasks.javadoc.configure {
+    applyJavaDocOptions(options)
 }

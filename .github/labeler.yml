@@ -1,0 +1,46 @@
+"t:feature":
+  - head-branch: "feature"
+"t:fix":
+  - head-branch: "fix"
+"t:deps":
+  - head-branch: "deps"
+"t:other":
+  - head-branch: "^(?!feature|fix|deps).*$"
+
+
+"m:updater":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-updater/**"
+"m:testing":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-testing/**"
+"m:sqlite":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-sqlite/**"
+"m:queries":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-queries/**"
+"m:postgresql":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-postgresql/**"
+"m:mysql":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-mysql/**"
+"m:mariadb":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-mariadb/**"
+"m:mapper":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-mapper/**"
+"m:examples":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-examples/**"
+"m:datasource":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-datasource/**"
+"m:core":
+  - changed-files:
+      - any-glob-to-any-file: "sadu-core/**"
+"ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
