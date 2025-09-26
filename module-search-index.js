@@ -1,1 +1,1 @@
-moduleSearchIndex = [];updateSearchResults();
+moduleSearchIndex = [{"l":"de.chojo.sadu.datasource"},{"l":"de.chojo.sadu.mariadb"},{"l":"de.chojo.sadu.mysql"},{"l":"de.chojo.sadu.postgresql"},{"l":"de.chojo.sadu.sqlite"},{"l":"de.chojo.sadu.updater"}];updateSearchResults();
