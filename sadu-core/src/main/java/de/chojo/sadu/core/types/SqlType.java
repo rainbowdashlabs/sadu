@@ -10,11 +10,15 @@ package de.chojo.sadu.core.types;
  * Represents a named data type in a database.
  */
 public interface SqlType {
+
+
+
     /**
      * Creates a new sql type with a name
      *
      * @param name name
      * @return new type
+     *
      */
     static SqlType ofName(String name, String... alias) {
         return new SqlType() {
