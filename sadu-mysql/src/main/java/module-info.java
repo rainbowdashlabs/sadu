@@ -1,6 +1,6 @@
-module sadu.sadu.mysql.main {
-    requires transitive sadu.sadu.mapper.main;
-    requires transitive sadu.sadu.updater.main;
+module de.chojo.sadu.mysql {
+    requires transitive de.chojo.sadu.mapper;
+    requires transitive de.chojo.sadu.updater;
 
     exports de.chojo.sadu.mysql.databases;
     exports de.chojo.sadu.mysql.jdbc;

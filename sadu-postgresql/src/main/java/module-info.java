@@ -1,6 +1,6 @@
-module sadu.sadu.postgresql.main {
-    requires transitive sadu.sadu.updater.main;
-    requires transitive sadu.sadu.mapper.main;
+module de.chojo.sadu.postgresql {
+    requires transitive de.chojo.sadu.updater;
+    requires transitive de.chojo.sadu.mapper;
 
     exports de.chojo.sadu.postgresql.databases;
     exports de.chojo.sadu.postgresql.jdbc;

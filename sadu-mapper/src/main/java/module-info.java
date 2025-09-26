@@ -1,5 +1,5 @@
-module sadu.sadu.mapper.main {
-    requires transitive sadu.sadu.core.main;
+module de.chojo.sadu.mapper {
+    requires transitive de.chojo.sadu.core;
 
     exports de.chojo.sadu.mapper;
     exports de.chojo.sadu.mapper.reader;

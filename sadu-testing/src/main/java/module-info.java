@@ -1,5 +1,5 @@
-module sadu.sadu.testing.main {
-    requires transitive sadu.sadu.core.main;
+module de.chojo.sadu.testing {
+    requires transitive de.chojo.sadu.core;
     requires transitive org.junit.jupiter.api;
 
     exports de.chojo.sadu.testing;

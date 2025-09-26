@@ -1,4 +1,4 @@
-module sadu.sadu.core.main {
+module de.chojo.sadu.core {
     requires transitive java.sql;
     requires transitive org.jetbrains.annotations;
     requires transitive org.slf4j;

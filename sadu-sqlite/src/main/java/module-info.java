@@ -1,6 +1,6 @@
-module sadu.sadu.sqlite.main {
-    requires transitive sadu.sadu.updater.main;
-    requires transitive sadu.sadu.mapper.main;
+module de.chojo.sadu.sqlite {
+    requires transitive de.chojo.sadu.updater;
+    requires transitive de.chojo.sadu.mapper;
 
     exports de.chojo.sadu.sqlite.databases;
     exports de.chojo.sadu.sqlite.jdbc;
