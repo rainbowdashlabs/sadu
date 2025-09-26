@@ -1,6 +1,6 @@
-module sadu.sadu.queries.main {
-    requires transitive sadu.sadu.core.main;
-    requires transitive sadu.sadu.mapper.main;
+module de.chojo.sadu.queries {
+    requires transitive de.chojo.sadu.core;
+    requires transitive de.chojo.sadu.mapper;
 
     exports de.chojo.sadu.queries.api.base;
     exports de.chojo.sadu.queries.api.call;
