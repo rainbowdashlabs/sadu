@@ -16,6 +16,8 @@ import static de.chojo.sadu.core.types.SqlType.ofName;
 public interface SqLiteTypes {
 
 
+
+
     /**
      * SqLite Text type
      */
