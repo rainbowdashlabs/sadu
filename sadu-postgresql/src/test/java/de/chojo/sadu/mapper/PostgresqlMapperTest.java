@@ -9,12 +9,15 @@ package de.chojo.sadu.mapper;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
+import de.chojo.sadu.postgresql.types.PostgreSqlTypes;
+import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.api.query.Query;
 import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,6 +26,10 @@ import org.testcontainers.containers.GenericContainer;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
@@ -66,13 +73,13 @@ class PostgresqlMapperTest {
     static void beforeAll() throws IOException {
         pg = createContainer("postgres", "postgres");
         DataSource dc = DataSourceCreator.create(PostgreSql.get())
-                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort())).create()
-                .usingPassword("postgres")
-                .usingUsername("postgres")
-                .build();
+                                         .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort())).create()
+                                         .usingPassword("postgres")
+                                         .usingUsername("postgres")
+                                         .build();
         QueryConfiguration.setDefault(QueryConfiguration.builder(dc)
-                .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
-                .build());
+                                                        .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
+                                                        .build());
     }
 
     static Stream<Arguments> shortTestInput() {
@@ -118,10 +125,29 @@ class PostgresqlMapperTest {
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String query, T expected) {
         var val = Query.query(query)
-                .single()
-                .mapAs(clazz)
-                .first();
+                       .single()
+                       .mapAs(clazz)
+                       .first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
+    }
+
+    @Test
+    void testArray() {
+        List<Long> list = LongStream.range(0, 10).mapToObj(value -> value).toList();
+        List<Object> rows = Query.query("SELECT ? as res")
+                                               .single(Call.call().bind(list, PostgreSqlTypes.BIGINT))
+                                               .map(row -> row.getList("res"))
+                                               .first()
+                                               .get();
+    }
+    @Test
+    void testEmptyArray() {
+        List<Long> list = LongStream.range(0, 10).mapToObj(value -> value).toList();
+        List<Object> rows = Query.query("SELECT ? as res")
+                                               .single(Call.call().bind(Collections.emptyList(), PostgreSqlTypes.BIGINT))
+                                               .map(row -> row.getList("res"))
+                                               .first()
+                                               .get();
     }
 }
