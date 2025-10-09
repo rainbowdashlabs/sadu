@@ -7,6 +7,8 @@
 package de.chojo.sadu.updater;
 
 import de.chojo.sadu.postgresql.databases.PostgreSql;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.sql.SQLException;
 class SqlUpdaterTest {
     DataSource dataSource;
 
+    @Test
+    @Disabled
     public void update() throws IOException, SQLException {
         SqlUpdater.builder(dataSource, PostgreSql.get())
                 .setReplacements(new QueryReplacement("dev_schema", "live_schema"))
