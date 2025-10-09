@@ -36,7 +36,7 @@ dependencyResolutionManagement {
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
 
             library("jetbrains-annotations", "org.jetbrains", "annotations").version("26.0.2-1")
-            library("hikari", "com.zaxxer", "HikariCP").version("6.2.1")
+            library("hikari", "com.zaxxer", "HikariCP").version("7.0.2")
 
             version("slf4j", "2.0.16")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
