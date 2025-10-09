@@ -1,4 +1,4 @@
-name: pr.yml
+name: Pull Request Meta Information
 on:
   pull_request_target:
 
