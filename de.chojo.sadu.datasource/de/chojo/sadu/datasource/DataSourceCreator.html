@@ -36,6 +36,7 @@ loadScripts(document, 'script');</script>
 <li><a href="package-summary.html">Package</a></li>
 <li class="nav-bar-cell1-rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../../../index-all.html">Index</a></li>
 <li><a href="../../../../../help-doc.html#class">Help</a></li>
 </ul>
@@ -70,7 +71,7 @@ loadScripts(document, 'script');</script>
 <div class="header">
 <div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../../module-summary.html">de.chojo.sadu.datasource</a></div>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">de.chojo.sadu.datasource</a></div>
-<h1 title="Class DataSourceCreator" class="title">Class DataSourceCreator&lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;</h1>
+<h1 title="Class DataSourceCreator" class="title">Class DataSourceCreator&lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">de.chojo.sadu.datasource.DataSourceCreator&lt;T&gt;</div>
@@ -78,14 +79,14 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - database type defined by the <code>Database</code></dd>
+<dd><code>T</code> - database type defined by the <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases"><code>Database</code></a></dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="stage/ConfigurationStage.html" title="interface in de.chojo.sadu.datasource.stage">ConfigurationStage</a></code>, <code><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DataSourceCreator&lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DataSourceCreator&lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;, <a href="stage/ConfigurationStage.html" title="interface in de.chojo.sadu.datasource.stage">ConfigurationStage</a></span></div>
 <div class="block">Class to create a <code>HikariDataSource</code> with a builder pattern.</div>
@@ -118,8 +119,8 @@ implements <a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.data
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a configuration with these properties.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;<br><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(de.chojo.sadu.core.databases.Database)" class="member-name-link">create</a><wbr>(de.chojo.sadu.core.databases.Database&lt;T,<wbr>?&gt;&nbsp;type)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;<br><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(de.chojo.sadu.core.databases.Database)" class="member-name-link">create</a><wbr>(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;T,<wbr>?&gt;&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create a new DataSource creator.</div>
 </div>
@@ -226,12 +227,12 @@ implements <a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.data
 <section class="detail" id="create(de.chojo.sadu.core.databases.Database)">
 <h3>create</h3>
 <div class="member-signature"><span class="annotations"><a href="https://javadoc.io/doc/org.jetbrains/annotations/latest/org/jetbrains/annotations/CheckReturnValue.html" title="class or interface in org.jetbrains.annotations" class="external-link">@CheckReturnValue</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;</span>
-<span class="return-type"><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(de.chojo.sadu.core.databases.Database&lt;T,<wbr>?&gt;&nbsp;type)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</span>
+<span class="return-type"><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;T&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;T,<wbr>?&gt;&nbsp;type)</span></div>
 <div class="block">Create a new DataSource creator.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - database type defined by the <code>Database</code></dd>
+<dd><code>T</code> - database type defined by the <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases"><code>Database</code></a></dd>
 <dt>Parameters:</dt>
 <dd><code>type</code> - The type of database which is targeted by this data source</dd>
 <dt>Returns:</dt>
@@ -248,7 +249,7 @@ implements <a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.data
 <div class="block">configure the jdbc builder</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="stage/JdbcStage.html#configure(java.util.function.Consumer)">configure</a></code>&nbsp;in interface&nbsp;<code><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;<a href="DataSourceCreator.html" title="type parameter in DataSourceCreator">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="stage/JdbcStage.html#configure(java.util.function.Consumer)">configure</a></code>&nbsp;in interface&nbsp;<code><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;<a href="DataSourceCreator.html" title="type parameter in DataSourceCreator">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>builder</code> - builder</dd>
 <dt>Returns:</dt>
@@ -265,7 +266,7 @@ implements <a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.data
 <div class="block">Create a configuration with these properties.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="stage/JdbcStage.html#create()">create</a></code>&nbsp;in interface&nbsp;<code><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;<a href="DataSourceCreator.html" title="type parameter in DataSourceCreator">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="stage/JdbcStage.html#create()">create</a></code>&nbsp;in interface&nbsp;<code><a href="stage/JdbcStage.html" title="interface in de.chojo.sadu.datasource.stage">JdbcStage</a>&lt;<a href="DataSourceCreator.html" title="type parameter in DataSourceCreator">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>a configuration stage with a configuration with applied properties.</dd>
 </dl>

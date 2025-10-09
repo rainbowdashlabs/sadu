@@ -36,6 +36,7 @@ loadScripts(document, 'script');</script>
 <li><a href="package-summary.html">Package</a></li>
 <li class="nav-bar-cell1-rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../../../index-all.html">Index</a></li>
 <li><a href="../../../../../help-doc.html#class">Help</a></li>
 </ul>
@@ -70,7 +71,7 @@ loadScripts(document, 'script');</script>
 <div class="header">
 <div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../../module-summary.html">de.chojo.sadu.updater</a></div>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">de.chojo.sadu.updater</a></div>
-<h1 title="Class BaseSqlUpdaterBuilder" class="title">Class BaseSqlUpdaterBuilder&lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr>S extends BaseSqlUpdaterBuilder&lt;T,<wbr>?&gt;&gt;</h1>
+<h1 title="Class BaseSqlUpdaterBuilder" class="title">Class BaseSqlUpdaterBuilder&lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr>S extends BaseSqlUpdaterBuilder&lt;T,<wbr>?&gt;&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">de.chojo.sadu.updater.BaseSqlUpdaterBuilder&lt;T,<wbr>S&gt;</div>
@@ -78,20 +79,20 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - The type of the jdbc link defined by the <code>Database</code></dd>
+<dd><code>T</code> - The type of the jdbc link defined by the <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases"><code>Database</code></a></dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</code></dd>
+<dd><code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;T,<wbr>S&gt;</code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
 <dd><code><a href="../../../../../de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/updater/PostgreSqlUpdaterBuilder.html" title="class in de.chojo.sadu.postgresql.updater">PostgreSqlUpdaterBuilder</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseSqlUpdaterBuilder&lt;T extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr>S extends BaseSqlUpdaterBuilder&lt;T,<wbr>?&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseSqlUpdaterBuilder&lt;T extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr>S extends BaseSqlUpdaterBuilder&lt;T,<wbr>?&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div>
+implements <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;T,<wbr>S&gt;</span></div>
 <div class="block">Class to build a <a href="SqlUpdater.html" title="class in de.chojo.sadu.updater"><code>SqlUpdater</code></a> with a builder pattern</div>
 </section>
 <section class="summary">
@@ -108,10 +109,10 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassLoader.html" title="class or interface in java.lang" class="external-link">ClassLoader</a></code></div>
 <div class="col-second even-row-color"><code><a href="#classLoader" class="member-name-link">classLoader</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;de.chojo.sadu.core.updater.SqlVersion,<wbr>de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>,<wbr><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#postUpdateHook" class="member-name-link">postUpdateHook</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;de.chojo.sadu.core.updater.SqlVersion,<wbr>de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>,<wbr><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#preUpdateHook" class="member-name-link">preUpdateHook</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="QueryReplacement.html" title="class in de.chojo.sadu.updater">QueryReplacement</a>[]</code></div>
@@ -120,10 +121,10 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/javax/sql/DataSource.html" title="class or interface in javax.sql" class="external-link">DataSource</a></code></div>
 <div class="col-second even-row-color"><code><a href="#source" class="member-name-link">source</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final de.chojo.sadu.core.databases.Database&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#type" class="member-name-link">type</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected de.chojo.sadu.core.updater.SqlVersion</code></div>
+<div class="col-first even-row-color"><code>protected <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a></code></div>
 <div class="col-second even-row-color"><code><a href="#version" class="member-name-link">version</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
@@ -140,7 +141,7 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(de.chojo.sadu.core.databases.Database)" class="member-name-link">BaseSqlUpdaterBuilder</a><wbr>(de.chojo.sadu.core.databases.Database&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;&nbsp;type)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(de.chojo.sadu.core.databases.Database)" class="member-name-link">BaseSqlUpdaterBuilder</a><wbr>(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;&nbsp;type)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -162,12 +163,12 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <div class="block">Build the updater and start the update process.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#postUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)" class="member-name-link">postUpdateHook</a><wbr>(de.chojo.sadu.core.updater.SqlVersion&nbsp;version,
- de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#postUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)" class="member-name-link">postUpdateHook</a><wbr>(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version,
+ <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)" class="member-name-link">preUpdateHook</a><wbr>(de.chojo.sadu.core.updater.SqlVersion&nbsp;version,
- de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)" class="member-name-link">preUpdateHook</a><wbr>(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version,
+ <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#self()" class="member-name-link">self</a>()</code></div>
@@ -181,10 +182,14 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSource(javax.sql.DataSource)" class="member-name-link">setSource</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/javax/sql/DataSource.html" title="class or interface in javax.sql" class="external-link">DataSource</a>&nbsp;source)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the datasource that should be used</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVersion(de.chojo.sadu.core.updater.SqlVersion)" class="member-name-link">setVersion</a><wbr>(de.chojo.sadu.core.updater.SqlVersion&nbsp;version)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVersion(de.chojo.sadu.core.updater.SqlVersion)" class="member-name-link">setVersion</a><wbr>(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the current db version that is expected</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVersionTable(java.lang.String)" class="member-name-link">setVersionTable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;versionTable)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -192,7 +197,9 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withClassLoader(java.lang.ClassLoader)" class="member-name-link">withClassLoader</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassLoader.html" title="class or interface in java.lang" class="external-link">ClassLoader</a>&nbsp;classLoader)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the Classloader that should be used to load resourced.</div>
+</div>
 </div>
 </div>
 </div>
@@ -213,7 +220,7 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <li>
 <section class="detail" id="type">
 <h3>type</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">de.chojo.sadu.core.databases.Database&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</span>&nbsp;<span class="element-name">type</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</span>&nbsp;<span class="element-name">type</span></div>
 </section>
 </li>
 <li>
@@ -225,19 +232,19 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <li>
 <section class="detail" id="version">
 <h3>version</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">de.chojo.sadu.core.updater.SqlVersion</span>&nbsp;<span class="element-name">version</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a></span>&nbsp;<span class="element-name">version</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="preUpdateHook">
 <h3>preUpdateHook</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;de.chojo.sadu.core.updater.SqlVersion,<wbr>de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</span>&nbsp;<span class="element-name">preUpdateHook</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>,<wbr><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</span>&nbsp;<span class="element-name">preUpdateHook</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="postUpdateHook">
 <h3>postUpdateHook</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;de.chojo.sadu.core.updater.SqlVersion,<wbr>de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</span>&nbsp;<span class="element-name">postUpdateHook</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>,<wbr><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&gt;</span>&nbsp;<span class="element-name">postUpdateHook</span></div>
 </section>
 </li>
 <li>
@@ -269,7 +276,7 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <li>
 <section class="detail" id="&lt;init&gt;(de.chojo.sadu.core.databases.Database)">
 <h3>BaseSqlUpdaterBuilder</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseSqlUpdaterBuilder</span><wbr><span class="parameters">(de.chojo.sadu.core.databases.Database&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;&nbsp;type)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseSqlUpdaterBuilder</span><wbr><span class="parameters">(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a>&gt;&nbsp;type)</span></div>
 </section>
 </li>
 </ul>
@@ -284,19 +291,27 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <section class="detail" id="setSource(javax.sql.DataSource)">
 <h3>setSource</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">setSource</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/javax/sql/DataSource.html" title="class or interface in javax.sql" class="external-link">DataSource</a>&nbsp;source)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#setSource(javax.sql.DataSource)">UpdaterBuilder</a></code></span></div>
+<div class="block">Set the datasource that should be used</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>setSource</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.updater.UpdaterBuilder&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#setSource(javax.sql.DataSource)">setSource</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>source</code> - source</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setVersion(de.chojo.sadu.core.updater.SqlVersion)">
 <h3>setVersion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">setVersion</span><wbr><span class="parameters">(de.chojo.sadu.core.updater.SqlVersion&nbsp;version)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">setVersion</span><wbr><span class="parameters">(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#setVersion(de.chojo.sadu.core.updater.SqlVersion)">UpdaterBuilder</a></code></span></div>
+<div class="block">Set the current db version that is expected</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>setVersion</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.updater.UpdaterBuilder&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#setVersion(de.chojo.sadu.core.updater.SqlVersion)">setVersion</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>version</code> - version</dd>
 </dl>
 </section>
 </li>
@@ -334,24 +349,28 @@ implements de.chojo.sadu.core.updater.UpdaterBuilder&lt;T,<wbr>S&gt;</span></div
 <li>
 <section class="detail" id="preUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)">
 <h3>preUpdateHook</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">preUpdateHook</span><wbr><span class="parameters">(de.chojo.sadu.core.updater.SqlVersion&nbsp;version,
- de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">preUpdateHook</span><wbr><span class="parameters">(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version,
+ <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="postUpdateHook(de.chojo.sadu.core.updater.SqlVersion,de.chojo.sadu.core.exceptions.ThrowingConsumer)">
 <h3>postUpdateHook</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">postUpdateHook</span><wbr><span class="parameters">(de.chojo.sadu.core.updater.SqlVersion&nbsp;version,
- de.chojo.sadu.core.exceptions.ThrowingConsumer&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">postUpdateHook</span><wbr><span class="parameters">(<a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a>&nbsp;version,
+ <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingConsumer</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html" title="class or interface in java.sql" class="external-link">Connection</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/SQLException.html" title="class or interface in java.sql" class="external-link">SQLException</a>&gt;&nbsp;consumer)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="withClassLoader(java.lang.ClassLoader)">
 <h3>withClassLoader</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a></span>&nbsp;<span class="element-name">withClassLoader</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassLoader.html" title="class or interface in java.lang" class="external-link">ClassLoader</a>&nbsp;classLoader)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#withClassLoader(java.lang.ClassLoader)">UpdaterBuilder</a></code></span></div>
+<div class="block">Set the Classloader that should be used to load resourced.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>withClassLoader</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.updater.UpdaterBuilder&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends de.chojo.sadu.core.jdbc.JdbcConfig&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html#withClassLoader(java.lang.ClassLoader)">withClassLoader</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a> extends <a href="../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">S</a> extends <a href="BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="BaseSqlUpdaterBuilder.html" title="type parameter in BaseSqlUpdaterBuilder">T</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>classLoader</code> - classloader</dd>
 </dl>
 </section>
 </li>

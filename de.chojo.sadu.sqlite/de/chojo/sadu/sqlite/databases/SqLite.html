@@ -36,6 +36,7 @@ loadScripts(document, 'script');</script>
 <li><a href="package-summary.html">Package</a></li>
 <li class="nav-bar-cell1-rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../../../../index-all.html">Index</a></li>
 <li><a href="../../../../../../help-doc.html#class">Help</a></li>
 </ul>
@@ -78,12 +79,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code>, <code>de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code>, <code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html" title="interface in de.chojo.sadu.core.databases">DefaultDatabase</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SqLite</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</span></div>
+implements <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html" title="interface in de.chojo.sadu.core.databases">DefaultDatabase</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</span></div>
 <div class="block">Represents a SqLite database.</div>
 </section>
 <section class="summary">
@@ -101,7 +102,9 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createVersionTableQuery(java.lang.String)" class="member-name-link">createVersionTableQuery</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;table)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a query to create a version table on the database.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="SqLite.html" title="class in de.chojo.sadu.sqlite.databases">SqLite</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -109,16 +112,24 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jdbcBuilder()" class="member-name-link">jdbcBuilder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc"><code>JdbcConfig</code></a> implementation for this database</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>de.chojo.sadu.core.updater.UpdaterBuilder&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get a unique name to identify the database.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newSqlUpdaterBuilder()" class="member-name-link">newSqlUpdaterBuilder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Instantiates an implementation of <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater"><code>UpdaterBuilder</code></a></div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#splitStatements(java.lang.String)" class="member-name-link">splitStatements</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;queries)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The split queries, if the db does not allow to execute multiple queries this function should return every query in one string.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="SqLite.html" title="class in de.chojo.sadu.sqlite.databases">SqLite</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sqlite()" class="member-name-link">sqlite</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -131,11 +142,11 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-de.chojo.sadu.core.databases.Database">Methods inherited from interface&nbsp;de.chojo.sadu.core.databases.Database</h3>
-<code>alias, cleanStatements, createSchema, hasSchemas, matches, schemaExists</code></div>
+<h3 id="methods-inherited-from-class-de.chojo.sadu.core.databases.Database">Methods inherited from interface&nbsp;de.chojo.sadu.core.databases.<a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a></h3>
+<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#alias()">alias</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#cleanStatements(java.lang.String%5B%5D)">cleanStatements</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#createSchema(java.lang.String)">createSchema</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#hasSchemas()">hasSchemas</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#matches(java.lang.String)">matches</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#schemaExists()">schemaExists</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-de.chojo.sadu.core.databases.DefaultDatabase">Methods inherited from interface&nbsp;de.chojo.sadu.core.databases.DefaultDatabase</h3>
-<code>deleteVersion, insertVersion, versionQuery</code></div>
+<h3 id="methods-inherited-from-class-de.chojo.sadu.core.databases.DefaultDatabase">Methods inherited from interface&nbsp;de.chojo.sadu.core.databases.<a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html" title="interface in de.chojo.sadu.core.databases">DefaultDatabase</a></h3>
+<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html#deleteVersion(java.lang.String)">deleteVersion</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html#insertVersion(java.lang.String)">insertVersion</a>, <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html#versionQuery(java.lang.String)">versionQuery</a></code></div>
 </section>
 </li>
 </ul>
@@ -173,11 +184,19 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <section class="detail" id="createVersionTableQuery(java.lang.String)">
 <h3>createVersionTableQuery</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">createVersionTableQuery</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;table)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#createVersionTableQuery(java.lang.String)">Database</a></code></span></div>
+<div class="block">Creates a query to create a version table on the database.
+ <p>
+ The query needs to handle errors when the table exists.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>createVersionTableQuery</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#createVersionTableQuery(java.lang.String)">createVersionTableQuery</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code>createVersionTableQuery</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html#createVersionTableQuery(java.lang.String)">createVersionTableQuery</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/DefaultDatabase.html" title="interface in de.chojo.sadu.core.databases">DefaultDatabase</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>table</code> - table name</dd>
+<dt>Returns:</dt>
+<dd>query to create a version table</dd>
 </dl>
 </section>
 </li>
@@ -185,9 +204,13 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <section class="detail" id="name()">
 <h3>name</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#name()">Database</a></code></span></div>
+<div class="block">Get a unique name to identify the database.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>name</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#name()">name</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>database name</dd>
 </dl>
 </section>
 </li>
@@ -195,9 +218,13 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <section class="detail" id="jdbcBuilder()">
 <h3>jdbcBuilder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a></span>&nbsp;<span class="element-name">jdbcBuilder</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#jdbcBuilder()">Database</a></code></span></div>
+<div class="block">Returns the <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc"><code>JdbcConfig</code></a> implementation for this database</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>jdbcBuilder</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#jdbcBuilder()">jdbcBuilder</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>jdbc builder</dd>
 </dl>
 </section>
 </li>
@@ -205,19 +232,31 @@ implements de.chojo.sadu.core.databases.DefaultDatabase&lt;<a href="../jdbc/SqLi
 <section class="detail" id="splitStatements(java.lang.String)">
 <h3>splitStatements</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">splitStatements</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;queries)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#splitStatements(java.lang.String)">Database</a></code></span></div>
+<div class="block">The split queries, if the db does not allow to execute multiple queries this function should return every query in one string.
+ <p>
+ Otherwise, this array will only contain one entry.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>splitStatements</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#splitStatements(java.lang.String)">splitStatements</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>queries</code> - queries</dd>
+<dt>Returns:</dt>
+<dd>queries</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="newSqlUpdaterBuilder()">
 <h3>newSqlUpdaterBuilder</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">de.chojo.sadu.core.updater.UpdaterBuilder&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</span>&nbsp;<span class="element-name">newSqlUpdaterBuilder</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater">UpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</span>&nbsp;<span class="element-name">newSqlUpdaterBuilder</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#newSqlUpdaterBuilder()">Database</a></code></span></div>
+<div class="block">Instantiates an implementation of <a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/updater/UpdaterBuilder.html" title="interface in de.chojo.sadu.core.updater"><code>UpdaterBuilder</code></a></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>newSqlUpdaterBuilder</code>&nbsp;in interface&nbsp;<code>de.chojo.sadu.core.databases.Database&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dd><code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html#newSqlUpdaterBuilder()">newSqlUpdaterBuilder</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../de.chojo.sadu.core/de/chojo/sadu/core/databases/Database.html" title="interface in de.chojo.sadu.core.databases">Database</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr><a href="../../../../../../de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="../jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a>,<wbr>?&gt;&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>the instance</dd>
 </dl>
 </section>
 </li>
