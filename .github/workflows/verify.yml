@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Javadocs
 
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -34,6 +33,6 @@ jobs:
       - name: Build
         uses: nick-fields/retry@v3
         with:
-         timeout_minutes: 10
-         max_attempts: 5
-         command: ./gradlew javadoc
+          timeout_minutes: 10
+          max_attempts: 5
+          command: ./gradlew javadoc
