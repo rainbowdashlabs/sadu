@@ -2,7 +2,6 @@ import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.MavenPublishPlugin
-import com.vanniktech.maven.publish.SonatypeHost
 import de.chojo.PublishData
 
 plugins {
@@ -12,7 +11,7 @@ plugins {
     java
     `java-library`
     id("de.chojo.publishdata") version "1.4.0"
-    id("com.vanniktech.maven.publish") version "0.30.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
     alias(libs.plugins.spotless)
 }
 
@@ -121,7 +120,7 @@ subprojects {
             }
 
             mavenPublishing {
-                publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+                publishToMavenCentral()
                 signAllPublications()
 
                 coordinates(groupId = "de.chojo.sadu", artifactId = project.name, version = publishData.getVersion())
@@ -141,7 +140,7 @@ subprojects {
                     developers {
                         developer {
                             id.set("rainbowdashlabs")
-                            name.set("Lilly Fülling")
+                            name.set("Nora Fülling")
                             email.set("mail@chojo.dev")
                             url.set("https://github.com/rainbowdashlabs")
                         }
@@ -150,7 +149,7 @@ subprojects {
                     scm {
                         url.set("https://github.com/rainbowdashlabs/sadu")
                         connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
-                        developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
+                        developerConnection.set("scm:git:ssh://github.com/rainbowdashlabs/sadu.git")
                     }
                 }
 
@@ -167,7 +166,7 @@ subprojects {
 
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     signAllPublications()
 
 
@@ -188,7 +187,7 @@ mavenPublishing {
         developers {
             developer {
                 id.set("rainbowdashlabs")
-                name.set("Lilly Fülling")
+                name.set("Nora Fülling")
                 email.set("mail@chojo.dev")
                 url.set("https://github.com/rainbowdashlabs")
             }
@@ -197,7 +196,7 @@ mavenPublishing {
         scm {
             url.set("https://github.com/rainbowdashlabs/sadu")
             connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
-            developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
+            developerConnection.set("scm:git:ssh://github.com/rainbowdashlabs/sadu.git")
         }
     }
 
