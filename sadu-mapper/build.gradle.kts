@@ -3,7 +3,7 @@ description = "SADU module to map values received from a database to java object
 dependencies {
     api(project(":sadu-core"))
 
-    testImplementation("org.postgresql", "postgresql", "42.7.5")
+    testImplementation(testlibs.driver.postgres)
     testImplementation(testlibs.bundles.junit)
     testImplementation(project(":sadu-queries"))
     testImplementation(project(":sadu-datasource"))

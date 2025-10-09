@@ -5,8 +5,8 @@ dependencies {
     compileOnly(project(":sadu-postgresql"))
 
     // database driver
-    compileOnly("org.xerial", "sqlite-jdbc", "3.50.3.0")
-    compileOnly("org.postgresql", "postgresql", "42.7.5")
-    compileOnly("org.mariadb.jdbc", "mariadb-java-client", "3.5.6")
-    compileOnly("mysql", "mysql-connector-java", "8.0.33")
+    compileOnly(testlibs.driver.sqlite)
+    compileOnly(testlibs.driver.postgres)
+    compileOnly(testlibs.driver.mariadb)
+    compileOnly(testlibs.driver.mysql)
 }

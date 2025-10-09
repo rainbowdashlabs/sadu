@@ -31,10 +31,12 @@ plugins {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-
             // plugins
             plugin("spotless", "com.diffplug.spotless").version("7.0.2")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
+
+            library("jetbrains-annotations", "org.jetbrains", "annotations").version("26.0.2-1")
+            library("hikari", "com.zaxxer", "HikariCP").version("6.2.1")
 
             version("slf4j", "2.0.16")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
@@ -42,6 +44,7 @@ dependencyResolutionManagement {
 
         create("testlibs") {
             version("junit", "5.11.4")
+            library("junit-bom", "org.junit", "bom").versionRef("junit")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params", "slf4j-simple"))
@@ -62,9 +65,18 @@ dependencyResolutionManagement {
             library("driver-sqlite", "org.xerial:sqlite-jdbc:3.50.3.0")
             library("driver-mysql", "com.mysql:mysql-connector-j:9.2.0")
 
-            bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
-            bundle("database-mariadb", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb"))
-            bundle("database-mysql", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mysql", "driver-mysql"))
+            bundle(
+                "database-postgres",
+                listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres")
+            )
+            bundle(
+                "database-mariadb",
+                listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mariadb", "driver-mariadb")
+            )
+            bundle(
+                "database-mysql",
+                listOf("testcontainers-junit", "testcontainers-core", "testcontainers-mysql", "driver-mysql")
+            )
         }
     }
 }

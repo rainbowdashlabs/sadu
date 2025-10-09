@@ -3,7 +3,7 @@ description = "SADU module for executing and handling queries"
 dependencies {
     api(project(":sadu-core"))
     api(project(":sadu-mapper"))
-    testImplementation("org.postgresql", "postgresql", "42.7.5")
+    testImplementation(testlibs.driver.postgres)
     testImplementation(testlibs.bundles.junit)
     testImplementation(project(":sadu-datasource"))
     testImplementation(project(":sadu-postgresql"))

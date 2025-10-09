@@ -1,7 +1,7 @@
 description = "SADU module to create a hikaricp datasource"
 
 dependencies {
-    api("com.zaxxer", "HikariCP", "6.2.1")
+    api(libs.hikari)
     api(project(":sadu-core"))
 
     testImplementation(project(":sadu-sqlite"))
