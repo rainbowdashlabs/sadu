@@ -215,3 +215,11 @@ fun applyJavaDocOptions(options: MinimalJavadocOptions) {
 tasks.javadoc.configure {
     applyJavaDocOptions(options)
 }
+
+plugins.withId("io.freefair.aggregate-javadoc") {
+    dependencies {
+        // junit in sadu-testing needs that as a compile time dependency because Javadoc needs `requires static` dependency too.
+        add("javadocClasspath", "org.apiguardian:apiguardian-api:1.1.2")
+    }
+}
+
