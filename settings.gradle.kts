@@ -59,7 +59,7 @@ dependencyResolutionManagement {
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.5")
             library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.5.2")
-            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.49.0.0")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.50.3.0")
             library("driver-mysql", "com.mysql:mysql-connector-j:9.2.0")
 
             bundle("database-postgres", listOf("testcontainers-junit", "testcontainers-core", "testcontainers-postgres", "driver-postgres"))
