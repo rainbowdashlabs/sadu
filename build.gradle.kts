@@ -41,7 +41,7 @@ dependencies {
     javadoc(project(":sadu-postgresql"))
     javadoc(project(":sadu-queries"))
     javadoc(project(":sadu-sqlite"))
-//    javadoc(project(":sadu-testing")) for now excluded, see https://github.com/freefair/gradle-plugins/issues/1522
+    javadoc(project(":sadu-testing"))
     javadoc(project(":sadu-updater"))
 }
 
