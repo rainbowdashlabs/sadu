@@ -66,9 +66,15 @@ allprojects {
 
 
     dependencies {
-        testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
-        testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
-        testImplementation("org.mockito", "mockito-core", "5.+")
+        var testlibs = rootProject.testlibs
+        testImplementation(testlibs.junit.api)
+        testRuntimeOnly(testlibs.junit.engine)
+        testRuntimeOnly(testlibs.junit.platform)
+        //testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.14.0")
+        //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        //testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.14.0")
+        testImplementation(testlibs.mokito)
+        //testImplementation("org.mockito", "mockito-core", "5.+")
     }
 
     spotless {
@@ -89,8 +95,8 @@ allprojects {
     // We configure some general tasks for our modules
     tasks {
         test {
-            dependsOn(spotlessCheck)
             useJUnitPlatform()
+            dependsOn(spotlessCheck)
             testLogging {
                 events("passed", "skipped", "failed")
             }
