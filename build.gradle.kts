@@ -33,12 +33,15 @@ dependencies {
     api(project(":sadu-updater"))
     api(project(":sadu-datasource"))
 
-    javadoc(project(":sadu-sqlite"))
-    javadoc(project(":sadu-postgresql"))
+    javadoc(project(":sadu-core"))
+    javadoc(project(":sadu-datasource"))
+    javadoc(project(":sadu-mapper"))
     javadoc(project(":sadu-mariadb"))
     javadoc(project(":sadu-mysql"))
+    javadoc(project(":sadu-postgresql"))
+    javadoc(project(":sadu-queries"))
+    javadoc(project(":sadu-sqlite"))
     javadoc(project(":sadu-updater"))
-    javadoc(project(":sadu-datasource"))
 }
 
 
