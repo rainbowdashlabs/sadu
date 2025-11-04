@@ -147,9 +147,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Defines a sql type and handles RDBMS specific actions.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/configuration/DatabaseConfig.html" title="interface in de.chojo.sadu.core.configuration">DatabaseConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/DatabaseChecks.html" title="class in de.chojo.sadu.testing">DatabaseChecks</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Class to check for existence of databases.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/configuration/DatabaseConfig.html" title="interface in de.chojo.sadu.core.configuration">DatabaseConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">This interface represents the configuration for a database connection.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/DatabaseVersionChecks.html" title="class in de.chojo.sadu.testing">DatabaseVersionChecks</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">The DatabaseVersionChecks class provides methods for checking the content of the version file.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/DataSourceCreator.html" title="class in de.chojo.sadu.datasource">DataSourceCreator</a>&lt;<a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/DataSourceCreator.html" title="type parameter in DataSourceCreator">T</a> extends <a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;&gt;</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -296,68 +304,76 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents a partially configured <a href="de.chojo.sadu.mapper/de/chojo/sadu/mapper/rowmapper/RowMapper.html" title="class in de.chojo.sadu.mapper.rowmapper"><code>RowMapper</code></a></div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/databases/PostgreSql.html" title="class in de.chojo.sadu.postgresql.databases">PostgreSql</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/PatchChecks.html" title="class in de.chojo.sadu.testing">PatchChecks</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">The PatchChecks class provides methods for checking the presence of patch files for the databases.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/databases/PostgreSql.html" title="class in de.chojo.sadu.postgresql.databases">PostgreSql</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents a PostgreSQL database.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/jdbc/PostgreSqlJdbc.html" title="class in de.chojo.sadu.postgresql.jdbc">PostgreSqlJdbc</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/jdbc/PostgreSqlJdbc.html" title="class in de.chojo.sadu.postgresql.jdbc">PostgreSqlJdbc</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A builder to create a PostgreSQL jdbc url.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/jdbc/PostgreSqlJdbc.SslMode.html" title="enum class in de.chojo.sadu.postgresql.jdbc">PostgreSqlJdbc.SslMode</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/jdbc/PostgreSqlJdbc.SslMode.html" title="enum class in de.chojo.sadu.postgresql.jdbc">PostgreSqlJdbc.SslMode</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
 <div class="block">Represents different SSL modes.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/mapper/PostgresqlMapper.html" title="class in de.chojo.sadu.postgresql.mapper">PostgresqlMapper</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/types/PostgreSqlTypes.html" title="interface in de.chojo.sadu.postgresql.types">PostgreSqlTypes</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/mapper/PostgresqlMapper.html" title="class in de.chojo.sadu.postgresql.mapper">PostgresqlMapper</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/types/PostgreSqlTypes.html" title="interface in de.chojo.sadu.postgresql.types">PostgreSqlTypes</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Types present in a PostgreSQL database.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/updater/PostgreSqlUpdater.html" title="class in de.chojo.sadu.postgresql.updater">PostgreSqlUpdater</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/updater/PostgreSqlUpdaterBuilder.html" title="class in de.chojo.sadu.postgresql.updater">PostgreSqlUpdaterBuilder</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/updater/PostgreSqlUpdater.html" title="class in de.chojo.sadu.postgresql.updater">PostgreSqlUpdater</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/query/Query.html" title="interface in de.chojo.sadu.queries.api.query">Query</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.postgresql/de/chojo/sadu/postgresql/updater/PostgreSqlUpdaterBuilder.html" title="class in de.chojo.sadu.postgresql.updater">PostgreSqlUpdaterBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/query/Query.html" title="interface in de.chojo.sadu.queries.api.query">Query</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Starting point for executing one or more queries.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/configuration/QueryConfiguration.html" title="interface in de.chojo.sadu.queries.api.configuration">QueryConfiguration</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfiguration.html" title="interface in de.chojo.sadu.queries.configuration">QueryConfiguration</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">Deprecated, for removal: This API element is subject to removal in a future version.</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfigurationBuilder.html" title="class in de.chojo.sadu.queries.configuration">QueryConfigurationBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfigurationImpl.html" title="class in de.chojo.sadu.queries.configuration">QueryConfigurationImpl</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/configuration/QueryConfiguration.html" title="interface in de.chojo.sadu.queries.api.configuration">QueryConfiguration</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfiguration.html" title="interface in de.chojo.sadu.queries.configuration">QueryConfiguration</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">Deprecated, for removal: This API element is subject to removal in a future version.</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfigurationBuilder.html" title="class in de.chojo.sadu.queries.configuration">QueryConfigurationBuilder</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/configuration/context/QueryContext.html" title="interface in de.chojo.sadu.queries.api.configuration.context">QueryContext</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab5"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/QueryException.html" title="class in de.chojo.sadu.queries.exception">QueryException</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab5">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab5"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/QueryExecutionException.html" title="class in de.chojo.sadu.queries.exception">QueryExecutionException</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab5">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/QueryConfigurationImpl.html" title="class in de.chojo.sadu.queries.configuration">QueryConfigurationImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/configuration/context/QueryContext.html" title="interface in de.chojo.sadu.queries.api.configuration.context">QueryContext</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab5"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/QueryException.html" title="class in de.chojo.sadu.queries.exception">QueryException</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab5"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/QueryExecutionException.html" title="class in de.chojo.sadu.queries.exception">QueryExecutionException</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab5">
 <div class="block">Exception to wrap <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link"><code>Exception</code></a> as <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link"><code>Exception</code></a> thrown during queries executed by <a href="de.chojo.sadu.queries/de/chojo/sadu/queries/query/QueryImpl.html" title="class in de.chojo.sadu.queries.query"><code>QueryImpl</code></a></div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/query/QueryImpl.html" title="class in de.chojo.sadu.queries.query">QueryImpl</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/base/QueryProvider.html" title="interface in de.chojo.sadu.queries.api.base">QueryProvider</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/QueryReplacement.html" title="class in de.chojo.sadu.updater">QueryReplacement</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/query/QueryImpl.html" title="class in de.chojo.sadu.queries.query">QueryImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/base/QueryProvider.html" title="interface in de.chojo.sadu.queries.api.base">QueryProvider</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/QueryReplacement.html" title="class in de.chojo.sadu.updater">QueryReplacement</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents a replacement inside a sql query.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/execution/reading/Reader.html" title="interface in de.chojo.sadu.queries.api.execution.reading">Reader</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/execution/reading/Reader.html" title="type parameter in Reader">V</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/execution/reading/Reader.html" title="interface in de.chojo.sadu.queries.api.execution.reading">Reader</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/execution/reading/Reader.html" title="type parameter in Reader">V</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Interface for retrieving data from a query.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/ReaderImpl.html" title="class in de.chojo.sadu.queries.execution.reading">ReaderImpl</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/ReaderImpl.html" title="type parameter in ReaderImpl">V</a>&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig</a>&lt;<a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="type parameter in RemoteJdbcConfig">T</a> extends <a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig</a>&lt;?&gt;&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/ReaderImpl.html" title="class in de.chojo.sadu.queries.execution.reading">ReaderImpl</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/ReaderImpl.html" title="type parameter in ReaderImpl">V</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig</a>&lt;<a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="type parameter in RemoteJdbcConfig">T</a> extends <a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig</a>&lt;?&gt;&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A base builder to create a remote database jdbc url.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.Credentials.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig.Credentials</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/RemoteJdbcConfig.Credentials.html" title="class in de.chojo.sadu.core.jdbc">RemoteJdbcConfig.Credentials</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/ResourceChecks.html" title="class in de.chojo.sadu.testing">ResourceChecks</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">The ResourceChecks class provides utility methods for checking the existence of resources.</div>
+</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/results/reading/Result.html" title="interface in de.chojo.sadu.queries.api.results.reading">Result</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/api/results/reading/Result.html" title="type parameter in Result">T</a>&gt;</div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Base of a result returned by a <a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/MappedQuery.html" title="class in de.chojo.sadu.queries.execution.reading"><code>MappedQuery</code></a></div>
@@ -390,71 +406,75 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab5"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/RuntimeQueryException.html" title="class in de.chojo.sadu.queries.exception">RuntimeQueryException</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab5">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/configuration/SchemaDatabaseConfig.html" title="class in de.chojo.sadu.datasource.configuration">SchemaDatabaseConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/SaduTests.html" title="class in de.chojo.sadu.testing">SaduTests</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/configuration/SchemaDatabaseConfig.html" title="class in de.chojo.sadu.datasource.configuration">SchemaDatabaseConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Record which provides basic data for a database connection with a schema</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/configuration/SchemaProvider.html" title="interface in de.chojo.sadu.core.configuration">SchemaProvider</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/configuration/SimpleDatabaseConfig.html" title="class in de.chojo.sadu.datasource.configuration">SimpleDatabaseConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/configuration/SchemaProvider.html" title="interface in de.chojo.sadu.core.configuration">SchemaProvider</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.datasource/de/chojo/sadu/datasource/configuration/SimpleDatabaseConfig.html" title="class in de.chojo.sadu.datasource.configuration">SimpleDatabaseConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Record which provides basic data for a database connection</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/SimpleExceptionHolder.html" title="class in de.chojo.sadu.queries.exception">SimpleExceptionHolder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/context/SimpleQueryContext.html" title="class in de.chojo.sadu.queries.configuration.context">SimpleQueryContext</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/exception/SimpleExceptionHolder.html" title="class in de.chojo.sadu.queries.exception">SimpleExceptionHolder</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/results/reading/SingleResult.html" title="class in de.chojo.sadu.queries.results.reading">SingleResult</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/results/reading/SingleResult.html" title="type parameter in SingleResult">T</a>&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/configuration/context/SimpleQueryContext.html" title="class in de.chojo.sadu.queries.configuration.context">SimpleQueryContext</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/results/reading/SingleResult.html" title="class in de.chojo.sadu.queries.results.reading">SingleResult</a>&lt;<a href="de.chojo.sadu.queries/de/chojo/sadu/queries/results/reading/SingleResult.html" title="type parameter in SingleResult">T</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Result of a <a href="de.chojo.sadu.queries/de/chojo/sadu/queries/execution/reading/ReaderImpl.html#firstResult()"><code>ReaderImpl.firstResult()</code></a> call</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/calls/SingletonCall.html" title="class in de.chojo.sadu.queries.calls">SingletonCall</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/calls/SingletonCall.html" title="class in de.chojo.sadu.queries.calls">SingletonCall</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">The SingletonCall class represents a SingletonCall object that contains a single query call representing a specific query.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/databases/SqLite.html" title="class in de.chojo.sadu.sqlite.databases">SqLite</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/databases/SqLite.html" title="class in de.chojo.sadu.sqlite.databases">SqLite</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents a SqLite database.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/jdbc/SqLiteJdbc.html" title="class in de.chojo.sadu.sqlite.jdbc">SqLiteJdbc</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A builder to create a SqLite jdbc url.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/mapper/SqLiteMapper.html" title="class in de.chojo.sadu.sqlite.mapper">SqLiteMapper</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/types/SqLiteTypes.html" title="interface in de.chojo.sadu.sqlite.types">SqLiteTypes</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/mapper/SqLiteMapper.html" title="class in de.chojo.sadu.sqlite.mapper">SqLiteMapper</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.sqlite/de/chojo/sadu/sqlite/types/SqLiteTypes.html" title="interface in de.chojo.sadu.sqlite.types">SqLiteTypes</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Types present in a SqLite database.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/types/SqlType.html" title="interface in de.chojo.sadu.core.types">SqlType</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/types/SqlType.html" title="interface in de.chojo.sadu.core.types">SqlType</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents a named data type in a database.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="class in de.chojo.sadu.updater">SqlUpdater</a>&lt;<a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">T</a> extends <a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">U</a> extends <a href="de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">T</a>,<wbr>?&gt;&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="class in de.chojo.sadu.updater">SqlUpdater</a>&lt;<a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">T</a> extends <a href="de.chojo.sadu.core/de/chojo/sadu/core/jdbc/JdbcConfig.html" title="class in de.chojo.sadu.core.jdbc">JdbcConfig</a>&lt;?&gt;,<wbr><a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">U</a> extends <a href="de.chojo.sadu.updater/de/chojo/sadu/updater/BaseSqlUpdaterBuilder.html" title="class in de.chojo.sadu.updater">BaseSqlUpdaterBuilder</a>&lt;<a href="de.chojo.sadu.updater/de/chojo/sadu/updater/SqlUpdater.html" title="type parameter in SqlUpdater">T</a>,<wbr>?&gt;&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">An SQL updater which performs database updates via upgrade scripts.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="de.chojo.sadu.core/de/chojo/sadu/core/updater/SqlVersion.html" title="class in de.chojo.sadu.core.updater">SqlVersion</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Class representing a version maintained by the SqlUpdaterBuilder</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/call/adapter/StandardAdapter.html" title="class in de.chojo.sadu.queries.call.adapter">StandardAdapter</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/call/adapter/StandardAdapter.html" title="class in de.chojo.sadu.queries.call.adapter">StandardAdapter</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The StandardAdapter class provides a set of static instances of Adapter, which map Java objects to specific SQL data types and provide the necessary conversions when binding the
  objects to a PreparedStatement.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.mapper/de/chojo/sadu/mapper/reader/StandardReader.html" title="class in de.chojo.sadu.mapper.reader">StandardReader</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.mapper/de/chojo/sadu/mapper/reader/StandardReader.html" title="class in de.chojo.sadu.mapper.reader">StandardReader</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementations of <a href="de.chojo.sadu.mapper/de/chojo/sadu/mapper/reader/ValueReader.html" title="interface in de.chojo.sadu.mapper.reader"><code>ValueReader</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/converter/StandardValueConverter.html" title="class in de.chojo.sadu.queries.converter">StandardValueConverter</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.queries/de/chojo/sadu/queries/converter/StandardValueConverter.html" title="class in de.chojo.sadu.queries.converter">StandardValueConverter</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The StandardValueConverter class provides a set of predefined ValueConverters for various types.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/updater/StatementSplitter.html" title="class in de.chojo.sadu.core.updater">StatementSplitter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.core/de/chojo/sadu/core/updater/StatementSplitter.html" title="class in de.chojo.sadu.core.updater">StatementSplitter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Splits a string of SQL statements into an array of statements.</div>
 </div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="de.chojo.sadu.testing/de/chojo/sadu/testing/TestUtil.html" title="class in de.chojo.sadu.testing">TestUtil</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingBiConsumer.html" title="interface in de.chojo.sadu.core.exceptions">ThrowingBiConsumer</a>&lt;<a href="de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingBiConsumer.html" title="type parameter in ThrowingBiConsumer">T</a>,<wbr><a href="de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingBiConsumer.html" title="type parameter in ThrowingBiConsumer">U</a>,<wbr><a href="de.chojo.sadu.core/de/chojo/sadu/core/exceptions/ThrowingBiConsumer.html" title="type parameter in ThrowingBiConsumer">E</a> extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a>&gt;</div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents an operation that accepts a single input argument and returns no

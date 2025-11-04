@@ -75,5 +75,7 @@ de.chojo.sadu.sqlite.databases
 de.chojo.sadu.sqlite.jdbc
 de.chojo.sadu.sqlite.mapper
 de.chojo.sadu.sqlite.types
+module:de.chojo.sadu.testing
+de.chojo.sadu.testing
 module:de.chojo.sadu.updater
 de.chojo.sadu.updater
