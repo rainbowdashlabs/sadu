@@ -15,9 +15,9 @@ extensions.configure<MavenPublishBaseExtension>("mavenPublishing") {
     signAllPublications()
 
     coordinates(
-        groupId = project.group.toString(),
+        groupId = rootProject.group as String,
         artifactId = project.name,
-        version = project.version.toString()
+        version = rootProject.version as String
     )
 
     pom {
