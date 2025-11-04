@@ -10,8 +10,6 @@ repositories {
     maven("https://eldonexus.de/repository/maven-proxies/")
 }
 
-group = rootProject.group
-
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -26,11 +24,11 @@ spotless {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", "6.0.1")
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "6.0.1")
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-params", "6.0.1")
-    testRuntimeOnly("org.junit.platform", "junit-platform-launcher", "6.0.1")
-    testImplementation("org.mockito", "mockito-core", "5.+")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:6.0.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.1")
+    testImplementation("org.mockito:mockito-core:5.+")
 }
 
 tasks {
