@@ -30,30 +30,26 @@ dependencies {
 }
 
 tasks {
-    test {
+    withType<Test>().configureEach {
         useJUnitPlatform()
         testLogging {
             events("passed", "skipped", "failed")
         }
     }
 
-    compileJava {
-        configureEach {
-            dependsOn(spotlessApply)
-        }
+    withType<JavaCompile>().configureEach {
+        dependsOn(spotlessApply)
     }
 
-    javadoc {
-        configureEach {
-            val options = options as StandardJavadocDocletOptions
-            val version = project.extensions
-                .findByType(JavaPluginExtension::class.java)
-                ?.toolchain?.languageVersion?.orNull?.asInt()
+    withType<Javadoc>().configureEach {
+        val options = options as StandardJavadocDocletOptions
+        val version = project.extensions
+            .findByType(JavaPluginExtension::class.java)
+            ?.toolchain?.languageVersion?.orNull?.asInt()
 
-            options.links(
-                "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
-                "https://docs.oracle.com/en/java/javase/${version ?: 17}/docs/api/"
-            )
-        }
+        options.links(
+            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            "https://docs.oracle.com/en/java/javase/${version ?: 17}/docs/api/"
+        )
     }
 }
