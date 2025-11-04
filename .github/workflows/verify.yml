@@ -16,8 +16,34 @@ jobs:
           java-version: 17
       - name: Build
         run: ./gradlew build -x test
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: 17
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test -x spotlessCheck
+
+  license:
+    runs-on: ubuntu-latest
+    name: License
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: 17
+      - name: Test
+        run: ./gradlew spotlessCheck
 
   javadocs:
     runs-on: ubuntu-latest
