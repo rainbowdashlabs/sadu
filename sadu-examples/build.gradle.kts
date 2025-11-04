@@ -1,3 +1,7 @@
+plugins {
+    id("sadu.java-conventions")
+}
+
 dependencies {
     compileOnly(project(":sadu-queries"))
     compileOnly(project(":sadu-datasource"))

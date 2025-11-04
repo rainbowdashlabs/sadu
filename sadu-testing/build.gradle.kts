@@ -1,3 +1,8 @@
+plugins {
+    id("sadu.java-conventions")
+    id("sadu.maven-publish-conventions")
+}
+
 description = "SADU module for checking validity of updater files"
 
 dependencies {

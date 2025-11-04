@@ -1,3 +1,8 @@
+plugins {
+    id("sadu.java-conventions")
+    id("sadu.maven-publish-conventions")
+}
+
 description = "SADU module to map values received from a database to java objects using the queries module."
 
 dependencies {
