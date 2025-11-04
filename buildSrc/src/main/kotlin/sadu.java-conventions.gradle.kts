@@ -10,6 +10,8 @@ repositories {
     maven("https://eldonexus.de/repository/maven-proxies/")
 }
 
+group = rootProject.group
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
