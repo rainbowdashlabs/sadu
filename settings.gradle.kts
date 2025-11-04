@@ -44,7 +44,11 @@ dependencyResolutionManagement {
             version("junit", "5.11.4")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-params", "org.junit.jupiter", "junit-jupiter-params").versionRef("junit")
+            library("junit-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit")
+            library("junit-engine", "org.junit.jupiter", "junit-jupiter-engine").versionRef("junit")
             bundle("junit", listOf("junit-jupiter", "junit-params", "slf4j-simple"))
+
+            library("mockito-core", "org.mockito:mockito-core:5.+")
 
             version("testcontainers", "1.20.4")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")

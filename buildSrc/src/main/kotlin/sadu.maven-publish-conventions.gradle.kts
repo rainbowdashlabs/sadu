@@ -45,7 +45,7 @@ extensions.configure<MavenPublishBaseExtension>("mavenPublishing") {
         scm {
             url.set("https://github.com/rainbowdashlabs/sadu")
             connection.set("scm:git:git://github.com/rainbowdashlabs/sadu.git")
-            developerConnection.set("scm:git:ssh://github.com/racinbowdashlabs/sadu.git")
+            developerConnection.set("scm:git:ssh://github.com/rainbowdashlabs/sadu.git")
         }
     }
 
