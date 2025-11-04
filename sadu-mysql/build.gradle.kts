@@ -1,3 +1,8 @@
+plugins {
+    id("sadu.java-conventions")
+    id("sadu.maven-publish-conventions")
+}
+
 description = "SADU module for interaction with a MySQL database"
 
 dependencies {

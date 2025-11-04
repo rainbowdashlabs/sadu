@@ -1,3 +1,8 @@
+plugins {
+    id("sadu.java-conventions")
+    id("sadu.maven-publish-conventions")
+}
+
 description = "SADU core module, containing common logic between modules."
 
 dependencies {
