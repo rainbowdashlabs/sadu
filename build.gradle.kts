@@ -1,7 +1,7 @@
 
 plugins {
     // don't change order!
-    id("io.freefair.aggregate-javadoc") version("8.12.2.1")
+    id("io.freefair.aggregate-javadoc") version("9.0.0")
     id("de.chojo.publishdata") version "1.4.0"
     id("sadu.java-conventions")
     id("sadu.maven-publish-conventions")
@@ -9,7 +9,7 @@ plugins {
 
 publishData {
     useEldoNexusRepos(false)
-    publishingVersion = "2.3.3"
+    publishingVersion = "2.3.4"
 }
 
 group = "de.chojo.sadu"

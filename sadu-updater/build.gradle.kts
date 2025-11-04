@@ -10,3 +10,10 @@ dependencies {
 
     testImplementation(project(":sadu-postgresql"))
 }
+
+tasks{
+    test{
+        // TODO: Remove once tests are present
+        failOnNoDiscoveredTests = false
+    }
+}
