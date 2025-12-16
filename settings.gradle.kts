@@ -53,7 +53,7 @@ dependencyResolutionManagement {
 
             library("mokito","org.mockito", "mockito-core").version("5.+")
 
-            version("testcontainers", "1.21.3")
+            version("testcontainers", "2.0.3")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
