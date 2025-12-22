@@ -13,10 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 public class TokenizedQuery {
-    private static final Map<String, TokenizedQuery> cache = new HashMap<>();
+    private static final Map<String, TokenizedQuery> cache = new ConcurrentHashMap<>();
     public static final String ALLOWED_TOKEN_CHARACTER = "a-zA-Z_";
     public static final Pattern TOKEN_PATTERN = Pattern.compile(":[" + ALLOWED_TOKEN_CHARACTER + "]+");
     public static final Pattern PARAM_TOKEN = Pattern.compile("\\?|(?:([ \t,=(])(?<token>" + TOKEN_PATTERN + "))");
@@ -37,7 +38,7 @@ public class TokenizedQuery {
         this.namedToken = namedToken;
     }
 
-    public static TokenizedQuery create(String sql) {
+    public static synchronized TokenizedQuery create(String sql) {
         return cache.computeIfAbsent(sql, TokenizedQuery::parse);
     }
 
