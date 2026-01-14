@@ -6,7 +6,7 @@ import de.chojo.PublishData
 
 plugins {
     // don't change order!
-    id("io.freefair.aggregate-javadoc") version("9.0.0")
+    id("io.freefair.aggregate-javadoc") version("9.2.0")
 
     java
     `java-library`
