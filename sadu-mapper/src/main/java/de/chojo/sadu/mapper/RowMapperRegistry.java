@@ -109,9 +109,9 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
         return mapper(clazz).stream()
-                .filter(RowMapper::isWildcard)
-                .findAny()
-                .map(rowMapper -> (RowMapper<T>) rowMapper);
+                            .filter(RowMapper::isWildcard)
+                            .findAny()
+                            .map(rowMapper -> (RowMapper<T>) rowMapper);
     }
 
     /**
@@ -219,8 +219,8 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     private <V> boolean discoverMethodMapping(Class<V> clazz) {
         List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
-                .filter(method -> method.isAnnotationPresent(MappingProvider.class) && Modifier.isStatic(method.getModifiers()))
-                .toList();
+                                     .filter(method -> method.isAnnotationPresent(MappingProvider.class) && Modifier.isStatic(method.getModifiers()))
+                                     .toList();
 
         for (Method method : methods) {
             MappingProvider provider = method.getAnnotation(MappingProvider.class);
@@ -240,8 +240,8 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     private <V> boolean discoverConstructorMapping(Class<V> clazz) {
         List<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredConstructors())
-                .filter(constr -> constr.isAnnotationPresent(MappingProvider.class))
-                .toList();
+                                                  .filter(constr -> constr.isAnnotationPresent(MappingProvider.class))
+                                                  .toList();
 
         for (Constructor<?> constructor : constructors) {
             MappingProvider provider = constructor.getAnnotation(MappingProvider.class);
@@ -252,14 +252,22 @@ public class RowMapperRegistry {
                 throw new InvalidMappingException("Signature of a constructor with MappingProvider should be Constructor(Row), but was Constructor(%s)".formatted(constructor.getParameterTypes()[0].getName()));
             }
 
-            register(RowMapper.forClass(clazz).mapper(row -> {
+            RowMapper<V> mapper = RowMapper.forClass(clazz).mapper(row -> {
                 try {
                     return (V) constructor.newInstance(row);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     throw new InvalidMappingException("Failed to create instance from RowMapping via constructor");
                 }
-            }).addColumns(provider.value()).build());
-            log.info("Registered constructor auto mapping for {} with rows {}", clazz.getName(), provider.value());
+            }).addColumns(provider.value()).build();
+
+            try {
+                register(mapper);
+                log.info("Registered constructor auto mapping for {} with rows {}", clazz.getName(), provider.value());
+            } catch (MappingAlreadyRegisteredException e) {
+                // This case mostly happens if multiple threads are accessing the database at the same time.
+                // We do not consider this an error, since the mapping was still properly registered on another thread.
+                log.debug("Mapping already registered for {} with rows {}. Using already registered mapping", clazz.getName(), provider.value());
+            }
         }
         return !constructors.isEmpty();
     }
