@@ -50,7 +50,8 @@ tasks {
             ?.toolchain?.languageVersion?.orNull?.asInt()
 
         options.links(
-            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            // javadoc.io is down since an eternity
+            //"https://javadoc.io/doc/org.jetbrains/annotations/latest/",
             "https://docs.oracle.com/en/java/javase/${version ?: 17}/docs/api/"
         )
     }
