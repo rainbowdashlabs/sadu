@@ -59,5 +59,3 @@ afterEvaluate {
         }
     }
 }
-
-//logger.warn("configured: ${rootProject.group}:${project.name}:${rootProject.version}")

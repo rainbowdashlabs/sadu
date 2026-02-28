@@ -58,7 +58,7 @@ public interface PostgreSqlTypes {
     /**
      * Boolean
      */
-    SqlType BOOLEAN = ofName("BOOLEAN");
+    SqlType BOOLEAN = ofName("BOOLEAN", "bool");
     /**
      * Byte array
      */

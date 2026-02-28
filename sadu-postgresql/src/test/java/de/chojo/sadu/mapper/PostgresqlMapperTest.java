@@ -47,6 +47,8 @@ class PostgresqlMapperTest {
     @Language("postgresql")
     static final String selectVarchar = "SELECT 'text'::VARCHAR";
     @Language("postgresql")
+    static final String selectBool = "SELECT TRUE";
+    @Language("postgresql")
     static final String selectChar = "SELECT 'text'::CHAR(4)";
     @Language("postgresql")
     static final String selectJson = "SELECT '{\"a\": \"b\"}'::JSON";
@@ -59,6 +61,7 @@ class PostgresqlMapperTest {
     static final double doubleVal = 3276745687.1265487845;
     static final BigDecimal bigDecimal = BigDecimal.valueOf(327674568765487845L, 5);
     static final String text = "text";
+    static final boolean bool = true;
     static final String json = "{\"a\": \"b\"}";
     private static GenericContainer<?> pg;
 
@@ -100,6 +103,8 @@ class PostgresqlMapperTest {
                 Arguments.of(String.class, selectText, text),
                 // VARCHAR
                 Arguments.of(String.class, selectVarchar, text),
+                // BOOLEAN
+                Arguments.of(Boolean.class, selectBool, bool),
                 // CHAR
                 Arguments.of(String.class, selectChar, text),
                 // JSONB
