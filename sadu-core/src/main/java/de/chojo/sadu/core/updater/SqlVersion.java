@@ -28,6 +28,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
 
     /**
      * Parses the sql version stored in database/version inside the current classloader
+     *
      * @return sql version
      * @throws IOException when the resource could not get read
      */
@@ -37,6 +38,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
 
     /**
      * Parses the sql version stored in database/version inside the resources of the provided classloader
+     *
      * @param classLoader classloader to load the resource
      * @return sql version
      * @throws IOException when the resource could not get read
@@ -52,6 +54,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
 
     /**
      * Parses the sql version in the provided string
+     *
      * @param version version string
      * @return sql version
      */
@@ -92,6 +95,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
     }
 
     @Override
+    @NotNull
     public String toString() {
         return "%s.%s".formatted(major, patch);
     }

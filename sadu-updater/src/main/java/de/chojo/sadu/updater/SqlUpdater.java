@@ -145,9 +145,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
         var sqlVersion = getSqlVersion();
 
-        if (sqlVersion.major() == version.major() && sqlVersion.patch() == version.patch()) {
-            log.info(String.format("Database is up to date. No update is required! Version %s Patch %s",
-                    sqlVersion.major(), sqlVersion.patch()));
+        if (sqlVersion.equals(version)) {
+            log.info("Database is up to date. No update is required! Version {} Patch {}", sqlVersion.major(), sqlVersion.patch());
             return;
         }
 
@@ -228,7 +227,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             }
 
             if (isSetup) {
-                log.info(String.format("Setup database with version %s", version.major()));
+                log.info("Setup database with version {}", version.major());
                 for (var query : type.splitStatements(getSetup())) {
                     try (var stmt = conn.prepareStatement(adjust(query))) {
                         stmt.execute();
@@ -259,7 +258,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                 log.error("Failed change database version!", e);
                 throw new UpdateException("Failed change database version", e);
             }
-            log.info(String.format("Set database to version %s patch %s!", version, patch));
+            log.info("Set database to version {} patch {}!", version, patch);
         } catch (SQLException e) {
             log.error("Failed change database version!", e);
             throw new UpdateException("Failed change database version", e);
