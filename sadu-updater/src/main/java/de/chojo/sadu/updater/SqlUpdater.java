@@ -282,15 +282,19 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
 
     private List<Patch> getPatchesFrom(int major, int patch) throws IOException {
         List<Patch> patches = new ArrayList<>();
-        var currPatch = patch;
-        for (var currMajor = major; currMajor <= version.major(); currMajor++) {
-            while (currPatch < version.patch()) {
+        int currMajor = major;
+        int currPatch = patch;
+
+        while (currMajor < version.major() || currPatch < version.patch()) {
+            if (patchExists(currMajor, currPatch + 1)) {
                 currPatch++;
-                if (patchExists(currMajor, currPatch)) {
-                    patches.add(new Patch(major, currPatch, loadPatch(currMajor, currPatch)));
-                } else if (currMajor != version.major()) {
-                    patches.add(new Patch(major + 1, 0, getMigrationFromVersion(major)));
+                patches.add(new Patch(currMajor, currPatch, loadPatch(currMajor, currPatch)));
+            } else {
+                if (currMajor < version.major()) {
+                    patches.add(new Patch(currMajor + 1, 0, getMigrationFromVersion(currMajor)));
+                    currMajor++;
                     currPatch = 0;
+                } else {
                     break;
                 }
             }
@@ -315,7 +319,7 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private String getMigrationFromVersion(int major) throws IOException {
-        return loadFromResource(major - 1, "migration.sql");
+        return loadFromResource(major, "migrate.sql");
     }
 
     private String getSetup() throws IOException {
