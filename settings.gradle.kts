@@ -35,7 +35,7 @@ dependencyResolutionManagement {
             plugin("spotless", "com.diffplug.spotless").version("8.0.0")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
 
-            library("jetbrains-annotations", "org.jetbrains", "annotations").version("26.0.2-1")
+            library("jetbrains-annotations", "org.jetbrains", "annotations").version("26.1.0")
             library("hikari", "com.zaxxer", "HikariCP").version("7.0.2")
 
             version("slf4j", "2.0.17")
