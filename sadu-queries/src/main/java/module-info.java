@@ -18,7 +18,6 @@ module de.chojo.sadu.queries {
     exports de.chojo.sadu.queries.api.results.writing.manipulation;
     exports de.chojo.sadu.queries.api.results.writing.insertion;
     exports de.chojo.sadu.queries.api.storage;
-
     exports de.chojo.sadu.queries.call;
     exports de.chojo.sadu.queries.call.adapter;
 
@@ -26,6 +25,8 @@ module de.chojo.sadu.queries {
 
     exports de.chojo.sadu.queries.configuration;
     exports de.chojo.sadu.queries.configuration.context;
+
+    exports de.chojo.sadu.queries.converter;
 
     exports de.chojo.sadu.queries.exception;
 
