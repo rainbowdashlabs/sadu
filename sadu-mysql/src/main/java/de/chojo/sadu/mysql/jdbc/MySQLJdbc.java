@@ -33,7 +33,7 @@ public class MySQLJdbc extends RemoteJdbcConfig<MySQLJdbc> {
 
     @Override
     protected String defaultDriverClass() {
-        return "com.mysql.jdbc.Driver";
+        return "com.mysql.cj.jdbc.Driver";
     }
 
     /**
