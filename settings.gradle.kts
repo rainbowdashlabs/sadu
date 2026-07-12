@@ -43,7 +43,7 @@ dependencyResolutionManagement {
         }
 
         create("testlibs") {
-            version("junit", "6.1.1")
+            version("junit", "6.1.2")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit")
             library("junit-platform", "org.junit.platform", "junit-platform-launcher").versionRef("junit")
