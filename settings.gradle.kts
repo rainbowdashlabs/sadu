@@ -32,18 +32,18 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // plugins
-            plugin("spotless", "com.diffplug.spotless").version("8.9.0")
+            plugin("spotless", "com.diffplug.spotless").version("8.10.4")
             plugin("shadow", "com.github.johnrengelman.shadow").version("8.1.1")
 
             library("jetbrains-annotations", "org.jetbrains", "annotations").version("26.1.0")
             library("hikari", "com.zaxxer", "HikariCP").version("7.1.0")
 
-            version("slf4j", "2.0.18")
+            version("slf4j", "2.0.20")
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
         }
 
         create("testlibs") {
-            version("junit", "6.1.2")
+            version("junit", "6.1.3")
             library("junit-jupiter", "org.junit.jupiter", "junit-jupiter").versionRef("junit")
             library("junit-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit")
             library("junit-platform", "org.junit.platform", "junit-platform-launcher").versionRef("junit")
@@ -60,13 +60,13 @@ dependencyResolutionManagement {
             library("testcontainers-core", "org.testcontainers", "testcontainers").versionRef("testcontainers")
             library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef("testcontainers")
 
-            version("slf4j", "2.0.18")
+            version("slf4j", "2.0.20")
             library("slf4j-noop", "org.slf4j", "slf4j-nop").versionRef("slf4j")
             library("slf4j-simple", "org.slf4j", "slf4j-simple").versionRef("slf4j")
 
-            library("driver-postgres", "org.postgresql:postgresql:42.7.13")
+            library("driver-postgres", "org.postgresql:postgresql:42.7.14")
             library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.5.10")
-            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.53.2.1")
+            library("driver-sqlite", "org.xerial:sqlite-jdbc:3.53.4.0")
             library("driver-mysql", "com.mysql:mysql-connector-j:26.7.0")
 
             bundle(
