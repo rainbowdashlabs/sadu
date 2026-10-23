@@ -13,6 +13,8 @@ import java.lang.reflect.Proxy;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +25,13 @@ class ArrayConverterTest {
         Set<String> set = ArrayConverter.toSet(resultSetWithArray(new String[] {"a", "b", "a"}), "values");
 
         assertEquals(Set.of("a", "b"), set);
+    }
+
+    @Test
+    void toListKeepsNullElements() throws SQLException {
+        List<String> list = ArrayConverter.toList(resultSetWithArray(new String[] {"a", null}), "values");
+
+        assertEquals(Arrays.asList("a", null), list);
     }
 
     static ResultSet resultSetWithArray(Object[] elements) {

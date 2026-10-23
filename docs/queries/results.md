@@ -45,14 +45,10 @@ A mapping must return your own object. Returning the `Row` or the `ResultSet` it
 |---|---|
 | `getEnum(column, Class)` | an enum constant from its name |
 | `getLocalDate`, `getLocalTime`, `getLocalDateTime` | the `java.time` types, optionally with a `Calendar` |
-| `getList(column)` | an SQL array as an unmodifiable `List`, empty when the column is `NULL` |
+| `getList(column)` | an SQL array as a `List`, empty when the column is `NULL`; `NULL` elements become `null` |
 | `get(column, ValueReader)` | any value with a reader, see below |
 
 Getters for primitives return `0` or `false` for `NULL`, just like JDBC.
-
-:::warning
-`getList` fails with a `NullPointerException` if the array contains `NULL` elements.
-:::
 
 ### Value readers
 

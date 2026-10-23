@@ -136,7 +136,7 @@ public final class ArrayConverter {
      */
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> toCollection(Array array) throws SQLException {
-        return List.of((T[]) array.getArray());
+        return new ArrayList<>(Arrays.asList((T[]) array.getArray()));
     }
 
     /**
@@ -153,7 +153,7 @@ public final class ArrayConverter {
     public static <T extends Collection<T>> T toCollection(ResultSet resultSet, String column, Supplier<T> supplier)
             throws SQLException {
         var collection = supplier.get();
-        collection.addAll(List.of(toArray(resultSet, column)));
+        collection.addAll(Arrays.asList(toArray(resultSet, column)));
         return collection;
     }
 
@@ -184,7 +184,7 @@ public final class ArrayConverter {
      */
     public static <T> List<T> toList(ResultSet resultSet, String column) throws SQLException {
         T[] objects = toArray(resultSet, column);
-        return objects == null ? new ArrayList<>() : List.of(objects);
+        return objects == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(objects));
     }
 
     /**
@@ -199,7 +199,7 @@ public final class ArrayConverter {
      */
     public static <T> List<T> toList(ResultSet resultSet, int column) throws SQLException {
         T[] objects = toArray(resultSet, column);
-        return objects == null ? new ArrayList<>() : List.of(objects);
+        return objects == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(objects));
     }
 
     /**

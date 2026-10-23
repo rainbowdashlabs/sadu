@@ -53,5 +53,4 @@ List<DateCount> perMonth = Query.query("SELECT month, count FROM month_stats")
 | `addAlias(original, alias)` | When the mapper reads the column `original`, it gets the column `alias` instead. This way one mapper works for results with different column names. |
 | `strict()` | A mapper only fits when its columns match the columns of the result exactly. Otherwise SADU uses the wildcard. |
 
-Aliases work for the getters of the `Row` that take a column name, also in your own mapping code. `getList` is the
-exception: it ignores aliases.
+Aliases work for the getters of the `Row` that take a column name, also in your own mapping code.
