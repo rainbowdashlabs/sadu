@@ -51,13 +51,21 @@ public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImp
     public void close() {
         if (connection == null) return;
         try (var conn = connection) {
-            if (context.exceptions().isEmpty()) {
-                if (atomic()) {
-                    conn.commit();
-                }
+            if (atomic()) {
+                finishTransaction(conn);
             }
         } catch (SQLException e) {
             handleException(e);
+        } finally {
+            connection = null;
+        }
+    }
+
+    private void finishTransaction(Connection conn) throws SQLException {
+        if (context.exceptions().isEmpty()) {
+            conn.commit();
+        } else {
+            conn.rollback();
         }
     }
 

@@ -85,7 +85,7 @@ public class QueryConfigurationImpl implements QueryConfiguration {
                 new SimpleQueryContext(null),
                 dataSource,
                 null,
-                true,
+                atomic,
                 throwExceptions,
                 exceptionHandler,
                 rowMapperRegistry);

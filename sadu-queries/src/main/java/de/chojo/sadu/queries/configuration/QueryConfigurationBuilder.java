@@ -40,6 +40,9 @@ public class QueryConfigurationBuilder {
     /**
      * Sets the atomic flag for the QueryConfigurationBuilder.
      * <p>
+     * When atomic, every execution and every single transaction runs with auto commit disabled, is committed when it
+     * is done and rolled back when it fails. Otherwise the connection uses auto commit.
+     * <p>
      * Default: true
      *
      * @param atomic the value to set the atomic flag to

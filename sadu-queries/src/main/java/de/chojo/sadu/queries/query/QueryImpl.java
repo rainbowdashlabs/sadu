@@ -66,15 +66,36 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
             }
         } else {
             try (var conn = conf.dataSource().getConnection()) {
-                conn.setAutoCommit(false);
-                var result = connectionConsumer.apply(conn);
-                conn.commit();
-                return result;
+                conn.setAutoCommit(!conf.atomic());
+                return inTransaction(conn, connectionConsumer);
             } catch (SQLException e) {
                 handleException(e);
             }
         }
         return defaultResult.get();
+    }
+
+    /**
+     * Applies the consumer to the connection. If the configuration is atomic, the work is committed afterwards and
+     * rolled back when the consumer fails.
+     */
+    private <T> T inTransaction(Connection conn, ThrowingFunction<T, Connection, SQLException> connectionConsumer)
+            throws SQLException {
+        if (!conf.atomic()) {
+            return connectionConsumer.apply(conn);
+        }
+        try {
+            var result = connectionConsumer.apply(conn);
+            conn.commit();
+            return result;
+        } catch (SQLException | RuntimeException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackFailure) {
+                e.addSuppressed(rollbackFailure);
+            }
+            throw e;
+        }
     }
 
     @Override

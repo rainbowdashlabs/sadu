@@ -29,7 +29,10 @@ What happens:
 1. The first query takes a connection from the pool and turns off auto commit.
 2. Every following query of `tx` uses the same connection.
 3. At the end of the block SADU commits and closes the connection, but only if no query failed. If one failed,
-   nothing is committed.
+   SADU rolls back and nothing is committed.
+
+This needs an atomic configuration, which is the default. With `setAtomic(false)` the connection keeps auto commit on,
+so each statement is committed right away and a failed query does not undo the others.
 
 With the default configuration, start with `QueryConfiguration.getDefault().withSingleTransaction()`.
 
