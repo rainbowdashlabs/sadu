@@ -23,7 +23,7 @@ mavenPublishing {
     coordinates(rootProject.group.toString(), project.name, project.version.toString())
     pom {
         name = project.name
-        description = project.description
+        description = provider { project.description }
         url = "https://github.com/rainbowdashlabs/sadu"
         inceptionYear = "2021"
         licenses {
