@@ -1,114 +1,53 @@
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/publish.yml?style=for-the-badge&label=Publishing&branch=main)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/rainbowdashlabs/sadu/verify.yml?style=for-the-badge&label=Building&branch=main)
+# SADU
 
-[![Sonatype Nexus (Releases)](https://img.shields.io/maven-central/v/de.chojo.sadu/sadu?label=Release&logo=Release&style=for-the-badge)][nexus_releases]
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?server=https%3A%2F%2Fs01.oss.sonatype.org%2F&style=for-the-badge&label=Snapshot&color=orange)][nexus_snapshots]
+[![Maven Central](https://img.shields.io/maven-central/v/de.chojo.sadu/sadu?style=for-the-badge&label=Release)](https://central.sonatype.com/artifact/de.chojo.sadu/sadu)
+[![Snapshot](https://img.shields.io/nexus/s/de.chojo.sadu/sadu?server=https%3A%2F%2Feldonexus.de&style=for-the-badge&label=Snapshot&color=orange)](https://eldonexus.de/#browse/browse:maven-snapshots:de%2Fchojo%2Fsadu)
 
-### [Javadocs](https://rainbowdashlabs.github.io/sadu/)
+SQL and damn utilities. SADU removes the boilerplate of plain JDBC while you keep writing your own SQL: HikariCP data
+sources, a query builder that handles resources, parameters, results and errors, row mapping, and an updater for
+your database schema. It supports PostgreSQL, MariaDB, MySQL and SQLite and is split into modules, so you only pull
+in what you use.
 
-# SADU - Sql and damn utilitites
+**Documentation: [docs.chojo.dev/sadu](https://docs.chojo.dev/sadu)**
 
-This project contains serveral things I use for working with sql.
+## Requirements
 
-The project is divided in several subprojects which allow to only import what you need.
+- Java 21 or newer
+- The JDBC driver of your database
 
-It is by far not a replacement for large Frameworks like Hibernate, but a solid ground to reduce boilerplate code when
-you work with plain SQL like I do most of the time.
+## Dependency
 
-# Dependency
+Gradle (Kotlin DSL):
 
-If you want to use all projects simply import the whole thing.
+```kotlin
+repositories {
+    mavenCentral()
+}
 
-```gradle
-implementation("de.chojo.sadu", "sadu", "version")
-```
-
-## Database dependencies
-
-SADU offers support for four different databases at the moment. To use them simply import:
-
-- `sadu-postgresql`
-- `sadu-mariadb`
-- `sadu-mysql`
-- `sadu-sqlite`
-
-## Querybuilder
-
-SADU offers a query builder to manage resources, error handling, result set reading and dispatching of queries.
-
-to use it import: `sadu-queries`
-
-Learn how to use the query builder [here](https://rainbowdashlabs.github.io/sadu-docs/queries/)
-
-### But why should I use it?
-
-Before I give you a long talk about how much nicer the syntax and code is let me simple show you a comparison.
-
-Without the query builder your code would ideally look like this:
-
-```java
-class MyQueries {
-
-    DataSource dataSource;
-
-    MyQueries(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public CompletableFuture<Optional<Result>> getResultOld(int id) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (Connection conn = source().getConnection(); PreparedStatement stmt = conn.prepareStatement("SELECT result FROM results WHERE id = ?")) {
-                stmt.setInt(id);
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    return Optional.of(new Result(rs.getString("result")));
-                }
-            } catch (SQLException e) {
-                logger.error("Something went wrong", e);
-            }
-            return Optional.empty();
-        });
-    }
+dependencies {
+    implementation("de.chojo.sadu:sadu-postgresql:2.4.0")
+    implementation("de.chojo.sadu:sadu-queries:2.4.0")
 }
 ```
 
-But using the query builder your code becomes this:
+Maven:
 
-```java
-class MyQueries {
-    public Optional<Result> getResultNew(int id) {
-        return Query.query("SELECT result FROM results WHERE id = ?")
-                .single(Call.of().bind(id))
-                .map(row -> new Result(rs.getString("result")))
-                .first();
-    }
-}
+```xml
+<dependency>
+    <groupId>de.chojo.sadu</groupId>
+    <artifactId>sadu-postgresql</artifactId>
+    <version>2.4.0</version>
+</dependency>
 ```
 
-Beautiful isnt it? The query builder will enforce try with resources, set parameters in the order defined by you,
-read the result set and additionally handle the exceptions for you.
+`de.chojo.sadu:sadu` brings every module except `sadu-testing`. Snapshots are on EldoNexus:
+`https://eldonexus.de/repository/maven-snapshots/`.
 
-[How does it work?](https://rainbowdashlabs.github.io/sadu-docs/queries/)
+## Contributing and releases
 
-## Datasource Builder
+See [CONTRIBUTING.md](CONTRIBUTING.md). Versions come from publishdata: a `vX.Y.Z` tag publishes the release, `main`
+publishes snapshots.
 
-SADU offsers a data source builder to create data sources for the databases listed above.
+## License
 
-to use it import: `sadu-datasource`
-
-Note that in order to use this, you need at least one of the listed databases from above.
-
-Learn how to use the datasource builder [here](https://rainbowdashlabs.github.io/sadu-docs/data_source/)
-
-## Updater
-
-SADU offers a simple sql updater which deploys upgrade and migration scripts to your database.
-
-to use it import: `sadu-updater`
-
-Learn how to use it [here](https://rainbowdashlabs.github.io/sadu-docs/updater/)
-
-
-[nexus_releases]: https://search.maven.org/search?q=de.chojo.sadu
-
-[nexus_snapshots]: https://s01.oss.sonatype.org/#nexus-search;quick~de.chojo.sadu
+LGPL-3.0-or-later, see [LICENSE.md](LICENSE.md).
