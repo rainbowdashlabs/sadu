@@ -1,10 +1,10 @@
 
 plugins {
     // don't change order!
-    id("io.freefair.aggregate-javadoc") version("9.0.0")
+    alias(libs.plugins.aggregate.javadoc)
     id("de.chojo.publishdata") version "1.4.0"
     id("sadu.java-conventions")
-    id("sadu.maven-publish-conventions")
+    id("sadu.publishing-conventions")
 }
 
 publishData {
@@ -33,6 +33,6 @@ dependencies {
     javadoc(project(":sadu-queries"))
     javadoc(project(":sadu-sqlite"))
     javadoc(project(":sadu-testing"))
-    javadocClasspath("org.apiguardian:apiguardian-api:1.1.2")
+    javadocClasspath(libs.apiguardian)
     javadoc(project(":sadu-updater"))
 }

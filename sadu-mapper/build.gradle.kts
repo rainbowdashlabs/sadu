@@ -1,6 +1,6 @@
 plugins {
     id("sadu.java-conventions")
-    id("sadu.maven-publish-conventions")
+    id("sadu.publishing-conventions")
 }
 
 description = "SADU module to map values received from a database to java objects using the queries module."
@@ -8,12 +8,9 @@ description = "SADU module to map values received from a database to java object
 dependencies {
     api(project(":sadu-core"))
 
-    testImplementation("org.postgresql", "postgresql", "42.7.5")
-    testImplementation(testlibs.bundles.junit)
     testImplementation(project(":sadu-queries"))
     testImplementation(project(":sadu-datasource"))
     testImplementation(project(":sadu-postgresql"))
 
-    testImplementation(testlibs.bundles.database.postgres)
-    testImplementation(testlibs.slf4j.noop)
+    testImplementation(libs.bundles.database.postgresql)
 }

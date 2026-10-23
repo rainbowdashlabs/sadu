@@ -1,58 +1,46 @@
 plugins {
-    java
     `java-library`
     id("com.diffplug.spotless")
 }
 
+val libs = the<VersionCatalogsExtension>().named("libs")
+
 repositories {
     mavenCentral()
     maven("https://eldonexus.de/repository/maven-public/")
-    maven("https://eldonexus.de/repository/maven-proxies/")
 }
 
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<Javadoc>().configureEach {
+    (options as StandardJavadocDocletOptions).links("https://docs.oracle.com/en/java/javase/17/docs/api/")
+}
+
+dependencies {
+    testImplementation(platform(libs.findLibrary("junit-bom").get()))
+    testImplementation(libs.findLibrary("junit-jupiter").get())
+    testImplementation(libs.findLibrary("mockito-core").get())
+    testRuntimeOnly(libs.findLibrary("junit-launcher").get())
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging { events("passed", "skipped", "failed") }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    dependsOn(tasks.spotlessApply)
 }
 
 spotless {
     java {
         licenseHeaderFile(rootProject.file("HEADER.txt"))
         target("**/*.java")
-    }
-}
-
-dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:6.0.1")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.1")
-    testImplementation("org.mockito:mockito-core:5.+")
-}
-
-tasks {
-    withType<Test>().configureEach {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
-    }
-
-    withType<JavaCompile>().configureEach {
-        dependsOn(spotlessApply)
-    }
-
-    withType<Javadoc>().configureEach {
-        val options = options as StandardJavadocDocletOptions
-        val version = project.extensions
-            .findByType(JavaPluginExtension::class.java)
-            ?.toolchain?.languageVersion?.orNull?.asInt()
-
-        options.links(
-            // javadoc.io is down since an eternity
-            //"https://javadoc.io/doc/org.jetbrains/annotations/latest/",
-            "https://docs.oracle.com/en/java/javase/${version ?: 17}/docs/api/"
-        )
     }
 }

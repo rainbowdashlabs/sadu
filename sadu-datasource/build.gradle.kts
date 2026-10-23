@@ -1,14 +1,14 @@
 plugins {
     id("sadu.java-conventions")
-    id("sadu.maven-publish-conventions")
+    id("sadu.publishing-conventions")
 }
 
 description = "SADU module to create a hikaricp datasource"
 
 dependencies {
-    api("com.zaxxer", "HikariCP", "6.2.1")
+    api(libs.hikari)
     api(project(":sadu-core"))
 
     testImplementation(project(":sadu-sqlite"))
-    testImplementation(testlibs.driver.sqlite)
+    testImplementation(libs.driver.sqlite)
 }
