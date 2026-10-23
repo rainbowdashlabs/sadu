@@ -22,14 +22,14 @@ import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -37,7 +37,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * Class to register {@link RowMapper} to map rows to objects.
  */
 public class RowMapperRegistry {
-    private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
+    private final Map<Class<?>, List<RowMapper<?>>> mapper = new ConcurrentHashMap<>();
     private static final Logger log = getLogger(RowMapperRegistry.class);
 
     public RowMapperRegistry() {}
@@ -50,8 +50,8 @@ public class RowMapperRegistry {
      * @param rowMapper the mapper to register
      * @throws MappingAlreadyRegisteredException when a mapping with the same column name exists already
      */
-    public RowMapperRegistry register(RowMapper<?> rowMapper) {
-        var rowMappers = mapper.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
+    public synchronized RowMapperRegistry register(RowMapper<?> rowMapper) {
+        var rowMappers = mapper.computeIfAbsent(rowMapper.clazz(), key -> new CopyOnWriteArrayList<>());
         for (var mapper : rowMappers) {
             if (mapper.columns().equals(rowMapper.columns())) {
                 throw new MappingAlreadyRegisteredException(
@@ -233,11 +233,13 @@ public class RowMapperRegistry {
                                 .formatted(RowMapping.class.getName(), clazz.getName()),
                         e);
             }
-            register(RowMapper.forClass(clazz)
-                    .mapper(mapper)
-                    .addColumns(provider.value())
-                    .build());
-            log.info("Registered method auto mapping for {} with rows {}", clazz.getName(), provider.value());
+            registerDiscovered(
+                    RowMapper.forClass(clazz)
+                            .mapper(mapper)
+                            .addColumns(provider.value())
+                            .build(),
+                    "method",
+                    provider);
         }
         return !methods.isEmpty();
     }
@@ -275,18 +277,30 @@ public class RowMapperRegistry {
                     .addColumns(provider.value())
                     .build();
 
-            try {
-                register(mapper);
-                log.info("Registered constructor auto mapping for {} with rows {}", clazz.getName(), provider.value());
-            } catch (MappingAlreadyRegisteredException e) {
-                // This case mostly happens if multiple threads are accessing the database at the same time.
-                // We do not consider this an error, since the mapping was still properly registered on another thread.
-                log.debug(
-                        "Mapping already registered for {} with rows {}. Using already registered mapping",
-                        clazz.getName(),
-                        provider.value());
-            }
+            registerDiscovered(mapper, "constructor", provider);
         }
         return !constructors.isEmpty();
+    }
+
+    /**
+     * Registers a mapper found through a {@link MappingProvider}.
+     * <p>
+     * A mapper that is already registered is not an error: this happens when several threads discover the same class
+     * at the same time, and the mapping was registered by one of them.
+     */
+    private void registerDiscovered(RowMapper<?> mapper, String source, MappingProvider provider) {
+        try {
+            register(mapper);
+            log.info(
+                    "Registered {} auto mapping for {} with rows {}",
+                    source,
+                    mapper.clazz().getName(),
+                    provider.value());
+        } catch (MappingAlreadyRegisteredException e) {
+            log.debug(
+                    "Mapping already registered for {} with rows {}. Using already registered mapping",
+                    mapper.clazz().getName(),
+                    provider.value());
+        }
     }
 }

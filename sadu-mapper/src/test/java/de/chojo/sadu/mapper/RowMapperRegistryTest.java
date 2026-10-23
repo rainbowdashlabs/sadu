@@ -10,6 +10,7 @@ import de.chojo.sadu.mapper.annotation.MappingProvider;
 import de.chojo.sadu.mapper.exceptions.InvalidMappingException;
 import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
+import de.chojo.sadu.mapper.rowmapper.RowMapping;
 import de.chojo.sadu.mapper.wrapper.Row;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +18,7 @@ import java.lang.reflect.Proxy;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -73,6 +75,16 @@ class RowMapperRegistryTest {
         assertInstanceOf(IllegalStateException.class, exception.getCause());
     }
 
+    @Test
+    void discoveringAMethodMappingTwiceKeepsTheFirst() throws Exception {
+        var registry = new RowMapperRegistry();
+        registry.register(MethodMapped.class);
+        var first = registry.findOrWildcard(MethodMapped.class, meta("value"), MapperConfig.DEFAULT);
+
+        assertDoesNotThrow(() -> registry.register(MethodMapped.class));
+        assertSame(first, registry.findOrWildcard(MethodMapped.class, meta("value"), MapperConfig.DEFAULT));
+    }
+
     private static ResultSetMetaData meta(String... columns) {
         return (ResultSetMetaData) Proxy.newProxyInstance(
                 RowMapperRegistryTest.class.getClassLoader(),
@@ -90,6 +102,13 @@ class RowMapperRegistryTest {
         @MappingProvider("value")
         public FailingConstructor(Row row) {
             throw new IllegalStateException("broken");
+        }
+    }
+
+    public static class MethodMapped {
+        @MappingProvider("value")
+        public static RowMapping<MethodMapped> map() {
+            return row -> new MethodMapped();
         }
     }
 }
