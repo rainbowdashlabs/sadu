@@ -97,7 +97,5 @@ SADU calls the method or constructor through reflection:
 - Make the class and the annotated method or constructor `public`.
 - With JPMS, the package of the class has to be exported to (or opened for) `de.chojo.sadu.mapper`.
 
-:::warning
-If the annotated constructor throws, SADU throws an `InvalidMappingException` without the original exception as its
-cause. Catch and log problems inside the constructor if you need the details.
-:::
+If the annotated constructor throws, SADU throws an `InvalidMappingException` with the exception of the constructor as
+its cause.

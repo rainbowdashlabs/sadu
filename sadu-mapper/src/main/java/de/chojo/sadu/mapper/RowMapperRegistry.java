@@ -264,9 +264,12 @@ public class RowMapperRegistry {
                     .mapper(row -> {
                         try {
                             return (V) constructor.newInstance(row);
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                        } catch (InvocationTargetException e) {
                             throw new InvalidMappingException(
-                                    "Failed to create instance from RowMapping via constructor");
+                                    "Failed to create instance from RowMapping via constructor", e.getCause());
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            throw new InvalidMappingException(
+                                    "Failed to create instance from RowMapping via constructor", e);
                         }
                     })
                     .addColumns(provider.value())
