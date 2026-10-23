@@ -15,6 +15,7 @@ mariadb = "4.0.0"
 mysql = "26.10.0"
 sqlite = "3.53.4.0"
 apiguardian = "1.1.2"
+jspecify = "1.0.0"
 
 [libraries]
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
@@ -22,6 +23,7 @@ slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 apiguardian = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
