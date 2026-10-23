@@ -22,6 +22,7 @@ import org.testcontainers.containers.GenericContainer;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import javax.sql.DataSource;
@@ -80,6 +81,7 @@ class PostgresqlMapperTest {
     static final String text = "text";
     static final boolean bool = true;
     static final String json = "{\"a\": \"b\"}";
+    static final UUID uuid = UUID.fromString("4b7e3c1e-6f0a-4d8b-9a51-2f3c8e1d7a60");
     private static GenericContainer<?> pg;
 
     @BeforeAll
@@ -94,6 +96,12 @@ class PostgresqlMapperTest {
         QueryConfiguration.setDefault(QueryConfiguration.builder(dc)
                 .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
                 .build());
+        Query.query("CREATE TABLE serials(small SMALLSERIAL, normal SERIAL, big BIGSERIAL, id UUID)")
+                .single()
+                .update();
+        Query.query("INSERT INTO serials(id) VALUES ('%s'::UUID)", uuid)
+                .single()
+                .insert();
     }
 
     static Stream<Arguments> shortTestInput() {
@@ -134,6 +142,10 @@ class PostgresqlMapperTest {
                 Arguments.of(String.class, selectChar, text),
                 // JSONB
                 Arguments.of(String.class, selectJsonB, json),
+                Arguments.of(Short.class, "SELECT small FROM serials", (short) 1),
+                Arguments.of(Integer.class, "SELECT normal FROM serials", 1),
+                Arguments.of(Long.class, "SELECT big FROM serials", 1L),
+                Arguments.of(UUID.class, "SELECT id FROM serials", uuid),
                 // JSON
                 Arguments.of(String.class, selectJson, json));
     }

@@ -46,17 +46,14 @@ long users = config.query("SELECT count(*) FROM users")
 
 Register them with `getDefaultMapper()`, or pick single ones like `PostgresqlMapper.LONG_MAPPER`.
 
-On PostgreSQL the `Short`, `Integer` and `Long` mappers read every integer column (`smallint`, `integer`, `bigint`),
-so `count(*)`, which is a `bigint`, can be read as an `Integer`. A value that does not fit fails with an
-`SQLException`.
+The default mappers find a column by the type name the driver reports. On PostgreSQL the `Short`, `Integer` and
+`Long` mappers read every integer column (`smallint`, `integer`, `bigint` and their `serial` variants), so `count(*)`,
+which is a `bigint`, can be read as an `Integer`. A value that does not fit fails with an `SQLException`.
 
-`UUID` is read from a text column, or from a binary column as 16 bytes.
+`UUID` is read from a text column, or from a binary column as 16 bytes. On PostgreSQL it is also read from a `uuid`
+column.
 
 :::warning
-The default mappers find a column by the type name the driver reports. Some PostgreSQL columns are not matched: a
-`serial` or `bigserial` column is not read as a number, and a column of the type `uuid` is not read as a `UUID`.
-Cast the column in your query (`SELECT id::integer`) or map it yourself with `map(...)`.
-
 On MariaDB and MySQL, the `Byte[]` mapper reads text columns, not binary ones. Read binary columns with
 `row.getBytes(...)` in your own mapping.
 :::
