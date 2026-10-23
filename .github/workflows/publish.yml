@@ -1,31 +1,45 @@
 name: Publish
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
-      - dev*
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  JAVA_VERSION: 25
 
 jobs:
-  publish-central:
-    environment: build
-    runs-on: ubuntu-latest
-    name: Publish to Maven Central
+  verify:
+    uses: ./.github/workflows/verify.yml
 
+  publish:
+    name: Publish
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: build
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
         with:
-          distribution: adopt
-          java-version: 17
-      - name: Test with Gradle
-        run: ./gradlew --build-cache test
-      - name: Publish to Maven Central
-        run: ./gradlew publishToMavenCentral --no-configuration-cache
+          fetch-depth: 0
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: gradle/actions/setup-gradle@v6
+      - run: echo "Publishing SADU $(./gradlew -q :printVersion)" >> "$GITHUB_STEP_SUMMARY"
+      - run: ./gradlew publishChannel -x test --no-configuration-cache
         env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: "${{ secrets.SONATYPE_USERNAME }}"
-          ORG_GRADLE_PROJECT_mavenCentralPassword: "${{ secrets.SONATYPE_PASSWORD }}"
-          ORG_GRADLE_PROJECT_signingInMemoryKey: "${{ secrets.RAINBOWDASHLABS_SIGN_KEY }}"
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: "${{ secrets.RAINBOWDASHLABS_GPG_PASSWORD }}"
+          ORG_GRADLE_PROJECT_EldoNexusUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_EldoNexusPassword: ${{ secrets.NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.RAINBOWDASHLABS_SIGN_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.RAINBOWDASHLABS_GPG_PASSWORD }}
