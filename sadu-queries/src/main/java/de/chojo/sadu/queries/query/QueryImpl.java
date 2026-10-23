@@ -62,7 +62,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
             try {
                 return connectionConsumer.apply(conn.connection());
             } catch (SQLException e) {
-                conf.handleException(e);
+                handleException(e);
             }
         } else {
             try (var conn = conf.dataSource().getConnection()) {
@@ -71,7 +71,7 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
                 conn.commit();
                 return result;
             } catch (SQLException e) {
-                conf.handleException(e);
+                handleException(e);
             }
         }
         return defaultResult.get();
@@ -82,7 +82,13 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
         return exceptions;
     }
 
+    /**
+     * Records the exception for the results of this query and passes it to the configured handler.
+     *
+     * @param e the exception that occurred
+     */
     public void handleException(SQLException e) {
+        logException(e);
         conf.handleException(e);
     }
 

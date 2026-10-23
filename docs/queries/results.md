@@ -139,9 +139,18 @@ the result of each call.
 
 ## Exceptions in results
 
-Every result has `exceptions()` and `hasExceptions()`.
+Every result has `exceptions()` and `hasExceptions()`. They hold the `SQLException`s of the query that produced the
+result, after they went to the exception handler of your [configuration](./configuration.md). In a
+[chain of queries](./transactions.md#chain-queries), they hold the exceptions of every query of the chain so far.
 
-:::warning
-`exceptions()` is always empty at the moment, even when the query failed, so `hasExceptions()` is always `false`. Use
-the exception handler or `setThrowExceptions(true)` of your [configuration](./configuration.md) to react to errors.
-:::
+```java
+ManipulationResult result = Query.query("UPDATE users SET name = ? WHERE id = ?")
+        .single(Call.of().bind("lilly").bind(1))
+        .update();
+
+if (result.hasExceptions()) {
+    log.warn("Rename failed", result.exceptions().get(0));
+}
+```
+
+With `setThrowExceptions(true)`, a failed query throws instead, so you never get a result with exceptions.
