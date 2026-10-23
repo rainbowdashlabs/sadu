@@ -7,6 +7,7 @@
 package de.chojo.sadu.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
+import de.chojo.sadu.datasource.exceptions.DriverClassNotFoundException;
 import de.chojo.sadu.sqlite.databases.SqLite;
 import de.chojo.sadu.sqlite.jdbc.SqLiteJdbc;
 import org.junit.jupiter.api.Assertions;
@@ -27,5 +28,16 @@ class DataSourceCreatorTest {
                 .build();
 
         Assertions.assertTrue(build.getConnection().isValid(1000));
+    }
+
+    @Test
+    public void missingDriverNamesTheDriverClassMethod() {
+        var exception = Assertions.assertThrows(
+                DriverClassNotFoundException.class,
+                () -> DataSourceCreator.create(SqLite.sqlite())
+                        .configure(config -> config.memory().driverClass("does.not.Exist"))
+                        .create());
+
+        Assertions.assertTrue(exception.getMessage().contains("#driverClass"), exception.getMessage());
     }
 }
