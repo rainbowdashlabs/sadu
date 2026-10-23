@@ -28,19 +28,14 @@ For this to work, three things are needed:
 ## How SADU picks a mapper
 
 A mapper names the columns it needs. A class can have several mappers for different column sets. For each query, SADU
-looks at the columns of the result and picks the mapper with the most matching columns.
+looks at the columns of the result and picks, among the mappers whose columns are all in the result, the one with the
+most columns.
 
-A mapper without columns is a wildcard. The [default mappers](./configuration.md#default-mappers) for simple types
-like `String` or `Long` are wildcards.
+A mapper without columns is a wildcard. SADU uses it when no mapper with columns fits the result. The
+[default mappers](./configuration.md#default-mappers) for simple types like `String` or `Long` are wildcards.
 
-If no mapper is registered for the class, SADU looks for a `@MappingProvider` on the class and registers it. If there
-is none, `mapAs` throws a `MappingException`.
-
-:::warning
-SADU picks the best of the mappers with columns, even if none of them fits the result. A wildcard mapper of the same
-class is then never used, and the query fails with an `SQLException` about a missing column. Register either
-mappers with columns or a wildcard for a class, not both.
-:::
+If no mapper is registered for the class, SADU looks for a `@MappingProvider` on the class and registers it. If no
+mapper fits and there is no wildcard, `mapAs` throws a `MappingException`.
 
 ## Mapper options
 
@@ -56,7 +51,7 @@ List<DateCount> perMonth = Query.query("SELECT month, count FROM month_stats")
 | Option | What it does |
 |---|---|
 | `addAlias(original, alias)` | When the mapper reads the column `original`, it gets the column `alias` instead. This way one mapper works for results with different column names. |
-| `strict()` | A mapper only fits when its columns match the columns of the result exactly. |
+| `strict()` | A mapper only fits when its columns match the columns of the result exactly. Otherwise SADU uses the wildcard. |
 
 Aliases work for the getters of the `Row` that take a column name, also in your own mapping code. `getList` is the
 exception: it ignores aliases.

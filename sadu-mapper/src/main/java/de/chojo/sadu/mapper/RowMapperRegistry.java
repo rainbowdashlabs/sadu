@@ -145,6 +145,7 @@ public class RowMapperRegistry {
         return mapper(clazz).stream()
                 .filter(mapper -> !mapper.isWildcard())
                 .map(mapper -> Map.entry(mapper, mapper.applicable(meta, config)))
+                .filter(entry -> entry.getValue() > 0)
                 .sorted(Collections.reverseOrder(Comparator.comparingInt(Map.Entry::getValue)))
                 .map(Map.Entry::getKey)
                 .findFirst()
@@ -189,7 +190,7 @@ public class RowMapperRegistry {
         }
 
         // Autodetect mapper if available
-        if (registerInternal(clazz)) {
+        if (mapper(clazz).isEmpty() && registerInternal(clazz)) {
             return findOrWildcard(clazz, meta, config);
         }
 
