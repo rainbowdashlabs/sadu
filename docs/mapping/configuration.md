@@ -46,6 +46,10 @@ long users = config.query("SELECT count(*) FROM users")
 
 Register them with `getDefaultMapper()`, or pick single ones like `PostgresqlMapper.LONG_MAPPER`.
 
+On PostgreSQL the `Short`, `Integer` and `Long` mappers read every integer column (`smallint`, `integer`, `bigint`),
+so `count(*)`, which is a `bigint`, can be read as an `Integer`. A value that does not fit fails with an
+`SQLException`.
+
 `UUID` is read from a text column, or from a binary column as 16 bytes.
 
 :::warning

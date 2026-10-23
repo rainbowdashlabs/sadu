@@ -39,6 +39,9 @@ class PostgresqlMapperTest {
     static final String selectSmallInt = "SELECT 32767::SMALLINT";
 
     @Language("postgresql")
+    static final String selectSmallValue = "SELECT 5::INTEGER";
+
+    @Language("postgresql")
     static final String selectDecimal = "SELECT 3276745687654.87845::DECIMAL";
 
     @Language("postgresql")
@@ -100,9 +103,11 @@ class PostgresqlMapperTest {
                 Arguments.of(Integer.class, selectSmallInt, (int) maxShort),
                 Arguments.of(Long.class, selectSmallInt, (long) maxShort),
                 // INTEGER
+                Arguments.of(Short.class, selectSmallValue, (short) 5),
                 Arguments.of(Integer.class, selectInteger, maxInt),
                 Arguments.of(Long.class, selectInteger, (long) maxInt),
                 // BIGINT
+                Arguments.of(Integer.class, "SELECT count(*) FROM (VALUES (1), (2)) v", 2),
                 Arguments.of(Long.class, selectBigInt, maxLong),
                 // REAL
                 Arguments.of(Float.class, selectReal, floatVal),
