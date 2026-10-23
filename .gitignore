@@ -24,6 +24,5 @@ cmake-build-*/
 /config/
 /logs/
 /out/
-gradle.properties
 .kotlin/
 .concept/

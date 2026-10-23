@@ -45,5 +45,4 @@ database-mariadb = ["testcontainers", "driver-mariadb", "slf4j-nop"]
 database-mysql = ["testcontainers", "driver-mysql", "slf4j-nop"]
 
 [plugins]
-publishdata = { id = "de.chojo.publishdata", version.ref = "publishdata" }
 aggregate-javadoc = { id = "io.freefair.aggregate-javadoc", version.ref = "freefair" }

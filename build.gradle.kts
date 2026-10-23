@@ -1,19 +1,10 @@
 
 plugins {
-    // don't change order!
     alias(libs.plugins.aggregate.javadoc)
-    id("de.chojo.publishdata") version "1.4.0"
     id("sadu.java-conventions")
     id("sadu.publishing-conventions")
 }
 
-publishData {
-    useEldoNexusRepos(false)
-    publishingVersion = "2.3.9"
-}
-
-group = "de.chojo.sadu"
-version = publishData.getVersion()
 description = "The SADU library, containing everything you need and not need."
 
 dependencies {

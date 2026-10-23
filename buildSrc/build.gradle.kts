@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.gradle.publishdata)
     implementation(libs.gradle.vanniktech)
     implementation(libs.gradle.spotless)
 }
