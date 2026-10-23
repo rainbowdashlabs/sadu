@@ -1,0 +1,105 @@
+---
+title: Databases
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Databases
+
+SADU supports four databases. Each one has its own module. Add the module for every database you want to use.
+
+| Database | Module | Database class | Default mappers | Column types |
+|---|---|---|---|---|
+| PostgreSQL | `sadu-postgresql` | `PostgreSql` | `PostgresqlMapper` | `PostgreSqlTypes` |
+| MariaDB | `sadu-mariadb` | `MariaDb` | `MariaDbMapper` | `MariaDbTypes` |
+| MySQL | `sadu-mysql` | `MySql` | `MySqlMapper` | `MySqlTypes` |
+| SQLite | `sadu-sqlite` | `SqLite` | `SqLiteMapper` | `SqLiteTypes` |
+
+A database module brings `sadu-updater` and `sadu-mapper` with it. It does not bring the JDBC driver. Add the driver
+of your database yourself.
+
+<Tabs groupId="build-tool">
+<TabItem value="gradle" label="Gradle (Kotlin DSL)">
+
+```kotlin
+dependencies {
+    implementation("de.chojo.sadu:sadu-postgresql:2.4.0")
+    implementation("de.chojo.sadu:sadu-mariadb:2.4.0")
+    implementation("de.chojo.sadu:sadu-mysql:2.4.0")
+    implementation("de.chojo.sadu:sadu-sqlite:2.4.0")
+}
+```
+
+</TabItem>
+<TabItem value="gradle-groovy" label="Gradle (Groovy)">
+
+```groovy
+dependencies {
+    implementation 'de.chojo.sadu:sadu-postgresql:2.4.0'
+    implementation 'de.chojo.sadu:sadu-mariadb:2.4.0'
+    implementation 'de.chojo.sadu:sadu-mysql:2.4.0'
+    implementation 'de.chojo.sadu:sadu-sqlite:2.4.0'
+}
+```
+
+</TabItem>
+<TabItem value="maven" label="Maven">
+
+```xml
+<dependency>
+    <groupId>de.chojo.sadu</groupId>
+    <artifactId>sadu-postgresql</artifactId>
+    <version>2.4.0</version>
+</dependency>
+```
+
+The other modules follow the same pattern: `sadu-mariadb`, `sadu-mysql` and `sadu-sqlite`.
+
+</TabItem>
+</Tabs>
+
+## The database class
+
+Several parts of SADU need to know which database you use: the [data source builder](./datasource.md) and the
+[updater](./updater/index.md). You tell them with the database class. Each class has one instance. Get it with
+`get()` or with the method named after the database:
+
+```java
+PostgreSql postgres = PostgreSql.get();      // or PostgreSql.postgresql()
+MariaDb mariadb = MariaDb.get();             // or MariaDb.mariadb()
+MySql mysql = MySql.get();                   // or MySql.mysql()
+SqLite sqlite = SqLite.get();                // or SqLite.sqlite()
+```
+
+The database class knows:
+
+- the name of the database (`postgresql`, `mariadb`, `mysql`, `sqlite`). The updater uses it as the name of the
+  directory with your SQL files.
+- the JDBC settings for the data source builder.
+- how to split an SQL file into statements, and whether the database has schemas. Only PostgreSQL has schemas in SADU.
+
+## Column types
+
+Each module has a class with the column types of its database, for example `PostgreSqlTypes.INTEGER` or
+`MariaDbTypes.VARCHAR`. A type has a name and some aliases.
+
+You need them in two places:
+
+- to bind an array or a list as a parameter, see [Parameters](./queries/parameters.md#arrays-and-lists),
+- in the [default mappers](./mapping/configuration.md#default-mappers), which pick a column by its type.
+
+| Class | Types |
+|---|---|
+| `PostgreSqlTypes` | `CHAR`, `TEXT`, `VARCHAR`, `SMALLINT`, `INTEGER`, `BIGINT`, `DECIMAL`, `NUMERIC`, `REAL`, `DOUBLE`, `BOOLEAN`, `BYTEA`, `JSON`, `JSONB`, `DATE`, `TIME`, `TIMESTAMPTZ`, `TIMESTAMP` |
+| `MariaDbTypes`, `MySqlTypes` | `CHAR`, `VARCHAR`, `TINYTEXT`, `TEXT`, `MEDIUMTEXT`, `LONGTEXT`, `TINYINT`, `SMALLINT`, `MEDIUMINT`, `INT`, `BIGINT`, `DECIMAL`, `DOUBLE`, `FLOAT`, `BOOLEAN`, `BINARY`, `VARBINARY`, `TINYBLOB`, `BLOB`, `MEDIUMBLOB`, `LONGBLOB`, `DATE`, `TIME`, `TIMESTAMP` |
+| `SqLiteTypes` | `TEXT`, `INTEGER`, `REAL`, `BOOLEAN`, `BLOB` |
+
+If a type is missing, create your own with `SqlType.ofName("name", "alias", ...)`.
+
+## JPMS
+
+Every module has a `module-info.java`. The module names are `de.chojo.sadu.core`, `de.chojo.sadu.datasource`,
+`de.chojo.sadu.mapper`, `de.chojo.sadu.queries`, `de.chojo.sadu.updater`, `de.chojo.sadu.testing`,
+`de.chojo.sadu.postgresql`, `de.chojo.sadu.mariadb`, `de.chojo.sadu.mysql` and `de.chojo.sadu.sqlite`.

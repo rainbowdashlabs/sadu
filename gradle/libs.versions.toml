@@ -1,0 +1,50 @@
+[versions]
+palantir = "2.102.0"
+publishdata = "2.1.0"
+vanniktech = "0.37.0"
+spotless = "8.10.4"
+freefair = "9.8.2"
+junit = "6.1.3"
+mockito = "5.24.0"
+slf4j = "2.0.20"
+annotations = "26.1.0"
+hikari = "7.1.0"
+testcontainers = "2.0.5"
+postgresql = "42.7.14"
+mariadb = "4.0.0"
+mysql = "26.10.0"
+sqlite = "3.53.4.0"
+apiguardian = "1.1.2"
+jspecify = "1.0.0"
+
+[libraries]
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+apiguardian = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+
+driver-postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+driver-mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mariadb" }
+driver-mysql = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }
+driver-sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
+
+# buildSrc classpath only
+gradle-publishdata = { module = "de.chojo:publishdata", version.ref = "publishdata" }
+gradle-vanniktech = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktech" }
+gradle-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+
+[bundles]
+database-postgresql = ["testcontainers", "driver-postgresql", "slf4j-nop"]
+database-mariadb = ["testcontainers", "driver-mariadb", "slf4j-nop"]
+database-mysql = ["testcontainers", "driver-mysql", "slf4j-nop"]
+
+[plugins]
+aggregate-javadoc = { id = "io.freefair.aggregate-javadoc", version.ref = "freefair" }

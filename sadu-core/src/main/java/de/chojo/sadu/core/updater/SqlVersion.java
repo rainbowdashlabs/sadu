@@ -23,8 +23,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
      * @param major major
      * @param patch patch
      */
-    public SqlVersion {
-    }
+    public SqlVersion {}
 
     /**
      * Parses the sql version stored in database/version inside the current classloader

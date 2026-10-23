@@ -25,7 +25,10 @@ public class QueryException extends SQLException {
      * Creates a new exception.
      */
     public QueryException(ParsedQueryImpl query, SQLException throwable) {
-        super("An error occurred: %s\nWhile executing query:\n%s".formatted(throwable.getMessage(), query.sql().sql().stripIndent()), throwable);
+        super(
+                "An error occurred: %s\nWhile executing query:\n%s"
+                        .formatted(throwable.getMessage(), query.sql().sql().stripIndent()),
+                throwable);
         cause = throwable;
     }
 

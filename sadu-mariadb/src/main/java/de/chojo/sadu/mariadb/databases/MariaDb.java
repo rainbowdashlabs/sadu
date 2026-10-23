@@ -19,8 +19,7 @@ public class MariaDb implements DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuild
 
     private static final MariaDb type = new MariaDb();
 
-    private MariaDb() {
-    }
+    private MariaDb() {}
 
     /**
      * The MariaDb type.
@@ -54,7 +53,6 @@ public class MariaDb implements DefaultDatabase<MariaDbJdbc, BaseSqlUpdaterBuild
     public UpdaterBuilder<MariaDbJdbc, BaseSqlUpdaterBuilder<MariaDbJdbc, ?>> newSqlUpdaterBuilder() {
         return new BaseSqlUpdaterBuilder<>(this);
     }
-
 
     @Override
     public MariaDbJdbc jdbcBuilder() {

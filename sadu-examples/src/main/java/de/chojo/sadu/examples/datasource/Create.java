@@ -28,8 +28,7 @@ public class Create {
                         .currentSchema("default")
                         // We also set an application name
                         .applicationName("SADU-Examples")
-                        .driverClass(Driver.class)
-                )
+                        .driverClass(Driver.class))
                 // We create the hikari data source
                 .create()
                 // We set a max of 3 parallel connections.

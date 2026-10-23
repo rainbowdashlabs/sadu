@@ -10,10 +10,11 @@ import de.chojo.sadu.core.databases.Database;
 import de.chojo.sadu.core.updater.SqlVersion;
 import org.junit.jupiter.api.Test;
 
-import javax.sql.DataSource;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,11 +42,11 @@ class SqlUpdaterTest {
             String name = invocation.getArgument(0, String.class);
             return switch (name) {
                 case "database/postgres/1/patch_2.sql",
-                     "database/postgres/1/migrate.sql",
-                     "database/postgres/2/patch_1.sql",
-                     "database/postgres/2/patch_2.sql",
-                     "database/postgres/2/migrate.sql",
-                     "database/postgres/3/patch_1.sql" -> SqlUpdaterTest.class.getResource("SqlUpdaterTest.class");
+                        "database/postgres/1/migrate.sql",
+                        "database/postgres/2/patch_1.sql",
+                        "database/postgres/2/patch_2.sql",
+                        "database/postgres/2/migrate.sql",
+                        "database/postgres/3/patch_1.sql" -> SqlUpdaterTest.class.getResource("SqlUpdaterTest.class");
                 default -> null;
             };
         });
@@ -66,7 +67,15 @@ class SqlUpdaterTest {
         Database database = mock(Database.class);
         when(database.name()).thenReturn("postgres");
 
-        SqlUpdater updater = new SqlUpdater(mock(DataSource.class), "version", new QueryReplacement[0], new SqlVersion(3, 1), database, Map.of(), Map.of(), loader);
+        SqlUpdater updater = new SqlUpdater(
+                mock(DataSource.class),
+                "version",
+                new QueryReplacement[0],
+                new SqlVersion(3, 1),
+                database,
+                Map.of(),
+                Map.of(),
+                loader);
 
         var method = SqlUpdater.class.getDeclaredMethod("getPatchesFrom", int.class, int.class);
         method.setAccessible(true);

@@ -8,8 +8,8 @@ package de.chojo.sadu.queries.results.reading;
 
 import de.chojo.sadu.queries.api.base.QueryProvider;
 import de.chojo.sadu.queries.api.results.reading.Result;
-import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.execution.reading.MappedQuery;
+import de.chojo.sadu.queries.query.QueryImpl;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ import java.util.List;
  *
  * @param <T> Type of returned object
  */
-
 public class MultiResult<T> implements QueryProvider, Result<T> {
     private final QueryProvider query;
     private final T results;

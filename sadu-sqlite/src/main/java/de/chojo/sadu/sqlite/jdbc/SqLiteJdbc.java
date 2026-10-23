@@ -20,8 +20,7 @@ public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
     /**
      * Creates a new builder for a sqlite jdbc url.
      */
-    public SqLiteJdbc() {
-    }
+    public SqLiteJdbc() {}
 
     /**
      * Sets the database to in-memory mode.

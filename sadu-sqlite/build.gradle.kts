@@ -1,6 +1,6 @@
 plugins {
     id("sadu.java-conventions")
-    id("sadu.maven-publish-conventions")
+    id("sadu.publishing-conventions")
 }
 
 description = "SADU module for interaction with a SqLite database"

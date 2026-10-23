@@ -21,11 +21,13 @@ public final class UUIDAdapter {
      * The AdapterMapping implementation used is {@link UUIDConverter#convert(UUID)}.
      * The SQL data type used is {@link Types#BINARY}.
      */
-    public static final Adapter<UUID> AS_BYTES = Adapter.create(UUID.class, (stmt, index, value) -> stmt.setBytes(index, UUIDConverter.convert(value)), Types.BINARY);
+    public static final Adapter<UUID> AS_BYTES = Adapter.create(
+            UUID.class, (stmt, index, value) -> stmt.setBytes(index, UUIDConverter.convert(value)), Types.BINARY);
     /**
      * Represents an Adapter for converting a UUID object to a String and binding it to a PreparedStatement.
      */
-    public static final Adapter<UUID> AS_STRING = Adapter.create(UUID.class, (stmt, index, value) -> stmt.setString(index, value.toString()), Types.VARCHAR);
+    public static final Adapter<UUID> AS_STRING =
+            Adapter.create(UUID.class, (stmt, index, value) -> stmt.setString(index, value.toString()), Types.VARCHAR);
 
     private UUIDAdapter() {
         throw new UnsupportedOperationException("This is a utility class.");

@@ -41,7 +41,6 @@ public class WrappedQueryExecutionException extends RuntimeException {
         return super.initCause(cause);
     }
 
-
     /**
      * SQL state of the exception
      *
@@ -64,5 +63,4 @@ public class WrappedQueryExecutionException extends RuntimeException {
     public String getMessage() {
         return cause.getMessage();
     }
-
 }

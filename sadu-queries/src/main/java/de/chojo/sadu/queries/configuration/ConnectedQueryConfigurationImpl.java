@@ -12,15 +12,24 @@ import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import org.jetbrains.annotations.Nullable;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
-public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImpl implements ConnectedQueryConfiguration {
+import javax.sql.DataSource;
+
+public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImpl
+        implements ConnectedQueryConfiguration {
     private Connection connection;
 
-    ConnectedQueryConfigurationImpl(QueryContext context, DataSource dataSource, @Nullable Connection connection, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry) {
+    ConnectedQueryConfigurationImpl(
+            QueryContext context,
+            DataSource dataSource,
+            @Nullable Connection connection,
+            boolean atomic,
+            boolean throwExceptions,
+            Consumer<SQLException> exceptionHandler,
+            RowMapperRegistry rowMapperRegistry) {
         super(dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry, context);
         this.connection = connection;
     }

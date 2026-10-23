@@ -18,7 +18,6 @@ public class ResourceChecks {
         throw new UnsupportedOperationException("This is a utility class.");
     }
 
-
     /**
      * Asserts that a resource file exists at the specified path.
      *
@@ -38,5 +37,4 @@ public class ResourceChecks {
     public static void assertResource(String path, String message) {
         Assertions.assertTrue(resourcePath().resolve(path).toFile().exists(), message);
     }
-
 }

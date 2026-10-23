@@ -22,9 +22,10 @@ import java.util.function.Supplier;
  * @see StandardReader
  */
 public interface ValueReader<T, V> {
-    static <V, T> ValueReader<T, V> create(Function<V, T> parser,
-                                           ThrowingBiFunction<Row, String, V, SQLException> nameReader,
-                                           ThrowingBiFunction<Row, Integer, V, SQLException> indexReader) {
+    static <V, T> ValueReader<T, V> create(
+            Function<V, T> parser,
+            ThrowingBiFunction<Row, String, V, SQLException> nameReader,
+            ThrowingBiFunction<Row, Integer, V, SQLException> indexReader) {
         return new ValueReader<>() {
             @Override
             public Function<@NotNull V, T> reader() {
@@ -43,10 +44,11 @@ public interface ValueReader<T, V> {
         };
     }
 
-    static <V, T> ValueReader<T, V> create(Function<V, T> parser,
-                                           ThrowingBiFunction<Row, String, V, SQLException> nameReader,
-                                           ThrowingBiFunction<Row, Integer, V, SQLException> indexReader,
-                                           Supplier<T> defaultValue) {
+    static <V, T> ValueReader<T, V> create(
+            Function<V, T> parser,
+            ThrowingBiFunction<Row, String, V, SQLException> nameReader,
+            ThrowingBiFunction<Row, Integer, V, SQLException> indexReader,
+            Supplier<T> defaultValue) {
         return new ValueReader<>() {
             @Override
             public Function<@NotNull V, T> reader() {

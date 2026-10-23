@@ -39,47 +39,58 @@ public final class StandardValueConverter {
     /**
      * Writes and reads {@link Instant} as unix epoch in milliseconds
      */
-    public static final ValueConverter<Instant, Long> INSTANT_MILLIS = create(StandardAdapter.INSTANT_AS_MILLIS, StandardReader.INSTANT_FROM_MILLIS);
+    public static final ValueConverter<Instant, Long> INSTANT_MILLIS =
+            create(StandardAdapter.INSTANT_AS_MILLIS, StandardReader.INSTANT_FROM_MILLIS);
     /**
      * Writes and reads {@link Instant} as unix epoch in seconds
      */
-    public static final ValueConverter<Instant, Long> INSTANT_SECONDS = create(StandardAdapter.INSTANT_AS_SECONDS, StandardReader.INSTANT_FROM_SECONDS);
+    public static final ValueConverter<Instant, Long> INSTANT_SECONDS =
+            create(StandardAdapter.INSTANT_AS_SECONDS, StandardReader.INSTANT_FROM_SECONDS);
     /**
      * Writes and reads {@link Instant} as {@link Timestamp}
      */
-    public static final ValueConverter<Instant, Timestamp> INSTANT_TIMESTAMP = create(StandardAdapter.INSTANT_AS_TIMESTAMP, StandardReader.INSTANT_FROM_TIMESTAMP);
+    public static final ValueConverter<Instant, Timestamp> INSTANT_TIMESTAMP =
+            create(StandardAdapter.INSTANT_AS_TIMESTAMP, StandardReader.INSTANT_FROM_TIMESTAMP);
     /**
      * Writes and reads {@link LocalDateTime} as {@link Timestamp}
      */
-    public static final ValueConverter<LocalDateTime, Timestamp> LOCAL_DATE_TIME = create(StandardAdapter.LOCAL_DATE_TIME, StandardReader.LOCAL_DATE_TIME);
+    public static final ValueConverter<LocalDateTime, Timestamp> LOCAL_DATE_TIME =
+            create(StandardAdapter.LOCAL_DATE_TIME, StandardReader.LOCAL_DATE_TIME);
     /**
      * Writes and reads {@link OffsetDateTime} as {@link Timestamp}. Will be stored in UTC.
      */
-    public static final ValueConverter<OffsetDateTime, Timestamp> OFFSET_DATE_TIME = create(StandardAdapter.OFFSET_DATE_TIME, StandardReader.OFFSET_DATE_TIME);
+    public static final ValueConverter<OffsetDateTime, Timestamp> OFFSET_DATE_TIME =
+            create(StandardAdapter.OFFSET_DATE_TIME, StandardReader.OFFSET_DATE_TIME);
     /**
      * Writes and reads {@link ZonedDateTime} as {@link Timestamp}. Will be stored in UTC.
      */
-    public static final ValueConverter<ZonedDateTime, Timestamp> ZONED_DATE_TIME = create(StandardAdapter.ZONED_DATE_TIME, StandardReader.ZONED_DATE_TIME);
+    public static final ValueConverter<ZonedDateTime, Timestamp> ZONED_DATE_TIME =
+            create(StandardAdapter.ZONED_DATE_TIME, StandardReader.ZONED_DATE_TIME);
     /**
      * Writes and reads {@link OffsetTime} as {@link Time}. Will be stored as {@link LocalTime}.
      */
-    public static final ValueConverter<OffsetTime, Time> OFFSET_TIME = create(StandardAdapter.OFFSET_TIME, StandardReader.OFFSET_TIME);
+    public static final ValueConverter<OffsetTime, Time> OFFSET_TIME =
+            create(StandardAdapter.OFFSET_TIME, StandardReader.OFFSET_TIME);
     /**
      * Writes and reads {@link LocalDate} as {@link Date}.
      */
-    public static final ValueConverter<LocalDate, Date> LOCAL_DATE = create(StandardAdapter.LOCAL_DATE, StandardReader.LOCAL_DATE);
+    public static final ValueConverter<LocalDate, Date> LOCAL_DATE =
+            create(StandardAdapter.LOCAL_DATE, StandardReader.LOCAL_DATE);
     /**
      * Writes and reads {@link LocalTime} as {@link Time}.
      */
-    public static final ValueConverter<LocalTime, Time> LOCAL_TIME = create(StandardAdapter.LOCAL_TIME, StandardReader.LOCAL_TIME);
+    public static final ValueConverter<LocalTime, Time> LOCAL_TIME =
+            create(StandardAdapter.LOCAL_TIME, StandardReader.LOCAL_TIME);
     /**
      * Writes and reads {@link UUID} as {@link String}.
      */
-    public static final ValueConverter<UUID, String> UUID_STRING = create(UUIDAdapter.AS_STRING, StandardReader.UUID_FROM_STRING);
+    public static final ValueConverter<UUID, String> UUID_STRING =
+            create(UUIDAdapter.AS_STRING, StandardReader.UUID_FROM_STRING);
     /**
      * Writes and reads {@link UUID} as {@link Byte}[].
      */
-    public static final ValueConverter<UUID, byte[]> UUID_BYTES = create(UUIDAdapter.AS_BYTES, StandardReader.UUID_FROM_BYTES);
+    public static final ValueConverter<UUID, byte[]> UUID_BYTES =
+            create(UUIDAdapter.AS_BYTES, StandardReader.UUID_FROM_BYTES);
 
     /**
      * Writes and reads {@link Enum} as {@link String}.
@@ -91,7 +102,8 @@ public final class StandardValueConverter {
     @Contract("_ -> new")
     public static <T extends Enum<T>> @NotNull ValueConverter<T, String> forEnum(Class<T> clazz) {
         // Normally an explicit type isn't required to write an enum, but in this case we need it.
-        return create(Adapter.create(PreparedStatement::setString, Types.VARCHAR, Enum::name), StandardReader.forEnum(clazz));
+        return create(
+                Adapter.create(PreparedStatement::setString, Types.VARCHAR, Enum::name), StandardReader.forEnum(clazz));
     }
 
     /**

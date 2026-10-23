@@ -1,0 +1,103 @@
+---
+title: Custom mappers
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Custom mappers
+
+There are two ways to write a mapper for your own class: build it by hand and register it, or mark a method or
+constructor of the class with `@MappingProvider`.
+
+The examples map this class:
+
+```java
+public class User {
+    private final int id;
+    private final String name;
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+```
+
+## Build a mapper
+
+```java
+RowMapper<User> mapper = RowMapper.forClass(User.class)
+        .mapper(row -> new User(row.getInt("id"), row.getString("name")))
+        .addColumns("id", "name")
+        .build();
+
+registry.register(mapper);
+```
+
+`addColumn` and `addColumns` name the columns the mapper needs. A mapper without columns is a wildcard, see
+[How SADU picks a mapper](./index.md#how-sadu-picks-a-mapper).
+
+You can register several mappers for the same class, each with its own set of columns. For a result with `id` and
+`name`, a mapper that needs both wins over one that only needs `id`.
+
+## Annotations
+
+Instead of registering a mapper, mark a static method or a constructor with `@MappingProvider` and list the columns
+it needs. SADU finds it the first time you call `mapAs` for that class, or when you call `registry.register(User.class)`.
+
+<Tabs>
+<TabItem value="method" label="Static method">
+
+The method takes no arguments and returns a `RowMapping` for the class.
+
+```java
+public class User {
+    private final int id;
+    private final String name;
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @MappingProvider({"id", "name"})
+    public static RowMapping<User> map() {
+        return row -> new User(row.getInt("id"), row.getString("name"));
+    }
+}
+```
+
+</TabItem>
+<TabItem value="constructor" label="Constructor">
+
+The constructor takes exactly one `Row`.
+
+```java
+public class User {
+    private final int id;
+    private final String name;
+
+    @MappingProvider({"id", "name"})
+    public User(Row row) throws SQLException {
+        this.id = row.getInt("id");
+        this.name = row.getString("name");
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+A class can have several annotated methods and constructors. Each of them becomes one mapper.
+
+SADU calls the method or constructor through reflection:
+
+- Make the class and the annotated method or constructor `public`.
+- With JPMS, the package of the class has to be exported to (or opened for) `de.chojo.sadu.mapper`.
+
+:::warning
+If the annotated constructor throws, SADU throws an `InvalidMappingException` without the original exception as its
+cause. Catch and log problems inside the constructor if you need the details.
+:::

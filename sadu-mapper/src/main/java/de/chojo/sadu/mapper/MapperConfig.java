@@ -19,8 +19,7 @@ public class MapperConfig {
     private Map<String, String> aliases = new HashMap<>();
     private boolean strict = false;
 
-    public MapperConfig() {
-    }
+    public MapperConfig() {}
 
     public Map<String, String> aliases() {
         return aliases;

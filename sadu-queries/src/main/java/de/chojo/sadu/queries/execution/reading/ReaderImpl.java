@@ -16,12 +16,12 @@ import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.api.results.reading.Result;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.exception.Check;
+import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.query.AppendedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
 import de.chojo.sadu.queries.query.TokenizedQuery;
 import de.chojo.sadu.queries.results.reading.MultiResult;
 import de.chojo.sadu.queries.results.reading.SingleResult;
-import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

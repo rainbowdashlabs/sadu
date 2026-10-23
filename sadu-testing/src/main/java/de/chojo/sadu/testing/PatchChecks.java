@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 import static de.chojo.sadu.testing.TestUtil.resourceContent;
 
-
 /**
  * The PatchChecks class provides methods for checking the presence of patch files for the databases.
  */
@@ -57,8 +56,12 @@ public class PatchChecks {
      * @throws IOException if an I/O error occurs while checking the files
      */
     @ApiStatus.Internal
-    public static void checkFiles(int baseVersion, String currentVersion, Database<?, ?>... databases) throws IOException {
-        checkFiles(baseVersion, currentVersion, Arrays.stream(databases).map(Database::name).toArray(String[]::new));
+    public static void checkFiles(int baseVersion, String currentVersion, Database<?, ?>... databases)
+            throws IOException {
+        checkFiles(
+                baseVersion,
+                currentVersion,
+                Arrays.stream(databases).map(Database::name).toArray(String[]::new));
     }
 
     /**
@@ -81,7 +84,10 @@ public class PatchChecks {
         for (var database : databases) {
             var dbBase = TestUtil.resourcePath().resolve("database/%s".formatted(database));
             try (var stream = Files.walk(dbBase)) {
-                var files = stream.filter(p -> p.toFile().isFile()).map(dbBase::relativize).filter(p -> !p.toString().isBlank()).collect(Collectors.toList());
+                var files = stream.filter(p -> p.toFile().isFile())
+                        .map(dbBase::relativize)
+                        .filter(p -> !p.toString().isBlank())
+                        .collect(Collectors.toList());
                 refFiles.addAll(files);
                 databaseFiles.put(database, files);
             }
@@ -95,7 +101,8 @@ public class PatchChecks {
             // Remove all existing files from the ref files
             files.forEach(missing::remove);
             var missingFiles = missing.stream().map(Path::toString).collect(Collectors.joining("\n"));
-            throw new AssertionFailedError("There are missing files in database %s:%n%s".formatted(database, missingFiles));
+            throw new AssertionFailedError(
+                    "There are missing files in database %s:%n%s".formatted(database, missingFiles));
         }
 
         // Check the ref files if there are all files that are expected to be there based on the current version.
@@ -108,13 +115,17 @@ public class PatchChecks {
             if (major != current.major()) {
                 // Check for migration file if there is a higher version
                 Path migrate = Path.of("%d/migrate.sql".formatted(major));
-                Assertions.assertTrue(unreachable.remove(migrate), "Migration file for migration from %d to %d missing at %s".formatted(major, major + 1, migrate));
+                Assertions.assertTrue(
+                        unreachable.remove(migrate),
+                        "Migration file for migration from %d to %d missing at %s"
+                                .formatted(major, major + 1, migrate));
             }
             if (major == current.major()) {
                 for (var patch = 1; patch <= current.patch(); patch++) {
                     // Remove every patch until the current is reached
                     var patchFile = Path.of("%d/patch_%d.sql".formatted(major, patch));
-                    Assertions.assertTrue(unreachable.remove(patchFile), "Patch file %s is missing".formatted(patchFile));
+                    Assertions.assertTrue(
+                            unreachable.remove(patchFile), "Patch file %s is missing".formatted(patchFile));
                 }
             } else {
                 // Just remove all patch files until none is found if this is not the latest version.

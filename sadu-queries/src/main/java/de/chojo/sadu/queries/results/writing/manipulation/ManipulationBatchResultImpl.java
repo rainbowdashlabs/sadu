@@ -17,7 +17,8 @@ import java.util.List;
 /**
  * Result of a {@link CalledBatchQueryImpl}
  */
-public class ManipulationBatchResultImpl<T extends ManipulationResult> implements QueryProvider, ManipulationBatchResult<T> {
+public class ManipulationBatchResultImpl<T extends ManipulationResult>
+        implements QueryProvider, ManipulationBatchResult<T> {
     private final QueryProvider query;
     private final List<T> results;
 

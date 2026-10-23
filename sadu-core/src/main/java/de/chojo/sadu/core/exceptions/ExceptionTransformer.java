@@ -23,7 +23,8 @@ public final class ExceptionTransformer {
      * @return input as pretty string
      */
     public static String prettyException(SQLException ex) {
-        return String.format("SQLException: %s%nSQLState: %s%nVendorError: %s",
+        return String.format(
+                "SQLException: %s%nSQLState: %s%nVendorError: %s",
                 ex.getMessage(), ex.getSQLState(), ex.getErrorCode());
     }
 
@@ -35,7 +36,6 @@ public final class ExceptionTransformer {
      * @return input as pretty string
      */
     public static String prettyException(String message, SQLException ex) {
-        return String.format("%s:%n%s",
-                message, prettyException(ex));
+        return String.format("%s:%n%s", message, prettyException(ex));
     }
 }

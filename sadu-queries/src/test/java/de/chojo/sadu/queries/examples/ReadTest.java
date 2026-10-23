@@ -33,20 +33,26 @@ import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.api.call.Call.call;
 import static de.chojo.sadu.queries.call.adapter.UUIDAdapter.AS_STRING;
 
-@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"
+})
 public class ReadTest {
 
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
-
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry()
+                        .register(PostgresqlMapper.getDefaultMapper())
+                        .register(RowMapper.forClass(User.class)
+                                .mapper(User.map())
+                                .build()))
+                .build();
         query.query("INSERT INTO users(uuid, name) VALUES (?::uuid,?)")
-                .batch(Call.of().bind(UUID.randomUUID(), AS_STRING).bind("Lilly"),
+                .batch(
+                        Call.of().bind(UUID.randomUUID(), AS_STRING).bind("Lilly"),
                         Call.of().bind(UUID.randomUUID(), AS_STRING).bind("Chojo"))
                 .insert();
     }
@@ -104,7 +110,9 @@ public class ReadTest {
                 .map(User.map())
                 .storeOneAndAppend("user")
                 .query("SELECT * FROM users WHERE uuid = :uuid::uuid")
-                .single(storage -> call().bind("uuid", storage.getAs("user", User.class).get().uuid(), AS_STRING).asSingleCall())
+                .single(storage -> call().bind(
+                                "uuid", storage.getAs("user", User.class).get().uuid(), AS_STRING)
+                        .asSingleCall())
                 .map(User.map())
                 .allResults();
         Assertions.assertEquals(1, usersResult.result().size());
@@ -114,12 +122,16 @@ public class ReadTest {
     public void storeAndUse() {
         // Retrieve the first user and store them it to use it again later
         // From here on another query could be issued that uses the results of this query
-        ManipulationResult manipulation = query.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
+        ManipulationResult manipulation = query.query(
+                        "INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
                 .single(call().bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly"))
                 .map(User.map())
                 .storeOneAndAppend("user")
                 .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
-                .single(storage -> call().bind("id", storage.getAs("user", User.class).get().id()).bind("date", LocalDate.of(1990, 1, 1)).asSingleCall())
+                .single(storage -> call().bind(
+                                "id", storage.getAs("user", User.class).get().id())
+                        .bind("date", LocalDate.of(1990, 1, 1))
+                        .asSingleCall())
                 .insert();
         Assertions.assertEquals(1, manipulation.rows());
     }

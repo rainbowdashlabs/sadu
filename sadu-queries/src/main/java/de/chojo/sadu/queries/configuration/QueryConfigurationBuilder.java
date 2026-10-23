@@ -11,19 +11,22 @@ import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 public class QueryConfigurationBuilder {
     private final DataSource dataSource;
     private boolean atomic = true;
     private boolean throwExceptions;
+
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "CallToPrintStackTrace"})
     private Consumer<SQLException> exceptionHandler = throwable -> {
         System.err.println(ExceptionTransformer.prettyException(throwable));
         throwable.printStackTrace();
     };
+
     private RowMapperRegistry rowMapperRegistry = new RowMapperRegistry();
 
     /**

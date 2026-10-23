@@ -1450,7 +1450,6 @@ public class Row {
         return get(columnIndex, localTime(cal));
     }
 
-
     /**
      * Retrieves the value of the designated column in the current row
      * of this {@code Row} object as a {@code java.sql.Time} object
@@ -1541,7 +1540,6 @@ public class Row {
         return resultSet.getTimestamp(columnAlias(columnLabel), cal);
     }
 
-
     /**
      * Retrieves the value of the designated column in the current row
      * of this {@code Row} object as a {@code java.time.LocalDateTime} object
@@ -1565,7 +1563,6 @@ public class Row {
     public LocalDateTime getLocalDateTime(int columnIndex, Calendar cal) throws SQLException {
         return get(columnIndex, localDateTime(cal));
     }
-
 
     /**
      * Retrieves the value of the designated column in the current row

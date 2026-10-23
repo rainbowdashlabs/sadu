@@ -15,8 +15,7 @@ import de.chojo.sadu.core.jdbc.RemoteJdbcConfig;
  */
 public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
 
-    public PostgreSqlJdbc() {
-    }
+    public PostgreSqlJdbc() {}
 
     @Override
     public String driver() {
@@ -203,7 +202,7 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
      * @return builder instance
      */
     public PostgreSqlJdbc currentSchema(String schema) {
-        return currentSchema(new String[]{schema});
+        return currentSchema(new String[] {schema});
     }
 
     /**

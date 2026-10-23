@@ -60,7 +60,8 @@ public final class Results {
      * @return the index of the column with the first type contained in types
      * @throws SQLException if a database access error occurs
      */
-    public static Optional<Integer> getFirstColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types) throws SQLException {
+    public static Optional<Integer> getFirstColumnIndexOfType(ResultSetMetaData meta, List<SqlType> types)
+            throws SQLException {
         for (var i = 1; i <= meta.getColumnCount(); i++) {
             var typeName = meta.getColumnTypeName(i);
             for (var type : types) {

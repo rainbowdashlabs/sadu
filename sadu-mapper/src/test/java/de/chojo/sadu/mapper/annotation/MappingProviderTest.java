@@ -20,15 +20,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 import static de.chojo.sadu.mapper.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.api.query.Query.query;
 
 public class MappingProviderTest {
-
 
     private static GenericContainer<?> pg;
 
@@ -36,7 +36,8 @@ public class MappingProviderTest {
     static void beforeAll() throws IOException {
         pg = createContainer("postgres", "postgres");
         DataSource dc = DataSourceCreator.create(PostgreSql.get())
-                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort())).create()
+                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort()))
+                .create()
                 .usingPassword("postgres")
                 .usingUsername("postgres")
                 .build();
@@ -68,10 +69,7 @@ public class MappingProviderTest {
     @Test
     public void testInvalidRegistration() {
         Assertions.assertThrows(InvalidMappingException.class, () -> {
-            query("Select 'test' as test")
-                    .single()
-                    .mapAs(InvalidClass.class)
-                    .first();
+            query("Select 'test' as test").single().mapAs(InvalidClass.class).first();
         });
     }
 
@@ -106,7 +104,6 @@ public class MappingProviderTest {
         public ConstructorMappedClass(Row row) throws SQLException {
             this.test = row.getString("test");
         }
-
     }
 
     public static class InvalidClass {

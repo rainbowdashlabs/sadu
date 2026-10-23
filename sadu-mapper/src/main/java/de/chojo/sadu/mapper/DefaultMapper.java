@@ -86,20 +86,20 @@ public final class DefaultMapper {
                 .build();
     }
 
-    public static <T> RowMapper<T> create(Class<T> clazz, ThrowingBiFunction<Row, Integer, T, SQLException> mapper, List<SqlType> types) {
+    public static <T> RowMapper<T> create(
+            Class<T> clazz, ThrowingBiFunction<Row, Integer, T, SQLException> mapper, List<SqlType> types) {
         return RowMapper.forClass(clazz)
                 .mapper(row -> {
                     var meta = row.getMetaData();
                     var columnIndexOfType = Results.getFirstColumnIndexOfType(meta, types);
                     var index = columnIndexOfType.orElseThrow(() -> createException(types, meta));
                     return mapper.apply(row, index);
-                }).build();
+                })
+                .build();
     }
 
     private static SQLException createException(List<SqlType> types, ResultSetMetaData meta) {
-        var type = types.stream()
-                .map(SqlType::descr)
-                .collect(Collectors.joining(", "));
+        var type = types.stream().map(SqlType::descr).collect(Collectors.joining(", "));
         var available = "error";
         try {
             available = getColumnTypes(meta).entrySet().stream()

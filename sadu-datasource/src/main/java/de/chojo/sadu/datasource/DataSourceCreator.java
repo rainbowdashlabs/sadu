@@ -18,10 +18,11 @@ import org.jetbrains.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 /**
  * Class to create a {@link HikariDataSource} with a builder pattern.
@@ -65,7 +66,9 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
             credentials = ((RemoteJdbcConfig<?>) builder).userCredentials();
         }
         var jdbcUrl = builder.jdbcUrl();
-        log.info("Creating Hikari config using jdbc url: {}", jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
+        log.info(
+                "Creating Hikari config using jdbc url: {}",
+                jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
         hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcUrl);
         credentials.user().ifPresent(u -> hikariConfig.setUsername(u.valueRaw()));
@@ -77,7 +80,9 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
         try {
             Class.forName(builder.driverClass());
         } catch (ClassNotFoundException e) {
-            throw new DriverClassNotFoundException("Could not load driver class. Is class in class path? Use #setDriverClass when using relocation.", e);
+            throw new DriverClassNotFoundException(
+                    "Could not load driver class. Is class in class path? Use #setDriverClass when using relocation.",
+                    e);
         }
     }
 

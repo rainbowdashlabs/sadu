@@ -22,12 +22,11 @@ class PostgreSqlJdbcTest {
         return List.of(
                 Arguments.arguments("postgres", "abc"), // letters
                 Arguments.arguments("postgres", "54871"), // numbers
-                Arguments.arguments("postgres", "x89jwWpE"), //alphanumeric
+                Arguments.arguments("postgres", "x89jwWpE"), // alphanumeric
                 Arguments.arguments("postgres", "x89j&wW&pE"), // everything that could break
                 Arguments.arguments("postgres", "x89j!wW!pE"),
                 Arguments.arguments("postgres", "x89j=wW=pE"),
-                Arguments.arguments("postgres", "x89j$wW$pE")
-        );
+                Arguments.arguments("postgres", "x89j$wW$pE"));
     }
 
     @ParameterizedTest
@@ -35,9 +34,9 @@ class PostgreSqlJdbcTest {
     public void connectionTestWithDatasource(String user, String pw) {
         try (var container = createContainer(user, pw)) {
             DataSourceCreator.create(PostgreSql.get())
-                    .configure(c -> c.host(container.getHost())
-                            .port(container.getFirstMappedPort()))
-                    .create().usingUsername(user)
+                    .configure(c -> c.host(container.getHost()).port(container.getFirstMappedPort()))
+                    .create()
+                    .usingUsername(user)
                     .usingPassword(pw)
                     .build();
         }
@@ -50,7 +49,8 @@ class PostgreSqlJdbcTest {
             DataSourceCreator.create(PostgreSql.get())
                     .configure(c -> c.host(container.getHost())
                             .port(container.getFirstMappedPort())
-                            .user(user).password(pw))
+                            .user(user)
+                            .password(pw))
                     .create()
                     .build();
         }

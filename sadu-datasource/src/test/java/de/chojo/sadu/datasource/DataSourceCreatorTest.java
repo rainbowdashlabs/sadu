@@ -28,5 +28,4 @@ class DataSourceCreatorTest {
 
         Assertions.assertTrue(build.getConnection().isValid(1000));
     }
-
 }

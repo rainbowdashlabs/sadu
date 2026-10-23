@@ -29,46 +29,75 @@ import java.util.UUID;
  * Default implementations of {@link ValueReader}.
  */
 public final class StandardReader {
-    public static final ValueReader<Instant, Long> INSTANT_FROM_MILLIS = ValueReader.create(Instant::ofEpochMilli, Row::getLong, Row::getLong);
-    public static final ValueReader<Instant, Long> INSTANT_FROM_SECONDS = ValueReader.create(Instant::ofEpochSecond, Row::getLong, Row::getLong);
-    public static final ValueReader<Instant, Timestamp> INSTANT_FROM_TIMESTAMP = ValueReader.create(Timestamp::toInstant, Row::getTimestamp, Row::getTimestamp);
-    public static final ValueReader<LocalDateTime, Timestamp> LOCAL_DATE_TIME = ValueReader.create(Timestamp::toLocalDateTime, Row::getTimestamp, Row::getTimestamp);
-    public static final ValueReader<OffsetDateTime, Timestamp> OFFSET_DATE_TIME = ValueReader.create(t -> OffsetDateTime.ofInstant(t.toInstant(), ZoneId.systemDefault()), Row::getTimestamp, Row::getTimestamp);
-    public static final ValueReader<ZonedDateTime, Timestamp> ZONED_DATE_TIME = ValueReader.create(t -> t.toInstant().atZone(ZoneId.systemDefault()), Row::getTimestamp, Row::getTimestamp);
-    public static final ValueReader<OffsetTime, Time> OFFSET_TIME = ValueReader.create(t -> t.toLocalTime().atOffset(OffsetTime.now().getOffset()), Row::getTime, Row::getTime);
-    public static final ValueReader<LocalDate, Date> LOCAL_DATE = ValueReader.create(Date::toLocalDate, Row::getDate, Row::getDate);
-    public static final ValueReader<LocalTime, Time> LOCAL_TIME = ValueReader.create(Time::toLocalTime, Row::getTime, Row::getTime);
-    public static final ValueReader<UUID, String> UUID_FROM_STRING = ValueReader.create(UUID::fromString, Row::getString, Row::getString);
-    public static final ValueReader<UUID, byte[]> UUID_FROM_BYTES = ValueReader.create(UUIDConverter::convert, Row::getBytes, Row::getBytes);
+    public static final ValueReader<Instant, Long> INSTANT_FROM_MILLIS =
+            ValueReader.create(Instant::ofEpochMilli, Row::getLong, Row::getLong);
+    public static final ValueReader<Instant, Long> INSTANT_FROM_SECONDS =
+            ValueReader.create(Instant::ofEpochSecond, Row::getLong, Row::getLong);
+    public static final ValueReader<Instant, Timestamp> INSTANT_FROM_TIMESTAMP =
+            ValueReader.create(Timestamp::toInstant, Row::getTimestamp, Row::getTimestamp);
+    public static final ValueReader<LocalDateTime, Timestamp> LOCAL_DATE_TIME =
+            ValueReader.create(Timestamp::toLocalDateTime, Row::getTimestamp, Row::getTimestamp);
+    public static final ValueReader<OffsetDateTime, Timestamp> OFFSET_DATE_TIME = ValueReader.create(
+            t -> OffsetDateTime.ofInstant(t.toInstant(), ZoneId.systemDefault()), Row::getTimestamp, Row::getTimestamp);
+    public static final ValueReader<ZonedDateTime, Timestamp> ZONED_DATE_TIME =
+            ValueReader.create(t -> t.toInstant().atZone(ZoneId.systemDefault()), Row::getTimestamp, Row::getTimestamp);
+    public static final ValueReader<OffsetTime, Time> OFFSET_TIME =
+            ValueReader.create(t -> t.toLocalTime().atOffset(OffsetTime.now().getOffset()), Row::getTime, Row::getTime);
+    public static final ValueReader<LocalDate, Date> LOCAL_DATE =
+            ValueReader.create(Date::toLocalDate, Row::getDate, Row::getDate);
+    public static final ValueReader<LocalTime, Time> LOCAL_TIME =
+            ValueReader.create(Time::toLocalTime, Row::getTime, Row::getTime);
+    public static final ValueReader<UUID, String> UUID_FROM_STRING =
+            ValueReader.create(UUID::fromString, Row::getString, Row::getString);
+    public static final ValueReader<UUID, byte[]> UUID_FROM_BYTES =
+            ValueReader.create(UUIDConverter::convert, Row::getBytes, Row::getBytes);
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<LocalDate, Date> localDate(Calendar calendar) {
-        return ValueReader.create(Date::toLocalDate, (row, name) -> row.getDate(name, calendar), (row, integer) -> row.getDate(integer, calendar));
+        return ValueReader.create(
+                Date::toLocalDate,
+                (row, name) -> row.getDate(name, calendar),
+                (row, integer) -> row.getDate(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<LocalTime, Time> localTime(Calendar calendar) {
-        return ValueReader.create(Time::toLocalTime, (row, name) -> row.getTime(name, calendar), (row, integer) -> row.getTime(integer, calendar));
+        return ValueReader.create(
+                Time::toLocalTime,
+                (row, name) -> row.getTime(name, calendar),
+                (row, integer) -> row.getTime(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<OffsetTime, Time> offsetTime(Calendar calendar) {
-        return ValueReader.create(t -> t.toLocalTime().atOffset(OffsetTime.now().getOffset()), (row, name) -> row.getTime(name, calendar), (row, integer) -> row.getTime(integer, calendar));
+        return ValueReader.create(
+                t -> t.toLocalTime().atOffset(OffsetTime.now().getOffset()),
+                (row, name) -> row.getTime(name, calendar),
+                (row, integer) -> row.getTime(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<LocalDateTime, Timestamp> localDateTime(Calendar calendar) {
-        return ValueReader.create(Timestamp::toLocalDateTime, (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
+        return ValueReader.create(
+                Timestamp::toLocalDateTime,
+                (row, name) -> row.getTimestamp(name, calendar),
+                (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<OffsetDateTime, Timestamp> offsetDateTime(Calendar calendar) {
-        return ValueReader.create(t -> OffsetDateTime.ofInstant(t.toInstant(), ZoneId.systemDefault()), (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
+        return ValueReader.create(
+                t -> OffsetDateTime.ofInstant(t.toInstant(), ZoneId.systemDefault()),
+                (row, name) -> row.getTimestamp(name, calendar),
+                (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)
     public static @NotNull ValueReader<ZonedDateTime, Timestamp> zonedDateTime(Calendar calendar) {
-        return ValueReader.create(t -> t.toInstant().atZone(ZoneId.systemDefault()), (row, name) -> row.getTimestamp(name, calendar), (row, integer) -> row.getTimestamp(integer, calendar));
+        return ValueReader.create(
+                t -> t.toInstant().atZone(ZoneId.systemDefault()),
+                (row, name) -> row.getTimestamp(name, calendar),
+                (row, integer) -> row.getTimestamp(integer, calendar));
     }
 
     @Contract(value = "_ -> new", pure = true)

@@ -69,7 +69,6 @@ public class BatchCall implements Calls {
         return this;
     }
 
-
     @Override
     public List<Call> calls() {
         return Collections.unmodifiableList(calls);

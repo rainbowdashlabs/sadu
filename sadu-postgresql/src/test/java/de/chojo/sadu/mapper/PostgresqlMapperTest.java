@@ -20,40 +20,54 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testcontainers.containers.GenericContainer;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
+
+import javax.sql.DataSource;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 
 class PostgresqlMapperTest {
     @Language("postgresql")
     static final String selectBigInt = "SELECT 9223372036854775807::BIGINT";
+
     @Language("postgresql")
     static final String selectInteger = "SELECT 2147483647::INTEGER";
+
     @Language("postgresql")
     static final String selectSmallInt = "SELECT 32767::SMALLINT";
+
     @Language("postgresql")
     static final String selectDecimal = "SELECT 3276745687654.87845::DECIMAL";
+
     @Language("postgresql")
     static final String selectNumeric = "SELECT 3276745687654.87845::NUMERIC";
+
     @Language("postgresql")
     static final String selectReal = "SELECT 3267.128::REAL";
+
     @Language("postgresql")
     static final String selectDouble = "SELECT 3276745687.1265487845::DOUBLE PRECISION";
+
     @Language("postgresql")
     static final String selectText = "SELECT 'text'::TEXT";
+
     @Language("postgresql")
     static final String selectVarchar = "SELECT 'text'::VARCHAR";
+
     @Language("postgresql")
     static final String selectBool = "SELECT TRUE";
+
     @Language("postgresql")
     static final String selectChar = "SELECT 'text'::CHAR(4)";
+
     @Language("postgresql")
     static final String selectJson = "SELECT '{\"a\": \"b\"}'::JSON";
+
     @Language("postgresql")
     static final String selectJsonB = "SELECT '{\"a\": \"b\"}'::JSONB";
+
     static final long maxLong = 9223372036854775807L;
     static final int maxInt = 2147483647;
     static final short maxShort = 32767;
@@ -69,7 +83,8 @@ class PostgresqlMapperTest {
     static void beforeAll() throws IOException {
         pg = createContainer("postgres", "postgres");
         DataSource dc = DataSourceCreator.create(PostgreSql.get())
-                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort())).create()
+                .configure(c -> c.host(pg.getHost()).port(pg.getFirstMappedPort()))
+                .create()
                 .usingPassword("postgres")
                 .usingUsername("postgres")
                 .build();
@@ -91,8 +106,13 @@ class PostgresqlMapperTest {
                 Arguments.of(Long.class, selectBigInt, maxLong),
                 // REAL
                 Arguments.of(Float.class, selectReal, floatVal),
-                Arguments.of(Double.class, selectReal, Double.parseDouble(String.valueOf(floatVal))), // this is very hacky, but it's the most precise way xD
-                Arguments.of(BigDecimal.class, selectReal, BigDecimal.valueOf(Double.parseDouble(String.valueOf(floatVal)))),
+                Arguments.of(
+                        Double.class,
+                        selectReal,
+                        Double.parseDouble(
+                                String.valueOf(floatVal))), // this is very hacky, but it's the most precise way xD
+                Arguments.of(
+                        BigDecimal.class, selectReal, BigDecimal.valueOf(Double.parseDouble(String.valueOf(floatVal)))),
                 // DOUBLE PRECISION
                 Arguments.of(Double.class, selectDouble, doubleVal),
                 Arguments.of(BigDecimal.class, selectDouble, BigDecimal.valueOf(doubleVal)),
@@ -110,8 +130,7 @@ class PostgresqlMapperTest {
                 // JSONB
                 Arguments.of(String.class, selectJsonB, json),
                 // JSON
-                Arguments.of(String.class, selectJson, json)
-        );
+                Arguments.of(String.class, selectJson, json));
     }
 
     @AfterAll
@@ -122,10 +141,7 @@ class PostgresqlMapperTest {
     @ParameterizedTest
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String query, T expected) {
-        var val = Query.query(query)
-                .single()
-                .mapAs(clazz)
-                .first();
+        var val = Query.query(query).single().mapAs(clazz).first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
     }

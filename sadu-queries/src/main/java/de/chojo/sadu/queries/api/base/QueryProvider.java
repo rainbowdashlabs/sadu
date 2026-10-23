@@ -11,10 +11,11 @@ import de.chojo.sadu.core.exceptions.ThrowingFunction;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.query.QueryImpl;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
+
+import javax.sql.DataSource;
 
 @SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface QueryProvider extends ConnectionProvider, DataSourceProvider {
@@ -29,7 +30,8 @@ public interface QueryProvider extends ConnectionProvider, DataSourceProvider {
         return query().configuration();
     }
 
-    default <T> T callConnection(Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
+    default <T> T callConnection(
+            Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
         return query().callConnection(defaultResult, connectionConsumer);
     }
 }

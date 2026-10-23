@@ -13,7 +13,6 @@ import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
-import de.chojo.sadu.queries.converter.StandardValueConverter;
 import de.chojo.sadu.queries.examples.dao.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -36,14 +35,14 @@ public class LocalDateTimeTest {
     public void withoutTimezone() {
         var now = LocalDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-             .single(Call.of().bind(now, LOCAL_DATE_TIME))
-             .insert();
+                .single(Call.of().bind(now, LOCAL_DATE_TIME))
+                .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")
-                       .single()
-                       .map(row -> row.get(1, LOCAL_DATE_TIME))
-                       .first()
-                       .get();
+                .single()
+                .map(row -> row.get(1, LOCAL_DATE_TIME))
+                .first()
+                .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
     }
 
@@ -51,22 +50,27 @@ public class LocalDateTimeTest {
     public void withTimezone() {
         var now = LocalDateTime.now();
         query.query("INSERT INTO time_test(as_timestamp_tz) VALUES (?)")
-             .single(Call.of().bind(now, LOCAL_DATE_TIME))
-             .insert();
+                .single(Call.of().bind(now, LOCAL_DATE_TIME))
+                .insert();
 
         var res = query.query("SELECT as_timestamp_tz FROM time_test")
-                       .single()
-                       .map(row -> row.get(1, LOCAL_DATE_TIME))
-                       .first()
-                       .get();
+                .single()
+                .map(row -> row.get(1, LOCAL_DATE_TIME))
+                .first()
+                .get();
         Assertions.assertEquals(now.truncatedTo(ChronoUnit.SECONDS), res.truncatedTo(ChronoUnit.SECONDS));
     }
 
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry()
+                        .register(PostgresqlMapper.getDefaultMapper())
+                        .register(RowMapper.forClass(User.class)
+                                .mapper(User.map())
+                                .build()))
+                .build();
     }
 
     @AfterEach

@@ -24,24 +24,26 @@ class MySQLJdbcTest {
         return List.of(
                 Arguments.arguments("root", "abc"), // letters
                 Arguments.arguments("root", "54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE"), //alphanumeric
+                Arguments.arguments("root", "x89jwWpE"), // alphanumeric
                 Arguments.arguments("root", "x89j&wW&pE"), // everything that cold break
                 Arguments.arguments("root", "x89j!wW!pE"),
                 Arguments.arguments("root", "x89j=wW=pE"),
-                Arguments.arguments("root", "x89j$wW$pE")
-        );
+                Arguments.arguments("root", "x89j$wW$pE"));
     }
 
     private static List<Arguments> escapeTest() {
         return List.of(
                 Arguments.arguments("root", "abc", "jdbc:mysql://localhost/?user=root&password=abc"), // letters
                 Arguments.arguments("root", "54871", "jdbc:mysql://localhost/?user=root&password=54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE", "jdbc:mysql://localhost/?user=root&password=x89jwWpE"), //alphanumeric
-                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mysql://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
+                Arguments.arguments(
+                        "root", "x89jwWpE", "jdbc:mysql://localhost/?user=root&password=x89jwWpE"), // alphanumeric
+                Arguments.arguments(
+                        "root",
+                        "x89j&wW&pE",
+                        "jdbc:mysql://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
                 Arguments.arguments("root", "x89j!wW!pE", "jdbc:mysql://localhost/?user=root&password=x89j%21wW%21pE"),
                 Arguments.arguments("root", "x89j=wW=pE", "jdbc:mysql://localhost/?user=root&password=x89j%3DwW%3DpE"),
-                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mysql://localhost/?user=root&password=x89j%24wW%24pE")
-        );
+                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mysql://localhost/?user=root&password=x89j%24wW%24pE"));
     }
 
     @ParameterizedTest
@@ -49,9 +51,9 @@ class MySQLJdbcTest {
     public void connectionTestWithDatasource(String user, String pw) {
         try (var container = createContainer(user, pw)) {
             DataSourceCreator.create(MySql.get())
-                    .configure(c -> c.host(container.getHost())
-                            .port(container.getFirstMappedPort()))
-                    .create().usingUsername(user)
+                    .configure(c -> c.host(container.getHost()).port(container.getFirstMappedPort()))
+                    .create()
+                    .usingUsername(user)
                     .usingPassword(pw)
                     .build();
         }
@@ -64,13 +66,14 @@ class MySQLJdbcTest {
             DataSourceCreator.create(MySql.get())
                     .configure(c -> c.host(container.getHost())
                             .port(container.getFirstMappedPort())
-                            .user(user).password(pw))
+                            .user(user)
+                            .password(pw))
                     .create()
                     .build();
         }
     }
 
-    private GenericContainer<?> createContainer(String user/*ignored*/, String pw) {
+    private GenericContainer<?> createContainer(String user /*ignored*/, String pw) {
         GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
                 .withExposedPorts(3306)
                 .withEnv("MYSQL_ROOT_PASSWORD", pw)
@@ -82,12 +85,8 @@ class MySQLJdbcTest {
     @ParameterizedTest
     @MethodSource("escapeTest")
     public void escape(String user, String password, String result) {
-        var url = new MySQLJdbc()
-                .user(user)
-                .password(password)
-                .jdbcUrl();
+        var url = new MySQLJdbc().user(user).password(password).jdbcUrl();
 
         Assertions.assertEquals(result, url);
     }
-
 }

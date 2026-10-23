@@ -25,8 +25,7 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
 
     private String driverClass;
 
-    public JdbcConfig() {
-    }
+    public JdbcConfig() {}
 
     /**
      * Set the driver class which should be used.
@@ -99,8 +98,12 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
      */
     public <V> T addParameter(String key, V value) {
         if (!parameter.add(new JdbProperty<>(key, value))) {
-            var property = parameter.stream().filter(e -> e.key().equals(key)).findFirst().orElseThrow();
-            throw new IllegalArgumentException(String.format("Parameter '%s' is already set to '%s' and can not be set to '%s'.", key, property.value(), value));
+            var property = parameter.stream()
+                    .filter(e -> e.key().equals(key))
+                    .findFirst()
+                    .orElseThrow();
+            throw new IllegalArgumentException(String.format(
+                    "Parameter '%s' is already set to '%s' and can not be set to '%s'.", key, property.value(), value));
         }
         return self();
     }
@@ -119,9 +122,10 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
      */
     protected String parameter() {
         if (parameter.isEmpty()) return "";
-        return "?" + parameter.stream()
-                .map(prop -> String.format("%s=%s", prop.key(), prop.value()))
-                .collect(Collectors.joining("&"));
+        return "?"
+                + parameter.stream()
+                        .map(prop -> String.format("%s=%s", prop.key(), prop.value()))
+                        .collect(Collectors.joining("&"));
     }
 
     /**
@@ -131,7 +135,8 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
      * @return the value associated with the key or null
      */
     protected JdbProperty<?> removeParameter(String key) {
-        Optional<JdbProperty<?>> match = parameter.stream().filter(e -> e.key().equals(key)).findFirst();
+        Optional<JdbProperty<?>> match =
+                parameter.stream().filter(e -> e.key().equals(key)).findFirst();
         match.ifPresent(v -> parameter.removeIf(e -> e.key().equals(key)));
         return match.orElse(null);
     }

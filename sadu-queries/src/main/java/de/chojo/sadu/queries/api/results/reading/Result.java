@@ -8,7 +8,6 @@ package de.chojo.sadu.queries.api.results.reading;
 
 import de.chojo.sadu.queries.api.results.BaseResult;
 import de.chojo.sadu.queries.execution.reading.MappedQuery;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;

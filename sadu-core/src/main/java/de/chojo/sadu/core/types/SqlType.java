@@ -52,5 +52,4 @@ public interface SqlType {
         }
         return "%s (%s)".formatted(name(), String.join(", ", alias()));
     }
-
 }
