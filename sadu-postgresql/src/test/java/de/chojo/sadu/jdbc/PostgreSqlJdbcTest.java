@@ -8,6 +8,9 @@ package de.chojo.sadu.jdbc;
 
 import de.chojo.sadu.datasource.DataSourceCreator;
 import de.chojo.sadu.postgresql.databases.PostgreSql;
+import de.chojo.sadu.postgresql.jdbc.PostgreSqlJdbc;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,5 +57,12 @@ class PostgreSqlJdbcTest {
                     .create()
                     .build();
         }
+    }
+
+    @Test
+    public void sslPasswordIsText() {
+        var url = new PostgreSqlJdbc().sslpassword("secret").jdbcUrl();
+
+        Assertions.assertTrue(url.contains("sslpassword=secret"), url);
     }
 }
