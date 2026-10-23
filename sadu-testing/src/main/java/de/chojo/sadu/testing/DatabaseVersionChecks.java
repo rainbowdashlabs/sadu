@@ -9,6 +9,7 @@ package de.chojo.sadu.testing;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static de.chojo.sadu.testing.TestUtil.resourceContent;
 
@@ -26,8 +27,17 @@ public final class DatabaseVersionChecks {
      * If the version file is missing, it throws an exception with an error message.
      */
     public static void assertVersionExists() {
+        assertVersionExists(TestUtil.resourcePath());
+    }
+
+    /**
+     * Checks if the version file exists in the "database" directory below the given resources directory.
+     *
+     * @param resources the resources directory that contains the database directory
+     */
+    static void assertVersionExists(Path resources) {
         ResourceChecks.assertResource(
-                "database/version", "Version file in directory database is missing (database/version)");
+                resources, "database/version", "Version file in directory database is missing (database/version)");
     }
 
     /**
@@ -36,7 +46,17 @@ public final class DatabaseVersionChecks {
      * @throws IOException If an I/O error occurs.
      */
     public static void assertVersionNotBlank() throws IOException {
-        String content = resourceContent("database/version");
+        assertVersionNotBlank(TestUtil.resourcePath());
+    }
+
+    /**
+     * Asserts that the version file below the given resources directory is not blank.
+     *
+     * @param resources the resources directory that contains the database directory
+     * @throws IOException If an I/O error occurs.
+     */
+    static void assertVersionNotBlank(Path resources) throws IOException {
+        String content = resourceContent(resources, "database/version");
         Assertions.assertFalse(content.isBlank());
     }
 
@@ -46,7 +66,17 @@ public final class DatabaseVersionChecks {
      * @throws IOException if there is an error reading the resource content
      */
     public static void assertFormat() throws IOException {
-        assertFormat(resourceContent("database/version"));
+        assertFormat(TestUtil.resourcePath());
+    }
+
+    /**
+     * Asserts that the version file below the given resources directory has the expected format.
+     *
+     * @param resources the resources directory that contains the database directory
+     * @throws IOException if there is an error reading the version file
+     */
+    static void assertFormat(Path resources) throws IOException {
+        assertFormat(resourceContent(resources, "database/version"));
     }
 
     /**

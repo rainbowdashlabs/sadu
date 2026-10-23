@@ -9,6 +9,7 @@ package de.chojo.sadu.core.jdbc;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Driver;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -146,11 +147,39 @@ public abstract class JdbcConfig<T extends JdbcConfig<?>> {
     }
 
     /**
-     * Get the jdbc url which combines the results of {@link #baseUrl()} and {@link #parameter()}
+     * Whether the parameters are part of the {@link #jdbcUrl()}.
+     * <p>
+     * Drivers that decode parameter values from the url get them url encoded in the url. Drivers that take values from
+     * the url literally override this with {@code false} and receive the parameters as {@link #driverProperties()}.
+     *
+     * @return true if the parameters are written into the url
+     */
+    protected boolean parametersInUrl() {
+        return true;
+    }
+
+    /**
+     * The parameters which are passed to the driver as connection properties instead of the url.
+     * <p>
+     * The values are not encoded. The map is empty when the parameters are part of the {@link #jdbcUrl()}.
+     *
+     * @return parameter keys mapped to their values, in the order they were added
+     */
+    public Map<String, String> driverProperties() {
+        if (parametersInUrl()) return Map.of();
+        Map<String, String> properties = new LinkedHashMap<>();
+        parameter.forEach(property -> properties.put(property.key(), property.valueRaw()));
+        return properties;
+    }
+
+    /**
+     * Get the jdbc url which combines the results of {@link #baseUrl()} and {@link #parameter()}.
+     * <p>
+     * Contains no parameters for drivers which receive them as {@link #driverProperties()}.
      *
      * @return jdbc string
      */
     public String jdbcUrl() {
-        return baseUrl() + parameter();
+        return parametersInUrl() ? baseUrl() + parameter() : baseUrl();
     }
 }

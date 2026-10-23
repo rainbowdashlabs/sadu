@@ -8,6 +8,8 @@ package de.chojo.sadu.testing;
 
 import de.chojo.sadu.core.databases.Database;
 
+import java.nio.file.Path;
+
 /**
  * Class to check for existence of databases.
  */
@@ -22,9 +24,21 @@ public class DatabaseChecks {
      * @param database the database to be checked for existence
      */
     public static void assertDatabase(String database) {
+        assertDatabase(TestUtil.resourcePath(), database);
+    }
+
+    /**
+     * Asserts the existence of the specified database below the given resources directory.
+     *
+     * @param resources the resources directory that contains the database directory
+     * @param database  the database to be checked for existence
+     */
+    static void assertDatabase(Path resources, String database) {
         String path = "database/%s/".formatted(database);
         ResourceChecks.assertResource(
-                path, "Directory for database %s is missing. Checked for directory: %s".formatted(database, path));
+                resources,
+                path,
+                "Directory for database %s is missing. Checked for directory: %s".formatted(database, path));
     }
 
     /**

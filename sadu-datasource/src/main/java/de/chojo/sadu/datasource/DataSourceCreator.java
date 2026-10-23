@@ -71,6 +71,7 @@ public class DataSourceCreator<T extends JdbcConfig<?>> implements JdbcStage<T>,
                 jdbcUrl.replaceAll("password=.+?(&|$)", "password=******"));
         hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcUrl);
+        builder.driverProperties().forEach(hikariConfig::addDataSourceProperty);
         credentials.user().ifPresent(u -> hikariConfig.setUsername(u.valueRaw()));
         credentials.password().ifPresent(u -> hikariConfig.setPassword(u.valueRaw()));
         return this;

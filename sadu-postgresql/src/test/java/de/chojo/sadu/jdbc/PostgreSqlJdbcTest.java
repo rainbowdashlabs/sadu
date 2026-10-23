@@ -14,8 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.postgresql.Driver;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 
@@ -64,5 +67,15 @@ class PostgreSqlJdbcTest {
         var url = new PostgreSqlJdbc().sslpassword("secret").jdbcUrl();
 
         Assertions.assertTrue(url.contains("sslpassword=secret"), url);
+    }
+
+    @Test
+    public void parameterValueRoundTripsThroughTheUrl() throws SQLException {
+        var value = "a&b=c d+é%/?#";
+        var url = new PostgreSqlJdbc().applicationName(value).jdbcUrl();
+
+        var parsed = Driver.parseURL(url, new Properties());
+
+        Assertions.assertEquals(value, parsed.getProperty("ApplicationName"));
     }
 }

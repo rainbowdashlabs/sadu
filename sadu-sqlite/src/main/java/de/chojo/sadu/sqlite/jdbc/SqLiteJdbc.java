@@ -82,6 +82,16 @@ public class SqLiteJdbc extends JdbcConfig<SqLiteJdbc> {
         return super.addParameter(key, value);
     }
 
+    /**
+     * The SQLite driver does not decode parameter values in the url, so they are passed as driver properties.
+     *
+     * @return false
+     */
+    @Override
+    protected boolean parametersInUrl() {
+        return false;
+    }
+
     @Override
     protected String baseUrl() {
         return "jdbc:sqlite:" + path;

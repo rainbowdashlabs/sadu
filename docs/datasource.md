@@ -67,7 +67,12 @@ The database modules add the options that matter for their driver:
 
 The [Javadoc](pathname:///sadu/javadoc/) describes each of them.
 
-Parameter values are URL encoded for you. MariaDB passes user and password to the pool instead of the URL.
+How the parameters reach the driver depends on the database:
+
+- PostgreSQL and MySQL: in the JDBC URL, with URL encoded values. The drivers decode them, so any value works.
+- MariaDB and SQLite: as driver properties of the pool (`dataSourceProperties` in HikariCP), unencoded, because these
+  drivers take URL values literally. Their JDBC URL holds no parameters. MariaDB passes user and password to the pool
+  as `username` and `password`.
 
 ### Config objects
 
@@ -127,10 +132,11 @@ For everything else, change the `HikariConfig` directly:
 .build();
 ```
 
-`withHikariConfig(HikariConfig)` replaces the whole config, including the JDBC URL that SADU created. Use
-`editHikariConfig` unless you want that.
+`withHikariConfig(HikariConfig)` replaces the whole config, including the JDBC URL and driver properties that SADU
+created. Use `editHikariConfig` unless you want that.
 
-When the pool is created, SADU logs the JDBC URL with the password replaced by `******`.
+When the pool is created, SADU logs the JDBC URL with the password replaced by `******`. For MariaDB and SQLite the
+logged URL shows no parameters, since they are passed as driver properties.
 
 ## Relocation
 

@@ -6,10 +6,12 @@
 
 package de.chojo.sadu.jdbc;
 
+import com.mysql.cj.conf.ConnectionUrl;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import de.chojo.sadu.mysql.databases.MySql;
 import de.chojo.sadu.mysql.jdbc.MySQLJdbc;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,6 +20,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
+import java.util.Properties;
 
 class MySQLJdbcTest {
     private static List<Arguments> createCredentials() {
@@ -88,5 +91,15 @@ class MySQLJdbcTest {
         var url = new MySQLJdbc().user(user).password(password).jdbcUrl();
 
         Assertions.assertEquals(result, url);
+    }
+
+    @Test
+    public void parameterValueRoundTripsThroughTheUrl() {
+        var value = "a&b=c d+é%/?#";
+        var url = new MySQLJdbc().addParameter("serverRSAPublicKeyFile", value).jdbcUrl();
+
+        var parsed = ConnectionUrl.getConnectionUrlInstance(url, new Properties());
+
+        Assertions.assertEquals(value, parsed.getMainHost().getHostProperties().get("serverRSAPublicKeyFile"));
     }
 }
