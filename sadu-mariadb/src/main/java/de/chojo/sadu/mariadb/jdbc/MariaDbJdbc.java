@@ -177,6 +177,16 @@ public class MariaDbJdbc extends RemoteJdbcConfig<MariaDbJdbc> {
         return "org.mariadb.jdbc.Driver";
     }
 
+    /**
+     * The MariaDB driver does not decode parameter values in the url, so they are passed as driver properties.
+     *
+     * @return false
+     */
+    @Override
+    protected boolean parametersInUrl() {
+        return false;
+    }
+
     @Override
     public Credentials userCredentials() {
         return new Credentials(removeParameter("user"), removeParameter("password"));

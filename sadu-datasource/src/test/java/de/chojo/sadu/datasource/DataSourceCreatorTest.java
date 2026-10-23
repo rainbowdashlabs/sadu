@@ -12,6 +12,7 @@ import de.chojo.sadu.sqlite.databases.SqLite;
 import de.chojo.sadu.sqlite.jdbc.SqLiteJdbc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.sqlite.SQLiteConnection;
 
 import java.sql.SQLException;
 
@@ -39,5 +40,23 @@ class DataSourceCreatorTest {
                         .create());
 
         Assertions.assertTrue(exception.getMessage().contains("#driverClass"), exception.getMessage());
+    }
+
+    @Test
+    public void sqliteParametersReachTheDriverUnchanged() throws SQLException {
+        var format = "yyyy-MM-dd' a&b=c d+é%/?#'";
+        try (HikariDataSource dataSource = DataSourceCreator.create(SqLite.sqlite())
+                        .configure(config -> config.memory().addParameter("date_string_format", format))
+                        .create()
+                        .build();
+                var connection = dataSource.getConnection()) {
+            Assertions.assertEquals("jdbc:sqlite::memory:", dataSource.getJdbcUrl());
+            Assertions.assertEquals(
+                    format,
+                    connection
+                            .unwrap(SQLiteConnection.class)
+                            .getConnectionConfig()
+                            .getDateStringFormat());
+        }
     }
 }
