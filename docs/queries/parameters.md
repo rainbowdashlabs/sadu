@@ -38,14 +38,9 @@ SELECT * FROM users WHERE name = :name OR nickname = :name
 Rules for names:
 
 - A name contains only letters and underscores: `:user_name` works, `:name2` does not.
-- The colon must come right after a space, a tab, a comma, `=` or `(`.
+- The colon must come right after whitespace (a space, a tab or a line break), a comma, `=` or `(`.
 
 So `id = :id`, `(:a, :b)` and `name=:name` work. A cast like `:id::uuid` also works.
-
-:::warning
-A named parameter at the start of a line, directly after a line break, is not found. SADU then throws an
-`IllegalQueryParameterException` when you bind it. Put a space or a tab before it.
-:::
 
 ## Mixing both
 

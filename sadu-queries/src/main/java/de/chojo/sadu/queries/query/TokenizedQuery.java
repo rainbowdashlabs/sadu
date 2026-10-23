@@ -20,7 +20,7 @@ public class TokenizedQuery {
     private static final Map<String, TokenizedQuery> cache = new ConcurrentHashMap<>();
     public static final String ALLOWED_TOKEN_CHARACTER = "a-zA-Z_";
     public static final Pattern TOKEN_PATTERN = Pattern.compile(":[" + ALLOWED_TOKEN_CHARACTER + "]+");
-    public static final Pattern PARAM_TOKEN = Pattern.compile("\\?|(?:([ \t,=(])(?<token>" + TOKEN_PATTERN + "))");
+    public static final Pattern PARAM_TOKEN = Pattern.compile("\\?|(?:([\\s,=(])(?<token>" + TOKEN_PATTERN + "))");
     private final Map<Integer, Integer> indexToken;
     private final Map<String, List<Integer>> namedToken;
     private final String sql;
