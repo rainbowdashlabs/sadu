@@ -53,7 +53,5 @@ which is a `bigint`, can be read as an `Integer`. A value that does not fit fail
 `UUID` is read from a text column, or from a binary column as 16 bytes. On PostgreSQL it is also read from a `uuid`
 column.
 
-:::warning
-On MariaDB and MySQL, the `Byte[]` mapper reads text columns, not binary ones. Read binary columns with
-`row.getBytes(...)` in your own mapping.
-:::
+On MariaDB and MySQL, `Byte[]` is read from a binary column (`BINARY`, `VARBINARY` or a `BLOB` type), and also from
+a text column as the bytes of the text.
