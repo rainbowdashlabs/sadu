@@ -1,9 +1,6 @@
 name: Publish
 
 on:
-  push:
-    branches: [main]
-    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -34,9 +31,9 @@ jobs:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
       - uses: gradle/actions/setup-gradle@v6
-      - run: echo "Publishing SADU $(./gradlew -q :printVersion)" >> "$GITHUB_STEP_SUMMARY"
-      - run: ./gradlew publishChannel -x test --no-configuration-cache
+      - run: ./gradlew publishToMavenCentral -x test --no-configuration-cache
         env:
+          PUBLISHDATA_REF: refs/tags/v2.4.0
           ORG_GRADLE_PROJECT_EldoNexusUsername: ${{ secrets.NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_EldoNexusPassword: ${{ secrets.NEXUS_PASSWORD }}
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
