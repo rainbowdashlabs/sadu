@@ -308,7 +308,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                     currMajor++;
                     currPatch = 0;
                 } else {
-                    break;
+                    throw new UpdateException("Patch database/%s/%d/patch_%d.sql is missing for version %s."
+                            .formatted(type.name(), currMajor, currPatch + 1, version));
                 }
             }
         }
