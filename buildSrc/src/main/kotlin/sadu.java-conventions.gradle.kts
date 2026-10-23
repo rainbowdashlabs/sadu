@@ -11,15 +11,18 @@ repositories {
 }
 
 java {
-    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+    withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.withType<JavaCompile>().configureEach {
+    options.release = 21
     options.encoding = "UTF-8"
 }
 
 tasks.withType<Javadoc>().configureEach {
-    (options as StandardJavadocDocletOptions).links("https://docs.oracle.com/en/java/javase/17/docs/api/")
+    (options as StandardJavadocDocletOptions).links("https://docs.oracle.com/en/java/javase/21/docs/api/")
 }
 
 dependencies {
