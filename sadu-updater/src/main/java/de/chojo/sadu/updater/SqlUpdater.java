@@ -211,13 +211,13 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
                 hook.accept(new LockedConnectionDelegate(conn));
                 log.info("Post update hook applied");
             }
+            writeVersion(conn, patch.major(), patch.patch());
             conn.commit();
         } catch (Exception e) {
             log.warn("Database update failed", e);
             throw e;
         }
         log.info("Patch applied.");
-        updateVersion(patch.major(), patch.patch());
         if (patch.patch() != 0) {
             log.info("Deployed patch {}.{} to database.", patch.major(), patch.patch());
         } else {
@@ -241,42 +241,53 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             }
 
             if (isSetup) {
-                log.info("Setup database with version {}", version.major());
-                for (var query : type.splitStatements(getSetup())) {
-                    try (var stmt = conn.prepareStatement(adjust(query))) {
-                        stmt.execute();
-                    }
-                }
-                log.info("Initial setup complete. Ready to patch.");
-                updateVersion(version.major(), 0);
+                setup(conn);
             }
         }
     }
 
     /**
-     * Update the current database Version.
+     * Runs the setup of the current major version and stores its version in one transaction.
+     */
+    private void setup(Connection conn) throws IOException, SQLException {
+        log.info("Setup database with version {}", version.major());
+        var autoCommit = conn.getAutoCommit();
+        conn.setAutoCommit(false);
+        try {
+            for (var query : type.splitStatements(getSetup())) {
+                try (var stmt = conn.prepareStatement(adjust(query))) {
+                    stmt.execute();
+                }
+            }
+            writeVersion(conn, version.major(), 0);
+            conn.commit();
+        } catch (IOException | SQLException | RuntimeException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(autoCommit);
+        }
+        log.info("Initial setup complete. Ready to patch.");
+    }
+
+    /**
+     * Replaces the stored database version, as part of the transaction of the connection.
      *
+     * @param conn    connection of the running transaction
      * @param version new version of database
      * @param patch   new patch of database
+     * @throws SQLException if the version could not be written
      */
-    private void updateVersion(int version, int patch) {
-        try (var conn = source.getConnection()) {
-            try (var statement = conn.prepareStatement(type.deleteVersion(versionTable))) {
-                statement.execute();
-            }
-            try (var statement = conn.prepareStatement(type.insertVersion(versionTable))) {
-                statement.setInt(1, version);
-                statement.setInt(2, patch);
-                statement.execute();
-            } catch (SQLException e) {
-                log.error("Failed change database version!", e);
-                throw new UpdateException("Failed change database version", e);
-            }
-            log.info("Set database to version {} patch {}!", version, patch);
-        } catch (SQLException e) {
-            log.error("Failed change database version!", e);
-            throw new UpdateException("Failed change database version", e);
+    private void writeVersion(Connection conn, int version, int patch) throws SQLException {
+        try (var statement = conn.prepareStatement(type.deleteVersion(versionTable))) {
+            statement.execute();
         }
+        try (var statement = conn.prepareStatement(type.insertVersion(versionTable))) {
+            statement.setInt(1, version);
+            statement.setInt(2, patch);
+            statement.execute();
+        }
+        log.info("Set database to version {} patch {}!", version, patch);
     }
 
     private SqlVersion getSqlVersion() {

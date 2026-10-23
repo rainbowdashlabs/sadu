@@ -33,7 +33,7 @@ Never change a patch that is already released. Databases that ran it will not ru
 For a database on version `1.0` and your version `1.3`:
 
 1. It reads the stored version `1.0`.
-2. It runs `patch_1.sql`, commits and stores `1.1`.
+2. It runs `patch_1.sql` and stores `1.1` in the same transaction.
 3. It does the same for `patch_2.sql` and `patch_3.sql`.
 4. It stops when the stored version equals your version.
 
