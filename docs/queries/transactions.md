@@ -5,8 +5,8 @@ sidebar_position: 7
 
 # Transactions
 
-By default every execution is its own transaction. A single call or a whole batch is committed when it is done. This
-page shows how to run several queries in one transaction.
+By default every execution is its own transaction. A single call or a whole batch is committed when it is done, and a
+batch with a failed call is rolled back. This page shows how to run several queries in one transaction.
 
 ## Single transaction
 

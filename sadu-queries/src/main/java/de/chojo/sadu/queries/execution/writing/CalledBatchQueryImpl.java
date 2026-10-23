@@ -48,7 +48,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     var changes = stmt.executeUpdate();
                     changed.add(new InsertionResultImpl(this, changes, Results.generatedKeys(stmt)));
                 } catch (SQLException ex) {
-                    query().handleException(new QueryException(parsedQuery, ex));
+                    handleCallFailure(ex);
                 }
             }
             return new InsertionBatchResultImpl(this, changed);
@@ -64,7 +64,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new InsertionResultImpl(this, stmt.executeUpdate(), Collections.emptyList()));
                 } catch (SQLException ex) {
-                    query().handleException(new QueryException(parsedQuery, ex));
+                    handleCallFailure(ex);
                 }
             }
             return new InsertionBatchResultImpl(this, changed);
@@ -81,7 +81,7 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     changed.add(new ManipulationResultImpl(this, stmt.executeUpdate()));
                 } catch (SQLException ex) {
-                    query().handleException(new QueryException(parsedQuery, ex));
+                    handleCallFailure(ex);
                 }
             }
             return new ManipulationBatchResultImpl<>(this, changed);
@@ -96,5 +96,20 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
     @Override
     public QueryImpl query() {
         return parsedQuery.query();
+    }
+
+    /**
+     * Handles a failed call of the batch. In an atomic configuration the failure ends the batch, so its transaction is
+     * rolled back. Otherwise the failure is reported and the remaining calls run.
+     *
+     * @param ex the exception of the call
+     * @throws QueryException in an atomic configuration
+     */
+    private void handleCallFailure(SQLException ex) throws QueryException {
+        var exception = new QueryException(parsedQuery, ex);
+        if (query().configuration().atomic()) {
+            throw exception;
+        }
+        query().handleException(exception);
     }
 }

@@ -45,10 +45,10 @@ A stream of calls can also be collected with `Calls.collect()` into a `BatchCall
 
 A batch can only write: `insert()`, `insertAndGetKeys()`, `update()` and `delete()`. It can not read rows.
 
-Each call of a batch is sent as its own statement. If one of them fails, the exception goes to your handler. On
-MariaDB, MySQL and SQLite the other calls still run and are committed. PostgreSQL aborts the whole transaction after
-the first error. Set `setThrowExceptions(true)` on the [configuration](./configuration.md) to
-stop and commit nothing instead.
+Each call of a batch is sent as its own statement. If one of them fails, the batch stops, nothing of it is committed
+and the exception goes to your handler and into the [result](./results.md#exceptions-in-results). With
+`setAtomic(false)` on the [configuration](./configuration.md), the failed call is skipped instead, and the other calls
+run and are committed one by one.
 
 ## Calls from stored results
 
