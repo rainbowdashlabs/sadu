@@ -19,7 +19,7 @@ public class AppendedQueryImpl implements QueryProvider, AppendedQuery {
 
     @Override
     public ParsedQueryImpl query(@Language("sql") String sql, Object... format) {
-        return ParsedQueryImpl.create(query, sql.formatted(format));
+        return ParsedQueryImpl.create(query, sql, format);
     }
 
     @Override

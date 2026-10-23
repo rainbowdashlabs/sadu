@@ -62,11 +62,9 @@ PostgreSQL supports.
 
 Outside a single transaction you can chain queries too, but then each query is committed on its own.
 
-:::warning
-`query(...)` after `storeOneAndAppend` or `storeAllAndAppend` always formats the SQL, even without format
-arguments. A `%` in that SQL, like in `LIKE 'a%'`, then throws an `UnknownFormatConversionException`. Write it as
-`%%`, or pass the pattern as a parameter.
-:::
+`query(...)` after `storeOneAndAppend` or `storeAllAndAppend` takes [format arguments](./parameters.md#formatting-the-query) like
+`Query.query(...)`. The SQL is only formatted when you pass some, so a `%` like in `LIKE 'a%'` needs no escaping
+otherwise.
 
 ## Use your own connection
 
