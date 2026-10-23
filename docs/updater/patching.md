@@ -33,18 +33,16 @@ Never change a patch that is already released. Databases that ran it will not ru
 For a database on version `1.0` and your version `1.3`:
 
 1. It reads the stored version `1.0`.
-2. It runs `patch_1.sql`, commits and stores `1.1`.
+2. It runs `patch_1.sql` and stores `1.1` in the same transaction.
 3. It does the same for `patch_2.sql` and `patch_3.sql`.
 4. It stops when the stored version equals your version.
 
 If a patch fails, the updater stops with an `UpdateException`. The database keeps the last version that worked, and
 the next start continues from there.
 
-:::warning
-If a patch file is missing, for example `patch_2.sql` while `version` says `1.3`, the updater stops after
-`patch_1.sql` without an error. The database stays on `1.1`. [Test your patch files](./testing.mdx) to catch this
+If a patch file is missing, for example `patch_2.sql` while `version` says `1.3`, the updater throws an
+`UpdateException` that names the file before it runs any patch. [Test your patch files](./testing.mdx) to catch this
 early.
-:::
 
 ## setup.sql and patches
 

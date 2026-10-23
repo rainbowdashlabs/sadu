@@ -139,7 +139,11 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
     ConnectedQueryConfigurationImpl withSingleTransaction();
 
     /**
-     * Inject a connection into this configuration
+     * Inject a connection into this configuration.
+     * <p>
+     * Before the first query, auto commit of the connection is turned off if the configuration is atomic and on
+     * otherwise. Closing the configuration commits, or rolls back if a query failed, and closes the connection.
+     *
      * @param connection the connection to inject
      * @return new connected query configuration
      */

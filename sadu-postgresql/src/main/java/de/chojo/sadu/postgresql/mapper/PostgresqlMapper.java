@@ -27,9 +27,9 @@ import static de.chojo.sadu.mapper.DefaultMapper.createUuid;
 public final class PostgresqlMapper {
     public static final RowMapper<Boolean> BOOLEAN_MAPPER = createBoolean(List.of(PostgreSqlTypes.BOOLEAN));
     public static final RowMapper<Short> SHORT_MAPPER =
-            createShort(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER));
+            createShort(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER, PostgreSqlTypes.BIGINT));
     public static final RowMapper<Integer> INTEGER_MAPPER =
-            createInteger(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER));
+            createInteger(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER, PostgreSqlTypes.BIGINT));
     public static final RowMapper<Long> LONG_MAPPER =
             createLong(List.of(PostgreSqlTypes.SMALLINT, PostgreSqlTypes.INTEGER, PostgreSqlTypes.BIGINT));
     public static final RowMapper<Float> FLOAT_MAPPER = createFloat(List.of(PostgreSqlTypes.REAL));
@@ -45,7 +45,7 @@ public final class PostgresqlMapper {
             PostgreSqlTypes.JSONB));
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(PostgreSqlTypes.BYTEA));
     public static final RowMapper<UUID> UUID_MAPPER =
-            createUuid(List.of(PostgreSqlTypes.TEXT), List.of(PostgreSqlTypes.BYTEA));
+            createUuid(List.of(PostgreSqlTypes.UUID, PostgreSqlTypes.TEXT), List.of(PostgreSqlTypes.BYTEA));
 
     private PostgresqlMapper() {
         throw new UnsupportedOperationException("This is a utility class.");

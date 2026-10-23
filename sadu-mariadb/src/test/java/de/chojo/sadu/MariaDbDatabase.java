@@ -15,7 +15,8 @@ public class MariaDbDatabase {
         GenericContainer<?> self = new GenericContainer<>(DockerImageName.parse("mariadb:latest"))
                 .withExposedPorts(3306)
                 .withEnv("MARIADB_ROOT_PASSWORD", pw)
-                .waitingFor(Wait.forLogMessage(".*mariadbd: ready for connections\\..*", 2));
+                .waitingFor(Wait.forLogMessage(".*mariadbd: ready for connections\\..*", 2))
+                .withStartupAttempts(3);
         self.start();
         return self;
     }

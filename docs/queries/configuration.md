@@ -24,17 +24,11 @@ QueryConfiguration config = QueryConfiguration.builder(dataSource)
 | Setting | Default | What it does |
 |---|---|---|
 | `setExceptionHandler(Consumer<SQLException>)` | prints the exception to `System.err` | Gets every `SQLException` of a query. |
-| `setThrowExceptions(boolean)` | `false` | When `true`, a failed query throws a `WrappedQueryExecutionException` (unchecked) after the handler ran. Nothing of that execution is committed. |
+| `setThrowExceptions(boolean)` | `false` | When `true`, a failed query throws a `WrappedQueryExecutionException` (unchecked) after the handler ran. In an atomic configuration nothing of that execution is committed. |
 | `setRowMapperRegistry(RowMapperRegistry)` | an empty registry | The mappers used by `mapAs(...)`. See [Row mapping](../mapping/index.md). |
-| `setAtomic(boolean)` | `true` | See the warning below. |
+| `setAtomic(boolean)` | `true` | When `true`, every execution and every [single transaction](./transactions.md) runs in a transaction that is committed at the end and rolled back on an error. When `false`, the connection keeps auto commit on and each statement is committed on its own; a failed call of a [batch](./calls.md#batch-calls) is then skipped. |
 
 Set an exception handler that logs to your logger. The default one prints to standard error.
-
-:::warning
-`setAtomic` has no effect at the moment. Every execution already runs in its own transaction, and a single
-transaction configuration is always atomic. In a batch, a call that fails is skipped and the other calls are still
-committed, unless you set `setThrowExceptions(true)`.
-:::
 
 Errors in your own code are not `SQLException`s and are always thrown, for example a parameter that is missing or
 bound twice (`IllegalQueryParameterException`).

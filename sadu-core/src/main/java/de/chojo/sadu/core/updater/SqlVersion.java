@@ -8,6 +8,7 @@ package de.chojo.sadu.core.updater;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -29,7 +30,7 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
      * Parses the sql version stored in database/version inside the current classloader
      *
      * @return sql version
-     * @throws IOException when the resource could not get read
+     * @throws IOException when the resource could not get read, or {@link FileNotFoundException} when it does not exist
      */
     public static SqlVersion load() throws IOException {
         return load(SqlVersion.class.getClassLoader());
@@ -40,11 +41,15 @@ public record SqlVersion(int major, int patch) implements Comparable<SqlVersion>
      *
      * @param classLoader classloader to load the resource
      * @return sql version
-     * @throws IOException when the resource could not get read
+     * @throws IOException when the resource could not get read, or {@link FileNotFoundException} when it does not exist
      */
     public static SqlVersion load(ClassLoader classLoader) throws IOException {
         var version = "";
         try (var versionFile = classLoader.getResourceAsStream("database/version")) {
+            if (versionFile == null) {
+                throw new FileNotFoundException(
+                        "Resource database/version not found. Add it or set the version on the updater builder.");
+            }
             version = new String(versionFile.readAllBytes(), StandardCharsets.UTF_8);
         }
 

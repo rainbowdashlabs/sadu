@@ -46,4 +46,13 @@ class TokenizedQueryTest {
     void tokenizedSql() {
         assertEquals("INSERT INTO persons VALUES(?, ?,?::integer, ?, ?,?,?);", tokenizedQuery.tokenizedSql());
     }
+
+    @Test
+    void namedTokenAfterLineBreak() {
+        var query = TokenizedQuery.create("SELECT * FROM users WHERE id =\n:id OR name =\r\n:name");
+
+        assertEquals(List.of(1), query.getNamedTokenIndex(":id"));
+        assertEquals(List.of(2), query.getNamedTokenIndex(":name"));
+        assertEquals("SELECT * FROM users WHERE id =\n? OR name =\r\n?", query.tokenizedSql());
+    }
 }

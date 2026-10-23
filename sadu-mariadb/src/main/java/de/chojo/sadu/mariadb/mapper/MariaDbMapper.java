@@ -47,6 +47,12 @@ public final class MariaDbMapper {
             MariaDbTypes.VARCHAR,
             MariaDbTypes.CHAR));
     public static final RowMapper<Byte[]> BYTES_MAPPER = createBytes(List.of(
+            MariaDbTypes.BINARY,
+            MariaDbTypes.VARBINARY,
+            MariaDbTypes.TINYBLOB,
+            MariaDbTypes.BLOB,
+            MariaDbTypes.MEDIUMBLOB,
+            MariaDbTypes.LONGBLOB,
             MariaDbTypes.TINYTEXT,
             MariaDbTypes.TEXT,
             MariaDbTypes.MEDIUMTEXT,

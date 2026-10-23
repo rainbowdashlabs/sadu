@@ -75,6 +75,21 @@ public class PatchChecks {
      */
     @ApiStatus.Internal
     public static void checkFiles(int baseVersion, String currentVersion, String... databases) throws IOException {
+        checkFiles(TestUtil.resourcePath(), baseVersion, currentVersion, databases);
+    }
+
+    /**
+     * Check the consistency of files in the given databases, read from the given resources directory.
+     *
+     * @param resources      the resources directory that contains the database directory
+     * @param baseVersion    The base version of the database.
+     * @param currentVersion The current version of the database.
+     * @param databases      The names of the databases to check.
+     * @throws IOException          If an I/O error occurs while accessing the files.
+     * @throws AssertionFailedError If there are missing or unreachable files in the databases.
+     */
+    static void checkFiles(Path resources, int baseVersion, String currentVersion, String... databases)
+            throws IOException {
         // Map for all files present for a single database
         Map<String, List<Path>> databaseFiles = new HashMap<>();
         // All unique files in all databases
@@ -82,7 +97,7 @@ public class PatchChecks {
 
         // collect all files from all databases
         for (var database : databases) {
-            var dbBase = TestUtil.resourcePath().resolve("database/%s".formatted(database));
+            var dbBase = resources.resolve("database/%s".formatted(database));
             try (var stream = Files.walk(dbBase)) {
                 var files = stream.filter(p -> p.toFile().isFile())
                         .map(dbBase::relativize)
@@ -96,7 +111,7 @@ public class PatchChecks {
         // checking each database against the ref files and report differences
         for (var database : databaseFiles.keySet()) {
             var files = databaseFiles.get(database);
-            if (refFiles.containsAll(files)) continue;
+            if (files.containsAll(refFiles)) continue;
             var missing = new HashSet<>(refFiles);
             // Remove all existing files from the ref files
             files.forEach(missing::remove);

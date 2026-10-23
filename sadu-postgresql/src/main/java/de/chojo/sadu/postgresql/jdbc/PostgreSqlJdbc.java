@@ -141,8 +141,20 @@ public class PostgreSqlJdbc extends RemoteJdbcConfig<PostgreSqlJdbc> {
      *
      * @param sslpassword sslpassword
      * @return builder instance
+     * @deprecated a password is not a number, use {@link #sslpassword(String)}
      */
+    @Deprecated(since = "2.4.0")
     public PostgreSqlJdbc sslpassword(int sslpassword) {
+        return sslpassword(String.valueOf(sslpassword));
+    }
+
+    /**
+     * Password of the SSL key, used by the ConsoleCallbackHandler.
+     *
+     * @param sslpassword sslpassword
+     * @return builder instance
+     */
+    public PostgreSqlJdbc sslpassword(String sslpassword) {
         return addParameter("sslpassword", sslpassword);
     }
 

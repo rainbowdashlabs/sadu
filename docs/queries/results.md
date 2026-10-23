@@ -45,14 +45,10 @@ A mapping must return your own object. Returning the `Row` or the `ResultSet` it
 |---|---|
 | `getEnum(column, Class)` | an enum constant from its name |
 | `getLocalDate`, `getLocalTime`, `getLocalDateTime` | the `java.time` types, optionally with a `Calendar` |
-| `getList(column)` | an SQL array as an unmodifiable `List`, empty when the column is `NULL` |
+| `getList(column)` | an SQL array as a `List`, empty when the column is `NULL`; `NULL` elements become `null` |
 | `get(column, ValueReader)` | any value with a reader, see below |
 
 Getters for primitives return `0` or `false` for `NULL`, just like JDBC.
-
-:::warning
-`getList` fails with a `NullPointerException` if the array contains `NULL` elements.
-:::
 
 ### Value readers
 
@@ -73,12 +69,8 @@ Mode mode = row.get("mode", StandardReader.forEnum(Mode.class));
 | `forEnum(Class)` | an enum constant from its name |
 | `localDate(Calendar)` and the other methods with a `Calendar` | the time types with a calendar |
 
-A reader returns `null` when the column is `NULL`.
-
-:::warning
-`INSTANT_FROM_MILLIS` and `INSTANT_FROM_SECONDS` read the column as a `long`. For `NULL` that is `0`, so you get
-`1970-01-01T00:00:00Z` instead of `null`.
-:::
+A reader returns `null` when the column is `NULL`, also the readers of epoch numbers (`INSTANT_FROM_MILLIS`,
+`INSTANT_FROM_SECONDS`).
 
 ### Value converters
 
@@ -139,9 +131,18 @@ the result of each call.
 
 ## Exceptions in results
 
-Every result has `exceptions()` and `hasExceptions()`.
+Every result has `exceptions()` and `hasExceptions()`. They hold the `SQLException`s of the query that produced the
+result, after they went to the exception handler of your [configuration](./configuration.md). In a
+[chain of queries](./transactions.md#chain-queries), they hold the exceptions of every query of the chain so far.
 
-:::warning
-`exceptions()` is always empty at the moment, even when the query failed, so `hasExceptions()` is always `false`. Use
-the exception handler or `setThrowExceptions(true)` of your [configuration](./configuration.md) to react to errors.
-:::
+```java
+ManipulationResult result = Query.query("UPDATE users SET name = ? WHERE id = ?")
+        .single(Call.of().bind("lilly").bind(1))
+        .update();
+
+if (result.hasExceptions()) {
+    log.warn("Rename failed", result.exceptions().get(0));
+}
+```
+
+With `setThrowExceptions(true)`, a failed query throws instead, so you never get a result with exceptions.

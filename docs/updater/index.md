@@ -30,15 +30,12 @@ Read on in this order:
 
 ## Transactions
 
-Each patch runs in its own transaction together with its update hooks. If a statement fails, that patch is rolled
-back, the updater stops and throws an `UpdateException`. Patches that already ran stay applied.
+Each patch runs in its own transaction together with its update hooks and the new version. If a statement fails, that
+patch is rolled back, the updater stops and throws an `UpdateException`. Patches that already ran stay applied.
+`setup.sql` also runs in one transaction together with its version.
 
-Some parts do not run in that transaction:
-
-- `setup.sql` runs with the auto commit setting of your data source. If it fails halfway, the part before the error
-  stays in the database.
-- The new version is written after the patch is committed, on its own connection.
-- MariaDB and MySQL commit every `CREATE`, `ALTER` and `DROP` right away. A patch with such statements can not be
-  rolled back on these databases.
+MariaDB and MySQL commit every `CREATE`, `ALTER` and `DROP` right away. A script with such statements can not be rolled
+back on these databases. On PostgreSQL, statements that can not run in a transaction, like
+`CREATE INDEX CONCURRENTLY`, can not be used in `setup.sql` or a patch.
 
 Write your scripts so that they can run again where possible, for example with `CREATE TABLE IF NOT EXISTS`.

@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -30,9 +31,9 @@ import java.util.UUID;
  */
 public final class StandardReader {
     public static final ValueReader<Instant, Long> INSTANT_FROM_MILLIS =
-            ValueReader.create(Instant::ofEpochMilli, Row::getLong, Row::getLong);
+            ValueReader.create(Instant::ofEpochMilli, StandardReader::nullableLong, StandardReader::nullableLong);
     public static final ValueReader<Instant, Long> INSTANT_FROM_SECONDS =
-            ValueReader.create(Instant::ofEpochSecond, Row::getLong, Row::getLong);
+            ValueReader.create(Instant::ofEpochSecond, StandardReader::nullableLong, StandardReader::nullableLong);
     public static final ValueReader<Instant, Timestamp> INSTANT_FROM_TIMESTAMP =
             ValueReader.create(Timestamp::toInstant, Row::getTimestamp, Row::getTimestamp);
     public static final ValueReader<LocalDateTime, Timestamp> LOCAL_DATE_TIME =
@@ -103,5 +104,23 @@ public final class StandardReader {
     @Contract(value = "_ -> new", pure = true)
     public static <T extends Enum<T>> @NotNull ValueReader<T, String> forEnum(Class<T> clazz) {
         return ValueReader.create(v -> Enum.valueOf(clazz, v), Row::getString, Row::getString);
+    }
+
+    /**
+     * Reads a column as a {@link Long} that is {@code null} for SQL {@code NULL}, unlike {@link Row#getLong(String)}.
+     */
+    private static Long nullableLong(Row row, String column) throws SQLException {
+        Object value = row.getObject(column);
+        if (value == null) return null;
+        return value instanceof Number number ? number.longValue() : row.getLong(column);
+    }
+
+    /**
+     * Reads a column as a {@link Long} that is {@code null} for SQL {@code NULL}, unlike {@link Row#getLong(int)}.
+     */
+    private static Long nullableLong(Row row, int column) throws SQLException {
+        Object value = row.getObject(column);
+        if (value == null) return null;
+        return value instanceof Number number ? number.longValue() : row.getLong(column);
     }
 }

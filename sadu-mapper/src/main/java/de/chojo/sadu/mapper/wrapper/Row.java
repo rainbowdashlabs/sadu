@@ -733,7 +733,7 @@ public class Row {
      *                      called on a closed result set
      */
     public <T> List<T> getList(String columnLabel) throws SQLException {
-        return ArrayConverter.toList(resultSet, columnLabel);
+        return ArrayConverter.toList(resultSet, columnAlias(columnLabel));
     }
 
     /**

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.testcontainers.containers.GenericContainer;
 
 import java.io.IOException;
@@ -114,6 +115,12 @@ class MariaDbMapperTest {
                 .build());
         Query.query(TEST_TABLE).single().insert();
         assert Query.query(INSERTS).single().insert().rows() > 0 : "Could not insert data.";
+        Query.query("CREATE TABLE binary_test(fixed BINARY(3), variable VARBINARY(3), large BLOB)")
+                .single()
+                .insert();
+        Query.query("INSERT INTO binary_test VALUES ('abc', 'abc', 'abc')")
+                .single()
+                .insert();
     }
 
     static Stream<Arguments> shortTestInput() {
@@ -163,5 +170,16 @@ class MariaDbMapperTest {
         var val = Query.query("SELECT %s FROM test", _col).single().mapAs(clazz).first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"fixed", "variable", "large"})
+    void readsBinaryColumnsAsBytes(String column) {
+        var val = Query.query("SELECT %s FROM binary_test", column)
+                .single()
+                .mapAs(Byte[].class)
+                .first();
+        Assertions.assertTrue(val.isPresent());
+        Assertions.assertArrayEquals(new Byte[] {'a', 'b', 'c'}, val.get());
     }
 }

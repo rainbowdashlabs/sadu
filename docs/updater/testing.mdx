@@ -60,6 +60,7 @@ The first argument is the oldest major version you still ship. Then list every d
 `SaduTests.execute` checks that:
 
 - there is a directory for every database,
+- every database directory has the same files,
 - `database/version` exists and has the format `<major>.<patch>`,
 - every major version from the oldest one to the current one has a `setup.sql`,
 - every major version before the current one has a `migrate.sql`,
@@ -69,11 +70,6 @@ The first argument is the oldest major version you still ship. Then list every d
 The checks read the files from `src/main/resources`, relative to the directory the test runs in. With Gradle and
 Maven that is the module directory, so the test has to live in the same module as the resources.
 
-:::warning
-The check that every database directory has the same files does not work at the moment. A file that exists for one
-database but is missing for another is not reported.
-:::
-
 ## Single checks
 
 The checks of `SaduTests.execute` are also available on their own:
@@ -82,5 +78,5 @@ The checks of `SaduTests.execute` are also available on their own:
 |---|---|
 | `DatabaseChecks.assertDatabase(...)` | the directories of the databases exist |
 | `DatabaseVersionChecks.all()` | the version file exists, is not blank and has the right format |
-| `PatchChecks.checkFiles(baseVersion, databases...)` | setup, migration and patch files are complete and reachable |
+| `PatchChecks.checkFiles(baseVersion, databases...)` | every database has the same files, and setup, migration and patch files are complete and reachable |
 | `ResourceChecks.assertResource(path)` | any file below `src/main/resources` exists |

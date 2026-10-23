@@ -11,12 +11,16 @@ import de.chojo.sadu.core.updater.SqlVersion;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -100,5 +104,39 @@ class SqlUpdaterTest {
 
         assertEquals(new SqlVersion(3, 1), patches.get(5).version());
         assertEquals("patch 3.1", patches.get(5).query());
+    }
+
+    @Test
+    @SuppressWarnings({"unchecked"})
+    void missingPatchOfCurrentMajorFails() throws Exception {
+        ClassLoader loader = mock(ClassLoader.class);
+        when(loader.getResource(anyString())).thenAnswer(invocation -> {
+            String name = invocation.getArgument(0, String.class);
+            return "database/postgres/1/patch_1.sql".equals(name)
+                    ? SqlUpdaterTest.class.getResource("SqlUpdaterTest.class")
+                    : null;
+        });
+        when(loader.getResourceAsStream(anyString()))
+                .thenAnswer(invocation -> new ByteArrayInputStream("patch".getBytes()));
+
+        Database database = mock(Database.class);
+        when(database.name()).thenReturn("postgres");
+
+        SqlUpdater updater = new SqlUpdater(
+                mock(DataSource.class),
+                "version",
+                new QueryReplacement[0],
+                new SqlVersion(1, 3),
+                database,
+                Map.of(),
+                Map.of(),
+                loader);
+
+        var method = SqlUpdater.class.getDeclaredMethod("getPatchesFrom", int.class, int.class);
+        method.setAccessible(true);
+
+        var exception = assertThrows(InvocationTargetException.class, () -> method.invoke(updater, 1, 0));
+        assertInstanceOf(UpdateException.class, exception.getCause());
+        assertTrue(exception.getCause().getMessage().contains("database/postgres/1/patch_2.sql"));
     }
 }
