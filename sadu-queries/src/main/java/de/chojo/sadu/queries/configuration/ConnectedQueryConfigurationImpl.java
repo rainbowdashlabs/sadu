@@ -18,9 +18,15 @@ import java.util.function.Consumer;
 
 import javax.sql.DataSource;
 
+/**
+ * A configuration that runs all its queries on one connection. The connection is taken from the data source on first
+ * use or injected with {@link #withConnection(Connection)}. Before the first query, auto commit of the connection is
+ * set to match {@link #atomic()}.
+ */
 public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImpl
         implements ConnectedQueryConfiguration {
     private Connection connection;
+    private boolean prepared;
 
     ConnectedQueryConfigurationImpl(
             QueryContext context,
@@ -51,13 +57,14 @@ public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImp
     public void close() {
         if (connection == null) return;
         try (var conn = connection) {
-            if (atomic()) {
+            if (atomic() && !conn.getAutoCommit()) {
                 finishTransaction(conn);
             }
         } catch (SQLException e) {
             handleException(e);
         } finally {
             connection = null;
+            prepared = false;
         }
     }
 
@@ -71,14 +78,17 @@ public class ConnectedQueryConfigurationImpl extends ActiveQueryConfigurationImp
 
     @Override
     public Connection connection() {
-        if (connection == null) {
-            try {
+        try {
+            if (connection == null) {
                 connection = dataSource.getConnection();
-                connection.setAutoCommit(!atomic);
-            } catch (SQLException e) {
-                handleException(e);
-                throw (WrappedQueryExecutionException) new WrappedQueryExecutionException(e.getMessage()).initCause(e);
             }
+            if (!prepared) {
+                connection.setAutoCommit(!atomic);
+                prepared = true;
+            }
+        } catch (SQLException e) {
+            handleException(e);
+            throw (WrappedQueryExecutionException) new WrappedQueryExecutionException(e.getMessage()).initCause(e);
         }
         return connection;
     }

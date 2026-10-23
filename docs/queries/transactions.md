@@ -72,7 +72,6 @@ If you already have a connection, for example from another library, hand it to S
 
 ```java
 Connection connection = dataSource.getConnection();
-connection.setAutoCommit(false);
 
 try (ConnectedQueryConfiguration tx = config.withConnection(connection)) {
     tx.query("INSERT INTO users(name) VALUES (?)")
@@ -81,13 +80,9 @@ try (ConnectedQueryConfiguration tx = config.withConnection(connection)) {
 }
 ```
 
-At the end of the block SADU commits, if no query failed, and closes the connection. `close()` of
+SADU turns off auto commit on the connection before the first query, so all queries run in one transaction. At the
+end of the block SADU commits, or rolls back if a query failed, and closes the connection. With `setAtomic(false)`
+SADU turns auto commit on instead and only closes the connection. `close()` of
 `ConnectedQueryConfiguration` is declared to throw `Exception`, so the surrounding code has to handle it.
-
-:::warning
-SADU does not turn off auto commit on a connection you pass in. Turn it off yourself as shown above. Otherwise every
-statement is committed right away, and the commit at the end fails and reports an `SQLException` to your exception
-handler.
-:::
 
 Calling `withConnection` on a configuration that already has a connection commits and closes the old one first.
