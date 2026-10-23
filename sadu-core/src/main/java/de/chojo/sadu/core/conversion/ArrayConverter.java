@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -168,7 +169,7 @@ public final class ArrayConverter {
      */
     public static <T> Set<T> toSet(ResultSet resultSet, String column) throws SQLException {
         T[] objects = toArray(resultSet, column);
-        return objects == null ? new HashSet<>() : Set.of();
+        return objects == null ? new HashSet<>() : new HashSet<>(Arrays.asList(objects));
     }
 
     /**
