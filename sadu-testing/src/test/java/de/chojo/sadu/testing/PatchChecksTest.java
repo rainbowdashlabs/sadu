@@ -19,8 +19,9 @@ class PatchChecksTest {
 
     @Test
     void checkFiles() throws IOException {
-        Assertions.assertDoesNotThrow(() -> PatchChecks.checkFiles(1, "2.1", "postgresql"));
-        Assertions.assertThrows(AssertionFailedError.class, () -> PatchChecks.checkFiles(1, "2.2", "postgresql"));
+        Assertions.assertDoesNotThrow(() -> PatchChecks.checkFiles(TestResources.PATH, 1, "2.1", "postgresql"));
+        Assertions.assertThrows(
+                AssertionFailedError.class, () -> PatchChecks.checkFiles(TestResources.PATH, 1, "2.2", "postgresql"));
     }
 
     @Test

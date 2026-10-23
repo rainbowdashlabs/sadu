@@ -37,7 +37,19 @@ public class TestUtil {
      * @throws IOException if an I/O error occurs while reading the file
      */
     public static String resourceContent(String path) throws IOException {
-        return Files.readString(resourcePath().resolve(path));
+        return resourceContent(resourcePath(), path);
+    }
+
+    /**
+     * Returns the content of a file below the given resources directory.
+     *
+     * @param resources the resources directory
+     * @param path      the path of the file, relative to the resources directory
+     * @return the content of the file as a string
+     * @throws IOException if an I/O error occurs while reading the file
+     */
+    static String resourceContent(Path resources, String path) throws IOException {
+        return Files.readString(resources.resolve(path));
     }
 
     /**

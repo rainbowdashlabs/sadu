@@ -13,17 +13,17 @@ import org.opentest4j.AssertionFailedError;
 class DatabaseVersionChecksTest {
     @Test
     void assertVersionExists() {
-        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertVersionExists());
+        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertVersionExists(TestResources.PATH));
     }
 
     @Test
     void assertVersionNotBlank() {
-        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertVersionNotBlank());
+        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertVersionNotBlank(TestResources.PATH));
     }
 
     @Test
     void assertFormat() {
-        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertFormat());
+        Assertions.assertDoesNotThrow(() -> DatabaseVersionChecks.assertFormat(TestResources.PATH));
         Assertions.assertThrows(AssertionFailedError.class, () -> DatabaseVersionChecks.assertFormat("1"));
         Assertions.assertThrows(AssertionFailedError.class, () -> DatabaseVersionChecks.assertFormat("1.0.0"));
     }
