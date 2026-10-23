@@ -44,7 +44,7 @@ import static de.chojo.sadu.core.conversion.ArrayConverter.toSqlArray;
 public final class StandardAdapter {
     public static final Adapter<String> STRING = Adapter.create(PreparedStatement::setString, Types.VARCHAR);
     public static final Adapter<Enum<?>> ENUM = Adapter.create(PreparedStatement::setString, Types.VARCHAR, Enum::name);
-    public static final Adapter<Short> SHORT = Adapter.create(PreparedStatement::setShort, Types.TINYINT);
+    public static final Adapter<Short> SHORT = Adapter.create(PreparedStatement::setShort, Types.SMALLINT);
     public static final Adapter<Integer> INTEGER = Adapter.create(PreparedStatement::setInt, Types.INTEGER);
     public static final Adapter<BigDecimal> BIG_DECIMAL =
             Adapter.create(PreparedStatement::setBigDecimal, Types.DECIMAL);
@@ -52,7 +52,7 @@ public final class StandardAdapter {
     public static final Adapter<Double> DOUBLE = Adapter.create(PreparedStatement::setDouble, Types.DOUBLE);
     public static final Adapter<Long> LONG = Adapter.create(PreparedStatement::setLong, Types.BIGINT);
     public static final Adapter<Boolean> BOOLEAN = Adapter.create(PreparedStatement::setBoolean, Types.BOOLEAN);
-    public static final Adapter<Byte> BYTE = Adapter.create(PreparedStatement::setByte, Types.BIT);
+    public static final Adapter<Byte> BYTE = Adapter.create(PreparedStatement::setByte, Types.TINYINT);
     public static final Adapter<byte[]> BYTE_ARRAY = Adapter.create(PreparedStatement::setBytes, Types.BINARY);
     public static final Adapter<Date> DATE = Adapter.create(PreparedStatement::setDate, Types.DATE);
     public static final Adapter<LocalDate> LOCAL_DATE =
