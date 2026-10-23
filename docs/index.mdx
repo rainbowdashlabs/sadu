@@ -1,0 +1,155 @@
+---
+title: SADU
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# SADU
+
+SADU stands for "SQL and damn utilities". It takes the boilerplate out of plain JDBC and still lets you write your
+own SQL. It is not an ORM like Hibernate or JPA. You keep full control over every query.
+
+What you get:
+
+- a [data source builder](./datasource.md) for HikariCP connection pools,
+- a [query builder](./queries/index.md) that handles statements, parameters, results and exceptions,
+- [row mapping](./mapping/index.md) from result rows to your own classes,
+- an [updater](./updater/index.md) that sets up and patches your database schema from SQL files,
+- [checks for your patch files](./updater/testing.mdx) in your unit tests.
+
+SADU supports PostgreSQL, MariaDB, MySQL and SQLite.
+
+## Requirements
+
+| What | Version |
+|---|---|
+| Java | 21 or newer. SADU is compiled for Java 21. |
+| JDBC driver | The driver of your database. SADU does not ship it. |
+| SLF4J | SADU logs through `slf4j-api` and brings it. Add an SLF4J binding (for example `slf4j-simple` or Logback) to see the log output. |
+
+## Modules
+
+SADU is split into modules, so you only add what you need.
+
+| Module | What it does |
+|---|---|
+| `sadu-postgresql`, `sadu-mariadb`, `sadu-mysql`, `sadu-sqlite` | Support for one database. Pick at least one. See [Databases](./databases.mdx). |
+| `sadu-datasource` | Builds a HikariCP data source. See [Data source](./datasource.md). |
+| `sadu-queries` | The query builder. See [Queries](./queries/index.md). |
+| `sadu-mapper` | Maps rows to objects. The database modules and `sadu-queries` bring it. See [Row mapping](./mapping/index.md). |
+| `sadu-updater` | Deploys and patches your schema. The database modules bring it. See [Updater](./updater/index.md). |
+| `sadu-testing` | JUnit checks for your updater files. See [Test your patch files](./updater/testing.mdx). |
+| `sadu-core` | Shared code. Every other module brings it. |
+| `sadu` | Everything above except `sadu-testing`, in one artifact. |
+
+A database module only holds the parts that are special for that database. It does not include the query builder or
+the data source builder. Add those modules as well.
+
+## Add the dependency
+
+SADU is published to Maven Central. Snapshots are on EldoNexus
+(`https://eldonexus.de/repository/maven-snapshots/`).
+
+This example adds PostgreSQL support, the data source builder and the query builder:
+
+<Tabs groupId="build-tool">
+<TabItem value="gradle" label="Gradle (Kotlin DSL)">
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("de.chojo.sadu:sadu-postgresql:2.4.0")
+    implementation("de.chojo.sadu:sadu-datasource:2.4.0")
+    implementation("de.chojo.sadu:sadu-queries:2.4.0")
+    implementation("org.postgresql:postgresql:42.7.14")
+}
+```
+
+</TabItem>
+<TabItem value="gradle-groovy" label="Gradle (Groovy)">
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'de.chojo.sadu:sadu-postgresql:2.4.0'
+    implementation 'de.chojo.sadu:sadu-datasource:2.4.0'
+    implementation 'de.chojo.sadu:sadu-queries:2.4.0'
+    implementation 'org.postgresql:postgresql:42.7.14'
+}
+```
+
+</TabItem>
+<TabItem value="maven" label="Maven">
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>de.chojo.sadu</groupId>
+        <artifactId>sadu-postgresql</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>de.chojo.sadu</groupId>
+        <artifactId>sadu-datasource</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>de.chojo.sadu</groupId>
+        <artifactId>sadu-queries</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.7.14</version>
+    </dependency>
+</dependencies>
+```
+
+</TabItem>
+</Tabs>
+
+The `sadu` artifact contains all modules except `sadu-testing`. It is handy to try things out. In a real project,
+add only the modules you use.
+
+## A first look
+
+Create a data source, configure the query builder once and run a query:
+
+```java
+HikariDataSource dataSource = DataSourceCreator.create(PostgreSql.get())
+        .configure(config -> config
+                .host("localhost")
+                .port(5432)
+                .database("app")
+                .user("app")
+                .password("secret"))
+        .create()
+        .build();
+
+QueryConfiguration.setDefault(QueryConfiguration.builder(dataSource).build());
+
+Optional<String> name = Query.query("SELECT name FROM users WHERE id = ?")
+        .single(Call.of().bind(42))
+        .map(row -> row.getString("name"))
+        .first();
+```
+
+SADU opens the connection, sets the parameter, reads the result and closes everything again.
+
+## Where to go next
+
+- [Databases](./databases.mdx): the database modules and their column types.
+- [Data source](./datasource.md): build a HikariCP connection pool.
+- [Queries](./queries/index.md): read and write data with the query builder.
+- [Row mapping](./mapping/index.md): turn rows into your own classes.
+- [Updater](./updater/index.md): set up and patch your database schema.
+- [Javadoc](pathname:///sadu/javadoc/): every class and method.

@@ -1,0 +1,86 @@
+---
+title: Test your patch files
+sidebar_position: 6
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Test your patch files
+
+`sadu-testing` checks your updater files in a unit test, so a missing patch or migration script fails your build
+instead of your database update. It runs on JUnit and brings JUnit Jupiter 6 with it.
+
+<Tabs groupId="build-tool">
+<TabItem value="gradle" label="Gradle (Kotlin DSL)">
+
+```kotlin
+dependencies {
+    testImplementation("de.chojo.sadu:sadu-testing:2.4.0")
+}
+```
+
+</TabItem>
+<TabItem value="gradle-groovy" label="Gradle (Groovy)">
+
+```groovy
+dependencies {
+    testImplementation 'de.chojo.sadu:sadu-testing:2.4.0'
+}
+```
+
+</TabItem>
+<TabItem value="maven" label="Maven">
+
+```xml
+<dependency>
+    <groupId>de.chojo.sadu</groupId>
+    <artifactId>sadu-testing</artifactId>
+    <version>2.4.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+</TabItem>
+</Tabs>
+
+## Write the test
+
+```java
+class DatabaseFilesTest {
+    @Test
+    void checkDatabaseFiles() throws IOException {
+        SaduTests.execute(1, PostgreSql.get(), SqLite.get());
+    }
+}
+```
+
+The first argument is the oldest major version you still ship. Then list every database your application supports.
+
+`SaduTests.execute` checks that:
+
+- there is a directory for every database,
+- `database/version` exists and has the format `<major>.<patch>`,
+- every major version from the oldest one to the current one has a `setup.sql`,
+- every major version before the current one has a `migrate.sql`,
+- the current major version has every patch up to the current patch,
+- there are no files the updater would never reach, like a patch after a gap.
+
+The checks read the files from `src/main/resources`, relative to the directory the test runs in. With Gradle and
+Maven that is the module directory, so the test has to live in the same module as the resources.
+
+:::warning
+The check that every database directory has the same files does not work at the moment. A file that exists for one
+database but is missing for another is not reported.
+:::
+
+## Single checks
+
+The checks of `SaduTests.execute` are also available on their own:
+
+| Class | Checks |
+|---|---|
+| `DatabaseChecks.assertDatabase(...)` | the directories of the databases exist |
+| `DatabaseVersionChecks.all()` | the version file exists, is not blank and has the right format |
+| `PatchChecks.checkFiles(baseVersion, databases...)` | setup, migration and patch files are complete and reachable |
+| `ResourceChecks.assertResource(path)` | any file below `src/main/resources` exists |
