@@ -19,8 +19,7 @@ public class MySql implements DefaultDatabase<MySQLJdbc, BaseSqlUpdaterBuilder<M
 
     private static final MySql type = new MySql();
 
-    private MySql() {
-    }
+    private MySql() {}
 
     /**
      * The MySQL type.

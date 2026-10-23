@@ -8,13 +8,14 @@ package de.chojo.sadu.queries.configuration;
 
 import de.chojo.sadu.mapper.RowMapperRegistry;
 import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
-import de.chojo.sadu.queries.api.query.ParsedQuery;
 import de.chojo.sadu.queries.api.configuration.context.QueryContext;
+import de.chojo.sadu.queries.api.query.ParsedQuery;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 public class ConnectedQueryQueryConfigurationDelegate implements ConnectedQueryConfiguration {
     private final ConnectedQueryConfigurationImpl configuration;

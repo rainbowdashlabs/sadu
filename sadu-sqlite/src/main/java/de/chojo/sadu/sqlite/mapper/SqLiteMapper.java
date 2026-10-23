@@ -40,6 +40,14 @@ public final class SqLiteMapper {
     }
 
     public static List<RowMapper<?>> getDefaultMapper() {
-        return List.of(BOOLEAN_MAPPER, INTEGER_MAPPER, LONG_MAPPER, FLOAT_MAPPER, DOUBLE_MAPPER, STRING_MAPPER, BYTES_MAPPER, UUID_MAPPER);
+        return List.of(
+                BOOLEAN_MAPPER,
+                INTEGER_MAPPER,
+                LONG_MAPPER,
+                FLOAT_MAPPER,
+                DOUBLE_MAPPER,
+                STRING_MAPPER,
+                BYTES_MAPPER,
+                UUID_MAPPER);
     }
 }

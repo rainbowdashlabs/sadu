@@ -42,7 +42,8 @@ public class CalledBatchQueryImpl implements QueryProvider, CalledBatchQuery {
         return query().callConnection(() -> new InsertionBatchResultImpl(this, Collections.emptyList()), conn -> {
             var changed = new ArrayList<InsertionResult>();
             for (var call : calls.calls()) {
-                try (var stmt = conn.prepareStatement(parsedQuery.sql().tokenizedSql(), Statement.RETURN_GENERATED_KEYS)) {
+                try (var stmt =
+                        conn.prepareStatement(parsedQuery.sql().tokenizedSql(), Statement.RETURN_GENERATED_KEYS)) {
                     ((CallImpl) call).apply(parsedQuery.sql(), stmt);
                     var changes = stmt.executeUpdate();
                     changed.add(new InsertionResultImpl(this, changes, Results.generatedKeys(stmt)));

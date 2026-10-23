@@ -15,8 +15,7 @@ import java.util.List;
 public class SimpleExceptionHolder implements ExceptionHolder {
     private final List<Exception> exceptions = new LinkedList<>();
 
-    public SimpleExceptionHolder() {
-    }
+    public SimpleExceptionHolder() {}
 
     @Override
     public List<Exception> exceptions() {

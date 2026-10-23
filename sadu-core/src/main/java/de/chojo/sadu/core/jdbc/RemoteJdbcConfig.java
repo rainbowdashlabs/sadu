@@ -25,8 +25,7 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
     private String port;
     private String database;
 
-    public RemoteJdbcConfig() {
-    }
+    public RemoteJdbcConfig() {}
 
     /**
      * Apply the given {@link DatabaseConfig} to configure the connection settings.
@@ -151,9 +150,7 @@ public abstract class RemoteJdbcConfig<T extends RemoteJdbcConfig<?>> extends Jd
 
     @Override
     protected String baseUrl() {
-        var jdbc = new StringBuilder("jdbc:")
-                .append(driver())
-                .append(":");
+        var jdbc = new StringBuilder("jdbc:").append(driver()).append(":");
 
         if (port != null && host == null) {
             throw new IllegalStateException("A port can not be defined without defining a host.");

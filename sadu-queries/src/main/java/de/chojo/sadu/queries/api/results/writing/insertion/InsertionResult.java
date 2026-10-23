@@ -21,5 +21,4 @@ public interface InsertionResult extends ManipulationResult {
      * @return a List of Long representing the keys of the inserted rows
      */
     List<Long> keys();
-
 }

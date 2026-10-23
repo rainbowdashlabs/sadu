@@ -45,5 +45,4 @@ public interface DatabaseConfig {
      * @return The name of the database.
      */
     String database();
-
 }

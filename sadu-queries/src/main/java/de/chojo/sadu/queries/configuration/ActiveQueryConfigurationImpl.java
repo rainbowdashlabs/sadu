@@ -12,14 +12,21 @@ import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 public class ActiveQueryConfigurationImpl extends QueryConfigurationImpl implements ActiveQueryConfiguration {
     protected final @NotNull QueryContext context;
 
-    public ActiveQueryConfigurationImpl(@NotNull DataSource dataSource, boolean atomic, boolean throwExceptions, Consumer<SQLException> exceptionHandler, RowMapperRegistry rowMapperRegistry, @NotNull QueryContext context) {
+    public ActiveQueryConfigurationImpl(
+            @NotNull DataSource dataSource,
+            boolean atomic,
+            boolean throwExceptions,
+            Consumer<SQLException> exceptionHandler,
+            RowMapperRegistry rowMapperRegistry,
+            @NotNull QueryContext context) {
         super(dataSource, atomic, throwExceptions, exceptionHandler, rowMapperRegistry);
         this.context = context;
     }

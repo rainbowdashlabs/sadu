@@ -26,7 +26,8 @@ public final class DatabaseVersionChecks {
      * If the version file is missing, it throws an exception with an error message.
      */
     public static void assertVersionExists() {
-        ResourceChecks.assertResource("database/version", "Version file in directory database is missing (database/version)");
+        ResourceChecks.assertResource(
+                "database/version", "Version file in directory database is missing (database/version)");
     }
 
     /**
@@ -38,7 +39,6 @@ public final class DatabaseVersionChecks {
         String content = resourceContent("database/version");
         Assertions.assertFalse(content.isBlank());
     }
-
 
     /**
      * Asserts that the format of a resource content matches the expected format.
@@ -56,8 +56,12 @@ public final class DatabaseVersionChecks {
      */
     public static void assertFormat(String version) {
         var split = version.split("\\.");
-        Assertions.assertNotEquals(1, split.length, "Version does not contain a patch <major>.<patch> is expected. Got %s".formatted(version));
-        Assertions.assertEquals(2, split.length, "Unexpected format detected. <major>.<patch> is expected. Got %s".formatted(version));
+        Assertions.assertNotEquals(
+                1,
+                split.length,
+                "Version does not contain a patch <major>.<patch> is expected. Got %s".formatted(version));
+        Assertions.assertEquals(
+                2, split.length, "Unexpected format detected. <major>.<patch> is expected. Got %s".formatted(version));
     }
 
     /**

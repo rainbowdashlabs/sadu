@@ -118,5 +118,4 @@ public interface MariaDbTypes {
      * Timestamp
      */
     SqlType TIMESTAMP = ofName("TIMESTAMP");
-
 }

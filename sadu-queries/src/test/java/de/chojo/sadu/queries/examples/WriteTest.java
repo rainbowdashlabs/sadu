@@ -37,7 +37,9 @@ public class WriteTest {
     @BeforeEach
     void beforeEach() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
+                .build();
     }
 
     @AfterEach
@@ -104,7 +106,9 @@ public class WriteTest {
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new batch call
-                .batch(Stream.generate(UUID::randomUUID).limit(2).map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
+                .batch(Stream.generate(UUID::randomUUID)
+                        .limit(2)
+                        .map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
                 // Insert the data
                 .insert();
 
@@ -126,7 +130,9 @@ public class WriteTest {
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new batch call
-                .batch(Stream.generate(UUID::randomUUID).limit(2).map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
+                .batch(Stream.generate(UUID::randomUUID)
+                        .limit(2)
+                        .map(id -> Call.of().bind("uuid", id, AS_STRING).bind((String) null)))
                 // Insert the data
                 .insertAndGetKeys();
 
@@ -153,7 +159,9 @@ public class WriteTest {
                 // Define the query
                 .query("INSERT INTO users(uuid, name) VALUES(:uuid::uuid,?)")
                 // Create a new call
-                .single(Call.of().bind("uuid", UUID.randomUUID(), UUIDAdapter.AS_STRING).bind("someone"))
+                .single(Call.of()
+                        .bind("uuid", UUID.randomUUID(), UUIDAdapter.AS_STRING)
+                        .bind("someone"))
                 // Insert the data
                 .insert();
 

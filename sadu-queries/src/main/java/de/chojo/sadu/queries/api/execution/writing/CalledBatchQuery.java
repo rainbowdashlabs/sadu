@@ -32,7 +32,6 @@ public interface CalledBatchQuery {
      */
     InsertionBatchResult<InsertionResult> insertAndGetKeys();
 
-
     /**
      * Executes update operations as part of a batch query.
      * Returns the result of the update operation.

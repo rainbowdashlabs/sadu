@@ -28,7 +28,8 @@ import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.api.call.Call.call;
 import static de.chojo.sadu.queries.call.adapter.UUIDAdapter.AS_STRING;
 
-@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"
+})
 public class TransactionTest {
     private static QueryConfiguration query;
     private static PostgresDatabase.Database db;
@@ -36,7 +37,9 @@ public class TransactionTest {
     @BeforeAll
     static void beforeAll() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper()))
+                .build();
     }
 
     @AfterAll
@@ -50,13 +53,18 @@ public class TransactionTest {
         try (var conn = query.withSingleTransaction()) {
             // Retrieve the first user and store them it to use it again later
             // From here on another query could be issued that uses the results of this query
-            ManipulationResult manipulation = conn.query("INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
+            ManipulationResult manipulation = conn.query(
+                            "INSERT INTO users(uuid, name) VALUES (:uuid::uuid, :name) RETURNING id, uuid, name")
                     .single(call().bind("uuid", UUID.randomUUID(), AS_STRING).bind("name", "lilly"))
                     .map(User.map())
                     .storeOneAndAppend("user")
                     .query("INSERT INTO birthdays(user_id, birth_date) VALUES (:id, :date)")
                     // produce error
-                    .single(storage -> call().bind("id", storage.getAs("user", User.class).get().id()).bind("date", "").asSingleCall())
+                    .single(storage -> call().bind(
+                                    "id",
+                                    storage.getAs("user", User.class).get().id())
+                            .bind("date", "")
+                            .asSingleCall())
                     .insert();
         }
 
@@ -68,6 +76,4 @@ public class TransactionTest {
         // Make sure that the first insert was not commited
         Assertions.assertEquals(0, users.size());
     }
-
-
 }

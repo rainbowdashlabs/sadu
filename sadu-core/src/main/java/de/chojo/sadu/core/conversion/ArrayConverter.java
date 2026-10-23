@@ -118,7 +118,8 @@ public final class ArrayConverter {
     @SuppressWarnings("unchecked")
     @Nullable
     @Contract("_,_,!null -> !null")
-    public static <T> T[] toArray(@NotNull ResultSet resultSet, @NotNull String column, @Nullable T[] def) throws SQLException {
+    public static <T> T[] toArray(@NotNull ResultSet resultSet, @NotNull String column, @Nullable T[] def)
+            throws SQLException {
         var array = fromResultSet(resultSet, column);
         return array == null ? def : (T[]) toArray(array);
     }
@@ -148,7 +149,8 @@ public final class ArrayConverter {
      * @throws SQLException                    if an error occurs while attempting to access the array
      * @throws SQLFeatureNotSupportedException if the JDBC driver does not support this method
      */
-    public static <T extends Collection<T>> T toCollection(ResultSet resultSet, String column, Supplier<T> supplier) throws SQLException {
+    public static <T extends Collection<T>> T toCollection(ResultSet resultSet, String column, Supplier<T> supplier)
+            throws SQLException {
         var collection = supplier.get();
         collection.addAll(List.of(toArray(resultSet, column)));
         return collection;
@@ -198,7 +200,6 @@ public final class ArrayConverter {
         T[] objects = toArray(resultSet, column);
         return objects == null ? new ArrayList<>() : List.of(objects);
     }
-
 
     /**
      * Convert a java collection to a sql array of the required type.

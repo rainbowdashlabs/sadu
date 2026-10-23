@@ -93,7 +93,8 @@ class RemoteJdbcConfigTest {
 
     @Test
     void testIpv6() {
-        var jdbcUrl = jdbc.ipv6("1:2:3:4:5:6:7:8").port("1234").database("database").jdbcUrl();
+        var jdbcUrl =
+                jdbc.ipv6("1:2:3:4:5:6:7:8").port("1234").database("database").jdbcUrl();
         Assertions.assertEquals("jdbc:driver://[1:2:3:4:5:6:7:8]:1234/database", jdbcUrl);
     }
 
@@ -111,7 +112,9 @@ class RemoteJdbcConfigTest {
 
     @Test
     void testReassigmentParameter() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> jdbc.addParameter("key", "value").addParameter("key", "value"));
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> jdbc.addParameter("key", "value").addParameter("key", "value"));
     }
 
     @Test

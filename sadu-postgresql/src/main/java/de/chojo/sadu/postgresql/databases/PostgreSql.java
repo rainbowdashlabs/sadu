@@ -18,8 +18,7 @@ public class PostgreSql implements DefaultDatabase<PostgreSqlJdbc, PostgreSqlUpd
 
     private static final PostgreSql type = new PostgreSql();
 
-    private PostgreSql() {
-    }
+    private PostgreSql() {}
 
     /**
      * The PostgreSQL type.
@@ -46,7 +45,7 @@ public class PostgreSql implements DefaultDatabase<PostgreSqlJdbc, PostgreSqlUpd
 
     @Override
     public String[] alias() {
-        return new String[]{"postgres"};
+        return new String[] {"postgres"};
     }
 
     @Override

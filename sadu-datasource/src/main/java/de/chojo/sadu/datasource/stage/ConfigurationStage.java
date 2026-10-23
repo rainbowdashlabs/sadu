@@ -10,10 +10,11 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.sql.DataSource;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 /**
  * Configuration stage, which is used to configurate a {@link com.zaxxer.hikari.HikariConfig}.

@@ -10,20 +10,21 @@ import de.chojo.sadu.core.base.DataSourceProvider;
 import de.chojo.sadu.core.exceptions.ThrowingFunction;
 import de.chojo.sadu.queries.api.base.ConnectionProvider;
 import de.chojo.sadu.queries.api.base.QueryProvider;
+import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
+import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.api.exception.ExceptionHolder;
 import de.chojo.sadu.queries.api.query.Query;
-import de.chojo.sadu.queries.api.configuration.ActiveQueryConfiguration;
-import de.chojo.sadu.queries.api.configuration.ConnectedQueryConfiguration;
 import de.chojo.sadu.queries.configuration.context.SimpleQueryContext;
 import de.chojo.sadu.queries.storage.ResultStorageImpl;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+
+import javax.sql.DataSource;
 
 public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryProvider, Query, ExceptionHolder {
 
@@ -40,7 +41,6 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
         return conf.dataSource();
     }
 
-
     @Override
     public QueryImpl query() {
         return this;
@@ -56,7 +56,8 @@ public class QueryImpl implements DataSourceProvider, ConnectionProvider, QueryP
     }
 
     @Override
-    public <T> T callConnection(Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
+    public <T> T callConnection(
+            Supplier<T> defaultResult, ThrowingFunction<T, Connection, SQLException> connectionConsumer) {
         if (conf instanceof ConnectedQueryConfiguration conn) {
             try {
                 return connectionConsumer.apply(conn.connection());

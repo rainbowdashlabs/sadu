@@ -24,24 +24,29 @@ class MariaDbJdbcTest {
         return List.of(
                 Arguments.arguments("root", "abc"), // letters
                 Arguments.arguments("root", "54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE"), //alphanumeric
+                Arguments.arguments("root", "x89jwWpE"), // alphanumeric
                 Arguments.arguments("root", "x89j&wW&pE"), // everything that cold break
                 Arguments.arguments("root", "x89j!wW!pE"),
                 Arguments.arguments("root", "x89j=wW=pE"),
-                Arguments.arguments("root", "x89j$wW$pE")
-        );
+                Arguments.arguments("root", "x89j$wW$pE"));
     }
 
     private static List<Arguments> escapeTest() {
         return List.of(
                 Arguments.arguments("root", "abc", "jdbc:mariadb://localhost/?user=root&password=abc"), // letters
                 Arguments.arguments("root", "54871", "jdbc:mariadb://localhost/?user=root&password=54871"), // numbers
-                Arguments.arguments("root", "x89jwWpE", "jdbc:mariadb://localhost/?user=root&password=x89jwWpE"), //alphanumeric
-                Arguments.arguments("root", "x89j&wW&pE", "jdbc:mariadb://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
-                Arguments.arguments("root", "x89j!wW!pE", "jdbc:mariadb://localhost/?user=root&password=x89j%21wW%21pE"),
-                Arguments.arguments("root", "x89j=wW=pE", "jdbc:mariadb://localhost/?user=root&password=x89j%3DwW%3DpE"),
-                Arguments.arguments("root", "x89j$wW$pE", "jdbc:mariadb://localhost/?user=root&password=x89j%24wW%24pE")
-        );
+                Arguments.arguments(
+                        "root", "x89jwWpE", "jdbc:mariadb://localhost/?user=root&password=x89jwWpE"), // alphanumeric
+                Arguments.arguments(
+                        "root",
+                        "x89j&wW&pE",
+                        "jdbc:mariadb://localhost/?user=root&password=x89j%26wW%26pE"), // everything that could break
+                Arguments.arguments(
+                        "root", "x89j!wW!pE", "jdbc:mariadb://localhost/?user=root&password=x89j%21wW%21pE"),
+                Arguments.arguments(
+                        "root", "x89j=wW=pE", "jdbc:mariadb://localhost/?user=root&password=x89j%3DwW%3DpE"),
+                Arguments.arguments(
+                        "root", "x89j$wW$pE", "jdbc:mariadb://localhost/?user=root&password=x89j%24wW%24pE"));
     }
 
     @ParameterizedTest
@@ -49,9 +54,9 @@ class MariaDbJdbcTest {
     public void connectionTestWithDatasource(String user, String pw) {
         try (var container = createContainer(user, pw)) {
             DataSourceCreator.create(MariaDb.get())
-                    .configure(c -> c.host(container.getHost())
-                            .port(container.getFirstMappedPort()))
-                    .create().usingUsername(user)
+                    .configure(c -> c.host(container.getHost()).port(container.getFirstMappedPort()))
+                    .create()
+                    .usingUsername(user)
                     .usingPassword(pw)
                     .build();
         }
@@ -64,20 +69,17 @@ class MariaDbJdbcTest {
             DataSourceCreator.create(MariaDb.get())
                     .configure(c -> c.host(container.getHost())
                             .port(container.getFirstMappedPort())
-                            .user(user).password(pw))
+                            .user(user)
+                            .password(pw))
                     .create()
                     .build();
         }
     }
 
-
     @ParameterizedTest
     @MethodSource("escapeTest")
     public void escape(String user, String password, String result) {
-        var url = new MariaDbJdbc()
-                .user(user)
-                .password(password)
-                .jdbcUrl();
+        var url = new MariaDbJdbc().user(user).password(password).jdbcUrl();
 
         Assertions.assertEquals(result, url);
     }

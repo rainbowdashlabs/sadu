@@ -48,8 +48,7 @@ public final class CallImpl implements Call {
     private final List<BaseParameter> parameter = new ArrayList<>();
     private int index = 1;
 
-    public CallImpl() {
-    }
+    public CallImpl() {}
 
     private int nextIndex() {
         return index++;
@@ -65,7 +64,8 @@ public final class CallImpl implements Call {
         return this;
     }
 
-    private ThrowingBiConsumer<PreparedStatement, Integer, SQLException> nullSave(Object value, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply, int type) {
+    private ThrowingBiConsumer<PreparedStatement, Integer, SQLException> nullSave(
+            Object value, ThrowingBiConsumer<PreparedStatement, Integer, SQLException> apply, int type) {
         if (value == null) return (stmt, index) -> stmt.setNull(index, type);
         return apply;
     }

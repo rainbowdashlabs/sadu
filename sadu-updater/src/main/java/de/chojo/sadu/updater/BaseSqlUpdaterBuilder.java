@@ -13,20 +13,21 @@ import de.chojo.sadu.core.updater.SqlVersion;
 import de.chojo.sadu.core.updater.UpdaterBuilder;
 import org.jetbrains.annotations.CheckReturnValue;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 /**
  * Class to build a {@link SqlUpdater} with a builder pattern
  *
  * @param <T> The type of the jdbc link defined by the {@link Database}
  */
-public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpdaterBuilder<T, ?>> implements UpdaterBuilder<T, S> {
+public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpdaterBuilder<T, ?>>
+        implements UpdaterBuilder<T, S> {
     protected final Database<T, S> type;
     protected DataSource source;
     protected SqlVersion version;
@@ -87,7 +88,6 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
         return self();
     }
 
-
     @Override
     public S withClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
@@ -102,7 +102,8 @@ public class BaseSqlUpdaterBuilder<T extends JdbcConfig<?>, S extends BaseSqlUpd
      */
     public void execute() throws SQLException, IOException {
         if (version == null) version = SqlVersion.load(classLoader);
-        var sqlUpdater = new SqlUpdater<>(source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
+        var sqlUpdater = new SqlUpdater<>(
+                source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         sqlUpdater.init();
     }
 

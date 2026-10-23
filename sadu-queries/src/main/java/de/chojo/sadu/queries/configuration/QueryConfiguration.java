@@ -12,8 +12,9 @@ import de.chojo.sadu.queries.api.configuration.context.QueryContext;
 import de.chojo.sadu.queries.api.query.ParsedQuery;
 import org.intellij.lang.annotations.Language;
 
-import javax.sql.DataSource;
 import java.util.Objects;
+
+import javax.sql.DataSource;
 
 /**
  * Replaced by equal interface at {@link de.chojo.sadu.queries.api.configuration.QueryConfiguration}
@@ -26,7 +27,9 @@ public interface QueryConfiguration {
      * @return the default QueryConfiguration
      */
     static de.chojo.sadu.queries.api.configuration.QueryConfiguration getDefault() {
-        return Objects.requireNonNull(de.chojo.sadu.queries.api.configuration.QueryConfiguration.DEFAULT.get(), "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
+        return Objects.requireNonNull(
+                de.chojo.sadu.queries.api.configuration.QueryConfiguration.DEFAULT.get(),
+                "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
     }
 
     /**

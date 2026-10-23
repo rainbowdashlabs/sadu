@@ -41,9 +41,12 @@ public final class StatementSplitter {
      * </p>
      */
     public static final String DEFAULT_DELIMITER_KEYWORD = "DELIMITER";
+
     private static final Pattern CLEANER = Pattern.compile("^([ \n\r]+)");
+
     @RegExp
     private static final String DELIMITER_FORMAT = "^%s (?<delimiter>[^ \n\r]+)";
+
     private StatementSplitter() {
         throw new UnsupportedOperationException("This is a utility class.");
     }

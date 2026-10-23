@@ -19,8 +19,7 @@ public class SqLite implements DefaultDatabase<SqLiteJdbc, BaseSqlUpdaterBuilder
 
     private static final SqLite type = new SqLite();
 
-    private SqLite() {
-    }
+    private SqLite() {}
 
     /**
      * The SqLite type.

@@ -118,5 +118,4 @@ public interface MySqlTypes {
      * Timestamp
      */
     SqlType TIMESTAMP = ofName("TIMESTAMP");
-
 }

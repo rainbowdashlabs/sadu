@@ -29,5 +29,4 @@ public interface BaseResult {
      * @return a list of exceptions. If there are no exceptions, an empty list is returned.
      */
     List<Exception> exceptions();
-
 }

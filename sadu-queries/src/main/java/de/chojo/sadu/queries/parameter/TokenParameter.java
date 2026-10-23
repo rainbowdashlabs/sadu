@@ -29,7 +29,9 @@ public class TokenParameter implements BaseParameter {
             this.token = token;
         }
         if (!TOKEN_PATTERN.matcher(this.token).matches()) {
-            throw new IllegalArgumentException("Illegal token \"" + this.token.substring(1) + "\". Tokens may only contain characters which match the expression: \"" + ALLOWED_TOKEN_CHARACTER + "\"");
+            throw new IllegalArgumentException("Illegal token \"" + this.token.substring(1)
+                    + "\". Tokens may only contain characters which match the expression: \"" + ALLOWED_TOKEN_CHARACTER
+                    + "\"");
         }
         this.apply = apply;
     }
@@ -37,7 +39,8 @@ public class TokenParameter implements BaseParameter {
     public void apply(TokenizedQuery query, PreparedStatement stmt) throws SQLException {
         List<Integer> tokens = query.getNamedTokenIndex(token);
         if (tokens.isEmpty()) {
-            throw new IllegalQueryParameterException("Parameter \"%s\" is bound, but not present in query: \"%s\"".formatted(token, query.sql()));
+            throw new IllegalQueryParameterException(
+                    "Parameter \"%s\" is bound, but not present in query: \"%s\"".formatted(token, query.sql()));
         }
         for (var index : tokens) {
             apply.accept(stmt, index);

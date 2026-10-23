@@ -40,8 +40,7 @@ public class RowMapperRegistry {
     private final Map<Class<?>, List<RowMapper<?>>> mapper = new HashMap<>();
     private static final Logger log = getLogger(RowMapperRegistry.class);
 
-    public RowMapperRegistry() {
-    }
+    public RowMapperRegistry() {}
 
     /**
      * Registers a new mapper for a class.
@@ -55,7 +54,8 @@ public class RowMapperRegistry {
         var rowMappers = mapper.computeIfAbsent(rowMapper.clazz(), key -> new ArrayList<>());
         for (var mapper : rowMappers) {
             if (mapper.columns().equals(rowMapper.columns())) {
-                throw new MappingAlreadyRegisteredException("A mapping with pattern " + String.join(",", rowMapper.columns() + " is already registered."));
+                throw new MappingAlreadyRegisteredException(
+                        "A mapping with pattern " + String.join(",", rowMapper.columns() + " is already registered."));
             }
         }
 
@@ -108,10 +108,8 @@ public class RowMapperRegistry {
      */
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> wildcard(Class<T> clazz) {
-        return mapper(clazz).stream()
-                            .filter(RowMapper::isWildcard)
-                            .findAny()
-                            .map(rowMapper -> (RowMapper<T>) rowMapper);
+        return mapper(clazz).stream().filter(RowMapper::isWildcard).findAny().map(rowMapper ->
+                (RowMapper<T>) rowMapper);
     }
 
     /**
@@ -144,8 +142,7 @@ public class RowMapperRegistry {
      */
     @SuppressWarnings("unchecked")
     public <T> Optional<RowMapper<T>> find(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) {
-        return mapper(clazz)
-                .stream()
+        return mapper(clazz).stream()
                 .filter(mapper -> !mapper.isWildcard())
                 .map(mapper -> Map.entry(mapper, mapper.applicable(meta, config)))
                 .sorted(Collections.reverseOrder(Comparator.comparingInt(Map.Entry::getValue)))
@@ -168,7 +165,8 @@ public class RowMapperRegistry {
      * @return mapper when found
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, MapperConfig config) throws MappingException, SQLException {
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSet set, MapperConfig config)
+            throws MappingException, SQLException {
         return findOrWildcard(clazz, set.getMetaData(), config);
     }
 
@@ -183,9 +181,9 @@ public class RowMapperRegistry {
      * @throws MappingException when no mapper was found for this class and no wildcard mapper is registered.
      * @throws SQLException     if a database access error occurs
      */
-    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, MapperConfig config) throws MappingException, SQLException {
-        Optional<? extends RowMapper<T>> mapper = find(clazz, meta, config)
-                .or(() -> wildcard(clazz));
+    public <T> RowMapper<T> findOrWildcard(Class<T> clazz, ResultSetMetaData meta, MapperConfig config)
+            throws MappingException, SQLException {
+        Optional<? extends RowMapper<T>> mapper = find(clazz, meta, config).or(() -> wildcard(clazz));
         if (mapper.isPresent()) {
             return mapper.get();
         }
@@ -219,8 +217,9 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     private <V> boolean discoverMethodMapping(Class<V> clazz) {
         List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
-                                     .filter(method -> method.isAnnotationPresent(MappingProvider.class) && Modifier.isStatic(method.getModifiers()))
-                                     .toList();
+                .filter(method ->
+                        method.isAnnotationPresent(MappingProvider.class) && Modifier.isStatic(method.getModifiers()))
+                .toList();
 
         for (Method method : methods) {
             MappingProvider provider = method.getAnnotation(MappingProvider.class);
@@ -228,11 +227,16 @@ public class RowMapperRegistry {
             try {
                 mapper = (RowMapping<V>) method.invoke(null);
             } catch (IllegalAccessException | InvocationTargetException | ClassCastException e) {
-                throw new InvalidMappingException("Could not retrieve mapping. Method has to return %s<%s> and take no arguments".formatted(RowMapping.class.getName(), clazz.getName()), e);
+                throw new InvalidMappingException(
+                        "Could not retrieve mapping. Method has to return %s<%s> and take no arguments"
+                                .formatted(RowMapping.class.getName(), clazz.getName()),
+                        e);
             }
-            register(RowMapper.forClass(clazz).mapper(mapper).addColumns(provider.value()).build());
+            register(RowMapper.forClass(clazz)
+                    .mapper(mapper)
+                    .addColumns(provider.value())
+                    .build());
             log.info("Registered method auto mapping for {} with rows {}", clazz.getName(), provider.value());
-
         }
         return !methods.isEmpty();
     }
@@ -240,25 +244,32 @@ public class RowMapperRegistry {
     @SuppressWarnings("unchecked")
     private <V> boolean discoverConstructorMapping(Class<V> clazz) {
         List<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredConstructors())
-                                                  .filter(constr -> constr.isAnnotationPresent(MappingProvider.class))
-                                                  .toList();
+                .filter(constr -> constr.isAnnotationPresent(MappingProvider.class))
+                .toList();
 
         for (Constructor<?> constructor : constructors) {
             MappingProvider provider = constructor.getAnnotation(MappingProvider.class);
             if (constructor.getParameterCount() != 1) {
-                throw new InvalidMappingException("Signature of a constructor with MappingProvider should be Constructor(Row)");
+                throw new InvalidMappingException(
+                        "Signature of a constructor with MappingProvider should be Constructor(Row)");
             }
             if (constructor.getParameterTypes()[0] != Row.class) {
-                throw new InvalidMappingException("Signature of a constructor with MappingProvider should be Constructor(Row), but was Constructor(%s)".formatted(constructor.getParameterTypes()[0].getName()));
+                throw new InvalidMappingException(
+                        "Signature of a constructor with MappingProvider should be Constructor(Row), but was Constructor(%s)"
+                                .formatted(constructor.getParameterTypes()[0].getName()));
             }
 
-            RowMapper<V> mapper = RowMapper.forClass(clazz).mapper(row -> {
-                try {
-                    return (V) constructor.newInstance(row);
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                    throw new InvalidMappingException("Failed to create instance from RowMapping via constructor");
-                }
-            }).addColumns(provider.value()).build();
+            RowMapper<V> mapper = RowMapper.forClass(clazz)
+                    .mapper(row -> {
+                        try {
+                            return (V) constructor.newInstance(row);
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                            throw new InvalidMappingException(
+                                    "Failed to create instance from RowMapping via constructor");
+                        }
+                    })
+                    .addColumns(provider.value())
+                    .build();
 
             try {
                 register(mapper);
@@ -266,7 +277,10 @@ public class RowMapperRegistry {
             } catch (MappingAlreadyRegisteredException e) {
                 // This case mostly happens if multiple threads are accessing the database at the same time.
                 // We do not consider this an error, since the mapping was still properly registered on another thread.
-                log.debug("Mapping already registered for {} with rows {}. Using already registered mapping", clazz.getName(), provider.value());
+                log.debug(
+                        "Mapping already registered for {} with rows {}. Using already registered mapping",
+                        clazz.getName(),
+                        provider.value());
             }
         }
         return !constructors.isEmpty();

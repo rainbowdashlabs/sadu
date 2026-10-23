@@ -13,9 +13,10 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 public class PostgresDatabase {
     public static Database createContainer(String user, String pw) throws IOException, SQLException {
@@ -27,13 +28,13 @@ public class PostgresDatabase {
         self.start();
 
         DataSource dc = DataSourceCreator.create(PostgreSql.get())
-                .configure(c -> c.host(self.getHost()).port(self.getFirstMappedPort())).create()
+                .configure(c -> c.host(self.getHost()).port(self.getFirstMappedPort()))
+                .create()
                 .usingPassword("postgres")
                 .usingUsername("postgres")
                 .build();
 
-        SqlUpdater.builder(dc, PostgreSql.get())
-                .execute();
+        SqlUpdater.builder(dc, PostgreSql.get()).execute();
 
         return new Database(self, dc);
     }

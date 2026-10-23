@@ -20,8 +20,7 @@ import java.util.Optional;
 public class ResultStorageImpl implements ResultStorage {
     private final Map<String, Result<?>> storage = new HashMap<>();
 
-    public ResultStorageImpl() {
-    }
+    public ResultStorageImpl() {}
 
     public void store(String key, Result<?> value) {
         storage.put(key, value);

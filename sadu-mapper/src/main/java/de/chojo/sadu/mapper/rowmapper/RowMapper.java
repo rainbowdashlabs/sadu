@@ -131,7 +131,6 @@ public class RowMapper<T> implements RowMapping<T> {
         return overlap.size();
     }
 
-
     @Override
     public String toString() {
         return "RowMapper{clazz=%s, columns=%s}".formatted(clazz.getName(), String.join(", ", columns));

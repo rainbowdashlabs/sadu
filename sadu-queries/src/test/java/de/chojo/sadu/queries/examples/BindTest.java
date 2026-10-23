@@ -26,18 +26,23 @@ import java.util.List;
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.api.call.Call.call;
 
-@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"})
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored", "OptionalGetWithoutIsPresent", "RedundantExplicitVariableType"
+})
 public class BindTest {
 
     private QueryConfiguration query;
     private PostgresDatabase.Database db;
 
-
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry()
+                        .register(PostgresqlMapper.getDefaultMapper())
+                        .register(RowMapper.forClass(User.class)
+                                .mapper(User.map())
+                                .build()))
+                .build();
     }
 
     @AfterEach
@@ -50,9 +55,9 @@ public class BindTest {
     public void failOnInvalidToken() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name ILIKE :name1")
-                                    .single(call().bind(1).bind("name1", "lilly"))
-                                    .map(User.map())
-                                    .all();
+                    .single(call().bind(1).bind("name1", "lilly"))
+                    .map(User.map())
+                    .all();
         });
     }
 
@@ -61,9 +66,9 @@ public class BindTest {
     public void failOnTooFewParameters() {
         Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ?")
-                                    .single(call())
-                                    .map(User.map())
-                                    .all();
+                    .single(call())
+                    .map(User.map())
+                    .all();
         });
     }
 
@@ -71,9 +76,9 @@ public class BindTest {
     public void failOnTooManyParameters() {
         Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ?")
-                                    .single(call().bind(1).bind(1))
-                                    .map(User.map())
-                                    .all();
+                    .single(call().bind(1).bind(1))
+                    .map(User.map())
+                    .all();
         });
     }
 
@@ -81,18 +86,19 @@ public class BindTest {
     public void failOnMissingNamedToken() {
         Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ? AND name = :name")
-                                    .single(call().bind(1))
-                                    .map(User.map())
-                                    .all();
+                    .single(call().bind(1))
+                    .map(User.map())
+                    .all();
         });
     }
+
     @Test
     public void failOnUnknownNamedToken() {
         Assertions.assertThrows(IllegalQueryParameterException.class, () -> {
             List<User> users = query.query("SELECT * FROM users WHERE id = ?")
-                                    .single(call().bind(1).bind("name", "name"))
-                                    .map(User.map())
-                                    .all();
+                    .single(call().bind(1).bind("name", "name"))
+                    .map(User.map())
+                    .all();
         });
     }
 }

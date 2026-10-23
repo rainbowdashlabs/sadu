@@ -20,10 +20,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testcontainers.containers.GenericContainer;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
+
+import javax.sql.DataSource;
 
 import static de.chojo.sadu.MariaDbDatabase.createContainer;
 
@@ -52,6 +53,7 @@ class MariaDbMapperTest {
                 _timestamp  TIMESTAMP
             );
             """;
+
     @Language("mariadb")
     static final String INSERTS = """
             INSERT INTO test(_bigint, _integer, _mediumint, _smallint, _tinyint, _char, _tinytext, _text, _mediumtext, _longtext, _decimal, _double, _float, _bool, _varchar, _date, _time, _timestamp)
@@ -67,6 +69,7 @@ class MariaDbMapperTest {
                    '2000-01-01 12:00:00'
                    );
             """;
+
     static final String BIGINT = "_bigint";
     static final String INTEGER = "_integer";
     static final String MEDIUMINT = "_mediumint";
@@ -100,7 +103,9 @@ class MariaDbMapperTest {
     static void beforeAll() throws IOException {
         db = createContainer("root", "root");
         DataSource dc = DataSourceCreator.create(MariaDb.get())
-                .configure(c -> c.host(db.getHost()).port(db.getFirstMappedPort()).database("mysql")).create()
+                .configure(
+                        c -> c.host(db.getHost()).port(db.getFirstMappedPort()).database("mysql"))
+                .create()
                 .usingPassword("root")
                 .usingUsername("root")
                 .build();
@@ -144,8 +149,7 @@ class MariaDbMapperTest {
                 Arguments.of(String.class, VARCHAR, text),
                 // CHAR
                 Arguments.of(String.class, CHAR, "a"),
-                Arguments.of(Boolean.class, BOOL, true)
-        );
+                Arguments.of(Boolean.class, BOOL, true));
     }
 
     @AfterAll
@@ -156,10 +160,7 @@ class MariaDbMapperTest {
     @ParameterizedTest
     @MethodSource("shortTestInput")
     <T> void testAutoParsing(Class<T> clazz, String _col, T expected) {
-        var val = Query.query("SELECT %s FROM test", _col)
-                .single()
-                .mapAs(clazz)
-                .first();
+        var val = Query.query("SELECT %s FROM test", _col).single().mapAs(clazz).first();
         Assertions.assertTrue(val.isPresent());
         Assertions.assertEquals(expected, val.get());
     }

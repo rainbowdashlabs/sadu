@@ -36,14 +36,14 @@ public class InstantTest {
     public void asSeconds() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_epoch_seconds) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_SECONDS))
-             .insert();
+                .single(Call.of().bind(now, INSTANT_SECONDS))
+                .insert();
 
         var res = query.query("SELECT as_epoch_seconds FROM time_test")
-                       .single()
-                       .map(row -> row.get(1, INSTANT_SECONDS))
-                       .first()
-                       .get();
+                .single()
+                .map(row -> row.get(1, INSTANT_SECONDS))
+                .first()
+                .get();
         Assertions.assertEquals(now.getEpochSecond(), res.getEpochSecond());
     }
 
@@ -51,14 +51,14 @@ public class InstantTest {
     public void asMillis() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_epoch_millis) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_MILLIS))
-             .insert();
+                .single(Call.of().bind(now, INSTANT_MILLIS))
+                .insert();
 
         var res = query.query("SELECT as_epoch_millis FROM time_test")
-                       .single()
-                       .map(row -> row.get(1, INSTANT_MILLIS))
-                       .first()
-                       .get();
+                .single()
+                .map(row -> row.get(1, INSTANT_MILLIS))
+                .first()
+                .get();
         Assertions.assertEquals(now.toEpochMilli(), res.toEpochMilli());
     }
 
@@ -66,22 +66,27 @@ public class InstantTest {
     public void asTimestamp() {
         Instant now = Instant.now();
         query.query("INSERT INTO time_test(as_timestamp) VALUES (?)")
-             .single(Call.of().bind(now, INSTANT_TIMESTAMP))
-             .insert();
+                .single(Call.of().bind(now, INSTANT_TIMESTAMP))
+                .insert();
 
         var res = query.query("SELECT as_timestamp FROM time_test")
-                       .single()
-                       .map(row -> row.get(1, INSTANT_TIMESTAMP))
-                       .first()
-                       .get();
+                .single()
+                .map(row -> row.get(1, INSTANT_TIMESTAMP))
+                .first()
+                .get();
         Assertions.assertEquals(now.toEpochMilli(), res.toEpochMilli());
     }
 
     @BeforeEach
     void before() throws IOException, SQLException {
         db = createContainer("postgres", "postgres");
-        query = new QueryConfigurationBuilder(db.dataSource()).setRowMapperRegistry(new RowMapperRegistry().register(PostgresqlMapper.getDefaultMapper())
-                                                                                                           .register(RowMapper.forClass(User.class).mapper(User.map()).build())).build();
+        query = new QueryConfigurationBuilder(db.dataSource())
+                .setRowMapperRegistry(new RowMapperRegistry()
+                        .register(PostgresqlMapper.getDefaultMapper())
+                        .register(RowMapper.forClass(User.class)
+                                .mapper(User.map())
+                                .build()))
+                .build();
     }
 
     @AfterEach

@@ -13,12 +13,13 @@ import de.chojo.sadu.queries.configuration.ConnectedQueryConfigurationImpl;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
 import org.intellij.lang.annotations.Language;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 @SuppressWarnings("removal")
 public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.QueryConfiguration {
@@ -30,7 +31,9 @@ public interface QueryConfiguration extends de.chojo.sadu.queries.configuration.
      * @return the default QueryConfiguration
      */
     static QueryConfiguration getDefault() {
-        return Objects.requireNonNull(DEFAULT.get(), "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
+        return Objects.requireNonNull(
+                DEFAULT.get(),
+                "You need to configure the configuration first by calling QueryConfiguration.setDefault()");
     }
 
     /**

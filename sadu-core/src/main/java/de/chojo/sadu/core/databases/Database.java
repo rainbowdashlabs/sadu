@@ -151,7 +151,7 @@ public interface Database<T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?
      * @return queries
      */
     default String[] splitStatements(String queries) {
-        return new String[]{queries};
+        return new String[] {queries};
     }
 
     /**

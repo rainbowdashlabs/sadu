@@ -13,7 +13,8 @@ import de.chojo.sadu.queries.results.writing.manipulation.ManipulationBatchResul
 
 import java.util.List;
 
-public class InsertionBatchResultImpl extends ManipulationBatchResultImpl<InsertionResult> implements InsertionBatchResult<InsertionResult> {
+public class InsertionBatchResultImpl extends ManipulationBatchResultImpl<InsertionResult>
+        implements InsertionBatchResult<InsertionResult> {
     public InsertionBatchResultImpl(QueryProvider query, List<InsertionResult> results) {
         super(query, results);
     }

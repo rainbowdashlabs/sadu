@@ -15,12 +15,12 @@ import de.chojo.sadu.updater.SqlUpdater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.function.Consumer;
+
+import javax.sql.DataSource;
 
 public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> {
 
@@ -28,7 +28,16 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
 
     private final String[] schemas;
 
-    protected PostgreSqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type, String[] schemas, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook, ClassLoader classLoader) {
+    protected PostgreSqlUpdater(
+            DataSource source,
+            String versionTable,
+            QueryReplacement[] replacements,
+            SqlVersion version,
+            Database<PostgreSqlJdbc, PostgreSqlUpdaterBuilder> type,
+            String[] schemas,
+            Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook,
+            Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook,
+            ClassLoader classLoader) {
         super(source, versionTable, replacements, version, type, preUpdateHook, postUpdateHook, classLoader);
         this.schemas = schemas;
     }
@@ -56,7 +65,8 @@ public class PostgreSqlUpdater extends SqlUpdater<PostgreSqlJdbc, PostgreSqlUpda
 
     private boolean schemaExists(String schema) {
         //noinspection JDBCPrepareStatementWithNonConstantString
-        try (var conn = source().getConnection(); var stmt = conn.prepareStatement(type().schemaExists())) {
+        try (var conn = source().getConnection();
+                var stmt = conn.prepareStatement(type().schemaExists())) {
             stmt.setString(1, schema);
             var row = stmt.executeQuery();
             if (row.next()) {

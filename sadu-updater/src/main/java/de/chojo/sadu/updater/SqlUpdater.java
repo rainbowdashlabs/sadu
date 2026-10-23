@@ -16,7 +16,6 @@ import org.jetbrains.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -26,8 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import javax.sql.DataSource;
 
 /**
  * An SQL updater which performs database updates via upgrade scripts.
@@ -113,7 +113,15 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     private final Database<T, U> type;
     private final ClassLoader classLoader;
 
-    protected SqlUpdater(DataSource source, String versionTable, QueryReplacement[] replacements, SqlVersion version, Database<T, U> type, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook, Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook, ClassLoader classLoader) {
+    protected SqlUpdater(
+            DataSource source,
+            String versionTable,
+            QueryReplacement[] replacements,
+            SqlVersion version,
+            Database<T, U> type,
+            Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> preUpdateHook,
+            Map<SqlVersion, ThrowingConsumer<Connection, SQLException>> postUpdateHook,
+            ClassLoader classLoader) {
         this.source = Objects.requireNonNull(source);
         this.versionTable = versionTable;
         this.replacements = replacements;
@@ -135,7 +143,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
      * @return new builder instance
      */
     @CheckReturnValue
-    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(DataSource dataSource, Database<T, U> type) {
+    public static <T extends JdbcConfig<?>, U extends UpdaterBuilder<T, ?>> U builder(
+            DataSource dataSource, Database<T, U> type) {
         return type.newSqlUpdaterBuilder().setSource(dataSource);
     }
 
@@ -146,12 +155,16 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         var sqlVersion = getSqlVersion();
 
         if (sqlVersion.equals(version)) {
-            log.info("Database is up to date. No update is required! Version {} Patch {}", sqlVersion.major(), sqlVersion.patch());
+            log.info(
+                    "Database is up to date. No update is required! Version {} Patch {}",
+                    sqlVersion.major(),
+                    sqlVersion.patch());
             return;
         }
 
         if (sqlVersion.isNewer(version)) {
-            throw new UpdateException("Database version is ahead. Newest know version is " + version + " but got " + sqlVersion + ".");
+            throw new UpdateException(
+                    "Database version is ahead. Newest know version is " + version + " but got " + sqlVersion + ".");
         }
 
         var patches = getPatchesFrom(sqlVersion.major(), sqlVersion.patch());
@@ -164,7 +177,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
             try {
                 performUpdate(patch);
             } catch (SQLException e) {
-                throw new UpdateException("Database update failed while applying patch %s!".formatted(patch.version()), e);
+                throw new UpdateException(
+                        "Database update failed while applying patch %s!".formatted(patch.version()), e);
             }
         }
         log.info("Database update was successful!");
@@ -266,8 +280,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     }
 
     private SqlVersion getSqlVersion() {
-        try (var conn = source.getConnection(); var statement = conn
-                .prepareStatement(type.versionQuery(versionTable))) {
+        try (var conn = source.getConnection();
+                var statement = conn.prepareStatement(type.versionQuery(versionTable))) {
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new SqlVersion(resultSet.getInt("major"), resultSet.getInt("patch"));
@@ -313,7 +327,8 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
         var patch = Arrays.stream(path).map(Object::toString).collect(Collectors.joining("/"));
         try (var patchFile = classLoader.getResourceAsStream("database/" + type.name() + "/" + patch)) {
             log.info("Loading resource {}", "database/" + type.name() + "/" + patch);
-            return new String(Objects.requireNonNull(patchFile, "Patch file not found").readAllBytes(), StandardCharsets.UTF_8);
+            return new String(
+                    Objects.requireNonNull(patchFile, "Patch file not found").readAllBytes(), StandardCharsets.UTF_8);
         }
     }
 
@@ -340,5 +355,4 @@ public class SqlUpdater<T extends JdbcConfig<?>, U extends BaseSqlUpdaterBuilder
     protected Database<T, U> type() {
         return type;
     }
-
 }

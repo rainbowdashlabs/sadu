@@ -31,7 +31,8 @@ public class TokenizedQuery {
         this(sql, PARAM_TOKEN.matcher(sql).replaceAll("$1?"), indexToken, namedToken);
     }
 
-    private TokenizedQuery(String sql, String tokenizedSql, Map<Integer, Integer> indexToken, Map<String, List<Integer>> namedToken) {
+    private TokenizedQuery(
+            String sql, String tokenizedSql, Map<Integer, Integer> indexToken, Map<String, List<Integer>> namedToken) {
         this.sql = sql;
         this.tokenizedSql = tokenizedSql;
         this.indexToken = indexToken;
@@ -42,19 +43,20 @@ public class TokenizedQuery {
         return cache.computeIfAbsent(sql, TokenizedQuery::parse);
     }
 
-    private static TokenizedQuery parse(String sql){
+    private static TokenizedQuery parse(String sql) {
         var matcher = PARAM_TOKEN.matcher(sql);
         var index = 1;
         var currIndexToken = 1;
         Map<Integer, Integer> indexToken = new HashMap<>();
         Map<String, List<Integer>> namedToken = new HashMap<>();
 
-
         while (matcher.find()) {
             if ("?".equals(matcher.group())) {
                 indexToken.put(currIndexToken++, index++);
             } else {
-                namedToken.computeIfAbsent(matcher.group("token"), key -> new ArrayList<>()).add(index++);
+                namedToken
+                        .computeIfAbsent(matcher.group("token"), key -> new ArrayList<>())
+                        .add(index++);
             }
         }
         var tokenizedSql = PARAM_TOKEN.matcher(sql).replaceAll("$1?");
