@@ -24,7 +24,8 @@ public class PostgresDatabase {
                 .withExposedPorts(5432)
                 .withEnv("POSTGRES_USER", user)
                 .withEnv("POSTGRES_PASSWORD", pw)
-                .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 2));
+                .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 2))
+                .withStartupAttempts(3);
         self.start();
 
         DataSource dc = DataSourceCreator.create(PostgreSql.get())
