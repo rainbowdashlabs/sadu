@@ -10,6 +10,8 @@ import de.chojo.sadu.core.updater.SqlVersion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 class SqlVersionTest {
     SqlVersion version_1_5 = new SqlVersion(1, 5);
     SqlVersion version_1_6 = new SqlVersion(1, 6);
@@ -29,5 +31,12 @@ class SqlVersionTest {
         Assertions.assertTrue(version_1_6.isOlder(version_2_5));
         Assertions.assertFalse(version_1_6.isOlder(version_1_5));
         Assertions.assertFalse(version_2_5.isOlder(version_1_6));
+    }
+
+    @Test
+    void loadWithoutVersionFileThrowsFileNotFound() {
+        var empty = new ClassLoader(null) {};
+
+        Assertions.assertThrows(FileNotFoundException.class, () -> SqlVersion.load(empty));
     }
 }

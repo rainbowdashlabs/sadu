@@ -26,10 +26,8 @@ src/main/resources
 
 Patch `0` means only `setup.sql`. Every patch you add raises the patch number.
 
-:::warning
-If `database/version` is missing, the updater fails with a `NullPointerException`. Set the version with
+If `database/version` is missing, the updater fails with a `FileNotFoundException`. Set the version with
 `setVersion(...)` on the builder if you do not want a version file.
-:::
 
 ## One directory per database
 
