@@ -8,6 +8,7 @@ package de.chojo.sadu.queries.timeconversion;
 
 import de.chojo.sadu.PostgresDatabase;
 import de.chojo.sadu.mapper.RowMapperRegistry;
+import de.chojo.sadu.mapper.reader.StandardReader;
 import de.chojo.sadu.mapper.rowmapper.RowMapper;
 import de.chojo.sadu.postgresql.mapper.PostgresqlMapper;
 import de.chojo.sadu.queries.api.call.Call;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.Arrays;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
 import static de.chojo.sadu.queries.converter.StandardValueConverter.INSTANT_MILLIS;
@@ -75,6 +77,18 @@ public class InstantTest {
                 .first()
                 .get();
         Assertions.assertEquals(now.toEpochMilli(), res.toEpochMilli());
+    }
+
+    @Test
+    public void nullEpochIsNull() {
+        var res = query.query("SELECT NULL::BIGINT AS millis, NULL::BIGINT AS seconds")
+                .single()
+                .map(row -> Arrays.asList(
+                        row.get("millis", StandardReader.INSTANT_FROM_MILLIS),
+                        row.get(2, StandardReader.INSTANT_FROM_SECONDS)))
+                .first()
+                .get();
+        Assertions.assertEquals(Arrays.asList(null, null), res);
     }
 
     @BeforeEach

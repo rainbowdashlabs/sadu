@@ -73,12 +73,8 @@ Mode mode = row.get("mode", StandardReader.forEnum(Mode.class));
 | `forEnum(Class)` | an enum constant from its name |
 | `localDate(Calendar)` and the other methods with a `Calendar` | the time types with a calendar |
 
-A reader returns `null` when the column is `NULL`.
-
-:::warning
-`INSTANT_FROM_MILLIS` and `INSTANT_FROM_SECONDS` read the column as a `long`. For `NULL` that is `0`, so you get
-`1970-01-01T00:00:00Z` instead of `null`.
-:::
+A reader returns `null` when the column is `NULL`, also the readers of epoch numbers (`INSTANT_FROM_MILLIS`,
+`INSTANT_FROM_SECONDS`).
 
 ### Value converters
 
