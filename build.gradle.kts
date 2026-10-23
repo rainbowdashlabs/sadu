@@ -10,7 +10,7 @@ plugins {
 
     java
     `java-library`
-    id("de.chojo.publishdata") version "1.4.0"
+    id("de.chojo.publishdata") version "2.1.0"
     id("com.vanniktech.maven.publish") version "0.37.0"
     alias(libs.plugins.spotless)
 }

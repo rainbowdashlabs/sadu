@@ -53,7 +53,7 @@ dependencyResolutionManagement {
 
             library("mokito","org.mockito", "mockito-core").version("5.+")
 
-            version("testcontainers", "1.21.4")
+            version("testcontainers", "2.0.5")
             library("testcontainers-postgres", "org.testcontainers", "postgresql").versionRef("testcontainers")
             library("testcontainers-mariadb", "org.testcontainers", "mariadb").versionRef("testcontainers")
             library("testcontainers-mysql", "org.testcontainers", "mysql").versionRef("testcontainers")
@@ -65,7 +65,7 @@ dependencyResolutionManagement {
             library("slf4j-simple", "org.slf4j", "slf4j-simple").versionRef("slf4j")
 
             library("driver-postgres", "org.postgresql:postgresql:42.7.14")
-            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:3.5.10")
+            library("driver-mariadb", "org.mariadb.jdbc:mariadb-java-client:4.0.0")
             library("driver-sqlite", "org.xerial:sqlite-jdbc:3.53.4.0")
             library("driver-mysql", "com.mysql:mysql-connector-j:26.7.0")
 
