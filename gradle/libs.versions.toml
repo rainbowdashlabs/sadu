@@ -1,9 +1,9 @@
 [versions]
 palantir = "2.102.0"
-publishdata = "2.1.0"
+publishdata = "2.3.0"
 vanniktech = "0.37.0"
 spotless = "8.10.4"
-freefair = "9.8.2"
+freefair = "9.8.3"
 junit = "6.1.3"
 mockito = "5.24.0"
 slf4j = "2.0.20"
@@ -13,9 +13,9 @@ testcontainers = "2.0.5"
 postgresql = "42.7.14"
 mariadb = "4.0.0"
 mysql = "26.10.0"
-sqlite = "3.53.4.0"
+sqlite = "3.54.1.0"
 apiguardian = "1.1.2"
-jspecify = "1.0.0"
+jspecify = "1.0.1"
 
 [libraries]
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
