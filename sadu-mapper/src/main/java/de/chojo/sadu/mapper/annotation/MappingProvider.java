@@ -24,5 +24,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface MappingProvider {
-    String[] value();
+    /**
+     * The columns the mapping needs.
+     * <p>
+     * Without columns, or with only blank ones, the mapping is a wildcard, used when no mapping with columns fits.
+     *
+     * @return the columns of the mapping
+     */
+    String[] value() default {};
 }
