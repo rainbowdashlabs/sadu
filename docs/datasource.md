@@ -8,7 +8,7 @@ sidebar_position: 3
 `sadu-datasource` builds a [HikariCP](https://github.com/brettwooldridge/HikariCP) connection pool for your database.
 It creates the JDBC URL for you, so you do not need to remember the URL format of each driver.
 
-Add `de.chojo.sadu:sadu-datasource:2.4.0` and the module of your database (see [Databases](./databases.mdx)).
+Add `de.chojo.sadu:sadu-datasource:2.4.2` and the module of your database (see [Databases](./databases.mdx)).
 
 ## Create a data source
 

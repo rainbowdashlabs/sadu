@@ -7,6 +7,7 @@
 package de.chojo.sadu.queries.execution.reading;
 
 import de.chojo.sadu.mapper.MapperConfig;
+import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.mapper.rowmapper.RowMapping;
 import de.chojo.sadu.mapper.wrapper.Row;
 import de.chojo.sadu.queries.api.base.QueryProvider;
@@ -16,6 +17,7 @@ import de.chojo.sadu.queries.api.query.AppendedQuery;
 import de.chojo.sadu.queries.api.results.reading.Result;
 import de.chojo.sadu.queries.call.CallImpl;
 import de.chojo.sadu.queries.exception.Check;
+import de.chojo.sadu.queries.exception.QueryException;
 import de.chojo.sadu.queries.execution.writing.CalledSingletonQueryImpl;
 import de.chojo.sadu.queries.query.AppendedQueryImpl;
 import de.chojo.sadu.queries.query.QueryImpl;
@@ -75,6 +77,8 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
                     Check.assertQueryResult(mapped);
                     return new SingleResult<>(this, mapped);
                 }
+            } catch (MappingException e) {
+                query().handleException(new QueryException(sql(), e));
             }
             return new SingleResult<>(this, null);
         });
@@ -93,6 +97,9 @@ public abstract class ReaderImpl<V> implements QueryProvider, Reader<V> {
                     Check.assertQueryResult(mapped);
                     result.add(mapped);
                 }
+            } catch (MappingException e) {
+                query().handleException(new QueryException(sql(), e));
+                return new MultiResult<>(this, Collections.emptyList());
             }
             return new MultiResult<>(this, result);
         });

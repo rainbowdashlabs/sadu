@@ -9,7 +9,7 @@ sidebar_position: 1
 `mapAs(YourClass.class)` instead of writing the mapping again.
 
 `sadu-queries` and the database modules bring `sadu-mapper` with them. To add it on its own, use
-`de.chojo.sadu:sadu-mapper:2.4.0`.
+`de.chojo.sadu:sadu-mapper:2.4.2`.
 
 ```java
 Optional<User> user = Query.query("SELECT id, name FROM users WHERE id = ?")

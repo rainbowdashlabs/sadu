@@ -8,7 +8,7 @@ sidebar_position: 1
 The updater keeps your database schema in sync with your application. You ship SQL files in your resources, and the
 updater runs the ones the database still needs.
 
-The database modules bring `sadu-updater` with them. To add it on its own, use `de.chojo.sadu:sadu-updater:2.4.0`.
+The database modules bring `sadu-updater` with them. To add it on its own, use `de.chojo.sadu:sadu-updater:2.4.2`.
 
 ## How it works
 

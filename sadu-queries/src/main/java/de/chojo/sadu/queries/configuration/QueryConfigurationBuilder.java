@@ -67,6 +67,9 @@ public class QueryConfigurationBuilder {
     /**
      * Sets the exception handler for handling SQLExceptions that may occur during database operations.
      * <p>
+     * Rows that cannot be mapped reach the handler as a {@link de.chojo.sadu.queries.exception.QueryException} whose
+     * cause is the {@link de.chojo.sadu.mapper.exceptions.MappingException}.
+     * <p>
      * Default: stdout
      *
      * @param exceptionHandler the consumer function that handles SQLExceptions

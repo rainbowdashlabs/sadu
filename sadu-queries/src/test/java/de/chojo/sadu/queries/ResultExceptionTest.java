@@ -7,18 +7,25 @@
 package de.chojo.sadu.queries;
 
 import de.chojo.sadu.PostgresDatabase;
+import de.chojo.sadu.mapper.exceptions.MappingException;
 import de.chojo.sadu.queries.api.call.Call;
 import de.chojo.sadu.queries.api.configuration.QueryConfiguration;
 import de.chojo.sadu.queries.configuration.QueryConfigurationBuilder;
+import de.chojo.sadu.queries.exception.WrappedQueryExecutionException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static de.chojo.sadu.PostgresDatabase.createContainer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ResultExceptionTest {
@@ -67,4 +74,51 @@ class ResultExceptionTest {
 
         assertFalse(result.hasExceptions());
     }
+
+    @Test
+    void unmappedReadReachesExceptionHandler() {
+        List<SQLException> handled = new ArrayList<>();
+        var conf = new QueryConfigurationBuilder(db.dataSource())
+                .setExceptionHandler(handled::add)
+                .build();
+
+        var result = conf.query("SELECT 1 AS id").single().mapAs(Unmapped.class).allResults();
+
+        assertTrue(result.hasExceptions());
+        assertTrue(result.result().isEmpty());
+        assertEquals(1, handled.size());
+        assertInstanceOf(MappingException.class, handled.getFirst().getCause());
+    }
+
+    @Test
+    void unmappedSingleReadReachesExceptionHandler() {
+        List<SQLException> handled = new ArrayList<>();
+        var conf = new QueryConfigurationBuilder(db.dataSource())
+                .setExceptionHandler(handled::add)
+                .build();
+
+        var result = conf.query("SELECT 1 AS id").single().mapAs(Unmapped.class).firstResult();
+
+        assertTrue(result.hasExceptions());
+        assertEquals(1, handled.size());
+        assertInstanceOf(MappingException.class, handled.getFirst().getCause());
+    }
+
+    @Test
+    void unmappedReadThrowsWhenConfigured() {
+        var conf = new QueryConfigurationBuilder(db.dataSource())
+                .setExceptionHandler(e -> {})
+                .setThrowExceptions(true)
+                .build();
+
+        var thrown = assertThrows(
+                WrappedQueryExecutionException.class,
+                () -> conf.query("SELECT 1 AS id")
+                        .single()
+                        .mapAs(Unmapped.class)
+                        .all());
+        assertInstanceOf(MappingException.class, thrown.getCause().getCause());
+    }
+
+    private record Unmapped(int id) {}
 }

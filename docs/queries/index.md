@@ -8,7 +8,7 @@ sidebar_position: 1
 `sadu-queries` is a query builder for plain SQL. You write the SQL, SADU does the rest: it opens and closes the
 connection and the statement, sets your parameters, reads the result and handles exceptions.
 
-Add `de.chojo.sadu:sadu-queries:2.4.0` to your dependencies. It brings `sadu-mapper` with it.
+Add `de.chojo.sadu:sadu-queries:2.4.2` to your dependencies. It brings `sadu-mapper` with it.
 
 ## Why use it?
 
