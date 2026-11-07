@@ -25,8 +25,8 @@ repositories {
 }
 
 dependencies {
-    implementation("de.chojo.sadu:sadu-postgresql:2.4.0")
-    implementation("de.chojo.sadu:sadu-queries:2.4.0")
+    implementation("de.chojo.sadu:sadu-postgresql:2.4.1")
+    implementation("de.chojo.sadu:sadu-queries:2.4.1")
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
     <groupId>de.chojo.sadu</groupId>
     <artifactId>sadu-postgresql</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
 </dependency>
 ```
 
