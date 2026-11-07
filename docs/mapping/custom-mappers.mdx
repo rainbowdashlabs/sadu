@@ -92,6 +92,9 @@ public class User {
 
 A class can have several annotated methods and constructors. Each of them becomes one mapper.
 
+`@MappingProvider` without columns is a wildcard. Blank column names are ignored with a warning, so
+`@MappingProvider("")` is a wildcard as well.
+
 SADU calls the method or constructor through reflection:
 
 - Make the class and the annotated method or constructor `public`.

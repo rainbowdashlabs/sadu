@@ -85,6 +85,22 @@ class RowMapperRegistryTest {
         assertSame(first, registry.findOrWildcard(MethodMapped.class, meta("value"), MapperConfig.DEFAULT));
     }
 
+    @Test
+    void annotationWithoutColumnsIsWildcard() throws Exception {
+        var registry = new RowMapperRegistry();
+
+        assertTrue(registry.findOrWildcard(NoColumns.class, meta("id"), MapperConfig.DEFAULT)
+                .isWildcard());
+    }
+
+    @Test
+    void annotationWithBlankColumnIsWildcard() throws Exception {
+        var registry = new RowMapperRegistry();
+
+        assertTrue(registry.findOrWildcard(BlankColumn.class, meta("id"), MapperConfig.DEFAULT)
+                .isWildcard());
+    }
+
     private static ResultSetMetaData meta(String... columns) {
         return (ResultSetMetaData) Proxy.newProxyInstance(
                 RowMapperRegistryTest.class.getClassLoader(),
@@ -110,5 +126,17 @@ class RowMapperRegistryTest {
         public static RowMapping<MethodMapped> map() {
             return row -> new MethodMapped();
         }
+    }
+
+    public static class NoColumns {
+        @MappingProvider
+        public static RowMapping<NoColumns> map() {
+            return row -> new NoColumns();
+        }
+    }
+
+    public static class BlankColumn {
+        @MappingProvider("")
+        public BlankColumn(Row row) {}
     }
 }
